@@ -80,7 +80,7 @@ const useCart = () => {
         productId: productId,
         quantity: newQuantity,
       };
-      dispatch(updateCart(data));
+      dispatch(updateCart(data) as any);
       setRefreshing(true);
       console.log('Update response:');
     } catch (error) {
@@ -115,7 +115,7 @@ const useCart = () => {
 
   const handleRemove = async (productId: number) => {
     try {
-      dispatch(removefromCart(productId));
+      dispatch(removefromCart(productId) as any);
       dispatch(fetchCartProducts as any);
       openModal();
     } catch (error) {}

@@ -1,15 +1,21 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useRef, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {ProductsById, url} from '../../constants/Apis';
+import {ProductsById} from '../../constants/Apis';
 import ApiService from '../../network/network';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView} from 'react-native';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
+import {CartAdd} from '../../redux/slice/CartAddSlice';
 
 const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
+  const isError = useSelector(
+    (state: {cartAdd: {error: any}}) => state.cartAdd.error,
+  );
+  const isData = useSelector(
+    (state: {cartAdd: {data: any}}) => state.cartAdd.data,
+  );
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const [quantity, setQuantity] = useState(1);
@@ -21,7 +27,6 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
-
   const handleDecrement = () => {
     if (quantity === 1) {
       setIsMinusDisabled(true);
@@ -38,43 +43,29 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
     setQuantity(quantity + 1);
     setIsMinusDisabled(false);
   };
-  const handleSubmit = async () => {
-    const item = {
-      productId: product.id,
-      quantity: quantity,
-      rentalEndDate: rentalEndDate.toISOString(),
-      rentalStartDate: rentalStartDate.toISOString(),
-    };
-    const token = await AsyncStorage.getItem('token');
-    fetch(`${url}/cart/add`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-      body: JSON.stringify(item),
-    })
-      .then(response => {
-        console.log('Success:', response);
-        if (response.status === 400) {
-          opennModal();
-        }
-        console.log(response);
-        return response.json();
-      })
-      .then(data => {
-        console.log('Data:', data);
+  console.log('carterrors', isError?.status);
+  console.log('cart status if true', isData?.status);
+  const handleSubmit = () => {
+    try {
+      const Item = {
+        productId: product.id,
+        quantity: quantity,
+        rentalEndDate: rentalEndDate.toISOString(),
+        rentalStartDate: rentalStartDate.toISOString(),
+      };
+      dispatch(CartAdd(Item));
+      if (isData.status === 201) {
+        opennModal();
+      } else {
         openModal();
-      })
-      .catch(error => {
-        console.log(error);
-      });
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
-
   const openModal = () => {
     setShowModal(true);
   };
-
   const opennModal = () => {
     settShowModal(true);
   };

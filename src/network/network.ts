@@ -26,7 +26,7 @@ const ApiService = {
   },
   post: async (url: string, body: any) => {
     const response = await instance.post(url, body);
-    return response.data;
+    return response;
   },
   put: async (url: string, body: any) => {
     const response = await instance.put(url, body);

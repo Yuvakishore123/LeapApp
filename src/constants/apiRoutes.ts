@@ -7,3 +7,4 @@ export const listAddressUrl = '/address/listAddress';
 export const profileDataUrl = '/user/getUser';
 export const updateProfileUrl = '/user/update';
 export const subCategoryUrl = '/subcategory/listbyid/';
+export const cartaddUrl = '/cart/add';

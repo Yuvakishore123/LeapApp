@@ -26,6 +26,7 @@ import cartUpdateSlice from './slice/cartUpdateSlice';
 import cartRemoveSlice from './slice/cartRemoveSlice';
 import listAddressSlice from './slice/listAddressSlice';
 import profileDataSlice from './slice/profileDataSlice';
+import CartAddSlice from './slice/CartAddSlice';
 import editProfileSlice from './slice/editProfileSlice';
 import subcategorySlice from './slice/subcategorySlice';
 
@@ -52,6 +53,7 @@ export const RootReducers = combineReducers({
   cartUpdate: cartUpdateSlice,
   listAddress: listAddressSlice,
   profileData: profileDataSlice,
+  cartAdd: CartAddSlice,
   updatedProfileData: editProfileSlice,
   subcategoryData: subcategorySlice,
 });

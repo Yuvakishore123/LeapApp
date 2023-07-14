@@ -227,7 +227,7 @@ const CheckoutScreen = ({navigation}: Props) => {
                     city: string;
                     country: string;
                   },
-                  index,
+                  index: number,
                 ) => (
                   <View
                     key={item.id}
