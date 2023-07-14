@@ -10,6 +10,8 @@ import {url} from '../../constants/Apis';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from '../../constants/colors';
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
+import {getProfileData} from '../../redux/slice/profileDataSlice';
+
 type RootStackParamList = {
   SearchResultsScreen: {searchResults: null[]};
 };
@@ -27,6 +29,7 @@ const useHome = () => {
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
+  const name = useSelector(state => state.profileData.data);
 
   const searchProducts = async (query: any) => {
     try {
@@ -64,6 +67,7 @@ const useHome = () => {
   };
   useEffect(() => {
     dispatch(fetchUserProducts() as any);
+    dispatch(getProfileData() as any);
   }, [dispatch]);
   const onRefresh = async () => {
     setRefreshing(true);
@@ -85,7 +89,7 @@ const useHome = () => {
     WishlistProducts,
     onRefresh,
     refreshing,
-
+    name,
     searchQuery,
     searchResults,
     setSearchResults,

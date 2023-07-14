@@ -58,7 +58,7 @@ const Subcategory = ({
 
   return (
     <ScrollView style={getContainerStyle()}>
-      <HeadingText message="Subcategories" />
+      <HeadingText message="Subcategories" navigation={undefined} />
       <View>
         {subcategories &&
           subcategories.map(item => (

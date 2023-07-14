@@ -6,7 +6,7 @@ import Colors from '../../constants/colors';
 
 import useOwnerProfile from './useOwnerProfile';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import useCart from '../Cart/useCart';
+
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
@@ -64,7 +64,7 @@ const OwnerEditProfile = () => {
   return (
     <View style={[style.container, getContainerStyle()]}>
       <View style={style.addAddressHeader}>
-        <HeadingText message="Edit profile" />
+        <HeadingText message="Edit profile" navigation={undefined} />
       </View>
       <View>
         {isLoading ? (

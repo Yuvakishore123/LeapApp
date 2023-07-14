@@ -24,14 +24,13 @@ import Carousal from './Carousal';
 import {postProductToAPI} from '../../redux/actions/actions';
 import useHome from './useHome';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import useProfile from '../Profile/useProfile';
+
 type Props = {
   route: {name: string};
   navigation: any;
 };
 const Homescreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
-  const {name} = useProfile();
   const UserProducts = useHome();
   const {
     refreshing,
@@ -45,6 +44,7 @@ const Homescreen = ({navigation}: Props) => {
     loading,
     closeModal,
     showModal,
+    name,
   } = useHome();
   const allProducts = useSelector(
     (state: {UserProducts: {data: null[]}}) => state.UserProducts.data,
@@ -193,7 +193,7 @@ const Homescreen = ({navigation}: Props) => {
                 },
                 getTextColor(),
               ]}>
-              Welcome {name}
+              Welcome {name.firstName}
             </Text>
             <Lottie
               source={require('../../../assets/celebration.json')}
@@ -292,6 +292,7 @@ const Homescreen = ({navigation}: Props) => {
                               } else {
                                 setWishlistList([...wishlistList, item.id]);
                                 dispatch(postProductToAPI({...item}) as any);
+                                wishlistremove(item.id);
                               }
                             }}>
                             {wishlistList.includes(item.id) ? (

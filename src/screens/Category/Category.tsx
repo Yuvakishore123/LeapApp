@@ -25,13 +25,13 @@ const Category = () => {
 
   const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
-  const {data, loading} = useCategory();
+  const {data, loading, handleCategoryData} = useCategory();
 
   const renderItem = ({item}: {item: CategoryItem}) => (
     <TouchableOpacity
       testID={`category-${item.id}`}
       style={[style.MainView, getContainerStyle()]}
-      onPress={() => navigation.navigate('Subcategory', {categoryId: item.id})}>
+      onPress={() => handleCategoryData(item.id)}>
       <View style={[style.categoryBox, getTextInputStyle()]}>
         <View style={style.imageContainer}>
           <Image

@@ -5,3 +5,5 @@ export const cartRemoveUrl = '/cart/delete/';
 export const cartupdateUrl = '/cart/updateQuantity';
 export const listAddressUrl = '/address/listAddress';
 export const profileDataUrl = '/user/getUser';
+export const updateProfileUrl = '/user/update';
+export const subCategoryUrl = '/subcategory/listbyid/';
