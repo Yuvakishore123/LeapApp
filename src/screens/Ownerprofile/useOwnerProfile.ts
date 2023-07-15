@@ -6,7 +6,7 @@ import {getProfileData} from '../../redux/slice/profileDataSlice';
 const UseOwnerprofile = () => {
   const dispatch = useDispatch();
   useEffect(() => {
-    dispatch(getProfileData());
+    dispatch(getProfileData() as any);
   }, [dispatch]);
   const data = useSelector(state => state.profileData.data);
   const loading = useSelector(state => state.profileData.isLoader);

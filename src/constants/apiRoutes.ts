@@ -8,4 +8,6 @@ export const profileDataUrl = '/user/getUser';
 export const updateProfileUrl = '/user/update';
 export const subCategoryUrl = '/subcategory/listbyid/';
 export const cartaddUrl = '/cart/add';
+export const productaddUrl = '/product/add';
+export const addressaddUrl = '/address/add';
 export const userProductsUrl = '/product/list';

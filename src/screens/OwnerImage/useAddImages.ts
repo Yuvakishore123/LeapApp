@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import * as Yup from 'yup';
 import {SetStateAction, useEffect, useState} from 'react';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFormik} from 'formik';
 
@@ -10,6 +9,9 @@ import {addsize} from '../../redux/actions/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch, useSelector} from 'react-redux';
 import {url as baseUrl} from '../../constants/Apis';
+import {ProductAdd} from '../../redux/slice/ProductAddSlice';
+import {ThunkDispatch} from 'redux-thunk';
+import {AnyAction} from 'redux';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -27,8 +29,9 @@ const useAddImages = () => {
   const [imageUrls, setImageUrls] = useState<string[]>([]);
 
   const [isLoading, setIsLoading] = useState(false);
+  const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch();
+  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const name = useSelector(
     (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
   );
@@ -37,10 +40,8 @@ const useAddImages = () => {
       state.ItemsReducer.Description,
   );
   const categoryIds = useSelector(
-    (state: {ItemsReducer: {CategoryId: string}}) =>
-      state.ItemsReducer.CategoryId,
+    (state: {ItemsReducer: {CategoryId: []}}) => state.ItemsReducer.CategoryId,
   );
-  const [showModal, setShowModal] = useState(false);
   const openModal = () => {
     setShowModal(true);
   };
@@ -49,7 +50,7 @@ const useAddImages = () => {
     setShowModal(false);
   };
   const subcategoryIds = useSelector(
-    (state: {ItemsReducer: {subcategoryIds: string}}) =>
+    (state: {ItemsReducer: {subcategoryIds: []}}) =>
       state.ItemsReducer.subcategoryIds,
   );
   console.log(categoryIds);
@@ -99,12 +100,7 @@ const useAddImages = () => {
   };
   const postData = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      console.log('john bhai', token);
-      console.log('url in the post', imageUrls);
-      const posturls = imageUrls;
-      console.log('posturls', posturls);
-      const data = {
+      const Data = {
         brand: 'adiddas',
         categoryIds: categoryIds,
         color: 'black',
@@ -118,15 +114,7 @@ const useAddImages = () => {
         size: selectedsize,
         subcategoryIds: subcategoryIds,
       };
-      const response = await axios({
-        method: 'post',
-        url: `${baseUrl}/product/add`,
-        data: data,
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      console.log('added', response.data);
+      dispatch(ProductAdd(Data));
       dispatch(addsize(selectedsize));
       openModal();
     } catch (error) {

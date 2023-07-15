@@ -3,11 +3,13 @@ import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {Alert} from 'react-native';
-
-import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {RootStackParamList} from '../Subcategory/Subcategory';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {ThunkDispatch} from 'redux-thunk';
+import {useDispatch} from 'react-redux';
+import {AnyAction} from 'redux';
+import {AddressAdd} from '../../redux/slice/AddressAddSlice';
 
 const useAddAddress = () => {
   const [city, setCity] = useState('');
@@ -20,6 +22,7 @@ const useAddAddress = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const AddressSchema = Yup.object().shape({
     addressLine1: Yup.string().required('Enter Address Line 1'),
     addressLine2: Yup.string().required('Enter Street Name'),
@@ -68,21 +71,19 @@ const useAddAddress = () => {
   };
 
   const handleSaveAddress = async () => {
-    const addressData = {
-      addressLine1: addressLine1,
-      addressLine2: addressLine2,
-      addressType: selectedOption,
-      city: city,
-      country: country,
-      postalCode: postalCode,
-      state: state,
-      defaultType: isChecked,
-    };
-    console.log('selectedOption is', addressData);
     try {
+      const addressData = {
+        addressLine1: addressLine1,
+        addressLine2: addressLine2,
+        addressType: selectedOption,
+        city: city,
+        country: country,
+        postalCode: postalCode,
+        state: state,
+        defaultType: isChecked,
+      };
       setIsLoading(true);
-      const res = await ApiService.post(`${url}/address/add`, addressData);
-      console.log(res); // log the returned data
+      dispatch(AddressAdd(addressData));
       navigation.goBack();
     } catch (error) {
       console.log(error);

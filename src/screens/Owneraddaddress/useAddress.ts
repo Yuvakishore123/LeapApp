@@ -1,17 +1,23 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useState} from 'react';
-import {useDispatch} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {removeAddress} from '../../redux/actions/actions';
-import {url} from '../../constants/Apis';
-import ApiService from '../../network/network';
+import {ListAddress} from '../../redux/slice/listAddressSlice';
+import {ThunkDispatch} from 'redux-thunk';
+import {AnyAction} from 'redux';
 
 type RootStackParamList = {
   EditAddress: {address: any};
   Owneraddaddress: undefined;
 };
 const useAddress = () => {
+  const addressdata = useSelector(
+    (state: {listAddress: {data: any}}) => state.listAddress.data,
+  );
+  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const [addressList, setAddress] = useState([]);
   const [city, setCity] = useState('');
   const [addressLine1, setaddressLine1] = useState('');
@@ -32,13 +38,13 @@ const useAddress = () => {
     fetchData();
   };
 
+  console.log('address for the owner and borrower', addressdata);
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      const response = await ApiService.get(`${url}/address/listAddress`);
-      const data = await response;
+      dispatch(ListAddress() as any);
+      const data = addressdata;
       setIsLoading(false);
-      console.log(response);
       setIsLoading(false);
       setAddress(data);
       setCity(data.city);
@@ -65,16 +71,16 @@ const useAddress = () => {
 
   useEffect(() => {
     fetchData();
-  }, [fetchData]);
+    ListAddress();
+  }, [fetchData, ListAddress]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       fetchData();
+      ListAddress();
     });
     return unsubscribe;
-  }, [fetchData, navigation]);
-
-  const dispatch = useDispatch();
+  }, [fetchData, ListAddress, navigation]);
   const handleEditItems = (item: any) => {
     navigation.navigate('EditAddress', {address: item});
   };

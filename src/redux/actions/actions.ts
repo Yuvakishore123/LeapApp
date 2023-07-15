@@ -37,6 +37,7 @@ export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
 import {setLoginData} from '../slice/loginSlice';
+import {ListAddress} from '../slice/listAddressSlice';
 
 export const addname = (Name: any) => ({
   type: ADD_NAME,
@@ -76,6 +77,7 @@ export const removeAddress = (id: any) => {
         },
       });
       dispatch({type: REMOVE_ADDRESS, payload: id});
+      dispatch(ListAddress as any);
     } catch (error) {
       console.log('remove address error', error);
     }
