@@ -3,6 +3,31 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {categoryDataUrl} from '../../constants/apiRoutes';
 
+export interface CategoryData {
+  description: string;
+  id: string;
+  imageUrl: string;
+  subcategoryName: string;
+}
+
+interface CategoryState {
+  data: CategoryData;
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string | unknown;
+}
+
+const initialState: CategoryState = {
+  data: {
+    description: '',
+    id: '',
+    imageUrl: '',
+    subcategoryName: '',
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
 export const fetchCategoriesdata = createAsyncThunk(
   'fetchCategoriesdata',
   async () => {
@@ -20,12 +45,7 @@ export const fetchCategoriesdata = createAsyncThunk(
 
 const categoryThunk = createSlice({
   name: 'fetchcategoryData',
-  initialState: {
-    data: null,
-    isError: false,
-    error: null,
-    isLoader: false,
-  },
+  initialState,
   reducers: {
     setData: (state, action) => {
       state.data = action.payload;

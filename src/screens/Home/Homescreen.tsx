@@ -1,7 +1,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   RefreshControl,
@@ -45,10 +45,10 @@ const Homescreen = ({navigation}: Props) => {
     closeModal,
     showModal,
     name,
+    handleEndReached,
+    allProducts,
   } = useHome();
-  const allProducts = useSelector(
-    (state: {UserProducts: {data: null[]}}) => state.UserProducts.data,
-  );
+
   const [wishlistList, setWishlistList] = useState<string[]>([]);
   const {
     colorScheme,
@@ -258,6 +258,7 @@ const Homescreen = ({navigation}: Props) => {
                 nestedScrollEnabled={true} //changes
                 keyExtractor={(item: unknown) => (item as {id: string}).id}
                 style={{height: '100%', width: '100%'}}
+                onEndReached={handleEndReached}
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}

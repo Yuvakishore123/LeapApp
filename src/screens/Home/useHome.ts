@@ -22,14 +22,20 @@ const useHome = () => {
   const [placeholderTextColor, setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
+  const [pageNumber, setPageNumber] = useState(0);
+  const [pageSize, setPageSize] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [Data, setData] = useState([]);
   const [oldData, setOldDate] = useState([]);
   const [showModal, setShowModal] = useState(false);
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const dispatch = useDispatch();
   const name = useSelector(state => state.profileData.data);
+  const allProducts = useSelector(
+    (state: {UserProducts: {data: null[]}}) => state.UserProducts.data,
+  );
 
   const searchProducts = async (query: any) => {
     try {
@@ -66,17 +72,24 @@ const useHome = () => {
     setShowModal(false);
   };
   useEffect(() => {
-    dispatch(fetchUserProducts() as any);
+    dispatch(fetchUserProducts({pageNumber, pageSize}) as any);
     dispatch(getProfileData() as any);
-  }, [dispatch]);
+  }, [dispatch, pageNumber, pageSize]);
   const onRefresh = async () => {
     setRefreshing(true);
-    await dispatch(fetchUserProducts() as any);
+    await dispatch(fetchUserProducts({pageNumber, pageSize}) as any);
     setRefreshing(false);
   };
 
   const wishlistremove = async (productId: any) => {
     dispatch(wishListRemove(productId) as any);
+  };
+  const handlePages = () => {
+    setPageNumber(prevPageNumber => prevPageNumber + 1);
+  };
+  const handleEndReached = () => {
+    // Fetch the next page of data
+    handlePages();
   };
 
   const WishlistProducts = useSelector(
@@ -104,6 +117,9 @@ const useHome = () => {
     Data,
     oldData,
     wishlistremove,
+    handlePages,
+    allProducts,
+    handleEndReached,
   };
 };
 export default useHome;

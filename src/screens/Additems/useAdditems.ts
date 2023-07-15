@@ -5,7 +5,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 
 import {useNavigation} from '@react-navigation/native';
-import {url, OwnerCategoryUrl} from '../../constants/Apis';
+import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 
 import {
@@ -17,6 +17,7 @@ import {
   addtype,
   addoutfit,
 } from '../../redux/actions/actions';
+import {fetchCategoriesdata} from '../../redux/slice/categorySlice';
 
 type RootStackParamList = {
   OwnerImage: undefined;
@@ -35,7 +36,9 @@ const useAdditems = () => {
   const [subCategoriesData, setSubCategoriesData] = useState([]);
   const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
   const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
-
+  const Data = useSelector(
+    (state: {category: {data: any}}) => state.category.data,
+  );
   const handleGenderChange = (selectedGender: React.SetStateAction<string>) => {
     setGender(selectedGender);
     formik.setFieldValue('gender', selectedGender);
@@ -141,8 +144,9 @@ const useAdditems = () => {
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
-        const response = await ApiService.get(OwnerCategoryUrl);
-        const categoriesArray = response.map(
+        const response = dispatch(fetchCategoriesdata() as any);
+        console.log('category data here is ', response.data);
+        const categoriesArray = Data.map(
           (category: {id: any; categoryName: any}) => ({
             ...category,
             value: category.id,
