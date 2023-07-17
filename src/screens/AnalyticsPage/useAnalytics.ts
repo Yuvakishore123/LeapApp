@@ -29,7 +29,6 @@ const useAnalytics = () => {
       setData(result);
       setisLoading(false);
     } catch (error) {
-      console.log(error);
       setisLoading(true);
     }
   };
@@ -67,7 +66,6 @@ const useAnalytics = () => {
         );
         const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/file.pdf`;
         await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
-        console.log('File downloaded successfully:', filePath);
         // Push notification
         const channelId = await notifee.createChannel({
           id: 'pdf_download_channel1',
@@ -105,9 +103,7 @@ const useAnalytics = () => {
       const results = await ApiService.get(categoriyPiechart);
       console.log('Categories Pie Chart ', results);
       setCategoriesData(results);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   const Dashboardyeardata = async () => {
@@ -115,9 +111,7 @@ const useAnalytics = () => {
       const yearlyData = await ApiService.get(Dashboardyearlydata);
       console.log('indranil Dashboardyearly', yearlyData);
       setDashboardYearlydata(yearlyData);
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return {
