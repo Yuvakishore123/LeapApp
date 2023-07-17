@@ -38,22 +38,22 @@ const useHome = () => {
       console.error(error);
     }
   };
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setPlaceholderText(prevText =>
-        prevText === 'Search by Brands'
-          ? 'Search Products'
-          : 'Search by Brands',
-      );
-    }, 4000);
+  // useEffect(() => {
+  //   const interval = setInterval(() => {
+  //     setPlaceholderText(prevText =>
+  //       prevText === 'Search by Brands'
+  //         ? 'Search Products'
+  //         : 'Search by Brands',
+  //     );
+  //   }, 4000);
 
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
-    setPlaceholderTextColor(
-      colorScheme === 'dark' ? Colors.white : Colors.black,
-    );
-  }, [colorScheme, placeholderText]);
+  //   return () => clearInterval(interval);
+  // }, []);
+  // useEffect(() => {
+  //   setPlaceholderTextColor(
+  //     colorScheme === 'dark' ? Colors.white : Colors.black,
+  //   );
+  // }, [colorScheme, placeholderText]);
 
   const openModal = () => {
     setShowModal(true);
