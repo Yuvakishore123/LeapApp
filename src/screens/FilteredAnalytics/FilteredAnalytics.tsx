@@ -13,29 +13,28 @@ const FilteredAnalytics = () => {
     chartData,
     data,
     isLoading,
-    fetchData,
+
     generateKey,
     startDate,
     setStartDate,
     endDate,
-    setEndDate,
+
     navigation,
+    handleEndDateChange,
   } = useFilteredAnalytics();
-  const handleEndDateChange = (date: any) => {
-    setEndDate(date);
-    fetchData();
-  };
 
   const addPrefixToYLabel = (value: any) => `₹ ${value}`;
 
   let content;
   if (isLoading) {
     content = (
-      <Spinner
-        visible={isLoading}
-        textContent={'Loading...'}
-        textStyle={style.spinnerS}
-      />
+      <View testID="loading-spinner">
+        <Spinner
+          visible={isLoading}
+          textContent={'Loading...'}
+          textStyle={style.spinnerS}
+        />
+      </View>
     );
   } else if (chartData.length > 0) {
     content = (
@@ -141,10 +140,7 @@ const FilteredAnalytics = () => {
                           />
 
                           <View style={style.textDirection}>
-                            <Text
-                              // testID="order-id"
-                              // testID="add-prefix-to-y-label"
-                              style={style.cardStyle}>
+                            <Text style={style.cardStyle}>
                               Order ID: {item.borrowerId}
                             </Text>
 
