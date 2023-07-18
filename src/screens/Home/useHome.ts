@@ -88,9 +88,20 @@ const useHome = () => {
     setPageNumber(prevPageNumber => prevPageNumber + 1);
   };
   const handleEndReached = () => {
-    // Fetch the next page of data
-    handlePages();
+    const nextPageNumber = pageNumber + 1;
+    handlePaginationChange(nextPageNumber, pageSize);
   };
+
+  const handlePaginationChange = (
+    newPageNumber: number,
+    newPageSize: number,
+  ) => {
+    setPageNumber(newPageNumber);
+    setPageSize(newPageSize);
+  };
+  useEffect(() => {
+    dispatch(fetchUserProducts({pageNumber, pageSize}));
+  }, [dispatch, pageNumber, pageSize]);
 
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
@@ -120,6 +131,8 @@ const useHome = () => {
     handlePages,
     allProducts,
     handleEndReached,
+    handlePaginationChange,
+    pageSize,
   };
 };
 export default useHome;

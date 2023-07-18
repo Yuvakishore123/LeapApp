@@ -29,6 +29,7 @@ import profileDataSlice from './slice/profileDataSlice';
 import CartAddSlice from './slice/CartAddSlice';
 import editProfileSlice from './slice/editProfileSlice';
 import subcategorySlice from './slice/subcategorySlice';
+import categoryProductsSlice from './slice/categoryProductsSlice';
 
 export const RootReducers = combineReducers({
   Reducers,
@@ -56,6 +57,7 @@ export const RootReducers = combineReducers({
   cartAdd: CartAddSlice,
   updatedProfileData: editProfileSlice,
   subcategoryData: subcategorySlice,
+  categoruProduct: categoryProductsSlice,
 });
 
 export const store = createStore(RootReducers, applyMiddleware(thunk));

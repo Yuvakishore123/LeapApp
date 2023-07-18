@@ -47,6 +47,8 @@ const Homescreen = ({navigation}: Props) => {
     name,
     handleEndReached,
     allProducts,
+    handlePaginationChange,
+    pageSize,
   } = useHome();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
@@ -262,7 +264,9 @@ const Homescreen = ({navigation}: Props) => {
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}
-                    onRefresh={onRefresh}
+                    onRefresh={() => {
+                      handlePaginationChange(1, pageSize); // Reset to first page when refreshing
+                    }}
                   />
                 }
                 numColumns={2}

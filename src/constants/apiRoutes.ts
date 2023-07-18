@@ -11,3 +11,4 @@ export const cartaddUrl = '/cart/add';
 export const productaddUrl = '/product/add';
 export const addressaddUrl = '/address/add';
 export const userProductsUrl = '/product/list';
+export const categoryProductsUrl = '/product/listBySubcategoryId';
