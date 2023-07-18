@@ -1,5 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
-/* eslint-disable @typescript-eslint/no-shadow */
 import {useState, useEffect} from 'react';
 import ApiService from '../../network/network';
 import {url} from './../../constants/Apis';
@@ -11,11 +9,10 @@ const useFilteredAnalytics = () => {
   >([]);
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
-
   const [data, setData] = useState<{[key: string]: any[]}>({});
-
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+
   useEffect(() => {
     fetchData();
   }, [startDate, endDate]);
@@ -30,7 +27,6 @@ const useFilteredAnalytics = () => {
         `${url}/order/dashboardDateSelector?startDate=${formattedStartDate}&endDate=${formattedEndDate}`,
       );
 
-      console.log('hey', response);
       setData(response);
       setIsLoading(false);
 
@@ -51,7 +47,11 @@ const useFilteredAnalytics = () => {
       setIsLoading(false);
     }
   };
-  console.log('data is :', data);
+
+  const handleEndDateChange = (date: any) => {
+    setEndDate(date);
+    fetchData();
+  };
 
   const generateKey = () => {
     return Math.random().toString(36);
@@ -68,6 +68,7 @@ const useFilteredAnalytics = () => {
     setStartDate,
     setEndDate,
     navigation,
+    handleEndDateChange,
   };
 };
 
