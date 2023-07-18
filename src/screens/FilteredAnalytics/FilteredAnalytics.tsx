@@ -37,7 +37,7 @@ const FilteredAnalytics = () => {
         textStyle={style.spinnerS}
       />
     );
-  } else if (chartData.length > 0) {
+  } else if (chartData !== null && chartData.length > 0) {
     content = (
       <>
         <View style={style.chartView}>
@@ -128,10 +128,10 @@ const FilteredAnalytics = () => {
           <View>{content}</View>
 
           <View>
-            {Object.keys(data).length > 0 ? (
-              Object.entries(data).map(([month, items]) => (
+            {data != null && Object?.keys(data).length > 0 ? (
+              Object?.entries(data).map(([month, items]) => (
                 <View key={month}>
-                  {items.map((item: any) => (
+                  {items?.map((item: any) => (
                     <View key={generateKey()}>
                       <View style={style.dashcard}>
                         <View style={style.dashcardContainer}>
