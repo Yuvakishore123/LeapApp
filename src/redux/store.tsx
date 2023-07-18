@@ -20,13 +20,16 @@ import editItemSlice from './slice/editItemSlice';
 import thunk from 'redux-thunk';
 import loginSlice from './slice/loginSlice';
 import signupSlice from './slice/signupSlice';
-import wishlistRemoveSlice from './slice/wishlistRemoveSlice';
+
 import categorySlice from './slice/categorySlice';
 import cartUpdateSlice from './slice/cartUpdateSlice';
 import cartRemoveSlice from './slice/cartRemoveSlice';
 import listAddressSlice from './slice/listAddressSlice';
 import profileDataSlice from './slice/profileDataSlice';
 import CartAddSlice from './slice/CartAddSlice';
+import editProfileSlice from './slice/editProfileSlice';
+import subcategorySlice from './slice/subcategorySlice';
+
 import FliterAnalyticsDataSlice from './slice/fliterAnalyticsDataSlice';
 export const RootReducers = combineReducers({
   Reducers,
@@ -45,14 +48,13 @@ export const RootReducers = combineReducers({
   editItem: editItemSlice,
   login: loginSlice,
   signup: signupSlice,
-  wishlist: wishlistRemoveSlice,
+  wishlist: wishlistSlice,
   category: categorySlice,
   cartRemove: cartRemoveSlice,
   cartUpdate: cartUpdateSlice,
   listAddress: listAddressSlice,
   profileData: profileDataSlice,
   cartAdd: CartAddSlice,
-  FliterAnalyticsData: FliterAnalyticsDataSlice,
 });
 
 export const store = createStore(RootReducers, applyMiddleware(thunk));

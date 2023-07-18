@@ -5,9 +5,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {StyleSheet, Text, TouchableOpacity, View, Animated} from 'react-native';
 import Colors from '../../constants/colors';
 import IonIcon from 'react-native-vector-icons/Ionicons';
-import axios from 'axios';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../constants/Apis';
+import ApiService from '../../network/network';
 
 const SwitchAccountButton = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -40,17 +41,11 @@ const SwitchAccountButton = () => {
     try {
       setShowOptions(false);
       console.log('option', option);
-      const token = await AsyncStorage.getItem('token');
-      const response = await axios.post(
+      const response = await ApiService.post(
         `${url}/user/switch?profile=${option}`,
         null,
-        {
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
       );
+
       if (response.status === 200) {
         const newToken = response.headers.access_token;
         await AsyncStorage.removeItem('token');
@@ -62,6 +57,7 @@ const SwitchAccountButton = () => {
         console.log('Request failed');
       }
     } catch (error) {
+      console.log('error is here ');
       console.log('Request failed');
     }
   };

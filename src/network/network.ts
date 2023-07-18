@@ -18,6 +18,48 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
+instance.interceptors.response.use(
+  response => {
+    return response;
+  },
+  async error => {
+    const originalRequest = error.config;
+
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+
+      const refreshToken = await AsyncStorage.getItem('refresh_token');
+      console.log('refresh_token', refreshToken);
+
+      return axios
+        .post(`${url}/user/refreshToken`, null, {
+          headers: {
+            Authorization: `Bearer ${refreshToken}`,
+          },
+        })
+        .then(async response => {
+          const newToken = response.headers.access_token;
+          console.log('New token generated', newToken);
+
+          await AsyncStorage.setItem('token', newToken);
+
+          // Update the default headers and original request headers with the new token
+          instance.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+
+          return instance(originalRequest);
+        })
+        .catch(error => {
+          // Handle refresh token failure
+          // For example, redirect user to login page
+          console.error('Refresh token failed:', error);
+          // throw error;
+        });
+    }
+
+    return Promise.reject(error);
+  },
+);
 
 const ApiService = {
   get: async (url: string) => {

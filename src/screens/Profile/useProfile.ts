@@ -113,7 +113,6 @@ const useProfile = () => {
 
     const response = await ApiService.post(`${profileUpload}=${imageurl}`, {});
     fetchProfileData();
-    fetchProfileData();
 
     console.log('Upload response', response);
   };
@@ -121,7 +120,8 @@ const useProfile = () => {
   const handleRemoveProfilePic = async () => {
     const response = await ApiService.post(`${profileUpload}=${null}`, {});
     console.log('Upload response', response);
-
+    dispatch(getProfileData());
+    setProfileImage('');
     openModal1();
   };
 
@@ -149,7 +149,8 @@ const useProfile = () => {
     showModal1,
     refreshData,
     refreshState,
-    fetchProfileData, // Expose the fetchProfileData function
+    fetchProfileData,
+    isLoading, // Expose the fetchProfileData function
   };
 };
 

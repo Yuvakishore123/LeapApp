@@ -13,6 +13,7 @@ import {
 } from '../../constants/Apis';
 
 import ApiService from '../../network/network';
+import axios from 'axios';
 
 const useAnalytics = () => {
   const [Data, setData] = useState('');
@@ -47,18 +48,16 @@ const useAnalytics = () => {
   const handleExportpdf = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const response = await fetch(`${url}/order/exportPdf`, {
+      const response = await axios.get(`${url}/order/exportPdf`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },
+        responseType: 'blob',
       });
       console.log('Response:', response);
       console.log('Response status:', response.status);
-      console.log(
-        'Response content type:',
-        response.headers.get('content-type'),
-      );
-      const blob = await response.blob();
+      console.log('Response content type:', response.headers['content-type']);
+      const blob = response.data;
       const reader = new FileReader();
       reader.onloadend = async () => {
         const base64String = (reader.result as string).replace(
@@ -99,6 +98,7 @@ const useAnalytics = () => {
       console.log('Error downloading file:', error);
     }
   };
+
   console.log('data of sunday', piechart);
   const CategoriePieData = async () => {
     try {

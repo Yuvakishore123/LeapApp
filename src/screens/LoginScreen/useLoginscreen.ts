@@ -1,4 +1,4 @@
-import {useContext, useState} from 'react';
+import {useContext, useEffect, useState} from 'react';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
@@ -48,6 +48,18 @@ const useLoginscreen = () => {
     }
   };
   console.log('isError', isError);
+
+  const handleErrorResponse = (error: number) => {
+    if (error === 401) {
+      console.log('is this triggered');
+      openModal(); // Assuming you have a function called openModal() defined elsewhere
+    } else {
+      console.log('error', error);
+    }
+  };
+  useEffect(() => {
+    handleErrorResponse(isError);
+  }, [isError]);
   const handleLoginScreen = async () => {
     try {
       const credentials = {

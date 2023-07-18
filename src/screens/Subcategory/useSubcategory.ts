@@ -11,8 +11,8 @@ type RootStackParamList = {
   };
 };
 
-export const useSubcategory = <T>(categoryId: string) => {
-  const [subcategories, setSubcategories] = useState<T[]>([]);
+export const useSubcategory = (categoryId: string) => {
+  const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();

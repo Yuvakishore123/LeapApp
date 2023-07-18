@@ -1,53 +1,40 @@
 import {useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
-import {url} from '../../constants/Apis';
-function OwnerEditProfileCustomHook() {
-  const [isLoading, setIsLoading] = useState(false);
+import {getProfileData} from '../../redux/slice/profileDataSlice';
+import {useDispatch, useSelector} from 'react-redux';
+import {updateProfile} from '../../redux/slice/editProfileSlice';
+const OwnerEditProfileCustomHook = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const dispatch = useDispatch();
+  const Data = useSelector(state => state.profileData.data);
+  const isLoading = useSelector(state => state.profileData.isLoader);
 
   const openModal = () => {
+    dispatch(getProfileData());
     setShowModal(true);
   };
   const closeModal = () => {
     setShowModal(false);
   };
+
   useEffect(() => {
-    const fetchProfileData = async () => {
-      setIsLoading(true);
-      const token = await AsyncStorage.getItem('token');
-      try {
-        const response = await fetch(`${url}/user/getUser`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok) {
-          const profileData = await response.json();
-          setFirstName(profileData.firstName);
-          setLastName(profileData.lastName);
-          setEmail(profileData.email);
-          setPhoneNumber(profileData.phoneNumber);
-        } else {
-          setIsLoading(true);
-          throw new Error('Failed to fetch profile data');
-        }
-      } catch (error) {
-        setIsLoading(true);
-      } finally {
-        setIsLoading(false);
-      }
+    const fetchProfileData = () => {
+      setFirstName(Data.firstName);
+      setLastName(Data.lastName);
+      setEmail(Data.email);
+      setPhoneNumber(Data.phoneNumber);
     };
     fetchProfileData();
-  }, []);
+  }, [Data.email, Data.firstName, Data.lastName, Data.phoneNumber]);
+  console.log('Date here is', Data);
+  useEffect(() => {
+    dispatch(getProfileData());
+  }, [dispatch]);
   const handleUpdate = async () => {
-    const token = await AsyncStorage.getItem('token');
     const data = JSON.stringify({
       firstName: firstName,
       lastName: lastName,
@@ -55,20 +42,9 @@ function OwnerEditProfileCustomHook() {
       phoneNumber: phoneNumber,
     });
     try {
-      const response = await fetch(`${url}/user/update`, {
-        method: 'PUT',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: data,
-      });
+      dispatch(updateProfile(data));
       console.log();
-      if (response.ok) {
-        openModal();
-      } else {
-        throw new Error('Failed to update profile');
-      }
+      openModal();
     } catch (error) {
       console.error(error);
     }
@@ -87,6 +63,7 @@ function OwnerEditProfileCustomHook() {
     openModal,
     closeModal,
     showModal,
+    Data,
   };
-}
+};
 export default OwnerEditProfileCustomHook;

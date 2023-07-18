@@ -1,7 +1,7 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   RefreshControl,
@@ -24,14 +24,13 @@ import Carousal from './Carousal';
 import {postProductToAPI} from '../../redux/actions/actions';
 import useHome from './useHome';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import useProfile from '../Profile/useProfile';
+
 type Props = {
   route: {name: string};
   navigation: any;
 };
 const Homescreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
-  const {name} = useProfile();
   const UserProducts = useHome();
   const {
     refreshing,
@@ -45,10 +44,11 @@ const Homescreen = ({navigation}: Props) => {
     loading,
     closeModal,
     showModal,
+    name,
+    handleEndReached,
+    allProducts,
   } = useHome();
-  const allProducts = useSelector(
-    (state: {UserProducts: {data: null[]}}) => state.UserProducts.data,
-  );
+
   const [wishlistList, setWishlistList] = useState<string[]>([]);
   const {
     colorScheme,
@@ -193,7 +193,7 @@ const Homescreen = ({navigation}: Props) => {
                 },
                 getTextColor(),
               ]}>
-              Welcome {name}
+              Welcome {name.firstName}
             </Text>
             <Lottie
               source={require('../../../assets/celebration.json')}
@@ -258,6 +258,7 @@ const Homescreen = ({navigation}: Props) => {
                 nestedScrollEnabled={true} //changes
                 keyExtractor={(item: unknown) => (item as {id: string}).id}
                 style={{height: '100%', width: '100%'}}
+                onEndReached={handleEndReached}
                 refreshControl={
                   <RefreshControl
                     refreshing={refreshing}
@@ -292,6 +293,7 @@ const Homescreen = ({navigation}: Props) => {
                               } else {
                                 setWishlistList([...wishlistList, item.id]);
                                 dispatch(postProductToAPI({...item}) as any);
+                                wishlistremove(item.id);
                               }
                             }}>
                             {wishlistList.includes(item.id) ? (
