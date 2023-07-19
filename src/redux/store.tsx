@@ -30,6 +30,7 @@ import CartAddSlice from './slice/CartAddSlice';
 import FliterAnalyticsDataSlice from './slice/fliterAnalyticsDataSlice';
 import editProfileSlice from './slice/editProfileSlice';
 import subcategorySlice from './slice/subcategorySlice';
+import editAddressSlice from './slice/editAddressSlice';
 import categoryProductsSlice from './slice/categoryProductsSlice';
 export const RootReducers = combineReducers({
   Reducers,
@@ -58,6 +59,7 @@ export const RootReducers = combineReducers({
   FliterAnalyticsData: FliterAnalyticsDataSlice,
   updatedProfileData: editProfileSlice,
   subcategoryData: subcategorySlice,
+  editAddressData: editAddressSlice,
   categoruProduct: categoryProductsSlice,
 });
 

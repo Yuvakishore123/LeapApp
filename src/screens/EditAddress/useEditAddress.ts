@@ -1,13 +1,19 @@
 import React, {useContext, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
-
-import ApiService from '../../network/network';
 import colors from '../../constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
+import {useDispatch, useSelector} from 'react-redux';
+import {ThunkDispatch} from 'redux-thunk';
+import {AnyAction} from 'redux';
+import {editAddressData} from '../../redux/slice/editAddressSlice';
+import {ListAddress} from '../../redux/slice/listAddressSlice';
 const useEditAddress = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const address = (route.params as any)?.address;
+  const response = useSelector(
+    (state: {editAddressData: {data: any}}) => state.editAddressData.data,
+  );
   const [city, setCity] = useState(address.city);
   const [state, setStateName] = useState(address.state);
   const [addressid] = useState(address.id);
@@ -19,7 +25,9 @@ const useEditAddress = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
+  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const openModal = () => {
+    dispatch(ListAddress());
     setShowModal(true);
   };
   const closeModal = () => {
@@ -49,11 +57,8 @@ const useEditAddress = () => {
         state: state,
         defaultType: isChecked,
       };
-      const response = await ApiService.put(
-        `/address/update/${addressid}`,
-        updateaddress,
-      );
-      console.log(response);
+      dispatch(editAddressData({updateaddress, addressid}));
+      console.log('editaddress', response);
       if (response) {
         setIsLoading(false);
         openModal();
