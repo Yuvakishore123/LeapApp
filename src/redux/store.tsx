@@ -30,6 +30,7 @@ import CartAddSlice from './slice/CartAddSlice';
 import FliterAnalyticsDataSlice from './slice/fliterAnalyticsDataSlice';
 import editProfileSlice from './slice/editProfileSlice';
 import subcategorySlice from './slice/subcategorySlice';
+import editAddressSlice from './slice/editAddressSlice';
 export const RootReducers = combineReducers({
   Reducers,
   products: ProductSlice,
@@ -57,6 +58,7 @@ export const RootReducers = combineReducers({
   FliterAnalyticsData: FliterAnalyticsDataSlice,
   updatedProfileData: editProfileSlice,
   subcategoryData: subcategorySlice,
+  editAddressData: editAddressSlice,
 });
 
 export const store = createStore(RootReducers, applyMiddleware(thunk));

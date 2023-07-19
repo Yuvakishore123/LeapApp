@@ -45,7 +45,6 @@ const useAddress = () => {
       dispatch(ListAddress() as any);
       const data = addressdata;
       setIsLoading(false);
-      setIsLoading(false);
       setAddress(data);
       setCity(data.city);
       setId(data.id);
@@ -53,7 +52,6 @@ const useAddress = () => {
       setaddressLine1(data.addressLine1);
       setaddressLine2(data.addressLine2);
       setpostalCode(data.postalCode);
-      setIsLoading(false);
       console.log(
         id,
         city,
@@ -71,16 +69,15 @@ const useAddress = () => {
 
   useEffect(() => {
     fetchData();
-    ListAddress();
-  }, [fetchData, ListAddress]);
+  }, [fetchData]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       fetchData();
-      ListAddress();
+      addressdata;
     });
     return unsubscribe;
-  }, [fetchData, ListAddress, navigation]);
+  }, [fetchData, navigation]);
   const handleEditItems = (item: any) => {
     navigation.navigate('EditAddress', {address: item});
   };
