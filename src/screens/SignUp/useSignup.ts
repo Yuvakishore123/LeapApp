@@ -3,9 +3,9 @@ import * as Yup from 'yup';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {SetStateAction, useContext, useState} from 'react';
-import {url} from '../../constants/Apis';
+
 import {passwordValidation, phonenumberValidation} from '../../constants/Regex';
-import ApiService from '../../network/network';
+
 import colors from '../../constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useDispatch, useSelector} from 'react-redux';
@@ -46,25 +46,7 @@ const useSignup = () => {
     setShowModal(false);
   };
 
-  const handleSignupfun: () => Promise<void> = async () => {
-    console.log('indrill');
-    console.log(role);
-    console.log('first name ', formik.values.firstName);
-    try {
-      const response = await ApiService.post(`${url}/user/signup`, {
-        firstName: formik.values.firstName,
-        lastName: formik.values.lastName,
-        email: formik.values.email,
-        phoneNumber: formik.values.phoneNumber,
-        password: formik.values.password,
-        role: role,
-      });
-      console.log(response);
-    } catch (error) {
-      openModal();
-    }
-  };
-  const handdleSignup = () => {
+  const handleSignup = () => {
     try {
       const credentials = {
         firstName: formik.values.firstName,
@@ -91,7 +73,7 @@ const useSignup = () => {
       phoneNumber: '',
     },
     validationSchema: SignUpSchema,
-    onSubmit: handleSignupfun,
+    onSubmit: handleSignup,
   });
   const handleRole = (value: SetStateAction<string>) => {
     setRole(value);
@@ -123,13 +105,13 @@ const useSignup = () => {
     openModal,
     closeModal,
     showModal,
-    handleSignupfun,
+    handleSignup,
     handleRole,
     handleLogin,
     PlaceholderColor,
     BorrowerRole,
     OwnerRole,
-    handdleSignup,
+    isError,
   };
 };
 export default useSignup;

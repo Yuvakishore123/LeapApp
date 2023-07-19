@@ -27,13 +27,15 @@ const useChectout = () => {
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>([]);
   const dispatch = useDispatch();
 
-  const data = useSelector(state => state.listAddress.data);
+  const data = useSelector(
+    (state: {listAddress: {data: any}}) => state.listAddress.data,
+  );
 
   console.log('heloo pranay ', data);
 
   useEffect(() => {
     setRefreshing(true);
-    dispatch(ListAddress());
+    dispatch(ListAddress() as any);
     setRefreshing(false);
   }, [dispatch]);
   const cartData = useSelector(

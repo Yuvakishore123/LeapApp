@@ -53,7 +53,7 @@ const useLoginscreen = () => {
   const handleErrorResponse = (error: number) => {
     if (error === 401) {
       console.log('is this triggered');
-      openModal(); // Assuming you have a function called openModal() defined elsewhere
+      openModal();
     } else {
       console.log('error', error);
     }

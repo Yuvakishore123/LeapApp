@@ -2,9 +2,6 @@
 import {useContext, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
-import {checkoutApi} from '../../constants/Apis';
 
 import {useNavigation} from '@react-navigation/native';
 
@@ -45,11 +42,7 @@ const useCart = () => {
   const isLoading = useSelector(
     (state: {CartProducts: {isLoader: boolean}}) => state.CartProducts.isLoader,
   );
-  const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
-    cartItems: [],
-  };
+
   const CartProducts = useSelector(
     (state: {CartProducts: {data: any}}) => state.CartProducts.data,
   ) || {
@@ -89,28 +82,7 @@ const useCart = () => {
   };
 
   const handleCheckout = async () => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      const items = cartData?.cartItems?.map(
-        (item: {product: {price: any; id: any; name: any; quantity: any}}) => ({
-          price: item.product.price,
-          productId: item.product.id,
-          productName: item.product.name,
-          quantity: item.product.quantity,
-        }),
-      );
-      const response = await fetch(checkoutApi, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(items),
-      });
-      const data = await response.json();
-      navigation.navigate('CheckoutScreen');
-      console.log('Checkout Session created:', data);
-    } catch (error) {}
+    navigation.navigate('CheckoutScreen');
   };
 
   const handleRemove = async (productId: number) => {

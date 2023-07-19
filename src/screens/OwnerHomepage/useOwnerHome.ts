@@ -7,6 +7,7 @@ import {Recentlyadded, url} from '../../constants/Apis';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {recentyAddedUrl} from '../../constants/apiRoutes';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -14,7 +15,6 @@ type RootStackParamList = {
   DashboardDetails: undefined;
 };
 const useOwnerHome = () => {
-  const [name, setName] = useState('');
   const [refresh, setRefresh] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -76,6 +76,7 @@ const useOwnerHome = () => {
     setRefreshing(false);
   };
   const {HandlePiechart} = useAnalytics();
+  const name = useSelector(state => state.profileData.data);
   useEffect(() => {
     const fetchDashboardData = async () => {
       const token = await AsyncStorage.getItem('token');
@@ -102,31 +103,31 @@ const useOwnerHome = () => {
     };
     fetchDashboardData();
   }, []);
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      const token = await AsyncStorage.getItem('token');
-      try {
-        const response = await fetch(`${url}/user/getUser`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        setIsLoading(false);
-        if (response.ok) {
-          const profileData = await response.json();
-          setName(profileData.firstName);
-        } else {
-          console.log('data not fetched');
-        }
-      } catch (error) {
-        console.error(error);
-        setIsLoading(true);
-      }
-    };
-    fetchProfileData();
-  }, [refresh]);
+  // useEffect(() => {
+  //   const fetchProfileData = async () => {
+  //     const token = await AsyncStorage.getItem('token');
+  //     try {
+  //       const response = await fetch(`${url}/user/getUser`, {
+  //         method: 'GET',
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //           'Content-Type': 'application/json',
+  //         },
+  //       });
+  //       setIsLoading(false);
+  //       if (response.ok) {
+  //         const profileData = await response.json();
+  //         setName(profileData.firstName);
+  //       } else {
+  //         console.log('data not fetched');
+  //       }
+  //     } catch (error) {
+  //       console.error(error);
+  //       setIsLoading(true);
+  //     }
+  //   };
+  //   fetchProfileData();
+  // }, [refresh]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setRefresh(!refresh);
@@ -149,7 +150,7 @@ const useOwnerHome = () => {
   };
 
   const fetchRecentlyAdded = async () => {
-    const result = await ApiService.get(Recentlyadded);
+    const result = await ApiService.get(recentyAddedUrl);
     setRecentlyAdded(result);
     console.log('result is:', result);
   };

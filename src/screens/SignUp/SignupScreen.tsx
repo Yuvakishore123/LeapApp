@@ -31,7 +31,7 @@ const SignUpScreen = () => {
     closeModal,
     handleLogin,
     showModal,
-    handdleSignup,
+    handleSignup,
     PlaceholderColor,
     OwnerRole,
     BorrowerRole,
@@ -153,7 +153,7 @@ const SignUpScreen = () => {
                 backgroundColor: formik.isValid ? '#9747FF' : '#A5C9CA',
               },
             ]}
-            onPress={handdleSignup}>
+            onPress={handleSignup}>
             <Text style={Styles.touchableText}>{signup}</Text>
           </TouchableOpacity>
         </View>

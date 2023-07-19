@@ -10,11 +10,15 @@ const OwnerEditProfileCustomHook = () => {
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
   const dispatch = useDispatch();
-  const Data = useSelector(state => state.profileData.data);
-  const isLoading = useSelector(state => state.profileData.isLoader);
+  const Data = useSelector(
+    (state: {profileData: {data: any}}) => state.profileData.data,
+  );
+  const isLoading = useSelector(
+    (state: {profileData: {isLoader: boolean}}) => state.profileData.isLoader,
+  );
 
   const openModal = () => {
-    dispatch(getProfileData());
+    dispatch(getProfileData() as any);
     setShowModal(true);
   };
   const closeModal = () => {
@@ -32,7 +36,7 @@ const OwnerEditProfileCustomHook = () => {
   }, [Data.email, Data.firstName, Data.lastName, Data.phoneNumber]);
   console.log('Date here is', Data);
   useEffect(() => {
-    dispatch(getProfileData());
+    dispatch(getProfileData() as any);
   }, [dispatch]);
   const handleUpdate = async () => {
     const data = JSON.stringify({
@@ -42,7 +46,7 @@ const OwnerEditProfileCustomHook = () => {
       phoneNumber: phoneNumber,
     });
     try {
-      dispatch(updateProfile(data));
+      dispatch(updateProfile(data) as any);
       console.log();
       openModal();
     } catch (error) {
