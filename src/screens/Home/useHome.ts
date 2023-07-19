@@ -46,7 +46,6 @@ const useHome = () => {
   //         : 'Search by Brands',
   //     );
   //   }, 4000);
-
   //   return () => clearInterval(interval);
   // }, []);
   // useEffect(() => {

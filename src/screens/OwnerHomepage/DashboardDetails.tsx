@@ -670,6 +670,111 @@ const DashboardDetails = () => {
                               </View>
                             </View>
                           ))}
+                          {orderData[selectedMonth].map(
+                            (
+                              order: {
+                                id: {toString: () => any};
+                                imageUrl: any;
+                                borrowerId:
+                                  | string
+                                  | number
+                                  | boolean
+                                  | React.ReactElement<
+                                      any,
+                                      string | React.JSXElementConstructor<any>
+                                    >
+                                  | React.ReactFragment
+                                  | React.ReactPortal
+                                  | null
+                                  | undefined;
+                                borrowerName:
+                                  | string
+                                  | number
+                                  | boolean
+                                  | React.ReactElement<
+                                      any,
+                                      string | React.JSXElementConstructor<any>
+                                    >
+                                  | React.ReactFragment
+                                  | React.ReactPortal
+                                  | null
+                                  | undefined;
+                                rentalCost:
+                                  | string
+                                  | number
+                                  | boolean
+                                  | React.ReactElement<
+                                      any,
+                                      string | React.JSXElementConstructor<any>
+                                    >
+                                  | React.ReactFragment
+                                  | React.ReactPortal
+                                  | null
+                                  | undefined;
+                                name:
+                                  | string
+                                  | number
+                                  | boolean
+                                  | React.ReactElement<
+                                      any,
+                                      string | React.JSXElementConstructor<any>
+                                    >
+                                  | React.ReactFragment
+                                  | React.ReactPortal
+                                  | null
+                                  | undefined;
+                                borrowerPhoneNumber:
+                                  | string
+                                  | number
+                                  | boolean
+                                  | React.ReactElement<
+                                      any,
+                                      string | React.JSXElementConstructor<any>
+                                    >
+                                  | React.ReactFragment
+                                  | React.ReactPortal
+                                  | null
+                                  | undefined;
+                              },
+                              index: any,
+                            ) => (
+                              <View
+                                key={`${order.id}-${index}`}
+                                style={style.dashcard}>
+                                <View style={style.dashcardContainer}>
+                                  <Image
+                                    source={{uri: order.imageUrl}}
+                                    style={style.dashboardimage}
+                                  />
+                                  <View
+                                    key={`${order.id}-${index}`}
+                                    style={{
+                                      marginTop: 0,
+                                      width: 200,
+                                      height: 40,
+                                    }}>
+                                    <Text style={style.Order}>
+                                      Order ID: {order.borrowerId}
+                                    </Text>
+                                    <Text style={style.borrowerName}>
+                                      {order.borrowerName}
+                                    </Text>
+                                    <Text style={style.price}>
+                                      ₹ {order.rentalCost}
+                                    </Text>
+                                    <Text style={style.order}>
+                                      {' '}
+                                      {order.name}
+                                    </Text>
+                                    <Text style={style.order}>
+                                      {' '}
+                                      {order.borrowerPhoneNumber}
+                                    </Text>
+                                  </View>
+                                </View>
+                              </View>
+                            ),
+                          )}
                         </ScrollView>
                       </Modal>
                     ) : (

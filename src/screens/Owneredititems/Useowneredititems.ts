@@ -46,10 +46,6 @@ const Useowneredititems = () => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
-  const [categoriesData, setCategoriesData] = useState([]);
-  const [subCategoriesData, setSubCategoriesData] = useState([]);
-  const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
-  const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
   const [outofStock, setOutofstock] = useState(false);
   const [totalQuantity, settotalQuantities] = useState(0);
   const [updatedQuantity, setupdatedquantity] = useState(0);
@@ -128,6 +124,10 @@ const Useowneredititems = () => {
       console.log('editProductId', editProductId);
     }
   };
+  const [categoriesData, setCategoriesData] = useState([]);
+  const [subCategoriesData, setSubCategoriesData] = useState([]);
+  const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
+  const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
   const genderData = useSelector(
     (state: {GenderReducer: {genderData: null[]}}) =>
       state.GenderReducer.genderData,
@@ -419,7 +419,6 @@ const Useowneredititems = () => {
       setPrefill(response.data);
       return response.data;
     } catch (error) {
-      console.error('Error occurred while getting owner products:', error);
       throw error;
     }
   };
