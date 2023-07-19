@@ -39,7 +39,7 @@ const useHome = () => {
 
   const searchProducts = async (query: any) => {
     try {
-      const data = await ApiService.get(`${url}/product/search?query=${query}`);
+      const data = await ApiService.get(`/product/search?query=${query}`);
       navigation.navigate('SearchResultsScreen', {searchResults: data});
       setData(data);
       setOldDate(data);

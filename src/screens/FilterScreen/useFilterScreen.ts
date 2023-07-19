@@ -12,7 +12,6 @@ const useFilterScreen = () => {
       const response = await ApiService.get(
         `${FilterProduct}?maxPrice=${maximumPrice}&minPrice=${minimumPrice}&size=${size}&subcategoryId=${1}`,
       );
-      // Assuming the API response contains an array of filtered products
       setFilteredProducts(response);
       console.log(response);
     } catch (error) {

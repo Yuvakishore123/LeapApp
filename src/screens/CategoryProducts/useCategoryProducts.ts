@@ -3,6 +3,7 @@ import {useDispatch} from 'react-redux';
 import {postProductToAPI} from '../../redux/actions/actions';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import ApiService from '../../network/network';
+import {categoryProductsUrl} from '../../constants/apiRoutes';
 
 const useCategoryProducts = (subcategoryId: number) => {
   const dispatch = useDispatch();
@@ -13,7 +14,7 @@ const useCategoryProducts = (subcategoryId: number) => {
   useEffect(() => {
     const fetchSubcategories = async () => {
       const response = await ApiService.get(
-        `/product/listBySubcategoryId/${subcategoryId}`,
+        `${categoryProductsUrl}/${subcategoryId}`,
       );
       setSubcategories(response);
     };

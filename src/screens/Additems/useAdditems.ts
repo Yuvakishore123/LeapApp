@@ -5,7 +5,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 
 import {useNavigation} from '@react-navigation/native';
-import {url} from '../../constants/Apis';
+
 import ApiService from '../../network/network';
 
 import {
@@ -18,6 +18,7 @@ import {
   addoutfit,
 } from '../../redux/actions/actions';
 import {fetchCategoriesdata} from '../../redux/slice/categorySlice';
+import {subCategoryUrl} from '../../constants/apiRoutes';
 
 type RootStackParamList = {
   OwnerImage: undefined;
@@ -74,7 +75,7 @@ const useAdditems = () => {
     const fetchSubCategoryData = async () => {
       try {
         const response = await ApiService.get(
-          `${url}/subcategory/listbyid/${genderData}`,
+          `${subCategoryUrl}/${genderData}`,
         );
         const subCategoriesArray = response.map(
           (category: {id: any; subcategoryName: any}) => ({
@@ -98,9 +99,7 @@ const useAdditems = () => {
   useEffect(() => {
     const fetchEventCategoryData = async () => {
       try {
-        const response = await ApiService.get(
-          `${url}/subcategory/listbyid/${3}`,
-        );
+        const response = await ApiService.get(`${subCategoryUrl}/${3}`);
 
         const subEventCategoriesArray = response.map(
           (category: {id: any; subcategoryName: any}) => ({
@@ -121,9 +120,7 @@ const useAdditems = () => {
   useEffect(() => {
     const OutfitCategoriesData = async () => {
       try {
-        const response = await ApiService.get(
-          `${url}/subcategory/listbyid/${4}`,
-        );
+        const response = await ApiService.get(`${subCategoryUrl}/${4}`);
         const subOutfitCategoriesArray = response.map(
           (category: {id: any; subcategoryName: any}) => ({
             value: category.id,

@@ -25,7 +25,7 @@ const initialState: WishlistDataState = {
 
 export const removefromCart = createAsyncThunk(
   'removefromCart',
-  async (productId: string, {dispatch}) => {
+  async (productId: number, {dispatch}) => {
     try {
       const response = await ApiService.delete(`${cartRemoveUrl}${productId}`);
       console.log(response);

@@ -2,12 +2,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
 import axios from 'axios';
-import {
-  EditItemsUrl,
-  OwnerCategoryUrl,
-  ProductsById,
-  url as baseUrl,
-} from '../../constants/Apis';
+import {url as baseUrl} from '../../constants/Apis';
 import {
   addGenderData,
   addsize,
@@ -19,6 +14,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
+import {
+  categoryDataUrl,
+  disableProductUrl,
+  editItemsDataUrl,
+  editProductsByIdUrl,
+  enableProductUrl,
+  subCategoryUrl,
+} from '../../constants/apiRoutes';
 type RootStackParamList = {
   OwnerProfile: undefined;
 };
@@ -80,13 +83,8 @@ const Useowneredititems = () => {
   };
   const fetchData = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(EditItemsUrl, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      const mappedData = response.data.map((item: any) => ({
+      const response = await ApiService.get(editItemsDataUrl);
+      const mappedData = response.map((item: any) => ({
         id: item.id,
         name: item.name,
         price: item.price,
@@ -114,7 +112,7 @@ const Useowneredititems = () => {
   const FetchData = async (editProductId: any) => {
     try {
       const ProductData = await ApiService.get(
-        `${ProductsById}/${editProductId}`,
+        `${editProductsByIdUrl}/${editProductId}`,
       );
       console.log('ProductData', ProductData);
       setMapdata(ProductData);
@@ -137,10 +135,10 @@ const Useowneredititems = () => {
   useEffect(() => {
     const fetchSubCategoryData = async () => {
       try {
-        const response = await axios.get(
-          `${baseUrl}/api/v1/subcategory/listbyid/${genderData}`,
+        const response = await ApiService.get(
+          `${subCategoryUrl}/${genderData}`,
         );
-        const subCategoriesArray = response.data.map(
+        const subCategoriesArray = response.map(
           (category: {id: any; subcategoryName: any}) => ({
             value: category.id,
             label: category.subcategoryName,
@@ -160,10 +158,8 @@ const Useowneredititems = () => {
   useEffect(() => {
     const fetchEventCategoryData = async () => {
       try {
-        const response = await axios.get(
-          `${baseUrl}/api/v1/subcategory/listbyid/${1}`,
-        );
-        const subEventCategoriesArray = response.data.map(
+        const response = await ApiService.get(`${subCategoryUrl}/${1}`);
+        const subEventCategoriesArray = response.map(
           (category: {id: any; subcategoryName: any}) => ({
             value: category.id,
             label: category.subcategoryName,
@@ -183,10 +179,8 @@ const Useowneredititems = () => {
   useEffect(() => {
     const subOutfitCategoriesData = async () => {
       try {
-        const response = await axios.get(
-          `${baseUrl}/api/v1/subcategory/listbyid/${2}`,
-        );
-        const subOutfitCategoriesArray = response.data.map(
+        const response = await ApiService.get(`${subCategoryUrl}/${2}`);
+        const subOutfitCategoriesArray = response.map(
           (category: {id: any; subcategoryName: any}) => ({
             value: category.id,
             label: category.subcategoryName,
@@ -207,8 +201,8 @@ const Useowneredititems = () => {
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
-        const response = await axios.get(OwnerCategoryUrl);
-        const categoriesArray = response.data.map(
+        const response = await ApiService.get(categoryDataUrl);
+        const categoriesArray = response.map(
           (category: {id: any; categoryName: any}) => ({
             ...category,
             value: category.id,
@@ -462,7 +456,7 @@ const Useowneredititems = () => {
     try {
       if (disableQuantity <= productQuantity) {
         const response = await ApiService.get(
-          `${baseUrl}/product/disableProduct?productId=${id}&quantity=${disableQuantity}`,
+          `${disableProductUrl}${id}&quantity=${disableQuantity}`,
         );
         console.log('product disable', response);
         setOutofstock(true);
@@ -486,7 +480,7 @@ const Useowneredititems = () => {
     try {
       if (enableQuantity <= disabledQuantity) {
         const response = await ApiService.get(
-          `${baseUrl}/product/enableProduct?productId=${id}&quantity=${enableQuantity}`,
+          `${enableProductUrl}${id}&quantity=${enableQuantity}`,
         );
         console.log('product Enable', response);
         setOutofstock(true);

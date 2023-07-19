@@ -1,9 +1,10 @@
 import {useState, useEffect} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import axios from 'axios';
+
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {url} from '../../constants/Apis';
+
+import ApiService from '../../network/network';
+import {subCategoryUrl} from '../../constants/apiRoutes';
 
 type RootStackParamList = {
   CategoryProducts: {
@@ -19,17 +20,7 @@ export const useSubcategory = (categoryId: string) => {
 
   useEffect(() => {
     const fetchSubcategories = async () => {
-      const token = await AsyncStorage.getItem('token');
-      const config = {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      };
-
-      const response = await axios.get(
-        `${url}/subcategory/listbyid/${categoryId}`,
-        config,
-      );
+      const response = await ApiService.get(`${subCategoryUrl}/${categoryId}`);
       const subcategoriesData = response.data;
       setSubcategories(subcategoriesData);
       setLoading(false);

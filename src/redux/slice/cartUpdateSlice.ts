@@ -26,7 +26,7 @@ const initialState: CartDataState = {
 
 export const updateCart = createAsyncThunk(
   'updateCart',
-  async (data, {dispatch}) => {
+  async (data: {productId: string; quantity: number}, {dispatch}) => {
     try {
       const response = await ApiService.put(`${cartupdateUrl}`, data);
       dispatch(fetchCartProducts());

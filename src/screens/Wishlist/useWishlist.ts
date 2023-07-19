@@ -11,6 +11,7 @@ const useWishlist = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const dispatch = useDispatch();
   const openModal = () => {
     setShowModal(true);
   };
@@ -20,7 +21,6 @@ const useWishlist = () => {
   const wishlistremove = async (productId: any) => {
     dispatch(wishListRemove(productId) as any);
   };
-  const dispatch = useDispatch();
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );

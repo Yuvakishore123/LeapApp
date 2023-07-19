@@ -10,8 +10,12 @@ type RootStackParamList = {
 };
 export const useCategory = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const data = useSelector(state => state.category.data);
-  const loading = useSelector(state => state.category.loading);
+  const data = useSelector(
+    (state: {category: {data: any}}) => state.category.data,
+  );
+  const loading = useSelector(
+    (state: {category: {loading: boolean}}) => state.category.loading,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
@@ -20,7 +24,7 @@ export const useCategory = () => {
   console.log('data here is', data);
   const handleCategoryData = (categoryId: string) => {
     navigation.navigate('Subcategory', {categoryId});
-    dispatch(getsubcategoryData(categoryId));
+    dispatch(getsubcategoryData(categoryId) as any);
   };
 
   return {
