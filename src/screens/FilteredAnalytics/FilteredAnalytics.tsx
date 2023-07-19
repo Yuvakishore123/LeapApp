@@ -13,35 +13,34 @@ const FilteredAnalytics = () => {
     chartData,
     data,
     isLoading,
-    fetchData,
+
     generateKey,
     startDate,
     setStartDate,
     endDate,
-    setEndDate,
+
     navigation,
+    handleEndDateChange,
   } = useFilteredAnalytics();
-  const handleEndDateChange = (date: any) => {
-    setEndDate(date);
-    fetchData();
-  };
 
   const addPrefixToYLabel = (value: any) => `₹ ${value}`;
 
   let content;
   if (isLoading) {
     content = (
-      <Spinner
-        visible={isLoading}
-        textContent={'Loading...'}
-        textStyle={style.spinnerS}
-      />
+      <View testID="loading-spinner">
+        <Spinner
+          visible={isLoading}
+          textContent={'Loading...'}
+          textStyle={style.spinnerS}
+        />
+      </View>
     );
   } else if (chartData.length > 0) {
     content = (
       <>
         <View style={style.chartView}>
-          <View style={style.filterView}>
+          <View style={style.filterView} testID="chart-container">
             <LineChart
               data={{
                 labels: chartData.map(dataPoint => {
@@ -86,7 +85,7 @@ const FilteredAnalytics = () => {
     );
   } else {
     content = (
-      <View>
+      <View testID="no-data-message">
         <View style={style.animationS}>
           <Lottie
             source={require('../../../assets/business-analytics.json')}
@@ -130,9 +129,9 @@ const FilteredAnalytics = () => {
           <View>
             {Object.keys(data).length > 0 ? (
               Object.entries(data).map(([month, items]) => (
-                <View key={month}>
+                <View testID={`${month}-view`} key={month}>
                   {items.map((item: any) => (
-                    <View key={generateKey()}>
+                    <View testID="dashcard" key={generateKey()}>
                       <View style={style.dashcard}>
                         <View style={style.dashcardContainer}>
                           <Image

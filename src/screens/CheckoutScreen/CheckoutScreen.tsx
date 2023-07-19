@@ -59,7 +59,7 @@ const CheckoutScreen = ({navigation}: Props) => {
           style.Fullcontainer,
           colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
         ]}>
-        <HeadingText message="Checkout" />
+        <HeadingText message="Checkout" navigation={undefined} />
 
         <ScrollView>
           <View>
