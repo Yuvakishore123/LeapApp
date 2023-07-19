@@ -1,17 +1,18 @@
 import {useEffect, useState, useContext} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import {fetchWishlistProducts} from '../../redux/slice/wishlistSlice';
 
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
+import {useThunkDispatch} from '../../helpers/helper';
 const useWishlist = () => {
   const navigation = useNavigation();
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
   const [showModal, setShowModal] = useState(false);
-  const dispatch = useDispatch();
+  const {dispatch} = useThunkDispatch();
   const openModal = () => {
     setShowModal(true);
   };
@@ -28,7 +29,7 @@ const useWishlist = () => {
   console.log('wishlist succes');
   const onRefresh = async () => {
     setRefreshing(true);
-    await dispatch(fetchWishlistProducts() as any);
+    await dispatch(fetchWishlistProducts());
     setRefreshing(false);
   };
   useEffect(() => {
@@ -38,11 +39,11 @@ const useWishlist = () => {
     return unsubscribe;
   }, [dispatch, navigation]);
   useEffect(() => {
-    dispatch(fetchWishlistProducts() as any);
+    dispatch(fetchWishlistProducts());
   }, [dispatch]);
   useEffect(() => {
     if (!showModal) {
-      dispatch(fetchWishlistProducts() as any);
+      dispatch(fetchWishlistProducts());
     }
   }, [dispatch, showModal]);
   return {

@@ -28,7 +28,7 @@ const Subcategory = ({
   const {categoryId} = route.params;
 
   const {subcategories, loading, handleSubcategoryPress} =
-    useSubcategory<Subcategory>(categoryId);
+    useSubcategory(categoryId);
   const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 

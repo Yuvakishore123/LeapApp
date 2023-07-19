@@ -1,8 +1,6 @@
 import React, {useContext} from 'react';
 import {Text, View, TouchableOpacity, Image, FlatList} from 'react-native';
 
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import style from './categoryStyles';
@@ -10,19 +8,13 @@ import {useCategory} from './useCategory';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import LottieAnimation from '../../components/molecules/LottieAnimation/LottieAnimation';
 
-type RootStackParamList = {
-  Subcategory: {categoryId: number};
-};
-
 interface CategoryItem {
-  id: number;
+  id: string;
   categoryName: string;
   imageUrl: string;
 }
 
 const Category = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
   const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
   const {data, loading, handleCategoryData} = useCategory();

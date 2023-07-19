@@ -21,7 +21,7 @@ export const useSubcategory = (categoryId: string) => {
   useEffect(() => {
     const fetchSubcategories = async () => {
       const response = await ApiService.get(`${subCategoryUrl}/${categoryId}`);
-      const subcategoriesData = response.data;
+      const subcategoriesData = response;
       setSubcategories(subcategoriesData);
       setLoading(false);
     };

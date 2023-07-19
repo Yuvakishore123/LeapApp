@@ -1,20 +1,15 @@
 import {useContext, useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
-import {useNavigation} from '@react-navigation/native';
-import {StackNavigationProp} from '@react-navigation/stack';
+import {useSelector} from 'react-redux';
 
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 
 import ApiService from '../../network/network';
-import {url} from '../../constants/Apis';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from '../../constants/colors';
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
+import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 
-type RootStackParamList = {
-  SearchResultsScreen: {searchResults: null[]};
-};
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -30,8 +25,8 @@ const useHome = () => {
   const [oldData, setOldDate] = useState([]);
   const [showModal, setShowModal] = useState(false);
 
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch();
+  const {dispatch} = useThunkDispatch();
+  const {navigation} = useNavigationProp();
   const name = useSelector(state => state.profileData.data);
   const allProducts = useSelector(
     (state: {UserProducts: {data: null[]}}) => state.UserProducts.data,

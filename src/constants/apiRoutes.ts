@@ -17,3 +17,4 @@ export const editProductsByIdUrl = '/product/listByProductId';
 export const disableProductUrl = '/product/disableProduct?productId=';
 export const enableProductUrl = '/product/enableProduct?productId=';
 export const recentyAddedUrl = '/product/listInDesc';
+export const subCategoryList = '/subcategory/list';

@@ -1,13 +1,14 @@
 import {useEffect, useState} from 'react';
-import {useSelector, useDispatch} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {fetchProducts} from '../../redux/slice/productSlice';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {Recentlyadded, url} from '../../constants/Apis';
+import {url} from '../../constants/Apis';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/apiRoutes';
+import {useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -66,7 +67,7 @@ const useOwnerHome = () => {
       setProductQuantity(prevQuantity => prevQuantity - 1);
     }
   };
-  const dispatch = useDispatch();
+  const {dispatch} = useThunkDispatch();
   useEffect(() => {
     dispatch(fetchProducts() as any);
   }, [dispatch]);

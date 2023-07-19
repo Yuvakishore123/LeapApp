@@ -7,11 +7,11 @@ import {useFormik} from 'formik';
 
 import {addsize} from '../../redux/actions/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {url as baseUrl} from '../../constants/Apis';
 import {ProductAdd} from '../../redux/slice/ProductAddSlice';
-import {ThunkDispatch} from 'redux-thunk';
-import {AnyAction} from 'redux';
+
+import {useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -31,7 +31,7 @@ const useAddImages = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const {dispatch} = useThunkDispatch();
   const name = useSelector(
     (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
   );

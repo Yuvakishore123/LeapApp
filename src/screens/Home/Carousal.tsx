@@ -1,4 +1,3 @@
-import {useNavigation} from '@react-navigation/native';
 import React, {useContext, useEffect} from 'react';
 import {
   View,
@@ -12,23 +11,23 @@ import styles from './homeStyles';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Styles from '../../constants/themeColors';
-import {StackNavigationProp} from '@react-navigation/stack';
+
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchCategoriesdata} from '../../redux/slice/categorySlice';
-type RootStackParamList = {
-  Subcategory: {categoryId: number};
-};
+import {fetchCategoriesData} from '../../redux/slice/categorySlice';
+import {useNavigationProp} from '../../helpers/helper';
 
 const Carousal = () => {
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const {navigation} = useNavigationProp();
   const SCREEN_WIDTH = Dimensions.get('window').width;
   const {colorScheme} = useContext(ColorSchemeContext);
-  const data = useSelector(state => state.category.data);
+  const data = useSelector(
+    (state: {category: {data: any}}) => state.category.data,
+  );
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategoriesdata() as any);
-  }, []); // Add the dependency 'url' to the dependency array
+    dispatch(fetchCategoriesData() as any);
+  }, [dispatch]); // Add the dependency 'url' to the dependency array
 
   return (
     <View style={styles.corousalContainer}>

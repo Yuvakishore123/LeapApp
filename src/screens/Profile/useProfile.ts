@@ -4,8 +4,9 @@ import {useEffect, useState} from 'react';
 import {profileUpload, url} from '../../constants/Apis';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../network/network';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
+import {useThunkDispatch} from '../../helpers/helper';
 
 const useProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -16,7 +17,7 @@ const useProfile = () => {
   const [showModall, setShowModall] = useState(false);
   const [showModal1, setShowModall1] = useState(false);
   const [refreshState, setRefreshState] = useState(false);
-  const dispatch = useDispatch();
+  const {dispatch} = useThunkDispatch();
   const fetchProfileData = async () => {
     try {
       setIsLoading(true);
@@ -30,8 +31,12 @@ const useProfile = () => {
   useEffect(() => {
     dispatch(getProfileData());
   }, [dispatch]);
-  const data = useSelector(state => state.profileData.data);
-  const loading = useSelector(state => state.profileData.isLoader);
+  const data = useSelector(
+    (state: {profileData: {data: any}}) => state.profileData.data,
+  );
+  const loading = useSelector(
+    (state: {profileData: {isLoader: any}}) => state.profileData.isLoader,
+  );
   const refreshData = () => {
     setRefreshState(true);
   };

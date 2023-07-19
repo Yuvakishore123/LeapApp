@@ -1,6 +1,6 @@
 import {useEffect} from 'react';
 
-import {fetchCategoriesdata} from '../../redux/slice/categorySlice';
+import {fetchCategoriesData} from '../../redux/slice/categorySlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -19,8 +19,8 @@ export const useCategory = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    dispatch(fetchCategoriesdata() as any);
-  }, []);
+    dispatch(fetchCategoriesData() as any);
+  }, [dispatch]);
   console.log('data here is', data);
   const handleCategoryData = (categoryId: string) => {
     navigation.navigate('Subcategory', {categoryId});

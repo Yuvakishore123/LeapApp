@@ -2,12 +2,12 @@
 import {useCallback, useEffect, useRef, useState} from 'react';
 import {ProductsById} from '../../constants/Apis';
 import ApiService from '../../network/network';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView} from 'react-native';
-import {ThunkDispatch} from 'redux-thunk';
-import {AnyAction} from 'redux';
+
 import {CartAdd} from '../../redux/slice/CartAddSlice';
+import {useThunkDispatch} from '../../helpers/helper';
 
 const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
   const isError = useSelector(
@@ -24,7 +24,7 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
   const [isMinusDisabled, setIsMinusDisabled] = useState(true);
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const {dispatch} = useThunkDispatch();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
   const handleDecrement = () => {
