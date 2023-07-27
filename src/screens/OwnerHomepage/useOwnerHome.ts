@@ -31,6 +31,7 @@ const useOwnerHome = () => {
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [outofStock, setOutofstock] = useState(false);
+  const [Name, setName] = useState('');
 
   //chnages
   const [refreshTrigger, setRefreshTrigger] = useState(false);
@@ -104,31 +105,31 @@ const useOwnerHome = () => {
     };
     fetchDashboardData();
   }, []);
-  // useEffect(() => {
-  //   const fetchProfileData = async () => {
-  //     const token = await AsyncStorage.getItem('token');
-  //     try {
-  //       const response = await fetch(`${url}/user/getUser`, {
-  //         method: 'GET',
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //           'Content-Type': 'application/json',
-  //         },
-  //       });
-  //       setIsLoading(false);
-  //       if (response.ok) {
-  //         const profileData = await response.json();
-  //         setName(profileData.firstName);
-  //       } else {
-  //         console.log('data not fetched');
-  //       }
-  //     } catch (error) {
-  //       console.error(error);
-  //       setIsLoading(true);
-  //     }
-  //   };
-  //   fetchProfileData();
-  // }, [refresh]);
+  useEffect(() => {
+    const fetchProfileData = async () => {
+      const token = await AsyncStorage.getItem('token');
+      try {
+        const response = await fetch(`${url}/user/getUser`, {
+          method: 'GET',
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+        setIsLoading(false);
+        if (response.ok) {
+          const profileData = await response.json();
+          setName(profileData.firstName);
+        } else {
+          console.log('data not fetched');
+        }
+      } catch (error) {
+        console.error(error);
+        setIsLoading(true);
+      }
+    };
+    fetchProfileData();
+  }, [refresh]);
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setRefresh(!refresh);
@@ -189,6 +190,7 @@ const useOwnerHome = () => {
     refreshTrigger,
     rentedItemsPercentage,
     totalEarningsPercentage,
+    Name,
   };
 };
 export default useOwnerHome;

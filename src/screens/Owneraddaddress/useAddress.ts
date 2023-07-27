@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useState} from 'react';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {removeAddress} from '../../redux/actions/actions';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
-import {ThunkDispatch} from 'redux-thunk';
-import {AnyAction} from 'redux';
+
+import {useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   EditAddress: {address: any};
@@ -17,7 +17,10 @@ const useAddress = () => {
   const addressdata = useSelector(
     (state: {listAddress: {data: any}}) => state.listAddress.data,
   );
-  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const isloading = useSelector(
+    (state: {listAddress: {isLoader: boolean}}) => state.listAddress.isLoader,
+  );
+  const {dispatch} = useThunkDispatch();
   const [addressList, setAddress] = useState([]);
   const [city, setCity] = useState('');
   const [addressLine1, setaddressLine1] = useState('');
@@ -68,13 +71,13 @@ const useAddress = () => {
   }, [id, city, state, country, postalCode, addressLine1, addressLine2]);
 
   useEffect(() => {
+    dispatch(ListAddress());
     fetchData();
   }, [fetchData]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       fetchData();
-      addressdata;
     });
     return unsubscribe;
   }, [fetchData, navigation]);
@@ -113,6 +116,8 @@ const useAddress = () => {
     openModal,
     closeModal,
     handleEditItems,
+    addressdata,
+    isloading,
     // FetchAddress,
   };
 };

@@ -1,4 +1,8 @@
 {
   "name": "ClothesRentalApp",
-  "displayName": "ClothesRentalApp"
+  "displayName": "ClothesRentalApp",
+  "android":{
+    "package":"com.leapApp"
+  },
+  "plugins":["@react-native-firebase/app"]
 }

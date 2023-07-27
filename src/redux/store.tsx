@@ -20,7 +20,6 @@ import editItemSlice from './slice/editItemSlice';
 import thunk from 'redux-thunk';
 import loginSlice from './slice/loginSlice';
 import signupSlice from './slice/signupSlice';
-
 import categorySlice from './slice/categorySlice';
 import cartUpdateSlice from './slice/cartUpdateSlice';
 import cartRemoveSlice from './slice/cartRemoveSlice';
@@ -32,6 +31,7 @@ import editProfileSlice from './slice/editProfileSlice';
 import subcategorySlice from './slice/subcategorySlice';
 import editAddressSlice from './slice/editAddressSlice';
 import categoryProductsSlice from './slice/categoryProductsSlice';
+import AddressAddSlice from './slice/AddressAddSlice';
 export const RootReducers = combineReducers({
   Reducers,
   products: ProductSlice,
@@ -61,6 +61,7 @@ export const RootReducers = combineReducers({
   subcategoryData: subcategorySlice,
   editAddressData: editAddressSlice,
   categoruProduct: categoryProductsSlice,
+  AddAddress: AddressAddSlice,
 });
 
 export const store = createStore(RootReducers, applyMiddleware(thunk));

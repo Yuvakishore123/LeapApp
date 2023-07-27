@@ -4,13 +4,13 @@ import React, {useContext, useEffect, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
-  RefreshControl,
   FlatList,
   Image,
   Text,
   TouchableOpacity,
   View,
   TextInput,
+  ActivityIndicator,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/AntDesign';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -33,8 +33,6 @@ const Homescreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
   const UserProducts = useHome();
   const {
-    refreshing,
-    onRefresh,
     wishlistremove,
     searchQuery,
     searchProducts,
@@ -46,9 +44,9 @@ const Homescreen = ({navigation}: Props) => {
     showModal,
     name,
     handleEndReached,
+    isLoading,
     allProducts,
-    handlePaginationChange,
-    pageSize,
+    productsData,
   } = useHome();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
@@ -86,6 +84,9 @@ const Homescreen = ({navigation}: Props) => {
   }
 
   console.log('indranil', allProducts);
+  const loadingComponent = () => {
+    return <ActivityIndicator color={'white'} size={'large'} />;
+  };
 
   return (
     <SafeAreaView
@@ -256,76 +257,72 @@ const Homescreen = ({navigation}: Props) => {
           <SafeAreaView style={{height: '100%', flex: 1}}>
             <View style={{marginLeft: 5, height: '100%'}}>
               <FlatList
-                data={allProducts}
+                data={productsData}
                 nestedScrollEnabled={true} //changes
                 keyExtractor={(item: unknown) => (item as {id: string}).id}
                 style={{height: '100%', width: '100%'}}
                 onEndReached={handleEndReached}
-                refreshControl={
-                  <RefreshControl
-                    refreshing={refreshing}
-                    onRefresh={() => {
-                      handlePaginationChange(1, pageSize); // Reset to first page when refreshing
-                    }}
-                  />
-                }
+                onEndReachedThreshold={0}
                 numColumns={2}
                 showsHorizontalScrollIndicator={false}
+                ListFooterComponent={loadingComponent}
                 renderItem={({item}: {item: any}) => {
                   return (
-                    <View style={[style.container, getTextInputStyle()]}>
-                      <TouchableOpacity
-                        key={item.id}
-                        onPress={() =>
-                          navigation.navigate('UProductDetails', {
-                            product: item,
-                          })
-                        }>
-                        <View style={style.imageContainer}>
-                          <Image
-                            source={{uri: item.imageUrl[0]}}
-                            style={style.image}
-                          />
-                          <TouchableOpacity
-                            style={style.wishlistButton}
-                            onPress={() => {
-                              if (wishlistList.includes(item.id)) {
-                                setWishlistList(
-                                  wishlistList.filter(id => id !== item.id),
-                                );
-                                wishlistremove(item.id);
-                              } else {
-                                setWishlistList([...wishlistList, item.id]);
-                                dispatch(postProductToAPI({...item}) as any);
-                                wishlistremove(item.id);
-                              }
-                            }}>
-                            {wishlistList.includes(item.id) ? (
-                              <MaterialIcons
-                                size={20}
-                                color={'red'}
-                                name="cards-heart"
-                              />
-                            ) : (
-                              <MaterialIcons
-                                size={20}
-                                color={'white'}
-                                name="cards-heart"
-                              />
-                            )}
-                          </TouchableOpacity>
-                        </View>
-                      </TouchableOpacity>
-                      <View style={style.cardTextContainer}>
-                        <Text style={[style.name, getTextColor()]}>
-                          {item.name}
-                        </Text>
+                    <>
+                      <View style={[style.container, getTextInputStyle()]}>
+                        <TouchableOpacity
+                          key={item.id}
+                          onPress={() =>
+                            navigation.navigate('UProductDetails', {
+                              product: item,
+                            })
+                          }>
+                          <View style={style.imageContainer}>
+                            <Image
+                              source={{uri: item.imageUrl[0]}}
+                              style={style.image}
+                            />
+                            <TouchableOpacity
+                              style={style.wishlistButton}
+                              onPress={() => {
+                                if (wishlistList.includes(item.id)) {
+                                  setWishlistList(
+                                    wishlistList.filter(id => id !== item.id),
+                                  );
+                                  wishlistremove(item.id);
+                                } else {
+                                  setWishlistList([...wishlistList, item.id]);
+                                  dispatch(postProductToAPI({...item}) as any);
+                                  wishlistremove(item.id);
+                                }
+                              }}>
+                              {wishlistList.includes(item.id) ? (
+                                <MaterialIcons
+                                  size={20}
+                                  color={'red'}
+                                  name="cards-heart"
+                                />
+                              ) : (
+                                <MaterialIcons
+                                  size={20}
+                                  color={'white'}
+                                  name="cards-heart"
+                                />
+                              )}
+                            </TouchableOpacity>
+                          </View>
+                        </TouchableOpacity>
+                        <View style={style.cardTextContainer}>
+                          <Text style={[style.name, getTextColor()]}>
+                            {item.name}
+                          </Text>
 
-                        <View style={style.textContainer}>
-                          <Text style={style.price}>{'₹' + item.price}</Text>
+                          <View style={style.textContainer}>
+                            <Text style={style.price}>{'₹' + item.price}</Text>
+                          </View>
                         </View>
                       </View>
-                    </View>
+                    </>
                   );
                 }}
               />
@@ -333,6 +330,7 @@ const Homescreen = ({navigation}: Props) => {
           </SafeAreaView>
         </View>
       )}
+
       <CustomModal
         showModal={showModal}
         onClose={closeModal}

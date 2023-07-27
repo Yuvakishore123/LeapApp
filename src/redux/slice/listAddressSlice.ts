@@ -7,7 +7,6 @@ export const ListAddress = createAsyncThunk('ListAddress', async () => {
   try {
     const response = await ApiService.get(listAddressUrl);
     console.log('response of address is ', response);
-
     return response;
   } catch (error) {
     console.log('error ', error);

@@ -12,6 +12,7 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 import colors from '../../constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
+import analytics from '@react-native-firebase/analytics';
 type RootStackParamList = {
   OtpScreen: undefined;
   SignupScreen: undefined;
@@ -68,6 +69,7 @@ const useLoginscreen = () => {
         password: formik.values.password,
       };
       const response = await dispatch(postLogin(credentials));
+      loginEvent();
       console.log('Login data:', response);
     } catch (error) {
       console.log('isError', isError);
@@ -91,6 +93,10 @@ const useLoginscreen = () => {
     validationSchema: LoginSchema,
     onSubmit: handleLogin,
   });
+  const loginEvent = async () => {
+    await analytics().logEvent('loged_users');
+    console.log('log event success');
+  };
   return {
     openModal,
     placeholadercolor,

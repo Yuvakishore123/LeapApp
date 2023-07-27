@@ -18,6 +18,7 @@ import style from './AddressStyles';
 import colors from '../../constants/colors';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
+import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 const AddAddress = () => {
   const {
     setStateName,
@@ -41,6 +42,8 @@ const AddAddress = () => {
     handleAddressLine1,
     handleAddressLine2,
     handleBlur,
+    showModal,
+    closeModal,
   } = useAddAddress();
 
   const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
@@ -189,6 +192,11 @@ const AddAddress = () => {
         onPress={handleSaveAddress}>
         <Text style={style.btntextAddress}>Save</Text>
       </TouchableOpacity>
+      <CustomModal
+        showModal={showModal}
+        onClose={closeModal}
+        message="Address Added Successfully!"
+      />
     </ScrollView>
   );
 };

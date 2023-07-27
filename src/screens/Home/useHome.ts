@@ -9,7 +9,7 @@ import Colors from '../../constants/colors';
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
-
+import inAppMessaging from '@react-native-firebase/in-app-messaging';
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -18,18 +18,20 @@ const useHome = () => {
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
   const [pageNumber, setPageNumber] = useState(0);
-  const [pageSize, setPageSize] = useState(10);
+
   const [searchResults, setSearchResults] = useState([]);
+  const [productsData, setProductsdata] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
   const [Data, setData] = useState([]);
   const [oldData, setOldDate] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [isLoading, setIsLoading] = useState(false);
 
   const {dispatch} = useThunkDispatch();
   const {navigation} = useNavigationProp();
   const name = useSelector(state => state.profileData.data);
   const allProducts = useSelector(
-    (state: {UserProducts: {data: null[]}}) => state.UserProducts.data,
+    (state: {UserProducts: {data: []}}) => state.UserProducts.data,
   );
 
   const searchProducts = async (query: any) => {
@@ -67,36 +69,25 @@ const useHome = () => {
     setShowModal(false);
   };
   useEffect(() => {
-    dispatch(fetchUserProducts({pageNumber, pageSize}) as any);
-    dispatch(getProfileData() as any);
-  }, [dispatch, pageNumber, pageSize]);
+    setIsLoading(true);
+    dispatch(fetchUserProducts({pageNumber}) as any);
+    setIsLoading(false);
+    dispatch(getProfileData());
+  }, [dispatch, pageNumber]);
   const onRefresh = async () => {
     setRefreshing(true);
-    await dispatch(fetchUserProducts({pageNumber, pageSize}) as any);
     setRefreshing(false);
   };
 
   const wishlistremove = async (productId: any) => {
     dispatch(wishListRemove(productId) as any);
   };
-  const handlePages = () => {
-    setPageNumber(prevPageNumber => prevPageNumber + 1);
-  };
-  const handleEndReached = () => {
-    const nextPageNumber = pageNumber + 1;
-    handlePaginationChange(nextPageNumber, pageSize);
-  };
 
-  const handlePaginationChange = (
-    newPageNumber: number,
-    newPageSize: number,
-  ) => {
-    setPageNumber(newPageNumber);
-    setPageSize(newPageSize);
+  const handleEndReached = async () => {
+    setPageNumber(pageNumber + 1);
+    setProductsdata([...productsData, ...allProducts]);
+    await inAppMessaging().setMessagesDisplaySuppressed(true);
   };
-  useEffect(() => {
-    dispatch(fetchUserProducts({pageNumber, pageSize}));
-  }, [dispatch, pageNumber, pageSize]);
 
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
@@ -104,6 +95,7 @@ const useHome = () => {
   const loading = useSelector(
     (state: {UserProducts: {isLoader: null[]}}) => state.UserProducts.isLoader,
   );
+
   return {
     WishlistProducts,
     onRefresh,
@@ -123,11 +115,10 @@ const useHome = () => {
     Data,
     oldData,
     wishlistremove,
-    handlePages,
     allProducts,
     handleEndReached,
-    handlePaginationChange,
-    pageSize,
+    productsData,
+    isLoading,
   };
 };
 export default useHome;

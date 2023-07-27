@@ -6,10 +6,10 @@ import {Alert} from 'react-native';
 import ApiService from '../../network/network';
 import {RootStackParamList} from '../Subcategory/Subcategory';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ThunkDispatch} from 'redux-thunk';
-import {useDispatch} from 'react-redux';
-import {AnyAction} from 'redux';
+
 import {AddressAdd} from '../../redux/slice/AddressAddSlice';
+import {useThunkDispatch} from '../../helpers/helper';
+import {ListAddress} from '../../redux/slice/listAddressSlice';
 
 const useAddAddress = () => {
   const [city, setCity] = useState('');
@@ -21,8 +21,17 @@ const useAddAddress = () => {
   const [state, setStateName] = useState('');
   const [isLoading, setIsLoading] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+  const openModal = () => {
+    setShowModal(true);
+  };
+  const closeModal = () => {
+    setShowModal(false);
+    navigation.goBack();
+  };
+
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const {dispatch} = useThunkDispatch();
   const AddressSchema = Yup.object().shape({
     addressLine1: Yup.string().required('Enter Address Line 1'),
     addressLine2: Yup.string().required('Enter Street Name'),
@@ -70,7 +79,7 @@ const useAddAddress = () => {
     setIsChecked(!isChecked);
   };
 
-  const handleSaveAddress = async () => {
+  const handleSaveAddress = () => {
     try {
       const addressData = {
         addressLine1: addressLine1,
@@ -82,13 +91,12 @@ const useAddAddress = () => {
         state: state,
         defaultType: isChecked,
       };
-      setIsLoading(true);
       dispatch(AddressAdd(addressData));
-      navigation.goBack();
+      dispatch(ListAddress());
+      openModal();
+      console.log('what the heack is happening');
     } catch (error) {
       console.log(error);
-    } finally {
-      setIsLoading(false);
     }
   };
   const formik = useFormik({
@@ -141,6 +149,10 @@ const useAddAddress = () => {
     handleBlur,
     formik,
     handleAddressLine2,
+
+    openModal,
+    closeModal,
+    showModal,
   };
 };
 export default useAddAddress;

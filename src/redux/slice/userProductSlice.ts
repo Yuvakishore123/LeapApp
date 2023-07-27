@@ -5,10 +5,10 @@ import {userProductsUrl} from '../../constants/apiRoutes';
 
 export const fetchUserProducts = createAsyncThunk(
   'fetchUserProducts',
-  async ({pageNumber, pageSize}: {pageNumber: number; pageSize: number}) => {
+  async ({pageNumber}: {pageNumber: number}) => {
     try {
       const response = await ApiService.get(
-        `${userProductsUrl}?pageNumber=${pageNumber}&pageSize=${pageSize}`,
+        `${userProductsUrl}?pageNumber=${pageNumber}&pageSize=${10}`,
       );
       return response;
     } catch (error) {

@@ -20,9 +20,9 @@ const Address = () => {
     handleDeleteAddress,
     closeModal,
     showModal,
-    addressList,
     handleEditItems,
-    isLoading,
+    isloading,
+    addressdata,
   } = useAddress();
   const {colorScheme} = useCart();
   const renderAddressItem = ({item}: {item: any; index: number}) => {
@@ -79,7 +79,7 @@ const Address = () => {
         colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
       ]}>
       <HeadingText message="Address" navigation={undefined} />
-      {isLoading ? (
+      {isloading ? (
         <View>
           <Lottie
             source={require('../../../assets/addressloadingstatetwo.json')}
@@ -100,7 +100,7 @@ const Address = () => {
             onPress={handleOwnerAddAddress}>
             <Text style={style.btnaddText}>Add Address</Text>
           </TouchableOpacity>
-          {addressList.length === 0 ? (
+          {addressdata && addressdata.length === 0 ? (
             <View style={style.noAddressContainer1}>
               <View style={style.titleTextContainer1}>
                 <Lottie
@@ -116,7 +116,7 @@ const Address = () => {
           ) : (
             <View style={{marginBottom: 10}}>
               <FlatList
-                data={addressList}
+                data={addressdata}
                 renderItem={renderAddressItem}
                 keyExtractor={item => item.id.toString()}
               />

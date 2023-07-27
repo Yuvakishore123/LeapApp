@@ -1,7 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {addressaddUrl} from '../../constants/apiRoutes';
-import {ListAddress} from './listAddressSlice';
+
 interface AddressAddData {
   message: string;
   status: string;
@@ -38,7 +38,6 @@ export const AddressAdd = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.post(addressaddUrl, addressData);
-      dispatch(ListAddress);
       console.log('AddressAdd', response);
       console.log('--------------------------------');
       return response;
