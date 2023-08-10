@@ -21,7 +21,8 @@ const Cart = () => {
     setRentalEndDate,
     closeModal,
     showModal,
-
+    imageLoaded,
+    setImageLoaded,
     handleDecrement,
     handleIncrement,
     isplusDisable,
@@ -111,9 +112,20 @@ const Cart = () => {
                     key={item.id}
                     style={[style.cardContainer, getTextInputStyle()]}>
                     <View style={style.imageContainer}>
+                      {!imageLoaded && (
+                        <Image
+                          source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                          style={style.image}
+                        />
+                      )}
                       <Image
                         source={{uri: item.imageUrl}}
-                        style={style.image}
+                        style={[
+                          style.image,
+                          {display: imageLoaded ? 'flex' : 'none'},
+                        ]}
+                        onLoad={() => setImageLoaded(true)}
+                        onError={() => setImageLoaded(false)}
                       />
                     </View>
                     <View style={style.subContainer}>

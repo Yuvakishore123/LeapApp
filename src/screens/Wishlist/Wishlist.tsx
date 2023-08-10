@@ -32,7 +32,7 @@ const Wishlist = ({navigation}: Props) => {
     colorScheme,
   } = useWishlist();
 
-  const {refreshing, onRefresh} = useWishlist();
+  const {refreshing, onRefresh, imageLoaded, setImageLoaded} = useWishlist();
   const allWishlistProducts = useSelector(
     (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
   );
@@ -148,9 +148,20 @@ const Wishlist = ({navigation}: Props) => {
                               })
                             }>
                             <View style={style.imageContainer}>
+                              {!imageLoaded && (
+                                <Image
+                                  source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                                  style={style.image}
+                                />
+                              )}
                               <Image
                                 source={{uri: item.imageUrl[0]}}
-                                style={style.image}
+                                style={[
+                                  style.image,
+                                  {display: imageLoaded ? 'flex' : 'none'},
+                                ]}
+                                onLoad={() => setImageLoaded(true)}
+                                onError={() => setImageLoaded(false)}
                               />
                             </View>
                           </TouchableOpacity>

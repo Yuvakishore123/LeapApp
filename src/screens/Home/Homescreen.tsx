@@ -50,6 +50,7 @@ const Homescreen = ({navigation}: Props) => {
   } = useHome();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const {
     colorScheme,
     getContainerStyle,
@@ -278,9 +279,20 @@ const Homescreen = ({navigation}: Props) => {
                             })
                           }>
                           <View style={style.imageContainer}>
+                            {!imageLoaded && (
+                              <Image
+                                source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                                style={style.image}
+                              />
+                            )}
                             <Image
                               source={{uri: item.imageUrl[0]}}
-                              style={style.image}
+                              style={[
+                                style.image,
+                                {display: imageLoaded ? 'flex' : 'none'},
+                              ]}
+                              onLoad={() => setImageLoaded(true)}
+                              onError={() => setImageLoaded(false)}
                             />
                             <TouchableOpacity
                               style={style.wishlistButton}

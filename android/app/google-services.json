@@ -1,33 +1,33 @@
 {
   "project_info": {
-    "project_number": "286796380294",
-    "project_id": "analytics-30a47",
-    "storage_bucket": "analytics-30a47.appspot.com"
+    "project_number": "280824523367",
+    "project_id": "in-app-messaging-feed0",
+    "storage_bucket": "in-app-messaging-feed0.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:286796380294:android:4b85c6237d5e188d1e7907",
+        "mobilesdk_app_id": "1:280824523367:android:5d9cfd3fae3dc9e65b02c2",
         "android_client_info": {
           "package_name": "com.clothesrentalapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "286796380294-3use3ai0v64sp3q87tku994inorjn8g8.apps.googleusercontent.com",
+          "client_id": "280824523367-m7pebt5csibimrba8dbv3ff2sbmtjqls.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyDRoS4AMmyQpQbbwFpsOmqM7ff_P4sbtSc"
+          "current_key": "AIzaSyCocxGzIbsJo6nAv62pM6CWdrP5JbkxbW0"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "286796380294-3use3ai0v64sp3q87tku994inorjn8g8.apps.googleusercontent.com",
+              "client_id": "280824523367-m7pebt5csibimrba8dbv3ff2sbmtjqls.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

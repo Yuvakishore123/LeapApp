@@ -1,8 +1,9 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useNavigation} from '@react-navigation/native';
 import {StatusBar, View} from 'react-native';
+import {LogBox} from 'react-native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import LoginScreen from './src/screens/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
@@ -12,11 +13,14 @@ import OtpScreen from './src/screens/OtpScreen/OtpScreen';
 import OwnerNavigation from './src/navigation/OwnerNavigation';
 import SplashScreen from './src/screens/Splashscreen/Splashscreen';
 import {ColorSchemeProvider} from './ColorSchemeContext';
-
 import Lottie from 'lottie-react-native';
 import SignupScreen from './src/screens/SignUp/SignupScreen';
-
+import dynamicLinks from '@react-native-firebase/dynamic-links';
+import ApiService from './src/network/network';
+import {ProductsById} from './src/constants/Apis';
 const Stack = createSharedElementStackNavigator();
+LogBox.ignoreAllLogs();
+
 const AuthStack = () => {
   return (
     <Stack.Navigator
@@ -63,14 +67,50 @@ const RootNavigation = () => {
   );
 };
 const App = () => {
+  const HandleDeepLinking = () => {
+    console.log('Inside HandleDeepLinking'); // Add this line to check if HandleDeepLinking is triggered
+    const navigation = useNavigation();
+    const Handlelink = async (link: any) => {
+      console.log('Inside Handlelink'); // Add this line to check if Handlelink is triggered
+      try {
+        let productId = link.url.split('=').pop();
+        console.log('Jyothi: ', productId);
+        const result = await ApiService.get(`${ProductsById}/${productId}`);
+        navigation.navigate('UProductDetails', {product: result});
+      } catch (error) {
+        console.log('Error handling deep link:', error);
+      }
+    };
+
+    useEffect(() => {
+      const initialLink = dynamicLinks().getInitialLink();
+      initialLink
+        .then(link => {
+          if (link) {
+            Handlelink(link);
+          }
+        })
+        .catch(error => {
+          console.log('Error getting initial link:', error);
+        });
+
+      const subscribe = dynamicLinks().onLink(Handlelink);
+      return () => subscribe();
+    }, []);
+
+    return null;
+  };
+
   return (
     <ColorSchemeProvider>
       <Provider store={store}>
         <NavigationContainer>
+          <HandleDeepLinking />
           <RootNavigation />
         </NavigationContainer>
       </Provider>
     </ColorSchemeProvider>
   );
 };
+
 export default App;

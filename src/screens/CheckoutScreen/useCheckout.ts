@@ -10,7 +10,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
-
+import analtyics from '@react-native-firebase/analytics';
 type RootStackParamList = {
   CheckoutScreen: undefined;
   PaymentSuccessScreen: undefined;
@@ -108,13 +108,32 @@ const useChectout = () => {
         console.log(paymentData);
         navigation.navigate('PaymentSuccessScreen');
         dispatch(ADDORDER(paymentData.razorpay_payment_id) as any);
+        const userId = cartData.userId; // Replace this with the actual user ID
+        const orderId = paymentData.razorpay_payment_id;
+        const orderAmount = totalPrice * 100; // Assuming totalPrice is defined somewhere
+        logOrderPlacedEvent(userId, orderId, orderAmount);
       })
       .catch(_error => {
         Alert.alert('Try Again');
         navigation.navigate('PaymentFailScreen');
       });
   };
-
+  const logOrderPlacedEvent = async (
+    userId: string,
+    orderId: any,
+    orderAmount: number,
+  ) => {
+    try {
+      await analtyics().logEvent('order_placed', {
+        user_id: userId,
+        order_id: orderId,
+        order_amount: orderAmount,
+      });
+      console.log('Order placed event logged successfully');
+    } catch (error) {
+      console.error('Error logging order placed event:', error);
+    }
+  };
   return {
     refreshing,
     setRefreshing,

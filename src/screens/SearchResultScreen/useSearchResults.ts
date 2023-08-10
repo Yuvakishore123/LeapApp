@@ -8,7 +8,7 @@ const useSearchresults = () => {
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [subcategoriesData, setSubcategoriesData] = useState([]);
   const [selectedSubCategory, setSelectedSubCategory] = useState({});
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
   const [modalVisible, setModalVisible] = useState(false);
@@ -65,6 +65,8 @@ const useSearchresults = () => {
     setSelectedSize,
     setModalVisible,
     handleFilterButtonPress,
+    imageLoaded,
+    setImageLoaded,
     SubcategoryData,
     handleFilterapply,
     selectedSubCategory,

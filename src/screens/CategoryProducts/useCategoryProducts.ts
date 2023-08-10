@@ -9,6 +9,7 @@ const useCategoryProducts = (subcategoryId: number) => {
   const dispatch = useDispatch();
   const [subcategories, setSubcategories] = useState([]);
   const [wishlistList, setWishlistList] = useState<number[]>([]);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const {colorScheme, getContainerStyle} = useContext(ColorSchemeContext);
 
   useEffect(() => {
@@ -40,6 +41,8 @@ const useCategoryProducts = (subcategoryId: number) => {
     wishlistList,
     colorScheme,
     toggleWishlist,
+    imageLoaded,
+    setImageLoaded,
     getContainerStyle,
   };
 };

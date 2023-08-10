@@ -30,7 +30,6 @@ const walkthroughTitleList = [
 
 export default function SplashScreen() {
   const {handleLoginPress, getContainerStyle, getTextColor} = useSplashScreen();
-
   return (
     <View style={[style.container, getContainerStyle()]}>
       <Swiper
