@@ -1,4 +1,4 @@
-export const url = 'https://f86e-106-51-70-135.ngrok-free.app/api/v1';
+export const url = 'https://6adf-106-51-70-135.ngrok-free.app/api/v1';
 export const OwnerProductsUrl = `${url}/product/listOwnerProducts`;
 export const UserProductsUrl = `${url}/product/list`;
 export const AddAddressUrl = `${url}/address/add`;
@@ -22,3 +22,4 @@ export const exportPdf = `${url}/order/exportPdf`;
 export const categoriyPiechart = `${url}/order/dashboardCategoriesAnalytics`;
 export const Dashboardyearlydata = `${url}/order/onClickDashboardYearlyWiseData`;
 export const profileUpload = `${url}/user/updateProfilePicture?profileImageUrl`;
+export const DeviceTokenURL = `${url}/user/devicetoken`;

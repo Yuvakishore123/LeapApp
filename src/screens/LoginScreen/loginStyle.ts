@@ -24,10 +24,10 @@ const loginStyle = StyleSheet.create({
     marginLeft: '50%',
   },
   image: {
-    height: 200,
-    width: '100%',
+    height: 150,
+    width: '50%',
     marginTop: 40,
-    marginLeft: 50,
+    marginLeft: 65,
   },
   textinput: {
     backgroundColor: Colors.white,
@@ -106,6 +106,12 @@ const loginStyle = StyleSheet.create({
     alignItems: 'center',
     color: Colors.black,
 
+    fontFamily: 'Poppins-Regular',
+  },
+  Guesttext: {
+    alignItems: 'center',
+    color: Colors.black,
+    marginLeft: 35,
     fontFamily: 'Poppins-Regular',
   },
   Signuptext: {

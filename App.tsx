@@ -17,11 +17,37 @@ import Lottie from 'lottie-react-native';
 import SignupScreen from './src/screens/SignUp/SignupScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import ApiService from './src/network/network';
-import {ProductsById} from './src/constants/Apis';
+import {DeviceTokenURL, ProductsById, url} from './src/constants/Apis';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import {firebase} from '@react-native-firebase/messaging';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
 const AuthStack = () => {
+  const navigation = useNavigation();
+  useEffect(() => {
+    checkFirstTimeUser();
+  }, []);
+  const checkFirstTimeUser = async () => {
+    try {
+      // Check if the user has already logged in
+      const hasLoggedIn = await AsyncStorage.getItem('hasLoggedIn');
+
+      // If the user has logged in before, navigate to the LoginScreen
+      if (hasLoggedIn) {
+        navigation.navigate('Login' as never);
+      } else {
+        // If it's the first time user, navigate to the SplashScreen
+        navigation.navigate('SplashScreen' as never);
+
+        // Store the flag indicating that the user has logged in
+        await AsyncStorage.setItem('hasLoggedIn', 'true');
+        console.log('user already logged in');
+      }
+    } catch (error) {
+      console.error('Error checking first time user:', error);
+    }
+  };
   return (
     <Stack.Navigator
       initialRouteName="SplashScreen"
@@ -81,7 +107,6 @@ const App = () => {
         console.log('Error handling deep link:', error);
       }
     };
-
     useEffect(() => {
       const initialLink = dynamicLinks().getInitialLink();
       initialLink

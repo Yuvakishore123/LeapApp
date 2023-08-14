@@ -1,9 +1,11 @@
 export const signup = 'Signup';
 export const login = 'Login';
 export const signin = 'Signin';
+export const Guest = 'Guest';
 export const otp = 'otp';
 export const alreadyExistingtext = ' Already have an account?';
 export const Donthavetext = "Don't have an account?";
+export const continueAsaguest = 'Continue as a  ';
 export const owner = 'Owner';
 export const borrower = 'Borrower';
 export const role = 'Select Role';
