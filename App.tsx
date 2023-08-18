@@ -17,9 +17,18 @@ import Lottie from 'lottie-react-native';
 import SignupScreen from './src/screens/SignUp/SignupScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import ApiService from './src/network/network';
-import {DeviceTokenURL, ProductsById, url} from './src/constants/Apis';
+import {ProductsById} from './src/constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {firebase} from '@react-native-firebase/messaging';
+
+import * as Sentry from '@sentry/react-native';
+
+Sentry.init({
+  dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
+  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
+  // We recommend adjusting this value in production.
+  tracesSampleRate: 1.0,
+});
+
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
@@ -138,4 +147,4 @@ const App = () => {
   );
 };
 
-export default App;
+export default Sentry.wrap(App);

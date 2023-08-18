@@ -26,6 +26,7 @@
     "@react-navigation/native-stack": "^6.9.12",
     "@react-navigation/stack": "^6.3.16",
     "@reduxjs/toolkit": "^1.9.5",
+    "@sentry/react-native": "^5.9.0",
     "axios": "^1.4.0",
     "axios-mock-adapter": "^1.21.5",
     "base-64": "^1.0.0",
