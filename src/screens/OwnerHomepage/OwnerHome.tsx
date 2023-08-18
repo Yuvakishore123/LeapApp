@@ -212,7 +212,7 @@ const OwnerHome = ({navigation}: Props) => {
             styles.headertxt,
             colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
           ]}>
-          Welcome {name}
+          Welcome {name.firstName}
         </Text>
       </View>
       <View style={styles.card}>

@@ -5,7 +5,10 @@ import {url} from '../../constants/Apis';
 
 export const postLogin = createAsyncThunk(
   'postLogin',
-  async (credentials: {email: string; password: string}, {dispatch}) => {
+  async (
+    credentials: {email: string; password: string; deviceToken: string},
+    {dispatch},
+  ) => {
     try {
       const response = await axios.post(`${url}/login`, credentials);
       await AsyncStorage.setItem('token', response.headers.access_token);

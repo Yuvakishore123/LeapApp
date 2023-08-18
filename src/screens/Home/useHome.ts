@@ -17,7 +17,7 @@ const useHome = () => {
   const [placeholderTextColor, setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
-  const [pageNumber, setPageNumber] = useState(0);
+  const [pageNumber, setPageNumber] = useState(1);
 
   const [searchResults, setSearchResults] = useState([]);
   const [productsData, setProductsdata] = useState([]);
@@ -68,14 +68,10 @@ const useHome = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  useEffect(() => {
-    setIsLoading(true);
-    dispatch(fetchUserProducts({pageNumber}) as any);
-    setIsLoading(false);
-    dispatch(getProfileData());
-  }, [dispatch, pageNumber]);
+
   const onRefresh = async () => {
     setRefreshing(true);
+
     setRefreshing(false);
   };
 
@@ -86,16 +82,26 @@ const useHome = () => {
   const handleEndReached = async () => {
     setPageNumber(pageNumber + 1);
     setProductsdata([...productsData, ...allProducts]);
+    dispatch(fetchUserProducts({pageNumber}) as any);
     await inAppMessaging().setMessagesDisplaySuppressed(true);
   };
-
+  useEffect(() => {
+    setIsLoading(true);
+    dispatch(fetchUserProducts({pageNumber}) as any);
+    setIsLoading(false);
+    dispatch(getProfileData());
+  }, [dispatch, pageNumber]);
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );
   const loading = useSelector(
-    (state: {UserProducts: {isLoader: null[]}}) => state.UserProducts.isLoader,
+    (state: {UserProducts: {firstCallLoading: boolean}}) =>
+      state.UserProducts.firstCallLoading,
   );
-
+  const Loading = useSelector(
+    (state: {UserProducts: {loading: boolean}}) => state.UserProducts.loading,
+  );
+  console.log('Loading', Loading);
   return {
     WishlistProducts,
     onRefresh,

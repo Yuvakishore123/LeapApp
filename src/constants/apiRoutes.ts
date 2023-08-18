@@ -18,3 +18,4 @@ export const disableProductUrl = '/product/disableProduct?productId=';
 export const enableProductUrl = '/product/enableProduct?productId=';
 export const recentyAddedUrl = '/product/listInDesc';
 export const subCategoryList = '/subcategory/list';
+export const generateInvoice = '/order/generate';

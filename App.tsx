@@ -12,10 +12,12 @@ import OtpScreen from './src/screens/OtpScreen/OtpScreen';
 import OwnerNavigation from './src/navigation/OwnerNavigation';
 import SplashScreen from './src/screens/Splashscreen/Splashscreen';
 import {ColorSchemeProvider} from './ColorSchemeContext';
-
+import {LogBox} from 'react-native';
+LogBox.ignoreAllLogs();
 import Lottie from 'lottie-react-native';
 import SignupScreen from './src/screens/SignUp/SignupScreen';
-
+import messaging from '@react-native-firebase/messaging';
+import AsyncStorage from '@react-native-async-storage/async-storage';
 const Stack = createSharedElementStackNavigator();
 const AuthStack = () => {
   return (
@@ -33,6 +35,14 @@ const AuthStack = () => {
 };
 const RootNavigation = () => {
   const token = useSelector((state: any) => state.login.data.authToken);
+  useEffect(() => {
+    getToken();
+  }, []);
+  const getToken = async () => {
+    const Fcm_token = await messaging().getToken();
+    await AsyncStorage.setItem('device_token', Fcm_token);
+    console.log('fcm_token is ', Fcm_token);
+  };
   console.log(token);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -55,6 +65,7 @@ const RootNavigation = () => {
       </View>
     );
   }
+
   return (
     <>
       <StatusBar backgroundColor="black" barStyle="light-content" />

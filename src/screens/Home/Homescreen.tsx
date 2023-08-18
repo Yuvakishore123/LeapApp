@@ -44,7 +44,6 @@ const Homescreen = ({navigation}: Props) => {
     showModal,
     name,
     handleEndReached,
-    isLoading,
     allProducts,
     productsData,
   } = useHome();
@@ -85,7 +84,11 @@ const Homescreen = ({navigation}: Props) => {
 
   console.log('indranil', allProducts);
   const loadingComponent = () => {
-    return <ActivityIndicator color={'white'} size={'large'} />;
+    return (
+      <View>
+        <ActivityIndicator color={'white'} size={'large'} />
+      </View>
+    );
   };
 
   return (

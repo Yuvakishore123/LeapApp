@@ -13,6 +13,8 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import colors from '../../constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import messaging from '@react-native-firebase/messaging';
 type RootStackParamList = {
   OtpScreen: undefined;
   SignupScreen: undefined;
@@ -63,10 +65,14 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
+    const Fcm_token = await messaging().getToken();
+    await AsyncStorage.setItem('device_token', Fcm_token);
+    console.log('devicetoken', Fcm_token);
     try {
       const credentials = {
         email: formik.values.email,
         password: formik.values.password,
+        deviceToken: Fcm_token,
       };
       const response = await dispatch(postLogin(credentials));
       loginEvent();

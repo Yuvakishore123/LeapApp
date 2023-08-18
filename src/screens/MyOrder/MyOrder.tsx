@@ -31,11 +31,12 @@ const MyOrder = () => {
     refreshing,
     selectedOrder,
     isModalOpen,
-    isLoading,
+    loading,
     onRefresh,
     openModal,
     closeModal,
     handleProfile,
+    handleOrderDetails,
   } = useMyOrder();
   const {
     getContainerStyle,
@@ -44,7 +45,7 @@ const MyOrder = () => {
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
 
-  if (isLoading) {
+  if (loading) {
     return (
       <View
         style={[
@@ -108,33 +109,41 @@ const MyOrder = () => {
                 style={[style.cardContainer, getTextInputStyle()]}
                 onPress={() => openModal(order)}
                 disabled={isModalOpen}>
-                {order.orderItems.map((item: any) => (
+                {order.orderItems?.map((item: any) => (
                   <TouchableOpacity
                     key={`${order.id}-${item.id}`}
                     testID={`Order-${order.id}-${item.id}`}
                     style={style.cardTextContainer}
                     onPress={() => openModal(order)}
                     disabled={isModalOpen}>
-                    <View style={style.orderInfoContainer}>
-                      <Text style={[style.productName, getTextColor()]}>
-                        Order Id: {item.id}
-                      </Text>
-                      <View style={{flexDirection: 'row'}}>
-                        <Text style={[style.plcedText, getTextColor()]}>
-                          Order placed at :
+                    <View style={{flexDirection: 'row', width: '85%'}}>
+                      <View style={style.orderInfoContainer}>
+                        <Text style={[style.productName, getTextColor()]}>
+                          Order Id: {item.id}
                         </Text>
-                        <Text style={[style.orderDate, getTextColor()]}>
-                          {item.createdDate}
-                        </Text>
+                        <View style={{flexDirection: 'row'}}>
+                          <Text style={[style.plcedText, getTextColor()]}>
+                            Order placed at :
+                          </Text>
+                          <Text style={[style.orderDate, getTextColor()]}>
+                            {item.createdDate}
+                          </Text>
+                        </View>
+                        <Text style={style.priceText}>{item.status}</Text>
                       </View>
-                      <Text style={style.priceText}>{item.status}</Text>
-                    </View>
-                    <View>
-                      <Icon
-                        name="ios-arrow-forward"
-                        size={20}
-                        style={[style.arrowIcon, getTextColor()]}
-                      />
+                      <View style={{flexDirection: 'column', marginTop: 15}}>
+                        <Icon
+                          name="ios-arrow-forward"
+                          size={20}
+                          style={[style.arrowIcon, getTextColor()]}
+                        />
+                        <Icons
+                          name="file-download"
+                          size={20}
+                          onPress={() => handleOrderDetails(item.id)}
+                          style={[style.arrowIcon, getTextColor()]}
+                        />
+                      </View>
                     </View>
                   </TouchableOpacity>
                 ))}
@@ -190,7 +199,7 @@ export const OrderDetailsModal = ({
                   Total Price: {'₹' + order.totalPrice}
                 </Text>
               </View>
-              {order.orderItems.map((item: any) => (
+              {order.orderItems?.map((item: any) => (
                 <View
                   style={[style.viewS, getPlaceholderTextColor()]}
                   key={item.id}>
