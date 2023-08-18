@@ -51,7 +51,20 @@ const useLoginscreen = () => {
       console.log('error in login');
     }
   };
-  console.log('isError', isError);
+  const handleLoginGuest = async () => {
+    try {
+      const credentials = {
+        email: 'GuestLogin@leaps.com',
+        password: 'GuestLogin',
+      };
+      const response = await dispatch(postLogin(credentials));
+      loginEvent();
+      console.log('Login data:', response);
+    } catch (error) {
+      console.log('isError', isError);
+    }
+  };
+  // console.log('isError', isError);
 
   const handleErrorResponse = (error: number) => {
     if (error === 401) {
@@ -115,6 +128,7 @@ const useLoginscreen = () => {
     colorScheme,
     handleOtpScreen,
     handleSignUp,
+    handleLoginGuest,
     handleLoginScreen,
   };
 };

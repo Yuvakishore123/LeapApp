@@ -187,6 +187,15 @@ const styles = StyleSheet.create({
     zIndex: 1,
     marginLeft: 5,
   },
+  sharebutton: {
+    marginTop: -30,
+    top: 89,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingHorizontal: 20,
+    zIndex: 1,
+    marginLeft: '80%',
+  },
   detailsContainer: {
     zIndex: 1,
     paddingVertical: 20,

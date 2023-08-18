@@ -8,8 +8,10 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
+  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
+import Share from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {Pagination} from 'react-native-snap-carousel';
 
@@ -39,11 +41,14 @@ export default function UDetailScreen({route, navigation}: Props) {
     isPlusDisabled,
     handleDecrement,
     handleIncrement,
+    imageLoaded,
+    setImageLoaded,
     handleSubmit,
     closeModal,
     closeeModal,
     scrollViewRef,
     setActiveIndex,
+    shareProduct,
     activeIndex,
     startScrollTimer,
     handleScroll,
@@ -69,6 +74,9 @@ export default function UDetailScreen({route, navigation}: Props) {
             onPress={() => navigation.goBack()}
           />
         </View>
+        <View style={styles.sharebutton}>
+          <Share name="share" size={30} color="black" onPress={shareProduct} />
+        </View>
         <View>
           <ScrollView
             nestedScrollEnabled
@@ -84,17 +92,27 @@ export default function UDetailScreen({route, navigation}: Props) {
               startScrollTimer();
             }}
             onScroll={handleScroll}>
-            {product.imageUrl.map((item: any) => (
-              <ImageBackground
-                key={item}
-                style={{
-                  height: 500,
-                  width: 405,
-                  backgroundColor: '#3E54AC1A',
-                }}
-                source={{uri: item}}
-              />
-            ))}
+            {product &&
+              product.imageUrl.map((item: any) => (
+                <ImageBackground
+                  key={item}
+                  style={{
+                    height: 500,
+                    width: 405,
+                    backgroundColor: Colors.gray,
+                    display: imageLoaded ? 'flex' : 'flex',
+                  }}
+                  source={{uri: item}}
+                  onLoad={() => setImageLoaded(true)}
+                  onError={() => setImageLoaded(false)}>
+                  {!imageLoaded && (
+                    <Image
+                      source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                      style={{height: 500, width: 405}}
+                    />
+                  )}
+                </ImageBackground>
+              ))}
           </ScrollView>
           <Text style={styles.startext}>{product.name}</Text>
           <Pagination

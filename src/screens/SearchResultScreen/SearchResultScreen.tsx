@@ -39,6 +39,8 @@ const SearchResultsScreen = ({route}: {route: any}) => {
     selectedSize,
     setSelectedSize,
     sizes,
+    imageLoaded,
+    setImageLoaded,
     modalVisible,
     setModalVisible,
     handleFilterButtonPress,
@@ -148,9 +150,20 @@ const SearchResultsScreen = ({route}: {route: any}) => {
                         })
                       }>
                       <View style={style.imageContainer}>
+                        {!imageLoaded && (
+                          <Image
+                            source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                            style={style.image}
+                          />
+                        )}
                         <Image
                           source={{uri: item.imageUrl[0]}}
-                          style={style.image}
+                          style={[
+                            style.image,
+                            {display: imageLoaded ? 'flex' : 'none'},
+                          ]}
+                          onLoad={() => setImageLoaded(true)}
+                          onError={() => setImageLoaded(false)}
                         />
                       </View>
                     </TouchableOpacity>

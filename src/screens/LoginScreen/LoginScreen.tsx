@@ -9,6 +9,8 @@ import useLoginscreen from './useLoginscreen';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {
   Donthavetext,
+  Guest,
+  continueAsaguest,
   continueText,
   otp,
   signin,
@@ -27,6 +29,7 @@ const LoginScreen = () => {
     showModal,
     handleLoginScreen,
     placeholadercolor,
+    handleLoginGuest,
     handleOtpScreen,
     handleSignUp,
   } = useLoginscreen();
@@ -94,6 +97,14 @@ const LoginScreen = () => {
         <Text style={[styles.signuptext, getTextColor()]}>{Donthavetext}</Text>
         <TouchableOpacity onPress={handleSignUp} testID="Signup-Button">
           <Text style={styles.Signuptext}>{signup}</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.sign}>
+        <Text style={[styles.Guesttext, getTextColor()]}>
+          {continueAsaguest}
+        </Text>
+        <TouchableOpacity onPress={handleLoginGuest} testID="Signup-Button">
+          <Text style={styles.Signuptext}>{Guest}</Text>
         </TouchableOpacity>
       </View>
       <CustomModal

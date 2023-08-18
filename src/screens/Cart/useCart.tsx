@@ -18,6 +18,7 @@ type RootStackParamList = {
 const useCart = () => {
   const [refreshing, setRefreshing] = useState(false);
   const [quantity, setQuantity] = useState(1);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
@@ -130,6 +131,8 @@ const useCart = () => {
     setRentalStartDate,
     setRentalEndDate,
     openModal,
+    imageLoaded,
+    setImageLoaded,
     closeModal,
     showModal,
     colorScheme,

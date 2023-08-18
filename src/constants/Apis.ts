@@ -22,3 +22,4 @@ export const exportPdf = `${url}/order/exportPdf`;
 export const categoriyPiechart = `${url}/order/dashboardCategoriesAnalytics`;
 export const Dashboardyearlydata = `${url}/order/onClickDashboardYearlyWiseData`;
 export const profileUpload = `${url}/user/updateProfilePicture?profileImageUrl`;
+export const DeviceTokenURL = `${url}/user/devicetoken`;
