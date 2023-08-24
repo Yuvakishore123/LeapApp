@@ -22,6 +22,7 @@ type RootStackParamList = {
 const useLoginscreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [passwordError, setPasswordError] = useState<string>('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const isError = useSelector((state: any) => state.login.error);
@@ -131,6 +132,9 @@ const useLoginscreen = () => {
     handleSignUp,
     handleLoginGuest,
     handleLoginScreen,
+    passwordVisible,
+
+    setPasswordVisible,
   };
 };
 export default useLoginscreen;
