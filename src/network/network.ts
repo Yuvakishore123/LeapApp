@@ -2,6 +2,15 @@
 import axios from 'axios';
 import {url} from '../constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NavigationContainerRef} from '@react-navigation/native';
+
+// Define a reference to the navigation container
+let navigationRef: NavigationContainerRef | null = null;
+
+// Function to set the navigation reference
+export function setNavigationReference(ref: NavigationContainerRef) {
+  navigationRef = ref;
+}
 
 const instance = axios.create({
   baseURL: url,
@@ -62,9 +71,29 @@ instance.interceptors.response.use(
 );
 
 const ApiService = {
+  // get: async (url: string) => {
+  //   const response = await instance.get(url);
+  //   return response.data;
+  // },
   get: async (url: string) => {
-    const response = await instance.get(url);
-    return response.data;
+    try {
+      const response = await instance.get(url);
+
+      return response.data;
+    } catch (error) {
+      console.log('hey new api error');
+      console.log(error + ' ye hai error');
+
+      const status = error.response ? error.response.status : null;
+
+      console.log('Status code:', status);
+
+      if (navigationRef) {
+        navigationRef.navigate('ApiErrorScreen', {status});
+      }
+
+      return Promise.reject(error);
+    }
   },
   post: async (url: string, body: any) => {
     const response = await instance.post(url, body);

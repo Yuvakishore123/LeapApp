@@ -33,6 +33,7 @@ import EditAddress from '../../screens/EditAddress/EditAddress';
 import Colors from '../../constants/colors';
 import {Text, View} from 'react-native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
+import ApiErrorScreen from '../../screens/ErrorHandler/ApiErrorScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ const HomeStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="Homescreen">
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="Homescreen" component={Homescreen} />
       <Stack.Screen
         name="SearchResultsScreen"
@@ -89,6 +91,7 @@ const ProfileStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="Profile">
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Ownereditprofile" component={Ownereditprofile} />
       <Stack.Screen name="Owneraddresspage" component={Owneraddresspage} />
@@ -587,7 +590,8 @@ const getRouteName = (route: Partial<Route<string>>) => {
     routeName?.includes('CategoryProducts') ||
     routeName?.includes('CheckoutScreen') ||
     routeName?.includes('MyOrder') ||
-    routeName?.includes('EditAddress')
+    routeName?.includes('EditAddress') ||
+    routeName?.includes('ApiErrorScreen')
   ) {
     return 'none';
   }

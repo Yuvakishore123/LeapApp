@@ -27,6 +27,7 @@ import {View} from 'react-native';
 import DashboardDetails from '../../screens/OwnerHomepage/DashboardDetails';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
+import ApiErrorScreen from '../../screens/ErrorHandler/ApiErrorScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -62,6 +63,7 @@ const OwnerHomestack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="OwnerHome">
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="OwnerHome" component={OwnerHome} />
 
       <Stack.Screen name="Additems" component={Additems} />
@@ -85,7 +87,8 @@ const getRouteName = (route: Partial<Route<string>>) => {
     routeName?.includes('OwnerImage') ||
     routeName?.includes('OproductDetails') ||
     routeName?.includes('DashboardDetails') ||
-    routeName?.includes('FilteredAnalytics')
+    routeName?.includes('FilteredAnalytics') ||
+    routeName?.includes('ApiErrorScreen')
   ) {
     return 'none';
   }

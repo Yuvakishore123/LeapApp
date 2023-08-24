@@ -1,7 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  NavigationContainer,
+  useNavigation,
+  NavigationContainerRef,
+} from '@react-navigation/native';
 import {StatusBar, View} from 'react-native';
 import {LogBox} from 'react-native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
@@ -22,6 +26,9 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {firebase} from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
 import Homescreen from './src/screens/Home/Homescreen';
+import ApiErrorScreen from './src/screens/ErrorHandler/ApiErrorScreen';
+
+import {setNavigationReference} from '../LeapApp/src/network/network';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
@@ -105,6 +112,12 @@ const RootNavigation = () => {
   );
 };
 const App = () => {
+  const navigationRef = useRef<NavigationContainerRef | null>(null);
+
+  useEffect(() => {
+    setNavigationReference(navigationRef.current);
+  }, []);
+
   const HandleDeepLinking = () => {
     console.log('Inside HandleDeepLinking'); // Add this line to check if HandleDeepLinking is triggered
     const navigation = useNavigation();
@@ -141,7 +154,7 @@ const App = () => {
   return (
     <ColorSchemeProvider>
       <Provider store={store}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <HandleDeepLinking />
           <RootNavigation />
         </NavigationContainer>
