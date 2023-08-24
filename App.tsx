@@ -21,7 +21,7 @@ import {DeviceTokenURL, ProductsById, url} from './src/constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {firebase} from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import Homescreen from './src/screens/Home/Homescreen';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
@@ -57,6 +57,7 @@ const AuthStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="Homescreen" component={Homescreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
       <Stack.Screen name="OtpScreen" component={OtpScreen} />

@@ -1,11 +1,10 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
-import {OwnerProductsUrlv2} from '../../constants/Apis';
-
 import ApiService from '../../network/network';
+import {rentedProductsUrl} from '../../constants/apiRoutes';
 export const fetchProducts = createAsyncThunk('fetchProducts', async () => {
   try {
-    const products = await ApiService.get(OwnerProductsUrlv2);
+    const products = await ApiService.get(rentedProductsUrl);
     return products;
   } catch (error) {
     console.log(error);

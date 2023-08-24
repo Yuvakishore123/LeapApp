@@ -18,7 +18,7 @@ import {
   addtype,
   addoutfit,
 } from '../../redux/actions/actions';
-import {fetchCategoriesdata} from '../../redux/slice/categorySlice';
+import {fetchCategoriesData} from '../../redux/slice/categorySlice';
 import {subCategoryUrl} from '../../constants/apiRoutes';
 
 type RootStackParamList = {
@@ -142,7 +142,7 @@ const useAdditems = () => {
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
-        const response = dispatch(fetchCategoriesdata() as any);
+        const response = dispatch(fetchCategoriesData() as any);
         console.log('category data here is ', response.data);
         const categoriesArray = Data.map(
           (category: {id: any; categoryName: any}) => ({

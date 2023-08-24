@@ -57,7 +57,8 @@ const useLoginscreen = () => {
         email: 'GuestLogin@leaps.com',
         password: 'GuestLogin',
       };
-      const response = await dispatch(postLogin(credentials));
+      // const response = await dispatch(postLogin(credentials));
+      navigation.navigate('Homescreen');
       loginEvent();
       console.log('Login data:', response);
     } catch (error) {

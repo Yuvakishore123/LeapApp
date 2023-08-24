@@ -7,6 +7,7 @@ import {fetchWishlistProducts} from '../../redux/slice/wishlistSlice';
 
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {useThunkDispatch} from '../../helpers/helper';
+import Toast from 'react-native-toast-message';
 const useWishlist = () => {
   const navigation = useNavigation();
   const {colorScheme} = useContext(ColorSchemeContext);
@@ -26,6 +27,17 @@ const useWishlist = () => {
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );
+  const isError = useSelector(
+    (state: {WishlistProducts: {error: Boolean}}) =>
+      state.WishlistProducts.error,
+  );
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error in wislist cart',
+    });
+  };
+
   console.log(JSON.stringify(WishlistProducts));
   console.log('wishlist succes');
   const onRefresh = async () => {
@@ -47,6 +59,9 @@ const useWishlist = () => {
       dispatch(fetchWishlistProducts());
     }
   }, [dispatch, showModal]);
+  if (isError) {
+    showToast();
+  }
   return {
     WishlistProducts,
     wishlistremove,

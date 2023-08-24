@@ -39,12 +39,12 @@ const OwnerEditProfileCustomHook = () => {
     dispatch(getProfileData() as any);
   }, [dispatch]);
   const handleUpdate = async () => {
-    const data = JSON.stringify({
+    const data = {
       firstName: firstName,
       lastName: lastName,
       email: email,
       phoneNumber: phoneNumber,
-    });
+    };
     try {
       dispatch(updateProfile(data) as any);
       console.log();

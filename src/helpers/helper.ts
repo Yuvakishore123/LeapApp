@@ -20,12 +20,7 @@ export const useNavigationProp = () => {
 };
 export const onClickNotification = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
-    const navigation = useNavigation();
     // const {MyOrder} = remoteMessage.data;
     console.log(remoteMessage.data);
-
-    // Use your navigation library to navigate to the desired screen
-    // Example using React Navigation:
-    navigation.navigate('MyOrder');
   });
 };

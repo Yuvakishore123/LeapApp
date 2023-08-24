@@ -4,6 +4,7 @@ import {useSelector, useDispatch} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
 
 import {useNavigation} from '@react-navigation/native';
+import Toast from 'react-native-toast-message';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -14,6 +15,7 @@ type RootStackParamList = {
   CheckoutScreen: undefined;
   UserHomescreen: {screen: any};
   ProfileScreen: {screen: any};
+  Homescreen: undefined;
 };
 const useCart = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -23,6 +25,7 @@ const useCart = () => {
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const [showModal, setShowModal] = useState(false);
   const [isplusDisable, setisButtondisable] = useState(false); // Added loading state
+  const [cartProductId, setCartProductId] = useState(0);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {
     colorScheme,
@@ -41,7 +44,10 @@ const useCart = () => {
     setShowModal(false);
   };
   const isLoading = useSelector(
-    (state: {CartProducts: {isLoader: boolean}}) => state.CartProducts.isLoader,
+    (state: {cartUpdate: {isLoader: boolean}}) => state.cartUpdate.isLoader,
+  );
+  const isError = useSelector(
+    (state: {cartUpdate: {error: any}}) => state.cartUpdate.error,
   );
 
   const CartProducts = useSelector(
@@ -76,14 +82,16 @@ const useCart = () => {
       };
       dispatch(updateCart(data) as any);
       setRefreshing(true);
+
       console.log('Update response:');
-    } catch (error) {
-      console.error('Update error:', error);
-    }
+    } catch (error) {}
   };
 
   const handleCheckout = async () => {
     navigation.navigate('CheckoutScreen');
+  };
+  const handleContinueShopping = async () => {
+    navigation.navigate('Homescreen');
   };
 
   const handleRemove = async (productId: number) => {
@@ -96,6 +104,7 @@ const useCart = () => {
 
   const handleIncrement = (item: any) => {
     const productId = item.product.id;
+    setCartProductId(item.product.id);
     console.log('itemID', productId);
     const productQuantity = item.product.availableQuantities;
     console.log('Validation of product Quantity is ', productQuantity);
@@ -113,11 +122,21 @@ const useCart = () => {
   const handleDecrement = (item: any) => {
     console.log(item.quantity);
     const productId = item.product.id;
+    setCartProductId(item.product.id);
     const newQuantity = item.quantity - 1;
     console.log('itemID', productId);
     handleUpdate(newQuantity, productId);
     setisButtondisable(false);
   };
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error in updating cart',
+    });
+  };
+  if (isError) {
+    showToast();
+  }
 
   return {
     CartProducts,
@@ -146,6 +165,9 @@ const useCart = () => {
     getContainerStyle,
     getTextColor,
     getTextInputStyle,
+    cartProductId,
+    handleContinueShopping,
+    isError,
   };
 };
 export default useCart;

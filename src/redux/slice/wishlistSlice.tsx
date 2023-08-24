@@ -17,8 +17,13 @@ const WishlistSlice = createSlice({
 
     isLoader: false,
     isError: false,
+    error: null,
   },
-  reducers: {},
+  reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder.addCase(fetchWishlistProducts.pending, (state, _action) => {
       state.isLoader = true;

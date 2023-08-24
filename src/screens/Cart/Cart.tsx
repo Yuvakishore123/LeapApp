@@ -1,10 +1,18 @@
 /* eslint-disable react-native/no-inline-styles */
 
-import {Image, ScrollView, Text, TouchableOpacity, View} from 'react-native';
+import {
+  ActivityIndicator,
+  Image,
+  ScrollView,
+  Text,
+  TouchableOpacity,
+  View,
+} from 'react-native';
 import React, {ReactNode} from 'react';
 import Lottie from 'lottie-react-native';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Toast from 'react-native-toast-message';
 
 import useCart from './useCart';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
@@ -26,10 +34,12 @@ const Cart = () => {
     handleDecrement,
     handleIncrement,
     isplusDisable,
-
+    isLoading,
     getContainerStyle,
     getTextColor,
     getTextInputStyle,
+    cartProductId,
+    handleContinueShopping,
   } = useCart();
 
   const cartData = useSelector(
@@ -172,22 +182,62 @@ const Cart = () => {
                             <Icon name="minus" color={'white'} size={10} />
                           </TouchableOpacity>
 
-                          <View>
-                            <Text style={[style.quantityTxt, getTextColor()]}>
-                              {item.quantity}
-                            </Text>
-                          </View>
-                          {/* </View> */}
-                          <TouchableOpacity
-                            onPress={() => handleIncrement(item)}
-                            testID={`increment-button-${item.id}`}
-                            disabled={isplusDisable}
-                            style={[
-                              style.quantityButton,
-                              isplusDisable && style.disabled,
-                            ]}>
-                            <Icon name="plus" color={'white'} size={10} />
-                          </TouchableOpacity>
+                          {item.product.id === cartProductId ? (
+                            isLoading ? (
+                              <>
+                                <View
+                                  style={{
+                                    alignItems: 'center',
+                                  }}>
+                                  <ActivityIndicator color={'white'} />
+                                </View>
+                                <TouchableOpacity
+                                  onPress={() => handleIncrement(item)}
+                                  testID={`increment-button-${item.id}`}
+                                  disabled={isplusDisable}
+                                  style={[
+                                    style.quantityButton,
+                                    isplusDisable && style.disabled,
+                                  ]}>
+                                  <Icon name="plus" color={'white'} size={10} />
+                                </TouchableOpacity>
+                              </>
+                            ) : (
+                              <>
+                                <View>
+                                  <Text
+                                    style={[style.quantityTxt, getTextColor()]}>
+                                    {item.quantity}
+                                  </Text>
+                                </View>
+                                <TouchableOpacity
+                                  onPress={() => handleIncrement(item)}
+                                  testID={`increment-button-${item.id}`}
+                                  disabled={isplusDisable}
+                                  style={[
+                                    style.quantityButton,
+                                    isplusDisable && style.disabled,
+                                  ]}>
+                                  <Icon name="plus" color={'white'} size={10} />
+                                </TouchableOpacity>
+                              </>
+                            )
+                          ) : (
+                            <>
+                              <View>
+                                <Text
+                                  style={[style.quantityTxt, getTextColor()]}>
+                                  {item.quantity}
+                                </Text>
+                              </View>
+                              <TouchableOpacity
+                                onPress={() => handleIncrement(item)}
+                                testID={`increment-button-${item.id}`}
+                                style={[style.quantityButton]}>
+                                <Icon name="plus" color={'white'} size={10} />
+                              </TouchableOpacity>
+                            </>
+                          )}
                         </View>
                       </View>
                     </View>
@@ -196,31 +246,33 @@ const Cart = () => {
               </View>
             )}
           </ScrollView>
-          <View style={style.GrandtotalContainer}>
-            <Text style={[style.GrandtotalText, getTextColor()]}>
-              Grand Total
-            </Text>
-            <View style={{width: 100, height: 25}}>
-              <Text style={[style.priceTotalText, getTextColor()]}>
-                ₹ {cartData.totalCost}
-              </Text>
-            </View>
-          </View>
         </View>
         <View>
           {cartData.cartItems.length === 0 ? (
             <TouchableOpacity
-              style={[style.PaymentButton, style.Disabled]}
-              disabled={true}>
-              <Text style={style.PaymentButtonText}>Checkout</Text>
+              onPress={handleContinueShopping}
+              style={[style.PaymentButton]}>
+              <Text style={style.PaymentButtonText}>Continue Shopping</Text>
             </TouchableOpacity>
           ) : (
-            <TouchableOpacity
-              style={style.PaymentButton}
-              onPress={handleCheckout}
-              disabled={false}>
-              <Text style={style.PaymentButtonText}>Checkout</Text>
-            </TouchableOpacity>
+            <>
+              <View style={style.GrandtotalContainer}>
+                <Text style={[style.GrandtotalText, getTextColor()]}>
+                  Grand Total
+                </Text>
+                <View style={{width: 100, height: 25}}>
+                  <Text style={[style.priceTotalText, getTextColor()]}>
+                    ₹ {cartData.totalCost}
+                  </Text>
+                </View>
+              </View>
+              <TouchableOpacity
+                style={style.PaymentButton}
+                onPress={handleCheckout}
+                disabled={false}>
+                <Text style={style.PaymentButtonText}>Checkout</Text>
+              </TouchableOpacity>
+            </>
           )}
         </View>
         <CustomModal
@@ -228,6 +280,7 @@ const Cart = () => {
           onClose={closeModal}
           message="Item Remove From cart!"
         />
+        <Toast />
       </View>
     </>
   );

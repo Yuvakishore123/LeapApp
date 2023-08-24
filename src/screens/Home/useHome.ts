@@ -13,6 +13,7 @@ import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import {firebase} from '@react-native-firebase/messaging';
 import {url} from '../../constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {fetchWishlistProducts} from '../../redux/slice/wishlistSlice';
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -154,9 +155,7 @@ const useHome = () => {
     await inAppMessaging().setMessagesDisplaySuppressed(true);
   };
   useEffect(() => {
-    setIsLoading(true);
     dispatch(fetchUserProducts({pageNumber}) as any);
-    setIsLoading(false);
     dispatch(getProfileData());
   }, [dispatch, pageNumber]);
   const WishlistProducts = useSelector(

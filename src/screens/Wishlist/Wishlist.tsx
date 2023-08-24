@@ -17,6 +17,7 @@ import Colors from '../../constants/colors';
 import Styles from '../../constants/themeColors';
 import style from './wishlistStyles';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import Toast from 'react-native-toast-message';
 
 type Props = {
   route: {name: string};
@@ -43,7 +44,7 @@ const Wishlist = ({navigation}: Props) => {
   );
   console.log(isLoading);
 
-  if (isLoading) {
+  if (isLoading || !WishlistProducts) {
     return (
       <View
         style={{
@@ -59,23 +60,23 @@ const Wishlist = ({navigation}: Props) => {
       </View>
     );
   }
-  if (!WishlistProducts) {
-    return (
-      <View
-        testID="loading-screen"
-        style={{
-          flex: 1,
-          backgroundColor: colorScheme === 'dark' ? Colors.black : Colors.main,
-        }}>
-        <Lottie
-          source={require('../../../assets/loading2.json')}
-          autoPlay
-          style={style.Lottiestyle}
-        />
-        <Text style={style.Lottietext}>The Items are Loading...</Text>
-      </View>
-    );
-  }
+  // if (!WishlistProducts) {
+  //   return (
+  //     <View
+  //       testID="loading-screen"
+  //       style={{
+  //         flex: 1,
+  //         backgroundColor: colorScheme === 'dark' ? Colors.black : Colors.main,
+  //       }}>
+  //       <Lottie
+  //         source={require('../../../assets/loading2.json')}
+  //         autoPlay
+  //         style={style.Lottiestyle}
+  //       />
+  //       <Text style={style.Lottietext}>The Items are Loading...</Text>
+  //     </View>
+  //   );
+  // }
 
   return (
     <View
@@ -212,6 +213,7 @@ const Wishlist = ({navigation}: Props) => {
         onClose={closeModal}
         message="Item Removed!"
       />
+      <Toast />
     </View>
   );
 };

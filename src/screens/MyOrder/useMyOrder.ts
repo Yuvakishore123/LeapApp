@@ -79,14 +79,17 @@ const useMyOrder = () => {
   };
   const handleOrderDetails = async (orderId: string) => {
     try {
-      console.log('Monday ', orderId);
       const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`${url}/order/generate/${orderId}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
+      console.log('Monday ', orderId, token);
+      const response = await axios.get(
+        `${url}/order/generateInvoice/${orderId}`,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+          responseType: 'blob',
         },
-        responseType: 'blob',
-      });
+      );
       console.log('Response:', response);
       console.log('Response status:', response.status);
       console.log('Response content type:', response.headers['content-type']);

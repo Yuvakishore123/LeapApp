@@ -4,7 +4,6 @@ import RNFetchBlob from 'rn-fetch-blob';
 import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
 
 import {
-  AnalyticsUrl,
   Dashboardyearlydata,
   categoriyPiechart,
   getdashboard,
@@ -14,6 +13,7 @@ import {
 
 import ApiService from '../../network/network';
 import axios from 'axios';
+import {onclickDasboardUrl} from '../../constants/apiRoutes';
 
 const useAnalytics = () => {
   const [Data, setData] = useState('');
@@ -25,7 +25,7 @@ const useAnalytics = () => {
   const handleAnalytics = async () => {
     setisLoading(true);
     try {
-      const result = await ApiService.get(AnalyticsUrl);
+      const result = await ApiService.get(onclickDasboardUrl);
       console.log('result', result);
       setData(result);
       setisLoading(false);

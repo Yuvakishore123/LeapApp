@@ -140,7 +140,7 @@ const MyOrder = () => {
                         <Icons
                           name="file-download"
                           size={20}
-                          onPress={() => handleOrderDetails(item.id)}
+                          onPress={() => handleOrderDetails(order.id)}
                           style={[style.arrowIcon, getTextColor()]}
                         />
                       </View>
