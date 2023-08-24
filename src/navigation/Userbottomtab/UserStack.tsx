@@ -33,7 +33,7 @@ import EditAddress from '../../screens/EditAddress/EditAddress';
 import Colors from '../../constants/colors';
 import {Text, View} from 'react-native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import ApiErrorScreen from '../../screens/ErrorHandler/ApiErrorScreen';
+import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

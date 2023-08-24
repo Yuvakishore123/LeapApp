@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import axios from 'axios';
+import axios, {AxiosError} from 'axios';
 import {url} from '../constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainerRef} from '@react-navigation/native';
 
-// Define a reference to the navigation container
-let navigationRef: NavigationContainerRef | null = null;
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 
-// Function to set the navigation reference
-export function setNavigationReference(ref: NavigationContainerRef) {
+let navigationRef: NavigationContainerRef<BottomTabScreenProps<any>> | null =
+  null;
+
+export function setNavigationReference(
+  ref: NavigationContainerRef<BottomTabScreenProps<any>>,
+) {
   navigationRef = ref;
 }
 
@@ -59,8 +62,6 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         })
         .catch(error => {
-          // Handle refresh token failure
-          // For example, redirect user to login page
           console.error('Refresh token failed:', error);
           // throw error;
         });
@@ -71,10 +72,6 @@ instance.interceptors.response.use(
 );
 
 const ApiService = {
-  // get: async (url: string) => {
-  //   const response = await instance.get(url);
-  //   return response.data;
-  // },
   get: async (url: string) => {
     try {
       const response = await instance.get(url);
@@ -84,7 +81,9 @@ const ApiService = {
       console.log('hey new api error');
       console.log(error + ' ye hai error');
 
-      const status = error.response ? error.response.status : null;
+      const axiosError = error as AxiosError;
+
+      const status = axiosError.response ? axiosError.response.status : null;
 
       console.log('Status code:', status);
 

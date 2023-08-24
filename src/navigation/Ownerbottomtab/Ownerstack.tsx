@@ -27,7 +27,7 @@ import {View} from 'react-native';
 import DashboardDetails from '../../screens/OwnerHomepage/DashboardDetails';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
-import ApiErrorScreen from '../../screens/ErrorHandler/ApiErrorScreen';
+import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
