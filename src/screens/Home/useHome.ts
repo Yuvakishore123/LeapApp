@@ -13,7 +13,6 @@ import inAppMessaging from '@react-native-firebase/in-app-messaging';
 import {firebase} from '@react-native-firebase/messaging';
 import {url} from '../../constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {fetchWishlistProducts} from '../../redux/slice/wishlistSlice';
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -21,7 +20,7 @@ const useHome = () => {
   const [placeholderTextColor, setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
-  const [pageNumber, setPageNumber] = useState(1);
+  const [pageSize, setPageSize] = useState(10);
 
   const [searchResults, setSearchResults] = useState([]);
   const [productsData, setProductsdata] = useState([]);
@@ -149,15 +148,16 @@ const useHome = () => {
   };
 
   const handleEndReached = async () => {
-    setPageNumber(pageNumber + 1);
+    // setPageNumber(pageNumber + 1);
+    setPageSize(pageSize + 10);
     setProductsdata([...productsData, ...allProducts]);
-    dispatch(fetchUserProducts({pageNumber}) as any);
+    dispatch(fetchUserProducts({pageSize}) as any);
     await inAppMessaging().setMessagesDisplaySuppressed(true);
   };
   useEffect(() => {
-    dispatch(fetchUserProducts({pageNumber}) as any);
+    dispatch(fetchUserProducts({pageSize}) as any);
     dispatch(getProfileData());
-  }, [dispatch, pageNumber]);
+  }, [dispatch, pageSize]);
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );
@@ -168,7 +168,7 @@ const useHome = () => {
   const Loading = useSelector(
     (state: {UserProducts: {loading: boolean}}) => state.UserProducts.loading,
   );
-  console.log('Loading', Loading);
+  console.log('Loading and first loading is ', Loading, loading);
   return {
     WishlistProducts,
     onRefresh,

@@ -1,4 +1,4 @@
-export const url = 'https://eb20-180-151-211-125.ngrok-free.app/api/v1';
+export const url = 'https://6cc0-106-51-70-135.ngrok-free.app/api/v1';
 export const getdashboard = `${url}/order/dashboardOrderItems`;
 export const FilterProduct = `${url}/product/filterProducts`;
 export const pieChartUrl = `${url}/order/dashboardSubCategoriesAnalytics`;

@@ -5,11 +5,11 @@ import {userProductsUrl} from '../../constants/apiRoutes';
 
 export const fetchUserProducts = createAsyncThunk(
   'fetchUserProducts',
-  async ({pageNumber}: {pageNumber: number}) => {
+  async ({pageSize}: {pageSize: number}) => {
     try {
-      console.log('pageNumber is ', pageNumber);
+      console.log('pageNumber is ', pageSize);
       const response = await ApiService.get(
-        `${userProductsUrl}?pageNumber=${pageNumber}&pageSize=${10}`,
+        `${userProductsUrl}?pageNumber=${0}&pageSize=${pageSize}`,
       );
       return response;
     } catch (error) {
@@ -26,14 +26,17 @@ export const UserProductSlice = createSlice({
     firstCallLoading: false, // Loading state for the first call
     loading: false, // Loading state for subsequent calls
     isError: false,
+    productsEnd: false,
   },
   reducers: {},
   extraReducers: builder => {
     builder
       .addCase(fetchUserProducts.pending, (state, action) => {
-        if (action.meta.arg.pageNumber === 1) {
+        if (action.meta.arg.pageSize === 10) {
           state.firstCallLoading = true; // Set loading state for the first call
+          state.loading = false; // Clear loading state for subsequent calls
         } else {
+          state.firstCallLoading = false; // Clear loading state for the first call
           state.loading = true; // Set loading state for subsequent calls
         }
       })
@@ -42,7 +45,7 @@ export const UserProductSlice = createSlice({
         state.loading = false; // Clear loading state for subsequent calls
         state.data = action.payload;
       })
-      .addCase(fetchUserProducts.rejected, (state, action) => {
+      .addCase(fetchUserProducts.rejected, state => {
         state.firstCallLoading = false; // Clear loading state for the first call
         state.loading = false; // Clear loading state for subsequent calls
         state.isError = true;

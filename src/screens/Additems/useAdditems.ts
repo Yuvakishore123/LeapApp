@@ -85,9 +85,9 @@ const useAdditems = () => {
           }),
         );
         setSubCategoriesData(subCategoriesArray);
-        console.log(subCategoriesArray);
+        console.log(subCategoriesArray, 'data error');
       } catch (error) {
-        console.log(error);
+        console.log(error, 'data error');
         setIsLoading(true);
       } finally {
         setIsLoading(false);
@@ -111,7 +111,7 @@ const useAdditems = () => {
         setSubEventCategoriesData(subEventCategoriesArray);
         console.log(subEventCategoriesArray);
       } catch (error) {
-        console.log(error);
+        console.log('error is here  ', error);
       } finally {
         console.log('finally');
       }

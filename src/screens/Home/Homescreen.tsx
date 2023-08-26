@@ -261,7 +261,7 @@ const Homescreen = ({navigation}: Props) => {
           <SafeAreaView style={{height: '100%', flex: 1}}>
             <View style={{marginLeft: 5, height: '100%'}}>
               <FlatList
-                data={productsData}
+                data={allProducts}
                 nestedScrollEnabled={true} //changes
                 keyExtractor={(item: unknown) => (item as {id: string}).id}
                 style={{height: '100%', width: '100%'}}

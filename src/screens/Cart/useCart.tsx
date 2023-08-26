@@ -55,6 +55,11 @@ const useCart = () => {
   ) || {
     cartItems: [],
   };
+
+  const cartError = useSelector(
+    (state: {CartProducts: {error: any}}) => state.CartProducts.error,
+  );
+
   useEffect(() => {
     if (refreshing) {
       console.log('what the heck bro ');
@@ -134,8 +139,18 @@ const useCart = () => {
       text1: 'Error in updating cart',
     });
   };
+  const CartToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error in cart',
+    });
+  };
   if (isError) {
     showToast();
+  }
+  console.log('CartError', cartError);
+  if (cartError) {
+    CartToast();
   }
 
   return {

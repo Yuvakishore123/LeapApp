@@ -1,13 +1,10 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import axios, {AxiosError} from 'axios';
+import axios from 'axios';
 import {url} from '../constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainerRef} from '@react-navigation/native';
 
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-
-let navigationRef: NavigationContainerRef<BottomTabScreenProps<any>> | null =
-  null;
 
 export function setNavigationReference(
   ref: NavigationContainerRef<BottomTabScreenProps<any>>,
@@ -78,19 +75,6 @@ const ApiService = {
 
       return response.data;
     } catch (error) {
-      console.log('hey new api error');
-      console.log(error + ' ye hai error');
-
-      const axiosError = error as AxiosError;
-
-      const status = axiosError.response ? axiosError.response.status : null;
-
-      console.log('Status code:', status);
-
-      if (navigationRef) {
-        navigationRef.navigate('ApiErrorScreen', {status});
-      }
-
       return Promise.reject(error);
     }
   },
