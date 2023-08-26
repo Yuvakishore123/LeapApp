@@ -11,7 +11,7 @@ const OwnerRentalstyles = StyleSheet.create({
     alignItems: 'center',
     fontFamily: 'Poppins-Bold',
     color: Colors.black,
-    marginLeft: '10%',
+    textAlign: 'center',
     marginTop: 10,
     fontSize: 24,
   },
@@ -83,18 +83,39 @@ const OwnerRentalstyles = StyleSheet.create({
     marginTop: 10,
   },
   productName: {
-    fontSize: 14,
-    marginLeft: 10,
+    fontSize: 9,
+    marginLeft: 5,
     color: Colors.black,
     fontFamily: 'Poppins-Bold',
-    marginTop: -30,
+    marginTop: -45,
   },
   price: {
-    fontSize: 14,
-    marginLeft: 10,
+    fontSize: 9,
+    marginLeft: 5,
     color: Colors.black,
     fontFamily: 'Poppins-Bold',
-    marginTop: 10,
+    // marginTop: 5,
+  },
+  Name: {
+    fontSize: 9,
+    marginLeft: 5,
+    color: Colors.black,
+    fontFamily: 'Poppins-Bold',
+    // marginTop: 5,
+  },
+  Qty: {
+    fontSize: 9,
+    marginLeft: 5,
+    color: Colors.black,
+    fontFamily: 'Poppins-Bold',
+    // marginTop: 5,
+  },
+  Status: {
+    fontSize: 9,
+    marginLeft: 5,
+    color: Colors.black,
+    fontFamily: 'Poppins-Bold',
+    // marginTop: 5,
   },
   name: {
     fontSize: 12,
@@ -127,15 +148,17 @@ const OwnerRentalstyles = StyleSheet.create({
     color: Colors.black,
     fontFamily: 'Poppins-SemiBold',
   },
+  Productimage: {
+    width: 90,
+    height: 90,
+    borderRadius: 3,
+    marginLeft: 10,
+  },
   card: {
-    // height: '100%',
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
-    // backgroundColor: Colors.white,
     width: '90%',
-    height: 100,
-    // borderWidth: 0.2,
+    height: 120,
     borderColor: '#8E8E8E',
-    // backgroundColor: 'pink',
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -151,7 +174,15 @@ const OwnerRentalstyles = StyleSheet.create({
     elevation: 5,
   },
   arrowIcon: {
-    marginLeft: '70%',
+    marginLeft: '15%',
+    // justifyContent: 'space-between',
+  },
+  orderPlaced: {
+    color: 'green', // You can customize this color
+  },
+
+  returned: {
+    color: Colors.buttonColor, // You can customize this color
   },
 });
 export default OwnerRentalstyles;

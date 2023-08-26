@@ -5,7 +5,7 @@ import React, {ReactNode} from 'react';
 import Lottie from 'lottie-react-native';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import CouponIcon from 'react-native-vector-icons/MaterialIcons';
+// import CouponIcon from 'react-native-vector-icons/MaterialIcons';
 
 import useCart from './useCart';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
@@ -197,7 +197,7 @@ const Cart = () => {
               </View>
             )}
           </ScrollView>
-          <TouchableOpacity style={style.coupons}>
+          {/* <TouchableOpacity style={style.coupons}>
             <CouponIcon
               name="local-offer"
               size={26}
@@ -209,7 +209,7 @@ const Cart = () => {
               size={22}
               style={{marginTop: 16, marginLeft: '45%', color: 'white'}}
             />
-          </TouchableOpacity>
+          </TouchableOpacity> */}
           <View style={style.GrandtotalContainer}>
             <Text style={[style.GrandtotalText, getTextColor()]}>
               Grand Total

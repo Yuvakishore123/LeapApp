@@ -24,7 +24,7 @@ import Carousal from './Carousal';
 import {postProductToAPI} from '../../redux/actions/actions';
 import useHome from './useHome';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-
+import * as Animatable from 'react-native-animatable';
 type Props = {
   route: {name: string};
   navigation: any;
@@ -42,6 +42,8 @@ const Homescreen = ({navigation}: Props) => {
     loading,
     closeModal,
     showModal,
+    Error,
+    IsError,
     name,
     handleEndReached,
     isLoading,
@@ -58,9 +60,7 @@ const Homescreen = ({navigation}: Props) => {
     getPlaceholderTextColor,
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
-  useEffect(() => {
-    console.log(colorScheme);
-  });
+  console.log('ujohnwesly8@gmail.com', IsError);
   if (!UserProducts) {
     return (
       <View
@@ -186,7 +186,9 @@ const Homescreen = ({navigation}: Props) => {
       ) : (
         <View style={[style.mainContainer, getContainerStyle()]}>
           <View style={{flexDirection: 'row'}}>
-            <Text
+            <Animatable.Text
+              animation={'slideInDown'}
+              duration={1000}
               style={[
                 {
                   marginLeft: 26,
@@ -198,7 +200,7 @@ const Homescreen = ({navigation}: Props) => {
                 getTextColor(),
               ]}>
               Welcome {name.firstName}
-            </Text>
+            </Animatable.Text>
             <Lottie
               source={require('../../../assets/celebration.json')}
               autoPlay
@@ -270,7 +272,10 @@ const Homescreen = ({navigation}: Props) => {
                 renderItem={({item}: {item: any}) => {
                   return (
                     <>
-                      <View style={[style.container, getTextInputStyle()]}>
+                      <Animatable.View
+                        animation={'bounceIn'}
+                        duration={1500}
+                        style={[style.container, getTextInputStyle()]}>
                         <TouchableOpacity
                           key={item.id}
                           onPress={() =>
@@ -309,11 +314,15 @@ const Homescreen = ({navigation}: Props) => {
                                 }
                               }}>
                               {wishlistList.includes(item.id) ? (
-                                <MaterialIcons
-                                  size={20}
-                                  color={'red'}
-                                  name="cards-heart"
-                                />
+                                <Animatable.View
+                                  animation={'bounceIn'}
+                                  duration={1000}>
+                                  <MaterialIcons
+                                    size={20}
+                                    color={'red'}
+                                    name="cards-heart"
+                                  />
+                                </Animatable.View>
                               ) : (
                                 <MaterialIcons
                                   size={20}
@@ -333,13 +342,20 @@ const Homescreen = ({navigation}: Props) => {
                             <Text style={style.price}>{'₹' + item.price}</Text>
                           </View>
                         </View>
-                      </View>
+                      </Animatable.View>
                     </>
                   );
                 }}
               />
             </View>
           </SafeAreaView>
+          {IsError ? (
+            <Animatable.View animation="fadeIn" style={style.errorContainer}>
+              <Text style={style.errorMessage}>Something went worng!</Text>
+            </Animatable.View>
+          ) : (
+            <View></View>
+          )}
         </View>
       )}
 

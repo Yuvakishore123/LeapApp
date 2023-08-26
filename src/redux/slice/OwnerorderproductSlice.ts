@@ -1,13 +1,15 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
-import {OwnerrentalproductsURL} from '../../constants/Apis';
+import {url} from '../../constants/Apis';
 
 import ApiService from '../../network/network';
 export const ownerorderproducts = createAsyncThunk(
   'ownerorderproducts',
-  async () => {
+  async status => {
     try {
-      const products = await ApiService.get(OwnerrentalproductsURL);
+      const products = await ApiService.get(
+        `${url}/order/shipping-status?status=${status}`,
+      );
       return products;
     } catch (error) {
       console.log(error);

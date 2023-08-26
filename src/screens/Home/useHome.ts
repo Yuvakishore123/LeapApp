@@ -1,3 +1,4 @@
+/* eslint-disable no-catch-shadow */
 import {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
@@ -10,9 +11,6 @@ import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
-import {firebase} from '@react-native-firebase/messaging';
-import {url} from '../../constants/Apis';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -21,7 +19,7 @@ const useHome = () => {
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
   const [pageNumber, setPageNumber] = useState(0);
-
+  const [Error, setError] = useState('');
   const [searchResults, setSearchResults] = useState([]);
   const [productsData, setProductsdata] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -36,7 +34,9 @@ const useHome = () => {
   const allProducts = useSelector(
     (state: {UserProducts: {data: []}}) => state.UserProducts.data,
   );
-
+  const IsError = useSelector(
+    (state: {UserProducts: {isError: null}}) => state.UserProducts.isError,
+  );
   const searchProducts = async (query: any) => {
     try {
       const data = await ApiService.get(`/product/search?query=${query}`);
@@ -45,7 +45,7 @@ const useHome = () => {
       setOldDate(data);
       setSearchQuery('');
     } catch (error) {
-      console.error(error);
+      setError('Something went wrong. Please try again.');
     }
   };
   // useEffect(() => {
@@ -73,82 +73,30 @@ const useHome = () => {
   };
   useEffect(() => {
     setIsLoading(true);
-    dispatch(fetchUserProducts({pageNumber}) as any);
-    setIsLoading(false);
+    dispatch(fetchUserProducts({pageNumber}) as any)
+      .then(() => {
+        setIsLoading(false);
+        setError(''); // Clear any previous errors on success
+      })
+      .catch(error => {
+        setIsLoading(false);
+        setError('Something went wrong. Please try again.');
+        console.error(error);
+      });
     dispatch(getProfileData());
   }, [dispatch, pageNumber]);
   const onRefresh = async () => {
     setRefreshing(true);
     setRefreshing(false);
   };
-  useEffect(() => {
-    if (firebase?.apps.length === 0) {
-      firebase.initializeApp({
-        apiKey: 'AIzaSyCocxGzIbsJo6nAv62pM6CWdrP5JbkxbW0',
-        authDomain: 'In-App Messaging.firebase.com',
-        databaseURL:
-          'https://in-app-messaging-feed0-default-rtdb.firebaseio.com/',
-        projectId: 'in-app-messaging-feed0',
-        storageBucket: 'in-app-messaging-feed0.appspot.com',
-        messagingSenderId: '280824523367',
-        appId: '1:280824523367:android:5d9cfd3fae3dc9e65b02c2',
-      });
-    }
-    const storeFCMToken = async (Dtoken: string) => {
-      try {
-        await AsyncStorage.setItem('fcmToken', Dtoken);
-        console.log('FCMtoken is stored', Dtoken);
-      } catch (error) {
-        console.log('Error storing FCM token:', error);
-      }
-    };
-    const onTokenRefresh = async (DnewToken: string | null) => {
-      try {
-        const storedToken = await AsyncStorage.getItem('fcmToken');
-        if (storedToken !== DnewToken) {
-          await storeFCMToken(DnewToken);
-          console.log('Refreshed FCM token:', DnewToken);
-          await postRefreshedToken(DnewToken);
-        }
-      } catch (error) {
-        console.log('Error handling FCM token refresh:', error);
-      }
-    };
-    const postRefreshedToken = async (DnewToken: string | null) => {
-      try {
-        const response = await ApiService.post(
-          `${url}/user/devicetoken?deviceToken=${DnewToken}`,
-          DnewToken,
-        );
-        if (response) {
-          console.log('FCM token stored in the backend.');
-        } else {
-          console.log('Failed to store FCM token in the backend.');
-        }
-      } catch (error) {
-        console.log('Error storing FCM token in the backend:', error);
-      }
-    };
-    const requestFCMPermission = async () => {
-      try {
-        await firebase.messaging().requestPermission();
-        const Dtoken = await firebase.messaging().getToken();
-        onTokenRefresh(Dtoken);
-      } catch (error) {
-        console.log('Error requesting FCM permission:', error);
-      }
-    };
-    const backgroundMessageHandler = async (remoteMessage: string) => {
-      console.log('FCM background message:', remoteMessage);
-    };
-
-    requestFCMPermission();
-    firebase?.messaging().onTokenRefresh(onTokenRefresh);
-    firebase?.messaging().setBackgroundMessageHandler(backgroundMessageHandler);
-  }, []);
-
   const wishlistremove = async (productId: any) => {
-    dispatch(wishListRemove(productId) as any);
+    try {
+      await dispatch(wishListRemove(productId) as any);
+      setError(''); // Clear any previous errors on success
+    } catch (error) {
+      setError('Something went wrong. Please try again.');
+      console.error(error);
+    }
   };
 
   const handleEndReached = async () => {
@@ -184,6 +132,8 @@ const useHome = () => {
     oldData,
     wishlistremove,
     allProducts,
+    Error,
+    IsError,
     handleEndReached,
     productsData,
     isLoading,

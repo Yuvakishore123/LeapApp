@@ -22,6 +22,21 @@ const style = StyleSheet.create({
   cardTextContainer: {
     width: '100%',
   },
+  errorContainer: {
+    backgroundColor: 'gray',
+    elevation: 20,
+    width: '60%',
+    padding: 10,
+    marginVertical: 10,
+    marginLeft: '19%',
+    marginTop: '40%',
+    borderRadius: 50,
+  },
+  errorMessage: {
+    color: 'white',
+    textAlign: 'center',
+    fontFamily: 'Poppins-SemiBold',
+  },
   CategoriesText: {
     fontSize: 24,
     fontFamily: 'Poppins-SemiBold',

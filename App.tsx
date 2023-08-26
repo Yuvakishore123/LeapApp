@@ -21,9 +21,9 @@ import {ProductsById} from './src/constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import * as Sentry from '@sentry/react-native';
-
 Sentry.init({
   dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
+  enableAutoSessionTracking: true,
   // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
   // We recommend adjusting this value in production.
   tracesSampleRate: 1.0,

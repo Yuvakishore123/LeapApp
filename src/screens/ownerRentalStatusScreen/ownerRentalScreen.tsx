@@ -5,23 +5,51 @@ import OwnerRentalstyles from './ownerRentalScreenStyles';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import OwnerRentalSwitch from '../../components/atoms/OwnerRentalSwitch';
 import useOwnerorderproducts from './useOwnerorderproducts';
+// import {useNavigation} from '@react-navigation/native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {useNavigation} from '@react-navigation/native';
+import {Image} from 'react-native-elements';
 const OwnerRentalScreen = () => {
-  const {getTextColor, getTextInputStyle} = useContext(ColorSchemeContext);
-  const {ownerrentalproducts, isLoading} = useOwnerorderproducts();
-  const navigation = useNavigation();
+  const {getTextColor} = useContext(ColorSchemeContext);
+  const {ownerrentalproducts} = useOwnerorderproducts();
+  // const navigation = useNavigation();
   const renderownerrentalItem = ({item}: {item: any; index: number}) => {
+    const statusStyle =
+      item.status === 'Order placed'
+        ? OwnerRentalstyles.orderPlaced
+        : OwnerRentalstyles.returned;
     return (
       <TouchableOpacity
         style={OwnerRentalstyles.card}
-        onPress={() => navigation.navigate('OwnerRentalDetailsScreen')}>
-        <View style={{flexDirection: 'column'}}>
+        // onPress={() => navigation.navigate('OwnerRentalDetailsScreen')}
+      >
+        <View>
+          <Image
+            source={{uri: item.imageUrl}}
+            style={OwnerRentalstyles.Productimage}
+          />
+        </View>
+        <View
+          style={{
+            justifyContent: 'space-between',
+            flexDirection: 'column',
+            width: '85%',
+            marginLeft: 5,
+            marginTop: 34,
+          }}>
           <Text style={[OwnerRentalstyles.productName, getTextColor()]}>
             Order Id: {item.id}
           </Text>
           <Text style={[OwnerRentalstyles.price, getTextColor()]}>
-            Price: ₹ {item.price}/-
+            Price: ₹ {item.totalPrice}/-
+          </Text>
+          <Text style={[OwnerRentalstyles.Name, getTextColor()]}>
+            Name: {item.name}
+          </Text>
+          <Text style={[OwnerRentalstyles.Qty, getTextColor()]}>
+            Qty: {item.quantity}
+          </Text>
+          <Text style={[OwnerRentalstyles.Status, getTextColor(), statusStyle]}>
+            {item.status}
           </Text>
         </View>
         <View>
