@@ -3,6 +3,7 @@ import {
   combineReducers,
   applyMiddleware,
 } from 'redux';
+// import {configureStore} from '@reduxjs/toolkit';
 import ProductSlice from './slice/productSlice';
 import Reducers from './reducers/reducers';
 import {AddressReducers} from './reducers/AddressReducers';
@@ -32,6 +33,7 @@ import subcategorySlice from './slice/subcategorySlice';
 import editAddressSlice from './slice/editAddressSlice';
 import categoryProductsSlice from './slice/categoryProductsSlice';
 import AddressAddSlice from './slice/AddressAddSlice';
+import OwnerOrderProductsSlice from './slice/OwnerorderproductSlice';
 export const RootReducers = combineReducers({
   Reducers,
   products: ProductSlice,
@@ -62,6 +64,7 @@ export const RootReducers = combineReducers({
   editAddressData: editAddressSlice,
   categoruProduct: categoryProductsSlice,
   AddAddress: AddressAddSlice,
+  OwnerRentalproducts: OwnerOrderProductsSlice,
 });
 
 export const store = createStore(RootReducers, applyMiddleware(thunk));

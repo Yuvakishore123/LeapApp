@@ -7,6 +7,7 @@ import Lottie from 'lottie-react-native';
 // Custom components and modules
 import useLoginscreen from './useLoginscreen';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import * as Animatable from 'react-native-animatable';
 import {
   Donthavetext,
   Guest,
@@ -58,7 +59,9 @@ const LoginScreen = () => {
           onBlur={formik.handleBlur('email')}
         />
         {formik.touched.email && formik.errors.email && (
-          <Text style={styles.errorText}>{formik.errors.email} </Text>
+          <Animatable.View animation="shake" duration={500} easing="linear">
+            <Text style={styles.errorText}>{formik.errors.email} </Text>
+          </Animatable.View>
         )}
         <View>
           <TextInput
@@ -81,7 +84,9 @@ const LoginScreen = () => {
             />
           </TouchableOpacity>
           {formik.touched.password && formik.errors.password && (
-            <Text style={styles.errorText}>{formik.errors.password}</Text>
+            <Animatable.View animation="shake" duration={500} easing="linear">
+              <Text style={styles.errorText}>{formik.errors.password}</Text>
+            </Animatable.View>
           )}
         </View>
       </View>

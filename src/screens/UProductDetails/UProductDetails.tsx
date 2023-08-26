@@ -18,6 +18,7 @@ import {Pagination} from 'react-native-snap-carousel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import useProductdetails from './useProductdetails';
 
+import * as Animatable from 'react-native-animatable';
 import Styles from '../../constants/themeColors';
 import Colors from '../../constants/colors';
 import styles from './UProductDetailsStyle';
@@ -114,7 +115,12 @@ export default function UDetailScreen({route, navigation}: Props) {
                 </ImageBackground>
               ))}
           </ScrollView>
-          <Text style={styles.startext}>{product.name}</Text>
+          <Animatable.Text
+            animation={'slideInUp'}
+            duration={1000}
+            style={styles.startext}>
+            {product.name}
+          </Animatable.Text>
           <Pagination
             dotsLength={product.imageUrl.length}
             activeDotIndex={activeIndex}

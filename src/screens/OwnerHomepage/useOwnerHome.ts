@@ -83,7 +83,7 @@ const useOwnerHome = () => {
     const fetchDashboardData = async () => {
       const token = await AsyncStorage.getItem('token');
       try {
-        const response = await fetch(`${url}/order/dashboard`, {
+        const response = await fetch(`${url}/dashboard/owner-view`, {
           method: 'GET',
           headers: {
             Authorization: `Bearer ${token}`,

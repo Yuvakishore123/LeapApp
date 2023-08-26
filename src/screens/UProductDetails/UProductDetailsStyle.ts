@@ -196,6 +196,22 @@ const styles = StyleSheet.create({
     zIndex: 1,
     marginLeft: '80%',
   },
+  errorContainer: {
+    backgroundColor: 'gray',
+    elevation: 20,
+    width: '60%',
+    padding: 10,
+    marginVertical: 10,
+    marginLeft: '19%',
+    marginTop: '-20%',
+    zIndex: 1,
+    borderRadius: 50,
+  },
+  errorMessage: {
+    color: 'white',
+    textAlign: 'center',
+    fontFamily: 'Poppins-SemiBold',
+  },
   detailsContainer: {
     zIndex: 1,
     paddingVertical: 20,

@@ -46,6 +46,12 @@ const OwnerEditProfileCustomHook = () => {
       phoneNumber: phoneNumber,
     };
     try {
+      const data = {
+        firstName: firstName,
+        lastName: lastName,
+        email: email,
+        phoneNumber: phoneNumber,
+      };
       dispatch(updateProfile(data) as any);
       console.log();
       openModal();

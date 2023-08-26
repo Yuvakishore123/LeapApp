@@ -10,7 +10,7 @@ export const FliterAnalyticslist = createAsyncThunk(
       }
 
       const response = await ApiService.get(
-        `/order/dashboardDateSelector?startDate=${item.formattedStartDate}&endDate=${item.formattedEndDate}`,
+        `/dashboard/date-selector?startDate=${item.formattedStartDate}&endDate=${item.formattedEndDate}`,
       );
 
       console.log('FilterAnaltyics', response);

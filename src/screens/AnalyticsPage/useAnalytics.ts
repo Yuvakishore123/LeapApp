@@ -48,7 +48,7 @@ const useAnalytics = () => {
   const handleExportpdf = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      const response = await axios.get(`${url}/order/exportPdf`, {
+      const response = await axios.get(`${url}/pdf/export`, {
         headers: {
           Authorization: `Bearer ${token}`,
         },

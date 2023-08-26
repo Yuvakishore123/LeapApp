@@ -56,7 +56,7 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
         rentalStartDate: rentalStartDate.toISOString(),
       };
       dispatch(CartAdd(Item));
-      if (isData.status === 201) {
+      if (isData.status === 400) {
         opennModal();
       } else {
         openModal();
@@ -117,10 +117,12 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
           message: getLink,
         });
       } else {
-        console.log('Error generating link.');
+        showToast('Error generating link.');
       }
     } catch (error) {
-      console.log('Share Error: ', error);
+      showToast(
+        'An error occurred while sharing the product. Please try again.',
+      );
     }
   };
   const scrollToNextImage = useCallback(() => {
