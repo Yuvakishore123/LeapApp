@@ -13,6 +13,7 @@ import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);
+  const [signInPasswordVisible, setSignInPasswordVisible] = useState(false);
   const [role, setRole] = useState<string>('');
   const {navigation} = useNavigationProp();
   const {colorScheme} = useContext(ColorSchemeContext);
@@ -109,6 +110,8 @@ const useSignup = () => {
     BorrowerRole,
     OwnerRole,
     isError,
+    signInPasswordVisible,
+    setSignInPasswordVisible,
   };
 };
 export default useSignup;

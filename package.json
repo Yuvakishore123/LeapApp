@@ -50,6 +50,7 @@
     "react-native-element-dropdown": "^2.9.0",
     "react-native-elements": "^3.4.3",
     "react-native-fast-image": "^8.6.3",
+    "react-native-flipper": "^0.212.0",
     "react-native-fs": "^2.20.0",
     "react-native-gesture-handler": "^2.10.1",
     "react-native-image-crop-picker": "^0.40.0",

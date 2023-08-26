@@ -1,6 +1,6 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Profile from '../../screens/Profile/Profile';
 import Homescreen from '../../screens/Home/Homescreen';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,7 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Wishlist from '../../screens/Wishlist/Wishlist';
 import Cart from '../../screens/Cart/Cart';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import Category from '../../screens/Category/Category';
 import UProductDetails from '../../screens/UProductDetails/UProductDetails';
 import Subcategory from '../../screens/Subcategory/Subcategory';
@@ -31,8 +31,9 @@ import {
 import MyOrder from '../../screens/MyOrder/MyOrder';
 import EditAddress from '../../screens/EditAddress/EditAddress';
 import Colors from '../../constants/colors';
-import {View} from 'react-native';
+import {Text, View} from 'react-native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
+import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -41,6 +42,7 @@ const HomeStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="Homescreen">
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="Homescreen" component={Homescreen} />
       <Stack.Screen
         name="SearchResultsScreen"
@@ -89,6 +91,7 @@ const ProfileStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="Profile">
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="Profile" component={Profile} />
       <Stack.Screen name="Ownereditprofile" component={Ownereditprofile} />
       <Stack.Screen name="Owneraddresspage" component={Owneraddresspage} />
@@ -102,7 +105,7 @@ const MyStack = () => {
   const data = useSelector(state => state);
   const {colorScheme} = useContext(ColorSchemeContext);
   const isFocused = useIsFocused();
-  console.log(data);
+
   let tabBarBackgroundColor: string;
   if (colorScheme === 'dark') {
     tabBarBackgroundColor = Colors.black;
@@ -137,13 +140,13 @@ const MyStack = () => {
           },
           tabBarLabel: 'Home',
           tabBarIcon: ({focused, color}) => {
-            if (!isFocused) return null;
+            if (!isFocused) return (color = 'white');
             let iconComponent;
             switch (String(route.name)) {
               case 'UserHomescreen':
                 const backgroundColor = focused
                   ? Colors.buttonColor
-                  : Colors.white;
+                  : Colors.black;
                 const iconBackgroundColor = focused
                   ? Colors.buttonColor
                   : tabBarBackgroundColor;
@@ -587,10 +590,14 @@ const getRouteName = (route: Partial<Route<string>>) => {
     routeName?.includes('CategoryProducts') ||
     routeName?.includes('CheckoutScreen') ||
     routeName?.includes('MyOrder') ||
-    routeName?.includes('EditAddress')
+    routeName?.includes('EditAddress') ||
+    routeName?.includes('ApiErrorScreen')
   ) {
     return 'none';
   }
   return 'flex';
 };
 export default MyStack;
+function asnc(): React.EffectCallback {
+  throw new Error('Function not implemented.');
+}

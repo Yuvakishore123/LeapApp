@@ -20,6 +20,7 @@ const useHome = () => {
   );
   const [pageNumber, setPageNumber] = useState(0);
   const [Error, setError] = useState('');
+  const [pageSize, setPageSize] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
   const [productsData, setProductsdata] = useState([]);
   const [searchQuery, setSearchQuery] = useState('');
@@ -87,6 +88,7 @@ const useHome = () => {
   }, [dispatch, pageNumber]);
   const onRefresh = async () => {
     setRefreshing(true);
+
     setRefreshing(false);
   };
   const wishlistremove = async (productId: any) => {
@@ -100,18 +102,27 @@ const useHome = () => {
   };
 
   const handleEndReached = async () => {
-    setPageNumber(pageNumber + 1);
+    // setPageNumber(pageNumber + 1);
+    setPageSize(pageSize + 10);
     setProductsdata([...productsData, ...allProducts]);
+    dispatch(fetchUserProducts({pageSize}) as any);
     await inAppMessaging().setMessagesDisplaySuppressed(true);
   };
-
+  useEffect(() => {
+    dispatch(fetchUserProducts({pageSize}) as any);
+    dispatch(getProfileData());
+  }, [dispatch, pageSize]);
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );
   const loading = useSelector(
-    (state: {UserProducts: {isLoader: null[]}}) => state.UserProducts.isLoader,
+    (state: {UserProducts: {firstCallLoading: boolean}}) =>
+      state.UserProducts.firstCallLoading,
   );
-
+  const Loading = useSelector(
+    (state: {UserProducts: {loading: boolean}}) => state.UserProducts.loading,
+  );
+  console.log('Loading and first loading is ', Loading, loading);
   return {
     WishlistProducts,
     onRefresh,

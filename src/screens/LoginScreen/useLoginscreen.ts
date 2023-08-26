@@ -17,6 +17,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import { firebase } from '@react-native-firebase/messaging';
 import { url } from '../../constants/Apis';
 import ApiService from '../../network/network';
+import messaging from '@react-native-firebase/messaging';
 type RootStackParamList = {
   OtpScreen: undefined;
   SignupScreen: undefined;
@@ -24,6 +25,7 @@ type RootStackParamList = {
 const useLoginscreen = () => {
   const [showModal, setShowModal] = useState(false);
   const [passwordError, setPasswordError] = useState<string>('');
+  const [passwordVisible, setPasswordVisible] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const isError = useSelector((state: any) => state.login.error);
@@ -59,7 +61,8 @@ const useLoginscreen = () => {
         email: 'GuestLogin@leaps.com',
         password: 'GuestLogin',
       };
-      const response = await dispatch(postLogin(credentials));
+      // const response = await dispatch(postLogin(credentials));
+      navigation.navigate('Homescreen');
       loginEvent();
       console.log('Login data:', response);
     } catch (error) {
@@ -146,6 +149,9 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
+    const Fcm_token = await messaging().getToken();
+    await AsyncStorage.setItem('device_token', Fcm_token);
+    console.log('devicetoken', Fcm_token);
     try {
       const token = await AsyncStorage.getItem('fcmToken');
       const credentials = {
@@ -196,6 +202,9 @@ const useLoginscreen = () => {
     handleSignUp,
     handleLoginGuest,
     handleLoginScreen,
+    passwordVisible,
+
+    setPasswordVisible,
   };
 };
 export default useLoginscreen;

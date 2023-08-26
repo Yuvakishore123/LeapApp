@@ -9,7 +9,7 @@ import {
 } from 'react-native';
 import {RadioButton} from 'react-native-paper';
 import Lottie from 'lottie-react-native';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useSignup from './useSignup';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {
@@ -35,6 +35,8 @@ const SignUpScreen = () => {
     PlaceholderColor,
     OwnerRole,
     BorrowerRole,
+    setSignInPasswordVisible,
+    signInPasswordVisible,
   } = useSignup();
   const {getContainerStyle, getTextInputStyle, getTextColor} =
     useContext(ColorSchemeContext);
@@ -108,19 +110,31 @@ const SignUpScreen = () => {
               <Text style={Styles.errorTxt}>{formik.errors.phoneNumber}</Text>
             )}
           </View>
-          <TextInput
-            style={[Styles.textinput, getTextInputStyle(), getTextColor()]}
-            placeholder="Enter password"
-            placeholderTextColor={PlaceholderColor()}
-            value={formik.values.password}
-            testID="Password"
-            secureTextEntry={true}
-            onChangeText={formik.handleChange('password')}
-            onBlur={formik.handleBlur('password')}
-          />
-          {formik.touched.password && formik.errors.password && (
-            <Text style={Styles.errorTxt}>{formik.errors.password}</Text>
-          )}
+          <View>
+            <TextInput
+              style={[Styles.textinput, getTextInputStyle(), getTextColor()]}
+              placeholder="Enter password"
+              placeholderTextColor={PlaceholderColor()}
+              value={formik.values.password}
+              testID="Password"
+              // secureTextEntry={true}
+              secureTextEntry={!signInPasswordVisible}
+              onChangeText={formik.handleChange('password')}
+              onBlur={formik.handleBlur('password')}
+            />
+            <TouchableOpacity
+              style={Styles.eyeButton}
+              onPress={() => setSignInPasswordVisible(!signInPasswordVisible)}>
+              <MaterialIcons
+                size={22}
+                color="#888"
+                name={signInPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+              />
+            </TouchableOpacity>
+            {formik.touched.password && formik.errors.password && (
+              <Text style={Styles.errorTxt}>{formik.errors.password}</Text>
+            )}
+          </View>
           <Text style={[Styles.cardText, getTextColor()]}>{role}</Text>
           <View style={style.containerRadio}>
             <View style={style.optionRadio}>

@@ -18,7 +18,7 @@ import {
   signup,
 } from '../../constants/languages/en';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-
+import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // Styles and assets
 import styles from './loginStyle';
 import Colors from '../../constants/colors';
@@ -33,6 +33,8 @@ const LoginScreen = () => {
     handleLoginGuest,
     handleOtpScreen,
     handleSignUp,
+    setPasswordVisible,
+    passwordVisible,
   } = useLoginscreen();
   const {getContainerStyle, getTextInputStyle, getTextColor} =
     useContext(ColorSchemeContext);
@@ -67,10 +69,20 @@ const LoginScreen = () => {
             placeholder="Enter password"
             placeholderTextColor={placeholadercolor()}
             value={formik.values.password}
-            secureTextEntry={true}
+            // secureTextEntry={true}
             onChangeText={formik.handleChange('password')}
             onBlur={formik.handleBlur('password')}
+            secureTextEntry={!passwordVisible} // Use secureTextEntry based on passwordVisible state
           />
+          <TouchableOpacity
+            style={styles.eyeButton}
+            onPress={() => setPasswordVisible(!passwordVisible)}>
+            <MaterialIcons
+              size={22}
+              color="#888"
+              name={passwordVisible ? 'eye-off-outline' : 'eye-outline'}
+            />
+          </TouchableOpacity>
           {formik.touched.password && formik.errors.password && (
             <Animatable.View animation="shake" duration={500} easing="linear">
               <Text style={styles.errorText}>{formik.errors.password}</Text>

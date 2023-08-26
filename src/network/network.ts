@@ -2,6 +2,15 @@
 import axios from 'axios';
 import {url} from '../constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NavigationContainerRef} from '@react-navigation/native';
+
+import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+
+export function setNavigationReference(
+  ref: NavigationContainerRef<BottomTabScreenProps<any>>,
+) {
+  navigationRef = ref;
+}
 
 const instance = axios.create({
   baseURL: url,
@@ -50,8 +59,6 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         })
         .catch(error => {
-          // Handle refresh token failure
-          // For example, redirect user to login page
           console.error('Refresh token failed:', error);
           // throw error;
         });
@@ -63,8 +70,13 @@ instance.interceptors.response.use(
 
 const ApiService = {
   get: async (url: string) => {
-    const response = await instance.get(url);
-    return response.data;
+    try {
+      const response = await instance.get(url);
+
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   },
   post: async (url: string, body: any) => {
     const response = await instance.post(url, body);

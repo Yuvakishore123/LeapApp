@@ -157,5 +157,10 @@ const styles = StyleSheet.create({
     color: '#9747FF',
     marginBottom: 10,
   },
+  eyeButton: {
+    position: 'absolute',
+    top: 22,
+    right: 40,
+  },
 });
 export default styles;

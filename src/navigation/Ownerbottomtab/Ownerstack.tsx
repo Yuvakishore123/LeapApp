@@ -29,6 +29,7 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
 import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRentalScreen';
 import OwnerRentalDetailsScreen from '../../screens/ownerRentaldetailsScreen/ownerRentaldetailsScreen';
+import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -49,11 +50,22 @@ const OwnerProfilestack = () => {
   );
 };
 
+const DeliveryStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="DeliveryScreen">
+      <Stack.Screen name="DeliveryScreen" component={DeliveryScreen} />
+    </Stack.Navigator>
+  );
+};
+
 const OwnerHomestack = () => {
   return (
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="OwnerHome">
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="OwnerHome" component={OwnerHome} />
 
       <Stack.Screen name="Additems" component={Additems} />
@@ -71,12 +83,14 @@ const getRouteName = (route: Partial<Route<string>>) => {
   if (
     routeName?.includes('OwnerEditProfile') ||
     routeName?.includes('Owneraddresspage') ||
+    routeName?.includes('DeliveryScreen') ||
     routeName?.includes('Owneraddaddress') ||
     routeName?.includes('Owneredititems') ||
     routeName?.includes('OwnerImage') ||
     routeName?.includes('OproductDetails') ||
     routeName?.includes('DashboardDetails') ||
-    routeName?.includes('FilteredAnalytics')
+    routeName?.includes('FilteredAnalytics') ||
+    routeName?.includes('ApiErrorScreen')
   ) {
     return 'none';
   }
@@ -342,6 +356,86 @@ const Ownerstack = () => {
         })}
       />
       <Tab.Screen
+        name="DeliveryScreen"
+        component={DeliveryStack}
+        options={({route}) => ({
+          tabBarStyle: {
+            display: getRouteName(route),
+            backgroundColor: tabBarBackgroundColor,
+            height: '7%',
+          },
+          tabBarIcon: ({focused, color}) => {
+            if (!isFocused) return null;
+
+            let iconComponent;
+
+            if (route.name === 'DeliveryScreen') {
+              iconComponent = (
+                <View
+                  style={[
+                    {
+                      backgroundColor: focused ? Colors.buttonColor : '#F0F0F0',
+                      borderRadius: 20,
+                      height: 40,
+                      width: 40,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    },
+                    {
+                      backgroundColor: focused
+                        ? Colors.buttonColor
+                        : tabBarBackgroundColor,
+                    },
+                  ]}>
+                  <MaterialCommunityIcons
+                    name="truck-delivery"
+                    color={color}
+                    style={{
+                      color:
+                        colorScheme === 'dark' ? Colors.white : Colors.black,
+                    }}
+                    size={35}
+                  />
+                </View>
+              );
+            } else if (route.name === 'Home') {
+              iconComponent = (
+                <MaterialIcon name="home" color={color} size={30} />
+              );
+            } else if (route.name === 'Additem') {
+              iconComponent = (
+                <MaterialCommunityIcons
+                  name="plus-box"
+                  color={color}
+                  size={35}
+                />
+              );
+            } else if (route.name === 'RentalStatus') {
+              iconComponent = (
+                <MaterialCommunityIcons
+                  name="truck-delivery"
+                  color={color}
+                  size={35}
+                />
+              );
+            } else if (route.name === 'ProfileScreen') {
+              iconComponent = (
+                <MaterialCommunityIcons
+                  name="account"
+                  color={color}
+                  style={{
+                    color: colorScheme === 'dark' ? Colors.white : Colors.black,
+                  }}
+                  size={35}
+                />
+              );
+            }
+
+            return iconComponent;
+          },
+        })}
+      />
+      <Tab.Screen
         name="ProfileScreen"
         component={OwnerProfilestack}
         options={({route}) => ({
@@ -391,19 +485,32 @@ const Ownerstack = () => {
               );
             } else if (route.name === 'Additem') {
               iconComponent = (
-                <MaterialCommunityIcons
-                  name="plus-box"
-                  color={color}
-                  size={35}
-                />
-              );
-            } else if (route.name === 'RentalStatus') {
-              iconComponent = (
-                <MaterialCommunityIcons
-                  name="truck-delivery"
-                  color={color}
-                  size={35}
-                />
+                <View
+                  style={[
+                    {
+                      backgroundColor: focused ? Colors.buttonColor : '#F0F0F0',
+                      borderRadius: 20,
+                      height: 40,
+                      width: 40,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    },
+                    {
+                      backgroundColor: focused
+                        ? Colors.buttonColor
+                        : tabBarBackgroundColor,
+                    },
+                  ]}>
+                  <MaterialCommunityIcons
+                    name="plus-box"
+                    color={color}
+                    style={{
+                      color:
+                        colorScheme === 'dark' ? Colors.white : Colors.black,
+                    }}
+                    size={35}
+                  />
+                </View>
               );
             }
 

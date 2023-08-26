@@ -1,6 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useRef, useState} from 'react';
-import {ProductsById} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {useSelector} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
@@ -8,6 +7,7 @@ import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
 import {useThunkDispatch} from '../../helpers/helper';
+import {listProductsById} from '../../constants/apiRoutes';
 
 const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
   const isError = useSelector(
@@ -87,7 +87,7 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
   }, []);
 
   const productsData = async () => {
-    const result = await ApiService.get(`${ProductsById}/${product.id}`);
+    const result = await ApiService.get(`${listProductsById}/${product.id}`);
     console.log('result is :', result);
     setshareData(result);
   };

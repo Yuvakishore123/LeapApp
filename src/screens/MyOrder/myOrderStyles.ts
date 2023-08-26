@@ -37,7 +37,8 @@ const styles = StyleSheet.create({
     elevation: 4,
   },
   arrowIcon: {
-    marginLeft: '90%',
+    // marginLeft: '90%',
+    marginTop: 5,
   },
   modalContainer: {
     alignItems: 'center',
@@ -116,7 +117,7 @@ const styles = StyleSheet.create({
   },
   plcedText: {
     fontSize: 12,
-    width: '35%',
+    width: '45%',
     height: 20,
     fontFamily: 'Poppins-Bold',
   },

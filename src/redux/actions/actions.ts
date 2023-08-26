@@ -38,6 +38,7 @@ export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
 import {setLoginData} from '../slice/loginSlice';
 import {ListAddress} from '../slice/listAddressSlice';
+import ApiService from '../../network/network';
 
 export const addname = (Name: any) => ({
   type: ADD_NAME,
@@ -227,8 +228,19 @@ export const SignupAndLogin = (
 
 export const Logout = () => {
   return async (dispatch: Dispatch) => {
-    await AsyncStorage.removeItem('token');
-    dispatch(setLoginData({authToken: null, isAuthenticated: false}));
+    const refreshToken = await AsyncStorage.getItem('refresh_token');
+    try {
+      const response = await axios.post(`${url}/user/logout`, null, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
+      console.log('response for logout is', response);
+      AsyncStorage.removeItem('token');
+      dispatch(setLoginData({authToken: null, isAuthenticated: false}));
+    } catch (error) {
+      console.log('error is', error);
+    }
   };
 };
 

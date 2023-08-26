@@ -1,12 +1,13 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import {CartGetApi} from '../../constants/Apis';
+
 import ApiService from '../../network/network';
+import {cartList} from '../../constants/apiRoutes';
 
 export const fetchCartProducts = createAsyncThunk(
   'fetchCartProducts',
   async () => {
     try {
-      const response = await ApiService.get(CartGetApi);
+      const response = await ApiService.get(cartList);
       return response;
     } catch (error) {
       console.log('error ', error);
@@ -20,8 +21,13 @@ const CartSlice = createSlice({
     data: null,
     isLoader: false,
     isError: false,
+    error: null,
   },
-  reducers: {},
+  reducers: {
+    setError: (state, action) => {
+      state.error = action.payload;
+    },
+  },
   extraReducers: builder => {
     builder
       .addCase(fetchCartProducts.pending, state => {
@@ -37,5 +43,5 @@ const CartSlice = createSlice({
       });
   },
 });
-
+export const {setError} = CartSlice.actions;
 export default CartSlice.reducer;

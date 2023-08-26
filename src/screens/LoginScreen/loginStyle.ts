@@ -119,6 +119,11 @@ const loginStyle = StyleSheet.create({
     color: Colors.buttonColor,
     fontFamily: 'Poppins-Regular',
   },
+  eyeButton: {
+    position: 'absolute',
+    top: 30,
+    right: 40,
+  },
 });
 
 export default loginStyle;

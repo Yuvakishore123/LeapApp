@@ -1,7 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
-import {NavigationContainer, useNavigation} from '@react-navigation/native';
+import React, {useEffect, useState, useRef} from 'react';
+import {
+  NavigationContainer,
+  useNavigation,
+  NavigationContainerRef,
+} from '@react-navigation/native';
+
 import {StatusBar, View} from 'react-native';
 import {LogBox} from 'react-native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
@@ -19,7 +24,6 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import ApiService from './src/network/network';
 import {ProductsById} from './src/constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import * as Sentry from '@sentry/react-native';
 Sentry.init({
   dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
@@ -28,7 +32,11 @@ Sentry.init({
   // We recommend adjusting this value in production.
   tracesSampleRate: 1.0,
 });
+import {firebase} from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
+import Homescreen from './src/screens/Home/Homescreen';
 
+import {setNavigationReference} from '../LeapApp/src/network/network';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
@@ -64,6 +72,7 @@ const AuthStack = () => {
         headerShown: false,
       }}>
       <Stack.Screen name="SplashScreen" component={SplashScreen} />
+      <Stack.Screen name="Homescreen" component={Homescreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
       <Stack.Screen name="OtpScreen" component={OtpScreen} />
@@ -72,6 +81,14 @@ const AuthStack = () => {
 };
 const RootNavigation = () => {
   const token = useSelector((state: any) => state.login.data.authToken);
+  useEffect(() => {
+    getToken();
+  }, []);
+  const getToken = async () => {
+    const Fcm_token = await messaging().getToken();
+    await AsyncStorage.setItem('device_token', Fcm_token);
+    console.log('fcm_token is ', Fcm_token);
+  };
   console.log(token);
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -94,6 +111,7 @@ const RootNavigation = () => {
       </View>
     );
   }
+
   return (
     <>
       <StatusBar backgroundColor="black" barStyle="light-content" />
@@ -102,6 +120,12 @@ const RootNavigation = () => {
   );
 };
 const App = () => {
+  const navigationRef = useRef<NavigationContainerRef | null>(null);
+
+  useEffect(() => {
+    setNavigationReference(navigationRef.current);
+  }, []);
+
   const HandleDeepLinking = () => {
     console.log('Inside HandleDeepLinking'); // Add this line to check if HandleDeepLinking is triggered
     const navigation = useNavigation();
@@ -138,7 +162,7 @@ const App = () => {
   return (
     <ColorSchemeProvider>
       <Provider store={store}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <HandleDeepLinking />
           <RootNavigation />
         </NavigationContainer>
