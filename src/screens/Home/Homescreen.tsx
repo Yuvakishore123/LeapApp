@@ -352,13 +352,13 @@ const Homescreen = ({navigation}: Props) => {
               />
             </View>
           </SafeAreaView>
-          {IsError ? (
+          {/* {IsError ? (
             <Animatable.View animation="fadeIn" style={style.errorContainer}>
               <Text style={style.errorMessage}>Something went worng!</Text>
             </Animatable.View>
           ) : (
             <View></View>
-          )}
+          )} */}
         </View>
       )}
 

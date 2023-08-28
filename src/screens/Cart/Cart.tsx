@@ -40,7 +40,6 @@ const Cart = () => {
     getTextColor,
     getTextInputStyle,
     cartProductId,
-    handleContinueShopping,
   } = useCart();
 
   const cartData = useSelector(
@@ -273,10 +272,8 @@ const Cart = () => {
         </View>
         <View>
           {cartData.cartItems.length === 0 ? (
-            <TouchableOpacity
-              onPress={handleContinueShopping}
-              style={[style.PaymentButton]}>
-              <Text style={style.PaymentButtonText}>Continue Shopping</Text>
+            <TouchableOpacity style={[style.PaymentButton]} disabled={true}>
+              <Text style={style.PaymentButtonText}>Checkout</Text>
             </TouchableOpacity>
           ) : (
             <>

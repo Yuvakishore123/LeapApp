@@ -95,9 +95,6 @@ const useCart = () => {
   const handleCheckout = async () => {
     navigation.navigate('CheckoutScreen');
   };
-  const handleContinueShopping = async () => {
-    navigation.navigate('Homescreen');
-  };
 
   const handleRemove = async (productId: number) => {
     try {
@@ -181,7 +178,7 @@ const useCart = () => {
     getTextColor,
     getTextInputStyle,
     cartProductId,
-    handleContinueShopping,
+
     isError,
   };
 };

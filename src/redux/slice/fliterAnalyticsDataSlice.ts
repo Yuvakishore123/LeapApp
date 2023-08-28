@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
+import {url} from '../../constants/Apis';
 
 export const FliterAnalyticslist = createAsyncThunk(
   'FliterAnalyticslist',
@@ -8,11 +9,9 @@ export const FliterAnalyticslist = createAsyncThunk(
       if (!item.formattedStartDate || !item.formattedEndDate) {
         throw new Error('Invalid date range');
       }
-
       const response = await ApiService.get(
-        `/dashboard/date-selector?startDate=${item.formattedStartDate}&endDate=${item.formattedEndDate}`,
+        `${url}/dashboard/date-selector?endDate=${item.formattedEndDate}&startDate=${item.formattedStartDate}`,
       );
-
       console.log('FilterAnaltyics', response);
       console.log('---------------------------------------------');
 
