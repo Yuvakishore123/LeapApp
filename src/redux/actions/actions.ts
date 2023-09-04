@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {AnyAction, Dispatch} from 'redux';
 import {url} from '../../constants/Apis';
-import {Alert} from 'react-native';
+
 import {ThunkDispatch} from 'redux-thunk';
 import {SetStateAction} from 'react';
 import {Orderreducer} from '../reducers/Orderreducer';
@@ -38,7 +38,6 @@ export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
 import {setLoginData} from '../slice/loginSlice';
 import {ListAddress} from '../slice/listAddressSlice';
-import ApiService from '../../network/network';
 
 export const addname = (Name: any) => ({
   type: ADD_NAME,
@@ -81,33 +80,6 @@ export const removeAddress = (id: any) => {
       dispatch(ListAddress as any);
     } catch (error) {
       console.log('remove address error', error);
-    }
-  };
-};
-
-export const addAddress = (data: {
-  addressLine1: string;
-  addressLine2: string;
-  addressType: string;
-  city: string;
-  country: string;
-  postalCode: string;
-  defaultType: boolean;
-  state: string;
-}) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      const response = await axios.post(
-        'https://64267853556bad2a5b505aec.mockapi.io/login',
-        data,
-      );
-      console.log('address added', response.data);
-      dispatch({
-        type: ADD_ADDRESS,
-        payload: response.data,
-      });
-    } catch (error) {
-      console.log('address add error', error);
     }
   };
 };
@@ -169,74 +141,17 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
   };
 };
 
-export const Login = (email: string, password: string) => {
-  return async (dispatch: ThunkDispatch<{}, {}, AnyAction>) => {
-    try {
-      dispatch({
-        type: LOGIN_REQUEST,
-      });
-      const response = await axios.post(`${url}/login`, {
-        email: email,
-        password: password,
-      });
-      const token = response.headers.access_token;
-      await AsyncStorage.setItem('token', token);
-      console.log('token stored');
-      console.log('this is token', token);
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: token,
-      });
-    } catch (error) {
-      console.log('login error', error);
-      dispatch({
-        type: LOGIN_FAILURE,
-        payload: error,
-      });
-    }
-  };
-};
-export const SignupAndLogin = (
-  firstName: string,
-  lastName: string,
-  email: string,
-  phoneNumber: string,
-  password: string,
-) => {
-  return async (dispatch: Dispatch) => {
-    axios
-      .post(`${url}/user/signup`, {
-        firstName,
-        lastName,
-        email,
-        phoneNumber,
-        password,
-      })
-      .then((response: {data: any}) => {
-        console.log('signup success');
-        console.log(response);
-      })
-      .catch(error => {
-        console.log('signup error', error);
-        dispatch({
-          type: LOGIN_FAILURE,
-          payload: error.message,
-        });
-      });
-  };
-};
-
 export const Logout = () => {
   return async (dispatch: Dispatch) => {
     const refreshToken = await AsyncStorage.getItem('refresh_token');
     try {
+      AsyncStorage.removeItem('token');
       const response = await axios.post(`${url}/user/logout`, null, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
       });
       console.log('response for logout is', response);
-      AsyncStorage.removeItem('token');
       dispatch(setLoginData({authToken: null, isAuthenticated: false}));
     } catch (error) {
       console.log('error is', error);
@@ -326,102 +241,6 @@ export const addProductToStore = (product: any) => {
   return {
     type: ADD_PRODUCT_TO_STORE,
     payload: product,
-  };
-};
-
-export const incrementCartItemQuantity = (item: any) => {
-  return async (dispatch: any) => {
-    const token = await AsyncStorage.getItem('token');
-
-    fetch(`${url}/cart/update`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        productId: item.id,
-        quantity: item.quantity + 1,
-        rentalEndDate: item.rentalEndDate,
-        rentalStartDate: item.rentalStartDate,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // update the Redux store with the response data
-        dispatch({
-          type: ADD_TO_CART,
-          payload: {...item, quantity: data.quantity},
-        });
-      })
-      .catch(error => console.log(error));
-  };
-};
-
-export const decrementCartItemQuantity = (item: any) => {
-  return async (dispatch: any) => {
-    const token = await AsyncStorage.getItem('token');
-
-    fetch(`${url}/cart/update`, {
-      method: 'POST',
-      headers: {
-        Authorization: `Bearer ${token}`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({
-        productId: item.id,
-        quantity: item.quantity - 1,
-        rentalEndDate: item.rentalEndDate,
-        rentalStartDate: item.rentalStartDate,
-      }),
-    })
-      .then(response => response.json())
-      .then(data => {
-        // update the Redux store with the response data
-        dispatch({
-          type: ADD_TO_CART,
-          payload: {...item, quantity: data.quantity},
-        });
-      })
-      .catch(error => console.log(error));
-  };
-};
-
-export const postProductToCartAPI = (item: any, action: string) => {
-  const modifiedItem = {
-    productId: item.id,
-    quantity: item.quantity,
-    rentalEndDate: item.rentalEndDate,
-    rentalStartDate: item.rentalStartDate,
-  };
-  console.log('hello john', item);
-  return async (dispatch: any) => {
-    if (action === '+') {
-      dispatch(incrementCartItemQuantity(modifiedItem));
-    } else if (action === '-') {
-      dispatch(decrementCartItemQuantity(modifiedItem));
-    } else {
-      const token = await AsyncStorage.getItem('token');
-
-      fetch(`${url}/cart/add`, {
-        method: 'POST',
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify(modifiedItem),
-      })
-        .then(response => response.json())
-        .then(data => {
-          // update the Redux store with the response data
-          dispatch({
-            type: ADD_TO_CART,
-            payload: {...modifiedItem, quantity: data.quantity},
-          });
-          Alert.alert('item Added Successfully');
-        })
-        .catch(error => console.log(error));
-    }
   };
 };
 

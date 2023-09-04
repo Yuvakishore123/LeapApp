@@ -10,6 +10,8 @@ import {useSelector} from 'react-redux';
 
 import {postSignup} from '../../redux/slice/signupSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import style from '../Ownereditprofile/ownerEditProfileStyle';
 
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);
@@ -19,7 +21,7 @@ const useSignup = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const {dispatch} = useThunkDispatch();
   const isError = useSelector(
-    (state: {signup: {error: boolean}}) => state.signup.error,
+    (state: {signup: {error: any}}) => state.signup.error,
   );
   const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required('Enter First Name'),
@@ -38,12 +40,26 @@ const useSignup = () => {
   });
   const openModal = () => {
     setShowModal(true);
-    navigation.navigate('Login');
+    // navigation.navigate('Login');
   };
   const closeModal = () => {
     setShowModal(false);
   };
-
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'error during signup try again later',
+    });
+  };
+  const handleError = () => {
+    if (isError === 401) {
+      console.log(isError, 'here is the error');
+      openModal();
+    } else {
+      // console.log(isError.status, 'status of error');
+      showToast();
+    }
+  };
   const handleSignup = () => {
     try {
       const credentials = {
@@ -55,7 +71,8 @@ const useSignup = () => {
         role: role,
       };
       dispatch(postSignup(credentials) as any);
-      navigation.navigate('Login');
+      handleError();
+      // navigation.navigate('Login');
     } catch (error) {
       console.log('hello', error);
       openModal();

@@ -4,9 +4,13 @@ import ApiService from '../../network/network';
 
 export const fetchWishlistProducts = createAsyncThunk(
   'fetchWishlistProducts',
-  async () => {
-    const res = await ApiService.get('/wishlist/list');
-    return res;
+  async (_, {dispatch}) => {
+    try {
+      const res = await ApiService.get('/wishlist/list');
+      return res;
+    } catch (error) {
+      dispatch(setError(error));
+    }
   },
 );
 
@@ -38,4 +42,5 @@ const WishlistSlice = createSlice({
     });
   },
 });
+export const {setError} = WishlistSlice.actions;
 export default WishlistSlice.reducer;

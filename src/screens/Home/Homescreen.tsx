@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
@@ -17,13 +17,13 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lottie from 'lottie-react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import style from './homeStyles';
+import style from 'screens/Home/homeStyles';
 import Carousal from './Carousal';
 import {postProductToAPI} from '../../redux/actions/actions';
-import useHome from './useHome';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import useHome from 'screens/Home/useHome';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';
 type Props = {
   route: {name: string};
@@ -42,7 +42,7 @@ const Homescreen = ({navigation}: Props) => {
     loading,
     closeModal,
     showModal,
-    Error,
+    isLoading,
     IsError,
     name,
     handleEndReached,
@@ -83,7 +83,7 @@ const Homescreen = ({navigation}: Props) => {
     );
   }
 
-  console.log('indranil', allProducts);
+  console.log('productsData', allProducts);
   const loadingComponent = () => {
     return (
       <View>
@@ -312,8 +312,7 @@ const Homescreen = ({navigation}: Props) => {
                                   wishlistremove(item.id);
                                 } else {
                                   setWishlistList([...wishlistList, item.id]);
-                                  dispatch(postProductToAPI({...item}) as any);
-                                  wishlistremove(item.id);
+                                  dispatch(postProductToAPI(item) as any);
                                 }
                               }}>
                               {wishlistList.includes(item.id) ? (

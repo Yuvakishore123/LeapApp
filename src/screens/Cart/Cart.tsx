@@ -272,21 +272,13 @@ const Cart = () => {
         </View>
         <View>
           {cartData.cartItems.length === 0 ? (
-            <TouchableOpacity style={[style.PaymentButton]} disabled={true}>
+            <TouchableOpacity
+              style={[style.PaymentButton, style.disabled]}
+              disabled={true}>
               <Text style={style.PaymentButtonText}>Checkout</Text>
             </TouchableOpacity>
           ) : (
             <>
-              <View style={style.GrandtotalContainer}>
-                <Text style={[style.GrandtotalText, getTextColor()]}>
-                  Grand Total
-                </Text>
-                <View style={{width: 100, height: 25}}>
-                  <Text style={[style.priceTotalText, getTextColor()]}>
-                    ₹ {cartData.totalCost}
-                  </Text>
-                </View>
-              </View>
               <TouchableOpacity
                 style={style.PaymentButton}
                 onPress={handleCheckout}

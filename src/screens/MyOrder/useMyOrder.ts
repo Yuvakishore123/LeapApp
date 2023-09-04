@@ -61,6 +61,7 @@ const useMyOrder = () => {
   const openModal = async (order: Order) => {
     console.log('openModal Id ', order.id);
     setSelectedOrder(order);
+    handleOrderDetails(order.id);
     setIsModalOpen(true);
   };
 
@@ -76,6 +77,29 @@ const useMyOrder = () => {
   const closeModal = () => {
     setSelectedOrder(null);
     setIsModalOpen(false);
+  };
+  const showNotification = async () => {
+    const channelId = await notifee.createChannel({
+      id: 'pdf_download_channel1',
+      name: 'PDF Download Channel1',
+      sound: 'default',
+      importance: AndroidImportance.HIGH,
+      lights: true,
+      lightColor: AndroidColor.RED,
+    });
+    await notifee.displayNotification({
+      title: 'Leaps',
+      body: 'PDF file downloaded successfully.',
+      android: {
+        channelId,
+        largeIcon: require('../../../assets/Leaps-1.png'),
+        lights: [AndroidColor.RED, 300, 600],
+        progress: {
+          max: 10,
+          current: 10,
+        },
+      },
+    });
   };
   const handleOrderDetails = async (orderId: string) => {
     try {
@@ -104,27 +128,6 @@ const useMyOrder = () => {
         await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
         console.log('Invoice downloaded successfully:', filePath);
         // Push notification
-        const channelId = await notifee.createChannel({
-          id: 'pdf_download_channel1',
-          name: 'PDF Download Channel1',
-          sound: 'default',
-          importance: AndroidImportance.HIGH,
-          lights: true,
-          lightColor: AndroidColor.RED,
-        });
-        await notifee.displayNotification({
-          title: 'Leaps',
-          body: 'PDF file downloaded successfully.',
-          android: {
-            channelId,
-            largeIcon: require('../../../assets/Leaps-1.png'),
-            lights: [AndroidColor.RED, 300, 600],
-            progress: {
-              max: 10,
-              current: 10,
-            },
-          },
-        });
       };
       reader.onerror = error => {
         console.log('Error reading file:', error);
@@ -150,6 +153,7 @@ const useMyOrder = () => {
     handleProfile,
     handleOrderDetails,
     loading,
+    showNotification,
   };
 };
 

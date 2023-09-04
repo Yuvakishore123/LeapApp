@@ -64,7 +64,7 @@ const useAnalytics = () => {
           /^data:.+;base64,/,
           '',
         );
-        const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/file.pdf`;
+        const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/report.pdf`;
         await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
         console.log('File downloaded successfully:', filePath);
         // Push notification

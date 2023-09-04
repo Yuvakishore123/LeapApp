@@ -4,14 +4,14 @@ import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 
-import useAddress from './useAddress';
-import useCart from '../Cart/useCart';
+import useAddress from 'screens/Owneraddaddress/useAddress';
+import useCart from 'screens/Cart/useCart';
 
-import Colors from '../../constants/colors';
-import Styles from '../../constants/themeColors';
+import Colors from 'constants/colors';
+import Styles from 'constants/themeColors';
 import style from './AddressStyles';
 
 const Address = () => {

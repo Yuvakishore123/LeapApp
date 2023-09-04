@@ -80,7 +80,7 @@ const LoginScreen = () => {
             <MaterialIcons
               size={22}
               color="#888"
-              name={passwordVisible ? 'eye-off-outline' : 'eye-outline'}
+              name={passwordVisible ? 'eye-outline' : 'eye-off-outline'}
             />
           </TouchableOpacity>
           {formik.touched.password && formik.errors.password && (

@@ -10,19 +10,19 @@ import {
 import {StatusBar, View} from 'react-native';
 import {LogBox} from 'react-native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
-import LoginScreen from './src/screens/LoginScreen/LoginScreen';
+import LoginScreen from 'screens/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from './src/redux/store';
 import {Init} from './src/redux/actions/actions';
-import OtpScreen from './src/screens/OtpScreen/OtpScreen';
+import OtpScreen from 'screens/OtpScreen/OtpScreen';
 import OwnerNavigation from './src/navigation/OwnerNavigation';
-import SplashScreen from './src/screens/Splashscreen/Splashscreen';
+import SplashScreen from 'screens/Splashscreen/Splashscreen';
 import {ColorSchemeProvider} from './ColorSchemeContext';
 import Lottie from 'lottie-react-native';
-import SignupScreen from './src/screens/SignUp/SignupScreen';
+import SignupScreen from 'screens/SignUp/SignupScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import ApiService from './src/network/network';
-import {ProductsById} from './src/constants/Apis';
+import ApiService from 'network/network';
+
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';
 Sentry.init({
@@ -32,11 +32,12 @@ Sentry.init({
   // We recommend adjusting this value in production.
   tracesSampleRate: 1.0,
 });
-import {firebase} from '@react-native-firebase/messaging';
+
 import messaging from '@react-native-firebase/messaging';
-import Homescreen from './src/screens/Home/Homescreen';
+import Homescreen from 'screens/Home/Homescreen';
 
 import {setNavigationReference} from '../LeapApp/src/network/network';
+import {listProductsById} from 'constants/apiRoutes';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
@@ -134,7 +135,7 @@ const App = () => {
       try {
         let productId = link.url.split('=').pop();
         console.log('Jyothi: ', productId);
-        const result = await ApiService.get(`${ProductsById}/${productId}`);
+        const result = await ApiService.get(`${listProductsById}/${productId}`);
         navigation.navigate('UProductDetails', {product: result});
       } catch (error) {
         console.log('Error handling deep link:', error);

@@ -1,6 +1,13 @@
 {
+  "extends": "@tsconfig/react-native/tsconfig.json",
   "compilerOptions": {
-    "jsx": "react"
-  },
-  "extends": "@tsconfig/react-native/tsconfig.json"
+    "jsx": "react",
+    "baseUrl": ".",
+    "paths": {
+      "screens/*": ["./src/screens/*"],
+      "components/*": ["./src/components/*"],
+      "constants/*": ["./src/constants/*"],
+      "network/*": ["./src/network/*"]
+    }
+  }
 }

@@ -1,16 +1,16 @@
-/* eslint-disable no-catch-shadow */
 import {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
+
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -18,7 +18,7 @@ const useHome = () => {
   const [placeholderTextColor, setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
-  const [pageNumber, setPageNumber] = useState(0);
+  // const [pageNumber, setPageNumber] = useState(0);
   const [Error, setError] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
@@ -73,24 +73,25 @@ const useHome = () => {
     setShowModal(false);
   };
   useEffect(() => {
-    setIsLoading(true);
-    dispatch(fetchUserProducts({pageNumber}) as any)
-      .then(() => {
-        setIsLoading(false);
-        setError(''); // Clear any previous errors on success
-      })
-      .catch(error => {
-        setIsLoading(false);
-        setError('Something went wrong. Please try again.');
-        console.error(error);
-      });
+    // setIsLoading(true);
+    // dispatch(fetchUserProducts({pageSize}) as any)
+    //   .then(() => {
+    //     setIsLoading(false);
+    //     setError(''); // Clear any previous errors on success
+    //   })
+    //   .catch(error => {
+    //     setIsLoading(false);
+    //     setError('Something went wrong. Please try again.');
+    //     console.error(error);
+    //   });
     dispatch(getProfileData());
-  }, [dispatch, pageNumber]);
+  }, [dispatch, pageSize]);
   const onRefresh = async () => {
     setRefreshing(true);
 
     setRefreshing(false);
   };
+
   const wishlistremove = async (productId: any) => {
     try {
       await dispatch(wishListRemove(productId) as any);

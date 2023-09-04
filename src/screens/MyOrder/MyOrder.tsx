@@ -14,14 +14,16 @@ import Icons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 import style from './myOrderStyles';
 import useMyOrder from './useMyOrder';
+import styles from 'screens/OwnerHomepage/OwnerHomestyle';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 
 type OrderDetailsModalProps = {
   order: any;
   onClose: () => void;
   visible: boolean;
+  showNotifications: () => void;
 };
 
 const MyOrder = () => {
@@ -36,7 +38,7 @@ const MyOrder = () => {
     openModal,
     closeModal,
     handleProfile,
-    handleOrderDetails,
+    showNotification,
   } = useMyOrder();
   const {
     getContainerStyle,
@@ -137,12 +139,12 @@ const MyOrder = () => {
                           size={20}
                           style={[style.arrowIcon, getTextColor()]}
                         />
-                        <Icons
+                        {/* <Icons
                           name="file-download"
                           size={20}
                           onPress={() => handleOrderDetails(order.id)}
                           style={[style.arrowIcon, getTextColor()]}
-                        />
+                        /> */}
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -156,6 +158,7 @@ const MyOrder = () => {
         order={selectedOrder}
         onClose={closeModal}
         visible={isModalOpen}
+        showNotifications={showNotification}
       />
     </>
   );
@@ -165,6 +168,7 @@ export const OrderDetailsModal = ({
   order,
   onClose,
   visible,
+  showNotifications,
 }: OrderDetailsModalProps) => {
   const {
     getContainerStyle,
@@ -172,6 +176,7 @@ export const OrderDetailsModal = ({
     getTextColor,
     getButtonColor,
   } = useContext(ColorSchemeContext);
+  // const {showNotification} = useMyOrder();
 
   if (!visible) {
     return null;
@@ -222,6 +227,11 @@ export const OrderDetailsModal = ({
                   </View>
                 </View>
               ))}
+              <TouchableOpacity
+                style={styles.exportContainer}
+                onPress={showNotifications}>
+                <Text style={styles.exportText}> download</Text>
+              </TouchableOpacity>
             </View>
           </ScrollView>
         </View>

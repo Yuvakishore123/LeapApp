@@ -23,6 +23,8 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import Styles from './Signupstyle';
 import style from '../Owneraddaddress/AddressStyles';
+import Toast from 'react-native-toast-message';
+
 const SignUpScreen = () => {
   const {
     formik,
@@ -128,7 +130,7 @@ const SignUpScreen = () => {
               <MaterialIcons
                 size={22}
                 color="#888"
-                name={signInPasswordVisible ? 'eye-off-outline' : 'eye-outline'}
+                name={signInPasswordVisible ? 'eye-outline' : 'eye-off-outline'}
               />
             </TouchableOpacity>
             {formik.touched.password && formik.errors.password && (
@@ -187,6 +189,7 @@ const SignUpScreen = () => {
         onClose={closeModal}
         message="Credentials already used"
       />
+      <Toast />
     </ScrollView>
   );
 };

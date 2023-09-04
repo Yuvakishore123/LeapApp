@@ -4,7 +4,6 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {Login} from '../../redux/actions/actions';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {passwordValidation} from '../../constants/Regex';
@@ -14,10 +13,9 @@ import colors from '../../constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { firebase } from '@react-native-firebase/messaging';
-import { url } from '../../constants/Apis';
-import ApiService from '../../network/network';
+import {firebase} from '@react-native-firebase/messaging';
 import messaging from '@react-native-firebase/messaging';
+import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 type RootStackParamList = {
   OtpScreen: undefined;
   SignupScreen: undefined;
@@ -29,6 +27,7 @@ const useLoginscreen = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const isError = useSelector((state: any) => state.login.error);
+  const [pageSize, setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Enter valid email'),
@@ -46,15 +45,7 @@ const useLoginscreen = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  const handleLogin = async () => {
-    try {
-      await dispatch(Login(formik.values.email, formik.values.password));
-      openModal();
-    } catch (error) {
-      console.log('error is ', error);
-      console.log('error in login');
-    }
-  };
+
   const handleLoginGuest = async () => {
     try {
       const credentials = {
@@ -161,6 +152,7 @@ const useLoginscreen = () => {
       };
       const response = await dispatch(postLogin(credentials));
       loginEvent();
+      dispatch(fetchUserProducts({pageSize}));
       console.log('Login data:', response);
     } catch (error) {
       console.log('isError', isError);
@@ -182,7 +174,7 @@ const useLoginscreen = () => {
       password: '',
     },
     validationSchema: LoginSchema,
-    onSubmit: handleLogin,
+    onSubmit: handleLoginScreen,
   });
   const loginEvent = async () => {
     await analytics().logEvent('loged_users');
@@ -196,7 +188,7 @@ const useLoginscreen = () => {
     formik,
     passwordError,
     setPasswordError,
-    handleLogin,
+
     colorScheme,
     handleOtpScreen,
     handleSignUp,

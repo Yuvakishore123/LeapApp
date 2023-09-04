@@ -10,15 +10,15 @@ import {
 import {CheckBox} from 'react-native-elements';
 import {RadioButton} from 'react-native-paper';
 import Spinner from 'react-native-loading-spinner-overlay';
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 
 import useAddAddress from './useAddAddress';
 
 import style from './AddressStyles';
-import colors from '../../constants/colors';
+import colors from 'constants/colors';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 const AddAddress = () => {
   const {
     setStateName,

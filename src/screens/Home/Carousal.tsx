@@ -7,10 +7,10 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import styles from './homeStyles';
+import styles from 'screens/Home/homeStyles';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
+import Styles from 'constants/themeColors';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchCategoriesData} from '../../redux/slice/categorySlice';

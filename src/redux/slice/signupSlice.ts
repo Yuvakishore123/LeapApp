@@ -40,9 +40,9 @@ export const postSignup = createAsyncThunk(
       const response = await ApiService.post(signupUrl, credentials);
       console.log(response);
       return response;
-    } catch (error) {
-      console.log('error ', error);
-      dispatch(setError(error));
+    } catch (error: any) {
+      console.log('error ', error.response.status);
+      dispatch(setError(error.response.status));
       return error;
     }
   },
