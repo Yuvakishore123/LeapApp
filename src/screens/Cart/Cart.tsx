@@ -12,7 +12,7 @@ import React, {ReactNode} from 'react';
 import Lottie from 'lottie-react-native';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-// import CouponIcon from 'react-native-vector-icons/MaterialIcons';
+
 import Toast from 'react-native-toast-message';
 
 import useCart from './useCart';

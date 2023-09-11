@@ -11,7 +11,7 @@ interface WishlistDataState {
   data: WishlistData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 const initialState: WishlistDataState = {
   data: {
@@ -63,7 +63,7 @@ const wishlistRemoveThunk = createSlice({
       .addCase(wishListRemove.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

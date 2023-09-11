@@ -10,7 +10,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import Wishlist from 'screens/Wishlist/Wishlist';
 import Cart from 'screens/Cart/Cart';
-import {useSelector} from 'react-redux';
+
 import Category from 'screens/Category/Category';
 import UProductDetails from 'screens/UProductDetails/UProductDetails';
 import Subcategory from 'screens/Subcategory/Subcategory';
@@ -102,7 +102,6 @@ const ProfileStack = () => {
   );
 };
 const MyStack = () => {
-  const data = useSelector(state => state);
   const {colorScheme} = useContext(ColorSchemeContext);
   const isFocused = useIsFocused();
 
@@ -140,7 +139,7 @@ const MyStack = () => {
           },
           tabBarLabel: 'Home',
           tabBarIcon: ({focused, color}) => {
-            if (!isFocused) return (color = 'white');
+            if (!isFocused) return null;
             let iconComponent;
             switch (String(route.name)) {
               case 'UserHomescreen':
@@ -598,6 +597,3 @@ const getRouteName = (route: Partial<Route<string>>) => {
   return 'flex';
 };
 export default MyStack;
-function asnc(): React.EffectCallback {
-  throw new Error('Function not implemented.');
-}

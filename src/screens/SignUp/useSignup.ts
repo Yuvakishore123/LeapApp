@@ -11,8 +11,6 @@ import {useSelector} from 'react-redux';
 import {postSignup} from '../../redux/slice/signupSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
-import style from '../Ownereditprofile/ownerEditProfileStyle';
-
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);
   const [signInPasswordVisible, setSignInPasswordVisible] = useState(false);
@@ -40,7 +38,6 @@ const useSignup = () => {
   });
   const openModal = () => {
     setShowModal(true);
-    // navigation.navigate('Login');
   };
   const closeModal = () => {
     setShowModal(false);
@@ -56,7 +53,6 @@ const useSignup = () => {
       console.log(isError, 'here is the error');
       openModal();
     } else {
-      // console.log(isError.status, 'status of error');
       showToast();
     }
   };
@@ -72,7 +68,6 @@ const useSignup = () => {
       };
       dispatch(postSignup(credentials) as any);
       handleError();
-      // navigation.navigate('Login');
     } catch (error) {
       console.log('hello', error);
       openModal();

@@ -9,7 +9,7 @@ interface CartAddState {
   data: CartAddData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 const initialState: CartAddState = {
   data: {
@@ -39,7 +39,7 @@ export const CartAdd = createAsyncThunk(
     } catch (error: any) {
       if (error.response) {
         console.log('error', error.response.status);
-        dispatch(setError(error.response as any));
+        dispatch(setError(error.response));
       }
       return error.response;
     }
@@ -68,7 +68,7 @@ const cartThunk = createSlice({
       .addCase(CartAdd.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

@@ -60,23 +60,6 @@ const Wishlist = ({navigation}: Props) => {
       </View>
     );
   }
-  // if (!WishlistProducts) {
-  //   return (
-  //     <View
-  //       testID="loading-screen"
-  //       style={{
-  //         flex: 1,
-  //         backgroundColor: colorScheme === 'dark' ? Colors.black : Colors.main,
-  //       }}>
-  //       <Lottie
-  //         source={require('../../../assets/loading2.json')}
-  //         autoPlay
-  //         style={style.Lottiestyle}
-  //       />
-  //       <Text style={style.Lottietext}>The Items are Loading...</Text>
-  //     </View>
-  //   );
-  // }
 
   return (
     <View
@@ -131,78 +114,75 @@ const Wishlist = ({navigation}: Props) => {
             ]}>
             <View style={style.wishlistViewContaner}>
               <View style={style.whishlistView}>
-                {allWishlistProducts &&
-                  allWishlistProducts.map(item => {
-                    return (
-                      <View style={style.wishlistConatinerwrap} key={item.id}>
-                        <View
-                          style={[
-                            style.container,
-                            colorScheme === 'dark'
-                              ? Styles.cardColor
-                              : Styles.main,
-                          ]}>
-                          <TouchableOpacity
-                            onPress={() =>
-                              navigation.navigate('UProductDetails', {
-                                product: item,
-                              })
-                            }>
-                            <View style={style.imageContainer}>
-                              {!imageLoaded && (
-                                <Image
-                                  source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                                  style={style.image}
-                                />
-                              )}
+                {allWishlistProducts?.map(item => {
+                  return (
+                    <View style={style.wishlistConatinerwrap} key={item.id}>
+                      <View
+                        style={[
+                          style.container,
+                          colorScheme === 'dark'
+                            ? Styles.cardColor
+                            : Styles.main,
+                        ]}>
+                        <TouchableOpacity
+                          onPress={() =>
+                            navigation.navigate('UProductDetails', {
+                              product: item,
+                            })
+                          }>
+                          <View style={style.imageContainer}>
+                            {!imageLoaded && (
                               <Image
-                                source={{uri: item.imageUrl[0]}}
-                                style={[
-                                  style.image,
-                                  {display: imageLoaded ? 'flex' : 'none'},
-                                ]}
-                                onLoad={() => setImageLoaded(true)}
-                                onError={() => setImageLoaded(false)}
+                                source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                                style={style.image}
                               />
-                            </View>
-                          </TouchableOpacity>
-                          <View style={style.cardTextContainer}>
-                            <View style={style.Cartcontents}>
-                              <Text
-                                style={[
-                                  style.name,
-                                  colorScheme === 'dark'
-                                    ? Styles.whitetext
-                                    : Styles.blackText,
-                                ]}>
-                                {item.name}
-                              </Text>
-                            </View>
-                            <View
+                            )}
+                            <Image
+                              source={{uri: item.imageUrl[0]}}
                               style={[
-                                style.textContainer,
+                                style.image,
+                                {display: imageLoaded ? 'flex' : 'none'},
+                              ]}
+                              onLoad={() => setImageLoaded(true)}
+                              onError={() => setImageLoaded(false)}
+                            />
+                          </View>
+                        </TouchableOpacity>
+                        <View style={style.cardTextContainer}>
+                          <View style={style.Cartcontents}>
+                            <Text
+                              style={[
+                                style.name,
                                 colorScheme === 'dark'
                                   ? Styles.whitetext
                                   : Styles.blackText,
                               ]}>
-                              <Text style={style.price}>
-                                {'₹' + item.price}
-                              </Text>
-                            </View>
+                              {item.name}
+                            </Text>
                           </View>
-                          <TouchableOpacity
-                            style={style.wishlistButton}
-                            onPress={() => wishlistremove(item.id)}
-                            onPressIn={() => openModal()}>
-                            <Image
-                              source={require('../../../assets/fillheart.png')}
-                              style={style.EmptyImage}
-                            />
-                          </TouchableOpacity>
+                          <View
+                            style={[
+                              style.textContainer,
+                              colorScheme === 'dark'
+                                ? Styles.whitetext
+                                : Styles.blackText,
+                            ]}>
+                            <Text style={style.price}>{'₹' + item.price}</Text>
+                          </View>
                         </View>
+                        <TouchableOpacity
+                          style={style.wishlistButton}
+                          onPress={() => wishlistremove(item.id)}
+                          onPressIn={() => openModal()}>
+                          <Image
+                            source={require('../../../assets/fillheart.png')}
+                            style={style.EmptyImage}
+                          />
+                        </TouchableOpacity>
                       </View>
-                    );
-                  })}
+                    </View>
+                  );
+                })}
               </View>
             </View>
           </View>

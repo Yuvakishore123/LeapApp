@@ -14,7 +14,7 @@ interface CategoryState {
   data: CategoryData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 
 const initialState: CategoryState = {
@@ -82,7 +82,7 @@ const categoryThunk = createSlice({
       .addCase(fetchCategoriesData.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       })
       .addCase(fetchSubcategoryList.pending, state => {
         state.isLoader = true;
@@ -94,7 +94,7 @@ const categoryThunk = createSlice({
       .addCase(fetchSubcategoryList.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

@@ -5,7 +5,7 @@ import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 export const ownerorderproducts = createAsyncThunk(
   'ownerorderproducts',
-  async status => {
+  async (status: string) => {
     try {
       const products = await ApiService.get(
         `${url}/order/shipping-status?status=${status}`,

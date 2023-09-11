@@ -1,6 +1,5 @@
 import {StyleSheet} from 'react-native';
-import Colors from '../../constants/colors';
-import colors from '../../constants/colors';
+import Colors from 'constants/colors';
 const OwnerRentalstyles = StyleSheet.create({
   mainContainer: {
     height: '100%',
@@ -19,7 +18,7 @@ const OwnerRentalstyles = StyleSheet.create({
     height: '75%',
     width: '95%',
     marginTop: 10,
-    backgroundColor: colors.black,
+    backgroundColor: Colors.black,
     borderRadius: 15,
     marginLeft: 10,
   },

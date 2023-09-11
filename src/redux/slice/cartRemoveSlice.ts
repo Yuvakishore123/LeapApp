@@ -3,17 +3,17 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {cartRemoveUrl} from '../../constants/apiRoutes';
 
-interface WishlistData {
+interface CartRemoeData {
   message: string;
   status: string;
 }
-interface WishlistDataState {
-  data: WishlistData;
+interface CartRemoveState {
+  data: CartRemoeData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
-const initialState: WishlistDataState = {
+const initialState: CartRemoveState = {
   data: {
     message: '',
     status: '',
@@ -61,7 +61,7 @@ const cartRemoveThunk = createSlice({
       .addCase(removefromCart.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

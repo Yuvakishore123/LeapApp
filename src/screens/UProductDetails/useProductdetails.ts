@@ -8,11 +8,13 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
 import {useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
-const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
-  const isError = useSelector(
-    (state: {cartAdd: {error: any}}) => state.cartAdd.error,
-  );
+const useProductdetails = (product: {
+  id: any;
+  imageUrl: string | any[];
+  availableQuantities: number;
+}) => {
   const isData = useSelector(
     (state: {cartAdd: {data: any}}) => state.cartAdd.data,
   );
@@ -25,7 +27,7 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
   const [isMinusDisabled, setIsMinusDisabled] = useState(true);
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
-  const [shareData, setshareData] = useState({});
+  const [_shareData, setshareData] = useState({});
   const {dispatch} = useThunkDispatch();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
@@ -45,8 +47,6 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
     setQuantity(quantity + 1);
     setIsMinusDisabled(false);
   };
-  console.log('carterrors', isError?.status);
-  console.log('cart status if true', isData?.status);
   const handleSubmit = () => {
     try {
       const Item = {
@@ -117,12 +117,10 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
           message: getLink,
         });
       } else {
-        showToast('Error generating link.');
+        showToast();
       }
     } catch (error) {
-      showToast(
-        'An error occurred while sharing the product. Please try again.',
-      );
+      errorToast();
     }
   };
   const scrollToNextImage = useCallback(() => {
@@ -151,6 +149,18 @@ const useProductdetails = (product: {id: any; imageUrl: string | any[]}) => {
       clearInterval(scrollTimerRef.current);
       scrollTimerRef.current = null;
     }
+  };
+  const showToast = () => {
+    Toast.show({
+      text1: 'Error generating link.',
+      type: 'error',
+    });
+  };
+  const errorToast = () => {
+    Toast.show({
+      text1: 'An error occurred while sharing the product. Please try again.',
+      type: 'error',
+    });
   };
 
   const handleScroll = () => {

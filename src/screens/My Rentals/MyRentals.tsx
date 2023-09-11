@@ -55,26 +55,25 @@ export default function OwnerHome({navigation}: Props) {
                 flexWrap: 'wrap',
                 justifyContent: 'space-between',
               }}>
-              {products &&
-                products.map(item => (
-                  <TouchableOpacity
-                    key={item.id}
-                    style={styles.recentlyaddedcard}
-                    onPress={() =>
-                      navigation.navigate('OproductDetails', {product: item})
-                    }>
-                    <View style={styles.cardContainer}>
-                      <Image
-                        source={{uri: item.imageURL}}
-                        style={styles.recentlyaddedimage}
-                      />
-                    </View>
-                    <View style={styles.cardTextContainer}>
-                      <Text style={styles.cardText}>{item.description}</Text>
-                      <Text style={styles.cardText}>₹ {item.price}</Text>
-                    </View>
-                  </TouchableOpacity>
-                ))}
+              {products?.map(item => (
+                <TouchableOpacity
+                  key={item.id}
+                  style={styles.recentlyaddedcard}
+                  onPress={() =>
+                    navigation.navigate('OproductDetails', {product: item})
+                  }>
+                  <View style={styles.cardContainer}>
+                    <Image
+                      source={{uri: item.imageURL}}
+                      style={styles.recentlyaddedimage}
+                    />
+                  </View>
+                  <View style={styles.cardTextContainer}>
+                    <Text style={styles.cardText}>{item.description}</Text>
+                    <Text style={styles.cardText}>₹ {item.price}</Text>
+                  </View>
+                </TouchableOpacity>
+              ))}
             </View>
           </View>
         </View>

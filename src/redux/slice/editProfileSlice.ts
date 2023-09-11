@@ -12,7 +12,7 @@ interface ProfileDataState {
   data: ProfileData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 const initialState: ProfileDataState = {
   data: {
@@ -26,7 +26,15 @@ const initialState: ProfileDataState = {
 
 export const updateProfile = createAsyncThunk(
   'updateProfile',
-  async (data, {dispatch}) => {
+  async (
+    data: {
+      firstName: string;
+      lastName: string;
+      email: string;
+      phoneNumber: string;
+    },
+    {dispatch},
+  ) => {
     try {
       const response = await ApiService.put(updateProfileUrl, data);
       console.log('updated data is ', response);
@@ -63,7 +71,7 @@ const updateProfileThunk = createSlice({
       .addCase(updateProfile.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

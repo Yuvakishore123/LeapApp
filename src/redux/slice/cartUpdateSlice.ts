@@ -12,7 +12,7 @@ interface CartDataState {
   data: CartData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 const initialState: CartDataState = {
   data: {
@@ -63,7 +63,7 @@ const cartUpdateThunk = createSlice({
       .addCase(updateCart.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

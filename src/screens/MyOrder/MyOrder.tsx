@@ -176,7 +176,6 @@ export const OrderDetailsModal = ({
     getTextColor,
     getButtonColor,
   } = useContext(ColorSchemeContext);
-  // const {showNotification} = useMyOrder();
 
   if (!visible) {
     return null;

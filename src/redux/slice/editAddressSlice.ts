@@ -1,16 +1,16 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
-interface editaddressData {
+interface EditAddressData {
   message: string;
   status: string;
 }
-interface editAddressState {
-  data: editaddressData;
+interface EditAddressState {
+  data: EditAddressData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
-const initialState: editAddressState = {
+const initialState: EditAddressState = {
   data: {
     message: '',
     status: '',
@@ -74,7 +74,7 @@ const editAddressThunk = createSlice({
       .addCase(editAddressData.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

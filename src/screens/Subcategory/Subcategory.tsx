@@ -60,33 +60,32 @@ const Subcategory = ({
     <ScrollView style={getContainerStyle()}>
       <HeadingText message="Subcategories" navigation={undefined} />
       <View>
-        {subcategories &&
-          subcategories.map(item => (
-            <TouchableOpacity
-              key={item.id}
-              onPress={() => handleSubcategoryPress(item.id)}>
-              <View style={[styles.categoryBox, getTextInputStyle()]}>
-                <View style={styles.imageContainer}>
-                  <Image
-                    source={{uri: item.imageUrl}}
-                    style={styles.categoryImage}
-                  />
-                </View>
-                <View>
-                  <Text style={[styles.categoryText, getTextColor()]}>
-                    {item.subcategoryName}
-                  </Text>
-                </View>
-                <View style={styles.iconS}>
-                  <Icon
-                    name="arrow-forward-ios"
-                    size={20}
-                    style={styles.productforwardios}
-                  />
-                </View>
+        {subcategories?.map(item => (
+          <TouchableOpacity
+            key={item.id}
+            onPress={() => handleSubcategoryPress(item.id)}>
+            <View style={[styles.categoryBox, getTextInputStyle()]}>
+              <View style={styles.imageContainer}>
+                <Image
+                  source={{uri: item.imageUrl}}
+                  style={styles.categoryImage}
+                />
               </View>
-            </TouchableOpacity>
-          ))}
+              <View>
+                <Text style={[styles.categoryText, getTextColor()]}>
+                  {item.subcategoryName}
+                </Text>
+              </View>
+              <View style={styles.iconS}>
+                <Icon
+                  name="arrow-forward-ios"
+                  size={20}
+                  style={styles.productforwardios}
+                />
+              </View>
+            </View>
+          </TouchableOpacity>
+        ))}
       </View>
     </ScrollView>
   );

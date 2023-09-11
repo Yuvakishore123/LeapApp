@@ -39,7 +39,7 @@ const useMyOrder = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const loading = useSelector(
-    (state: {OrderProducts: {isLoader: Boolean}}) =>
+    (state: {OrderProducts: {isLoader: boolean}}) =>
       state.OrderProducts.isLoader,
   );
   const invoiceData = useSelector(

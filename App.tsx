@@ -7,8 +7,7 @@ import {
   NavigationContainerRef,
 } from '@react-navigation/native';
 
-import {StatusBar, View} from 'react-native';
-import {LogBox} from 'react-native';
+import {LogBox, StatusBar, View} from 'react-native';
 import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import LoginScreen from 'screens/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
@@ -94,14 +93,24 @@ const RootNavigation = () => {
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const init = async () => {
-    dispatch(Init() as any);
+    await dispatch(Init() as any);
     setLoading(false);
   };
   useEffect(() => {
     init();
   }, [token]);
   useEffect(() => {
-    const delay = setTimeout(init, 3000); // Add a delay of 2 seconds before initializing
+    const delay = setTimeout(() => {
+      init()
+        .then(() => {
+          // Do something after init() resolves (e.g., continue your code)
+        })
+        .catch(error => {
+          // Handle any errors if init() rejects
+          console.log(error);
+        });
+    }, 3000);
+    // Add a delay of 2 seconds before initializing
     return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
   }, []);
   if (loading === true) {
@@ -153,7 +162,13 @@ const App = () => {
           console.log('Error getting initial link:', error);
         });
 
-      const subscribe = dynamicLinks().onLink(Handlelink);
+      const subscribe = dynamicLinks().onLink(() => {
+        Handlelink(initialLink).catch(error => {
+          console.log('error ', error);
+          // Handle any errors if Handlelink() rejects
+        });
+      });
+
       return () => subscribe();
     }, []);
 

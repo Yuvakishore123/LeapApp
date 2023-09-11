@@ -26,7 +26,7 @@ interface CategoryProductState {
   data: CategoryProduct[];
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 
 const initialState: CategoryProductState = {
@@ -78,7 +78,7 @@ const categoryProductsThunk = createSlice({
       .addCase(fetchCategoriesProductsdata.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

@@ -2,12 +2,11 @@ import React, {useContext} from 'react';
 import {View, Text, FlatList} from 'react-native';
 import OwnerRentalstyles from './ownerRentalStyles';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-// import OwnerRentalSwitch from '../../components/atoms/OwnerRentalSwitch';
+
 import {useSelector} from 'react-redux';
 import BackButton from '../../components/atoms/BackButton/BackButton';
 import {useNavigation} from '@react-navigation/native';
-// import useOwnerorderproducts from './useOwnerorderproducts';
-// import Icon from 'react-native-vector-icons/MaterialIcons';
+
 const OwnerRentalDetailsScreen = () => {
   const navigation = useNavigation();
   const {getTextColor} = useContext(ColorSchemeContext);

@@ -13,7 +13,7 @@ interface SubCategoryState {
   data: SubCategoryData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 
 const initialState: SubCategoryState = {
@@ -65,7 +65,7 @@ const subcategoryThunk = createSlice({
       .addCase(getsubcategoryData.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

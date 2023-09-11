@@ -3,7 +3,6 @@ import {
   combineReducers,
   applyMiddleware,
 } from 'redux';
-// import {configureStore} from '@reduxjs/toolkit';
 import ProductSlice from './slice/productSlice';
 import Reducers from './reducers/reducers';
 import {AddressReducers} from './reducers/AddressReducers';

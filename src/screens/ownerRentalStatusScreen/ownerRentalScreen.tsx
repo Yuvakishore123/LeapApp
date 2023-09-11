@@ -3,25 +3,22 @@ import React, {useContext} from 'react';
 import {View, Text, FlatList, TouchableOpacity} from 'react-native';
 import OwnerRentalstyles from './ownerRentalScreenStyles';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import OwnerRentalSwitch from '../../components/atoms/OwnerRentalSwitch';
+import OwnerRentalSwitch from 'components/atoms/OwnerRentalSwitch';
 import useOwnerorderproducts from './useOwnerorderproducts';
-// import {useNavigation} from '@react-navigation/native';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Image} from 'react-native-elements';
 const OwnerRentalScreen = () => {
   const {getTextColor} = useContext(ColorSchemeContext);
   const {ownerrentalproducts} = useOwnerorderproducts();
-  // const navigation = useNavigation();
+
   const renderownerrentalItem = ({item}: {item: any; index: number}) => {
     const statusStyle =
       item.status === 'Order placed'
         ? OwnerRentalstyles.orderPlaced
         : OwnerRentalstyles.returned;
     return (
-      <TouchableOpacity
-        style={OwnerRentalstyles.card}
-        // onPress={() => navigation.navigate('OwnerRentalDetailsScreen')}
-      >
+      <TouchableOpacity style={OwnerRentalstyles.card}>
         <View>
           <Image
             source={{uri: item.imageUrl}}

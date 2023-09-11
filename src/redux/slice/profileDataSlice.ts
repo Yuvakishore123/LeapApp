@@ -15,7 +15,7 @@ interface ProfileDataState {
   data: ProfileData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 const initialState: ProfileDataState = {
   data: {
@@ -66,7 +66,7 @@ const profileThunk = createSlice({
       .addCase(getProfileData.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

@@ -9,7 +9,7 @@ interface ProductAddState {
   data: ProductAddData;
   isLoader: boolean;
   isError: boolean;
-  error: null | string | unknown;
+  error: null | string;
 }
 const initialState: ProductAddState = {
   data: {
@@ -73,7 +73,7 @@ const ProductAddThunk = createSlice({
       .addCase(ProductAdd.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
-        state.error = action.payload;
+        state.error = action.payload as string | null;
       });
   },
 });

@@ -13,9 +13,9 @@ import colors from '../../constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {firebase} from '@react-native-firebase/messaging';
-import messaging from '@react-native-firebase/messaging';
+import messaging, {firebase} from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
+
 type RootStackParamList = {
   OtpScreen: undefined;
   SignupScreen: undefined;
@@ -27,7 +27,7 @@ const useLoginscreen = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const isError = useSelector((state: any) => state.login.error);
-  const [pageSize, setPageSize] = useState(10);
+  const [pageSize, _setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Enter valid email'),
@@ -52,18 +52,19 @@ const useLoginscreen = () => {
         email: 'GuestLogin@leaps.com',
         password: 'GuestLogin',
       };
-      // const response = await dispatch(postLogin(credentials));
       navigation.navigate('Homescreen');
       loginEvent();
-      console.log('Login data:', response);
     } catch (error) {
       console.log('isError', isError);
     }
   };
   useEffect(() => {
+    const googleApiKey = process.env.GOOGLE_API_KEY;
+    console.log(googleApiKey, 'Hola i am Here');
+
     if (firebase?.apps.length === 0) {
       firebase.initializeApp({
-        apiKey: 'AIzaSyCocxGzIbsJo6nAv62pM6CWdrP5JbkxbW0',
+        apiKey: googleApiKey,
         authDomain: 'In-App Messaging.firebase.com',
         databaseURL:
           'https://in-app-messaging-feed0-default-rtdb.firebaseio.com/',
@@ -81,33 +82,18 @@ const useLoginscreen = () => {
         console.log('Error storing FCM token:', error);
       }
     };
-    const onTokenRefresh = async (DnewToken: string | null) => {
+    const onTokenRefresh = async (DnewToken: string) => {
       try {
         const storedToken = await AsyncStorage.getItem('fcmToken');
         if (storedToken !== DnewToken) {
           await storeFCMToken(DnewToken);
           console.log('Refreshed FCM token:', DnewToken);
-          // await postRefreshedToken(DnewToken);
         }
       } catch (error) {
         console.log('Error handling FCM token refresh:', error);
       }
     };
-    // const postRefreshedToken = async (DnewToken: string | null) => {
-    //   try {
-    //     const response = await ApiService.post(
-    //       `${url}/user/devicetoken?deviceToken=${DnewToken}`,
-    //       DnewToken,
-    //     );
-    //     if (response) {
-    //       console.log('FCM token stored in the backend.');
-    //     } else {
-    //       console.log('Failed to store FCM token in the backend.');
-    //     }
-    //   } catch (error) {
-    //     console.log('Error storing FCM token in the backend:', error);
-    //   }
-    // };
+
     const requestFCMPermission = async () => {
       try {
         await firebase.messaging().requestPermission();
@@ -125,8 +111,6 @@ const useLoginscreen = () => {
     firebase?.messaging().onTokenRefresh(onTokenRefresh);
     firebase?.messaging().setBackgroundMessageHandler(backgroundMessageHandler);
   }, []);
-
-  // console.log('isError', isError);
 
   const handleErrorResponse = (error: number) => {
     if (error === 401) {

@@ -1,6 +1,6 @@
 import {StyleSheet} from 'react-native';
-import Colors from '../../constants/colors';
-import colors from '../../constants/colors';
+import Colors from 'constants/colors';
+
 const OwnerRentalstyles = StyleSheet.create({
   mainContainer: {
     height: '100%',
@@ -19,114 +19,11 @@ const OwnerRentalstyles = StyleSheet.create({
     height: '75%',
     width: '95%',
     marginTop: 10,
-    backgroundColor: colors.black,
+    backgroundColor: Colors.black,
     borderRadius: 15,
     marginLeft: 10,
   },
-  noAddressContainer1: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 30,
-  },
-  titleTextContainer1: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginBottom: 15,
-    marginLeft: 60,
-  },
-  imageS1: {
-    width: 300,
-    height: 300,
-    borderRadius: 130,
-    marginLeft: -25,
-  },
-  textContainer1: {
-    alignItems: 'center',
-  },
-  noAddressText1: {
-    fontWeight: '500',
-    fontSize: 20,
-    marginTop: 20,
-    marginBottom: 10,
-    color: 'white',
-  },
-  cardContainer: {
-    flexDirection: 'row',
-    backgroundColor: Colors.Inputtext,
-    borderRadius: 10,
-    marginLeft: 10,
-    marginBottom: 10,
-    height: 150,
-    width: '90%',
-    elevation: 4,
-  },
-  imageContainer: {
-    width: '30%',
-    height: '82%',
-    marginTop: 10,
-    marginLeft: 10,
-  },
-  image: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 3,
-  },
-  subContainer: {
-    height: '100%',
-    width: '85%',
-  },
-  cardTextContainer: {
-    justifyContent: 'space-between',
-    flexDirection: 'row',
-    width: '85%',
-    marginLeft: 10,
-    marginTop: 10,
-  },
-  productName: {
-    fontSize: 14,
-    marginLeft: 10,
-    color: Colors.black,
-    fontFamily: 'Poppins-Bold',
-    marginTop: -30,
-  },
-  price: {
-    fontSize: 14,
-    marginLeft: 10,
-    color: Colors.black,
-    fontFamily: 'Poppins-Bold',
-    marginTop: 10,
-  },
-  name: {
-    fontSize: 12,
-    color: 'black',
-    fontFamily: 'Poppins-SemiBold',
-    marginRight: 10,
-  },
-  priceText: {
-    fontSize: 12,
-    fontFamily: 'Poppins-Bold',
-    color: Colors.buttonColor,
-    marginRight: 50,
-  },
-  sizeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: 40,
-    height: 20,
-    marginLeft: 6,
-    marginTop: 15,
-  },
-  sizeText: {
-    fontSize: 12,
-    color: 'black',
-    fontFamily: 'Poppins-SemiBold',
-    marginHorizontal: 5,
-  },
-  detailsdescription: {
-    fontSize: 12,
-    color: Colors.black,
-    fontFamily: 'Poppins-SemiBold',
-  },
+
   card: {
     // height: '100%',
     backgroundColor: 'rgba(255, 255, 255, 0.2)',
@@ -149,9 +46,6 @@ const OwnerRentalstyles = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  arrowIcon: {
-    marginLeft: '70%',
   },
 });
 export default OwnerRentalstyles;

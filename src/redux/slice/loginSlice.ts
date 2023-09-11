@@ -6,7 +6,7 @@ import {url} from '../../constants/Apis';
 export const postLogin = createAsyncThunk(
   'postLogin',
   async (
-    credentials: {email: string; password: string; deviceToken: string},
+    credentials: {email: string; password: string; deviceToken: string | null},
     {dispatch},
   ) => {
     try {

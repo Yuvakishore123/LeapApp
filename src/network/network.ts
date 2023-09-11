@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import axios from 'axios';
-import {url} from '../constants/Apis';
+import {url} from 'constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainerRef} from '@react-navigation/native';
 

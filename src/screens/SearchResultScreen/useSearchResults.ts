@@ -7,7 +7,7 @@ const useSearchresults = () => {
   const [maximumPrice, setMaximumPrice] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [subcategoriesData, setSubcategoriesData] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState({});
+  const [selectedSubCategory, setSelectedSubCategory] = useState();
   const [imageLoaded, setImageLoaded] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];

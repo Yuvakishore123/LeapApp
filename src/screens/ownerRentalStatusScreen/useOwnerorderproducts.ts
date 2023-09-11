@@ -2,10 +2,10 @@
 import {useSelector} from 'react-redux';
 import {ownerorderproducts} from '../../redux/slice/OwnerorderproductSlice';
 import {useThunkDispatch} from '../../helpers/helper';
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 const useOwnerorderproducts = () => {
   const {dispatch} = useThunkDispatch();
-  // const [selectedTab, setSelectedTab] = useState(0); // 0 for "Ordered" and 1 for "Returned"
+
   const ownerrentalproducts = useSelector(
     (state: {OwnerRentalproducts: {data: any}}) =>
       state.OwnerRentalproducts.data,

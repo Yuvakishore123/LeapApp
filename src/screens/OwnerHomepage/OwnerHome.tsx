@@ -173,7 +173,7 @@ const OwnerHome = ({navigation}: Props) => {
   };
 
   const renderRentalHistory = () => {
-    if (products && products.length === 0) {
+    if (products?.length === 0) {
       return (
         <View style={styles.lottieS}>
           <Lottie source={require('../../../assets/ownerHome.json')} autoPlay />
@@ -187,10 +187,9 @@ const OwnerHome = ({navigation}: Props) => {
             colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
           ]}>
           <View style={styles.viewS}>
-            {products &&
-              products.map((item: Product, index: number) =>
-                renderRentalHistoryItem({item, index}),
-              )}
+            {products?.map((item: Product, index: number) =>
+              renderRentalHistoryItem({item, index}),
+            )}
           </View>
         </View>
       );

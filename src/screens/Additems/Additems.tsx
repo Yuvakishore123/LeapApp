@@ -8,12 +8,11 @@ import {
   ScrollView,
 } from 'react-native';
 
-// import GenderDropdown from '@components/atoms/GenderDropdown';
 import GenderDropdown from 'components/atoms/GenderDropdown';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import useAddItems from 'screens/Additems/useAdditems';
 
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import Ownerstyles from './Additemsstyle';
 import Styles from 'screens/LoginScreen/loginStyle';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';

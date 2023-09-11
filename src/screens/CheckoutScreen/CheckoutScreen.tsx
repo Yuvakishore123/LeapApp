@@ -216,71 +216,70 @@ const CheckoutScreen = ({navigation}: Props) => {
                 </Text>
               </View>
             </View>
-            {data &&
-              data?.map(
-                (
-                  item: {
-                    id: any;
-                    addressLine1: string;
-                    addressLine2: string;
-                    postalCode: string;
-                    city: string;
-                    country: string;
-                  },
-                  index: number,
-                ) => (
-                  <View
-                    key={item.id}
-                    style={[
-                      style.card,
-                      colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-                    ]}>
-                    <View style={[style.addressContainer]}>
-                      <View>
-                        <Text
-                          style={[
-                            style.addresstext,
-                            colorScheme === 'dark'
-                              ? Styles.whitetext
-                              : Styles.blackText,
-                          ]}>
-                          Address:
-                        </Text>
-                        <Text
-                          style={[
-                            style.city,
-                            colorScheme === 'dark'
-                              ? Styles.whitetext
-                              : Styles.blackText,
-                          ]}>
-                          <Text>{item.addressLine1},</Text>
-                          {item.addressLine2},{item.postalCode},{item.city},
-                          {item.country},
-                        </Text>
-                      </View>
-                      <View style={style.containerCheckbox}>
-                        <Text
-                          style={[
-                            style.textCheckbox,
-                            colorScheme === 'dark'
-                              ? Styles.whitetext
-                              : Styles.blackText,
-                          ]}>
-                          Delivery Address
-                        </Text>
+            {data?.map(
+              (
+                item: {
+                  id: any;
+                  addressLine1: string;
+                  addressLine2: string;
+                  postalCode: string;
+                  city: string;
+                  country: string;
+                },
+                index: number,
+              ) => (
+                <View
+                  key={item.id}
+                  style={[
+                    style.card,
+                    colorScheme === 'dark' ? Styles.cardColor : Styles.main,
+                  ]}>
+                  <View style={[style.addressContainer]}>
+                    <View>
+                      <Text
+                        style={[
+                          style.addresstext,
+                          colorScheme === 'dark'
+                            ? Styles.whitetext
+                            : Styles.blackText,
+                        ]}>
+                        Address:
+                      </Text>
+                      <Text
+                        style={[
+                          style.city,
+                          colorScheme === 'dark'
+                            ? Styles.whitetext
+                            : Styles.blackText,
+                        ]}>
+                        <Text>{item.addressLine1},</Text>
+                        {item.addressLine2},{item.postalCode},{item.city},
+                        {item.country},
+                      </Text>
+                    </View>
+                    <View style={style.containerCheckbox}>
+                      <Text
+                        style={[
+                          style.textCheckbox,
+                          colorScheme === 'dark'
+                            ? Styles.whitetext
+                            : Styles.blackText,
+                        ]}>
+                        Delivery Address
+                      </Text>
 
-                        <CheckBox
-                          checked={selectedAddressIndex === index}
-                          onPress={() => handleCheckboxChange(index)}
-                          checkedColor={Colors.buttonColor}
-                          containerStyle={style.checkboxContainer}
-                          size={24}
-                        />
-                      </View>
+                      <CheckBox
+                        checked={selectedAddressIndex === index}
+                        onPress={() => handleCheckboxChange(index)}
+                        checkedColor={Colors.buttonColor}
+                        containerStyle={style.checkboxContainer}
+                        size={24}
+                      />
                     </View>
                   </View>
-                ),
-              )}
+                </View>
+              ),
+            )}
           </View>
         </ScrollView>
         <View style={[style.GrandtotalContainer]}>

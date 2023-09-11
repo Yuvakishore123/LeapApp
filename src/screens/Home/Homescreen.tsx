@@ -42,12 +42,11 @@ const Homescreen = ({navigation}: Props) => {
     loading,
     closeModal,
     showModal,
-    isLoading,
+
     IsError,
     name,
     handleEndReached,
     allProducts,
-    productsData,
   } = useHome();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
@@ -351,13 +350,6 @@ const Homescreen = ({navigation}: Props) => {
               />
             </View>
           </SafeAreaView>
-          {/* {IsError ? (
-            <Animatable.View animation="fadeIn" style={style.errorContainer}>
-              <Text style={style.errorMessage}>Something went worng!</Text>
-            </Animatable.View>
-          ) : (
-            <View></View>
-          )} */}
         </View>
       )}
 

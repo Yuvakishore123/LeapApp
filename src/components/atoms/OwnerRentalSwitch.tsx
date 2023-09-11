@@ -1,7 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
-import {View, Text, Animated} from 'react-native';
+import {View, Text, Animated, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import {TouchableOpacity} from 'react-native';
 import colors from '../../constants/colors';
 import {useDispatch} from 'react-redux';
 import {ownerorderproducts} from '../../redux/slice/OwnerorderproductSlice';

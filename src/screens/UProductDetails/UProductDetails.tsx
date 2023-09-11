@@ -12,17 +12,18 @@ import {
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Share from 'react-native-vector-icons/MaterialCommunityIcons';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import {Pagination} from 'react-native-snap-carousel';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import useProductdetails from './useProductdetails';
 
 import * as Animatable from 'react-native-animatable';
-import Styles from '../../constants/themeColors';
-import Colors from '../../constants/colors';
+import Styles from 'constants/themeColors';
+import Colors from 'constants/colors';
 import styles from './UProductDetailsStyle';
-import DatePickerComponent from '../../components/atoms/DatePickerComponent/DatepickerComponent';
+import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
+import {Toast} from 'react-native-toast-message/lib/src/Toast';
 type Props = {
   route: {params: {product: any}};
   navigation: any;
@@ -93,27 +94,26 @@ export default function UDetailScreen({route, navigation}: Props) {
               startScrollTimer();
             }}
             onScroll={handleScroll}>
-            {product &&
-              product.imageUrl.map((item: any) => (
-                <ImageBackground
-                  key={item}
-                  style={{
-                    height: 500,
-                    width: 405,
-                    backgroundColor: Colors.gray,
-                    display: imageLoaded ? 'flex' : 'flex',
-                  }}
-                  source={{uri: item}}
-                  onLoad={() => setImageLoaded(true)}
-                  onError={() => setImageLoaded(false)}>
-                  {!imageLoaded && (
-                    <Image
-                      source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                      style={{height: 500, width: 405}}
-                    />
-                  )}
-                </ImageBackground>
-              ))}
+            {product?.imageUrl.map((item: any) => (
+              <ImageBackground
+                key={item}
+                style={{
+                  height: 500,
+                  width: 405,
+                  backgroundColor: Colors.gray,
+                  display: imageLoaded ? 'flex' : 'none',
+                }}
+                source={{uri: item}}
+                onLoad={() => setImageLoaded(true)}
+                onError={() => setImageLoaded(false)}>
+                {!imageLoaded && (
+                  <Image
+                    source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
+                    style={{height: 500, width: 405}}
+                  />
+                )}
+              </ImageBackground>
+            ))}
           </ScrollView>
           <Animatable.Text
             animation={'slideInUp'}
@@ -246,6 +246,7 @@ export default function UDetailScreen({route, navigation}: Props) {
         onClose={closeeModal}
         message="Product already added"
       />
+      <Toast />
     </ScrollView>
   );
 }

@@ -20,7 +20,6 @@ export const useNavigationProp = () => {
 };
 export const onClickNotification = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
-    // const {MyOrder} = remoteMessage.data;
     console.log(remoteMessage.data);
   });
 };

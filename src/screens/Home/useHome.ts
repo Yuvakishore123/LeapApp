@@ -14,12 +14,11 @@ import inAppMessaging from '@react-native-firebase/in-app-messaging';
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
-  const [placeholderText, setPlaceholderText] = useState('Search');
-  const [placeholderTextColor, setPlaceholderTextColor] = useState(
+  const [placeholderText, _setPlaceholderText] = useState('Search');
+  const [placeholderTextColor, _setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
-  // const [pageNumber, setPageNumber] = useState(0);
-  const [Error, setError] = useState('');
+  const [pageError, setError] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
   const [productsData, setProductsdata] = useState([]);
@@ -27,7 +26,6 @@ const useHome = () => {
   const [Data, setData] = useState([]);
   const [oldData, setOldDate] = useState([]);
   const [showModal, setShowModal] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
 
   const {dispatch} = useThunkDispatch();
   const {navigation} = useNavigationProp();
@@ -103,7 +101,6 @@ const useHome = () => {
   };
 
   const handleEndReached = async () => {
-    // setPageNumber(pageNumber + 1);
     setPageSize(pageSize + 10);
     setProductsdata([...productsData, ...allProducts]);
     dispatch(fetchUserProducts({pageSize}) as any);
@@ -144,11 +141,10 @@ const useHome = () => {
     oldData,
     wishlistremove,
     allProducts,
-    Error,
+    pageError,
     IsError,
     handleEndReached,
     productsData,
-    isLoading,
   };
 };
 export default useHome;

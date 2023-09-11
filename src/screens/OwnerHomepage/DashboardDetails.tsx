@@ -177,8 +177,7 @@ const DashboardDetails = () => {
     return '#eadaff'; // Color for other bars
   };
 
-  const pieChartData =
-    piechart && piechart[selectedMonth] ? piechart[selectedMonth] : {};
+  const pieChartData = piechart?.[selectedMonth] ?? {};
 
   const chartColors = [
     '#594AB5',

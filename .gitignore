@@ -64,3 +64,4 @@ yarn-error.log
 /.scannerwork
 /coverage
 
+.env

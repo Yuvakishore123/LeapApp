@@ -28,7 +28,7 @@ const useWishlist = () => {
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );
   const isError = useSelector(
-    (state: {WishlistProducts: {error: Boolean}}) =>
+    (state: {WishlistProducts: {error: boolean}}) =>
       state.WishlistProducts.error,
   );
   const showToast = () => {
