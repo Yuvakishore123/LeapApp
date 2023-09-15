@@ -144,8 +144,8 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
 export const Logout = () => {
   return async (dispatch: Dispatch) => {
     const refreshToken = await AsyncStorage.getItem('refresh_token');
+    AsyncStorage.removeItem('token');
     try {
-      AsyncStorage.removeItem('token');
       const response = await axios.post(`${url}/user/logout`, null, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,

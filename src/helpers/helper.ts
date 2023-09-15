@@ -4,9 +4,9 @@ import {AnyAction} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
 import messaging from '@react-native-firebase/messaging';
 import {useNavigation} from '@react-navigation/native';
-import {sentryTransport, consoleTransport} from 'react-native-logs';
+import {sentryTransport} from 'react-native-logs';
 import * as Sentry from '@sentry/react-native';
-
+import {logger} from 'react-native-logs';
 type RootStackParamList = {
   Login: undefined;
   Subcategory: {categoryId: number};
@@ -32,8 +32,7 @@ export const defaultConfig = {
     warn: 2,
     error: 3,
   },
-  transport: consoleTransport,
-  sentryTransport,
+  transport: sentryTransport,
   transportOptions: {
     SENTRY: Sentry,
     colors: {
@@ -51,4 +50,8 @@ export const defaultConfig = {
     printDate: true,
     enabled: true,
   },
+};
+export const logMessage = () => {
+  const log = logger.createLogger(defaultConfig);
+  return {log};
 };
