@@ -4,6 +4,8 @@ import {AnyAction} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
 import messaging from '@react-native-firebase/messaging';
 import {useNavigation} from '@react-navigation/native';
+import {sentryTransport, consoleTransport} from 'react-native-logs';
+import * as Sentry from '@sentry/react-native';
 
 type RootStackParamList = {
   Login: undefined;
@@ -22,4 +24,31 @@ export const onClickNotification = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log(remoteMessage.data);
   });
+};
+export const defaultConfig = {
+  levels: {
+    debug: 0,
+    info: 1,
+    warn: 2,
+    error: 3,
+  },
+  transport: consoleTransport,
+  sentryTransport,
+  transportOptions: {
+    SENTRY: Sentry,
+    colors: {
+      info: 'blueBright',
+      warn: 'yellowBright',
+      error: 'redBright',
+    },
+    extensionColors: {
+      root: 'magenta',
+      home: 'green',
+    },
+    async: true,
+    dateFormat: 'time',
+    printLevel: true,
+    printDate: true,
+    enabled: true,
+  },
 };

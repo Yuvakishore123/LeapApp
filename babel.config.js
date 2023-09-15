@@ -9,6 +9,7 @@ module.exports = {
           components: './src/components',
           constants: './src/constants',
           network: './src/network',
+          helpers: './src/helpers',
         },
       },
     ],

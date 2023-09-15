@@ -9,12 +9,14 @@ import {AnyAction} from 'redux';
 import {passwordValidation} from '../../constants/Regex';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
-import colors from '../../constants/colors';
+import colors from 'constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging, {firebase} from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
+import {logger} from 'react-native-logs';
+import {defaultConfig} from '../../helpers/helper';
 
 type RootStackParamList = {
   OtpScreen: undefined;
@@ -29,6 +31,9 @@ const useLoginscreen = () => {
   const isError = useSelector((state: any) => state.login.error);
   const [pageSize, _setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const logMessage = logger.createLogger(defaultConfig);
+  var rootLog = logMessage.extend('root');
+  var homeLog = logMessage.extend('login');
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Enter valid email'),
     password: Yup.string()
@@ -137,9 +142,11 @@ const useLoginscreen = () => {
       const response = await dispatch(postLogin(credentials));
       loginEvent();
       dispatch(fetchUserProducts({pageSize}));
-      console.log('Login data:', response);
+      logMessage.error('Login data:', response);
+      homeLog.error('error occured during login');
+      logMessage.error('error recieved by sentry during login');
     } catch (error) {
-      console.log('isError', isError);
+      logMessage.error('error');
     }
   };
   const handleOtpScreen = () => {
@@ -162,6 +169,7 @@ const useLoginscreen = () => {
   });
   const loginEvent = async () => {
     await analytics().logEvent('loged_users');
+    rootLog.info('login event is triggered');
     console.log('log event success');
   };
   return {
