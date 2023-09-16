@@ -22,6 +22,7 @@ import {
   enableProductUrl,
   subCategoryUrl,
 } from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 type RootStackParamList = {
   OwnerProfile: undefined;
 };
@@ -43,7 +44,6 @@ const Useowneredititems = () => {
   const [visible, setViisble] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
-  console.log('snj xkcvn', editProductId);
   const [isMinusDisabled, setIsMinusDisabled] = useState(true);
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
@@ -60,6 +60,7 @@ const Useowneredititems = () => {
   const [productQuantity, setProductQuantity] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
+  const [imageLoaded, setImageLoaded] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const openModal = () => {
     setShowModal(true);
@@ -95,8 +96,6 @@ const Useowneredititems = () => {
         totalQuantity: item.totalQuantity,
       }));
       setData(mappedData);
-      console.log(name);
-      console.log(response.data);
       setIsLoading(false);
     } catch (error) {
       console.error(error);
@@ -108,13 +107,11 @@ const Useowneredititems = () => {
     setIsLoading(true);
     fetchData();
   }, []);
-  console.log(name);
   const FetchData = async (editProductId: any) => {
     try {
       const ProductData = await ApiService.get(
         `${editProductsByIdUrl}/${editProductId}`,
       );
-      console.log('ProductData', ProductData);
       setMapdata(ProductData);
       setName(ProductData.name);
       setPrice(ProductData.price);
@@ -122,15 +119,13 @@ const Useowneredititems = () => {
       setDescription(ProductData.description);
       return ProductData;
     } catch (error) {
-      console.log('error is :', error);
-      console.log('editProductId', editProductId);
+      logMessage.error('error in FetchData of Owneredititems :', error);
     }
   };
   const genderData = useSelector(
     (state: {GenderReducer: {genderData: null[]}}) =>
       state.GenderReducer.genderData,
   );
-  console.log(genderData);
 
   useEffect(() => {
     const fetchSubCategoryData = async () => {
@@ -145,11 +140,10 @@ const Useowneredititems = () => {
           }),
         );
         setSubCategoriesData(subCategoriesArray);
-        console.log(subCategoriesArray);
       } catch (error) {
-        console.log(error);
+        logMessage.error('error in fetching subcategory', error);
       } finally {
-        console.log('finally');
+        logMessage.error('finally block in fetchingsubcategory');
       }
     };
     fetchSubCategoryData();
@@ -166,11 +160,10 @@ const Useowneredititems = () => {
           }),
         );
         setSubEventCategoriesData(subEventCategoriesArray);
-        console.log(subEventCategoriesArray);
       } catch (error) {
-        console.log(error);
+        logMessage.error('error in fetchEventcatgeory in edittitems', error);
       } finally {
-        console.log('finally');
+        logMessage.error('finally block of fetcheventcatgeory');
       }
     };
     fetchEventCategoryData();
@@ -187,11 +180,10 @@ const Useowneredititems = () => {
           }),
         );
         setSubOutfitCategoriesData(subOutfitCategoriesArray);
-        console.log(subOutfitCategoriesArray);
       } catch (error) {
-        console.log(error);
+        logMessage.error('error in suboutfitcatgeory', error);
       } finally {
-        console.log('finally');
+        logMessage.error('finally block of outfitcategory in edititems');
       }
     };
     subOutfitCategoriesData();
@@ -211,14 +203,13 @@ const Useowneredititems = () => {
         );
         setCategoriesData(categoriesArray);
       } catch (error) {
-        console.log(error);
+        logMessage.error('error in fetchcategory', error);
       }
     };
     fetchCategoryData();
   }, []);
   const getImageUrl = async () => {
     const url = await AsyncStorage.getItem('url');
-    console.log('Retrieved URL:', url);
   };
   useEffect(() => {
     getImageUrl();
@@ -249,7 +240,6 @@ const Useowneredititems = () => {
   const pickImg = async () => {
     try {
       const token = await AsyncStorage.getItem('token');
-      console.log(token);
 
       const response = await launchImageLibrary({
         mediaType: 'photo',
@@ -257,17 +247,16 @@ const Useowneredititems = () => {
       });
 
       if (response.didCancel) {
-        console.log('User cancelled image picker');
         return;
       }
 
       if (!response) {
-        console.log('ImagePicker Error: ');
+        logMessage.error('ImagePicker Error: ');
         return;
       }
 
       if (!response.assets) {
-        console.log('Response assets not found');
+        logMessage.error('Response assets not found');
         return;
       }
 
@@ -297,15 +286,11 @@ const Useowneredititems = () => {
 
       if (result.ok) {
         const res = await result.json();
-        console.log(res);
         setImageUrls(res.urls);
         setSelectedImage(res.urls);
-        console.log(imageUrls); // Update this line
       } else {
         const res = await result.json();
-        console.log('Upload failed');
-        console.log(res);
-        console.log(token);
+        logMessage.error('Upload failed', res);
       }
     } catch (error) {
       console.error(error);
@@ -347,7 +332,6 @@ const Useowneredititems = () => {
         size: selectedsize,
         subcategoryIds: [itemType, outfitType, eventType],
       };
-      console.log(data);
 
       const headers = {
         'Content-Type': 'application/json',
@@ -364,24 +348,18 @@ const Useowneredititems = () => {
       );
 
       if (!response.ok) {
-        console.log(response);
         throw new Error('Network response was not ok');
       }
 
       const responseData = await response.json();
-      console.log('added');
-      console.log(responseData);
-      console.log(data);
-
       dispatch(addsize(selectedsize));
       navigation.navigate('OwnerProfile');
     } catch (error) {
-      console.log(error);
+      logMessage.error(error);
     }
   };
   const RemoveProducts = async (productId: any) => {
     const token = await AsyncStorage.getItem('token');
-    console.log('chiranjeevi', productId);
     fetch(`${baseUrl}/product/deleteProduct/${productId}`, {
       method: 'DELETE',
       headers: {
@@ -409,7 +387,6 @@ const Useowneredititems = () => {
           },
         },
       );
-      console.log('prefill data', response.data);
       setPrefill(response.data);
       return response.data;
     } catch (error) {
@@ -423,10 +400,6 @@ const Useowneredititems = () => {
     settotalQuantities(item.totalQuantity);
     setSelectedProductId(item.id);
     setdisabledQuantity(item.disabledQuantities);
-    console.log('the disabled quantities is :', item.disabledQuantities);
-    console.log('item id is ', item.id);
-    console.log('item is  :', item);
-    console.log('disabled Quantity : ', disabledQuantity);
   };
   const incrementQuantity = () => {
     let maxQuantity = productQuantity;
@@ -450,23 +423,19 @@ const Useowneredititems = () => {
     }
   };
   const handleDisablebutton = async (id: any, disableQuantity: number) => {
-    console.log('item id', id);
-    console.log('product Quantity is', disableQuantity);
-
     try {
       if (disableQuantity <= productQuantity) {
         const response = await ApiService.get(
           `${disableProductUrl}${id}&quantity=${disableQuantity}`,
         );
-        console.log('product disable', response);
         setOutofstock(true);
         fetchData();
         setRefreshData(true);
       } else {
-        console.log('Invalid disable quantity');
+        logMessage.error('Invalid disable quantity');
       }
     } catch (error) {
-      console.log('product enable Error', error);
+      logMessage.error('product enable Error', error);
     }
     setIsModalVisible(false);
   };
@@ -476,21 +445,19 @@ const Useowneredititems = () => {
     enableQuantity: number,
     disabledQuantity: number,
   ) => {
-    console.log('item id', id);
     try {
       if (enableQuantity <= disabledQuantity) {
         const response = await ApiService.get(
           `${enableProductUrl}${id}&quantity=${enableQuantity}`,
         );
-        console.log('product Enable', response);
         setOutofstock(true);
         fetchData();
         setRefreshData(prevRefreshData => !prevRefreshData);
       } else {
-        console.log('Invalid enable quantity');
+        logMessage.error('Invalid enable quantity');
       }
     } catch (error) {
-      console.log('product disable Error', error);
+      logMessage.error('product disable Error', error);
     }
 
     setIsModalVisible(false);
@@ -516,6 +483,8 @@ const Useowneredititems = () => {
     handleRemoveImages,
     pickImg,
     imageUris,
+    imageLoaded,
+    setImageLoaded,
     handleGenderChange,
     handleEventTypeChange,
     handleOutfitChange,

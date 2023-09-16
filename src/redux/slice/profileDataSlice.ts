@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {profileDataUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 interface ProfileData {
   email: string;
@@ -34,10 +35,9 @@ const initialState: ProfileDataState = {
 export const getProfileData = createAsyncThunk('getProfileData', async () => {
   try {
     const response = await ApiService.get(profileDataUrl);
-    console.log(response);
     return response;
   } catch (error) {
-    console.log('error ', error);
+    logMessage.error('error in getting profile data', error);
 
     return error;
   }

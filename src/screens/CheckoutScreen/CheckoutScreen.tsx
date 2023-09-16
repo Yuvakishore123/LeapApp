@@ -31,7 +31,8 @@ const CheckoutScreen = ({navigation}: Props) => {
     handleCheckboxChange,
     refreshing,
     onRefresh,
-
+    imageLoaded,
+    setImageLoaded,
     isChecked,
     data,
   } = useCheckout();
@@ -117,9 +118,20 @@ const CheckoutScreen = ({navigation}: Props) => {
                         width: '100%',
                       }}>
                       <View style={style.imageContainer}>
+                        {!imageLoaded && (
+                          <Image
+                            source={require('../../../assets/imageload1.png')}
+                            style={style.image}
+                          />
+                        )}
                         <Image
                           source={{uri: item.imageUrl}}
-                          style={style.image}
+                          style={[
+                            style.image,
+                            {display: imageLoaded ? 'flex' : 'none'},
+                          ]}
+                          onLoad={() => setImageLoaded(true)}
+                          onError={() => setImageLoaded(false)}
                         />
                       </View>
                       <View style={style.cardTextContainer}>

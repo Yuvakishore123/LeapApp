@@ -36,8 +36,11 @@ export const REMOVE_FROM_CART = 'REMOVE_FROM_CART';
 export const REMOVE_PRODUCT = 'REMOVE_PRODUCT';
 export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
+export const ADD_PRODUCT_TO_CART_STORE = 'ADD_PRODUCT_TO_CART_STORE';
 import {setLoginData} from '../slice/loginSlice';
 import {ListAddress} from '../slice/listAddressSlice';
+import {logMessage} from 'helpers/helper';
+import ApiService from 'network/network';
 
 export const addname = (Name: any) => ({
   type: ADD_NAME,
@@ -67,98 +70,6 @@ export const addsize = (selected: any) => ({
   type: ADD_SIZE,
   payload: selected,
 });
-export const removeAddress = (id: any) => {
-  return async (dispatch: Dispatch) => {
-    try {
-      const token = await AsyncStorage.getItem('token');
-      await axios.delete(`${url}/address/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
-      dispatch({type: REMOVE_ADDRESS, payload: id});
-      dispatch(ListAddress as any);
-    } catch (error) {
-      console.log('remove address error', error);
-    }
-  };
-};
-
-export const deleteAddress = (index: any) => ({
-  type: 'DELETE_ADDRESS',
-  payload: index,
-});
-export const Init = () => {
-  return async (dispatch: Dispatch) => {
-    try {
-      let token = await AsyncStorage.getItem('token');
-      if (token !== null) {
-        console.log('token fetched');
-        dispatch(setLoginData({authToken: token, isAuthenticated: true}));
-      }
-    } catch (error) {
-      console.log('error in Init:', error);
-    }
-  };
-};
-
-export const getOTP = (phoneNumber: string) => {
-  return async (dispatch: Dispatch) => {
-    dispatch({type: VERIFY_OTP_REQUEST});
-    try {
-      const response = await axios.post(
-        `${url}/phoneNo?phoneNumber=${phoneNumber}`,
-        {
-          phoneNumber,
-        },
-      );
-      // Alert.alert('OTP'), console.log('otp send');
-      dispatch({type: VERIFY_OTP_SUCCESS, payload: response.data});
-    } catch (error) {
-      dispatch({type: VERIFY_OTP_FAILURE, payload: error});
-    }
-  };
-};
-export const submitOTP = (phoneNumber: string, otp: number) => {
-  return async (dispatch: Dispatch) => {
-    dispatch({type: LOGIN_REQUEST});
-    try {
-      const response = await axios.post(
-        `${url}/otp?phoneNumber=${phoneNumber}&otp=${otp}`,
-        {
-          phoneNumber: phoneNumber,
-          otp: otp,
-        },
-        // console.log('Phone no', phoneNo, otp),
-      );
-      const token = response.headers.access_token;
-      await AsyncStorage.setItem('token', token);
-      dispatch({type: LOGIN_SUCCESS, payload: token});
-    } catch (error) {
-      dispatch({type: LOGIN_FAILURE, payload: error});
-      console.log('error', error);
-    }
-  };
-};
-
-export const Logout = () => {
-  return async (dispatch: Dispatch) => {
-    const refreshToken = await AsyncStorage.getItem('refresh_token');
-    try {
-      AsyncStorage.removeItem('token');
-      const response = await axios.post(`${url}/user/logout`, null, {
-        headers: {
-          Authorization: `Bearer ${refreshToken}`,
-        },
-      });
-      console.log('response for logout is', response);
-      dispatch(setLoginData({authToken: null, isAuthenticated: false}));
-    } catch (error) {
-      console.log('error is', error);
-    }
-  };
-};
-
 export const addGenderData = (genderData: SetStateAction<string>) => {
   return {
     type: 'ADD_GENDER_DATA',
@@ -170,11 +81,6 @@ export const setRole = (role: string) => ({
   type: SET_ROLE,
   role,
 });
-
-//===============================================================
-
-//changes done for wishlist and cart
-
 export const addItemToCart = (data: any) => ({
   type: ADD_TO_CART,
   payload: data,
@@ -198,37 +104,111 @@ export const removeFromWishlist = (productId: any) => ({
   type: REMOVE_FROM_WISHLIST,
   payload: productId,
 });
-
-//----------
-//changes for wishlist api
+// action type
 
 // action creator
+export const addProductToCartStore = (product: any) => {
+  return {
+    type: ADD_PRODUCT_TO_CART_STORE,
+    payload: product,
+  };
+};
+export const removeAddress = (id: any) => {
+  return async (dispatch: Dispatch) => {
+    try {
+      await ApiService.delete(`${url}/address/delete/${id}`);
+      dispatch({type: REMOVE_ADDRESS, payload: id});
+      dispatch(ListAddress as any);
+    } catch (error) {
+      logMessage.error('remove address error', error);
+    }
+  };
+};
+
+export const deleteAddress = (index: any) => ({
+  type: 'DELETE_ADDRESS',
+  payload: index,
+});
+export const Init = () => {
+  return async (dispatch: Dispatch) => {
+    try {
+      let token = await AsyncStorage.getItem('token');
+      if (token !== null) {
+        dispatch(setLoginData({authToken: token, isAuthenticated: true}));
+      }
+    } catch (error) {
+      logMessage.error('error in Init method', error);
+    }
+  };
+};
+
+export const getOTP = (phoneNumber: string) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({type: VERIFY_OTP_REQUEST});
+    try {
+      const response = await ApiService.post(
+        `${url}/phoneNo?phoneNumber=${phoneNumber}`,
+        {
+          phoneNumber,
+        },
+      );
+      dispatch({type: VERIFY_OTP_SUCCESS, payload: response.data});
+    } catch (error) {
+      dispatch({type: VERIFY_OTP_FAILURE, payload: error});
+    }
+  };
+};
+export const submitOTP = (phoneNumber: string, otp: number) => {
+  return async (dispatch: Dispatch) => {
+    dispatch({type: LOGIN_REQUEST});
+    try {
+      const response = await ApiService.post(
+        `${url}/otp?phoneNumber=${phoneNumber}&otp=${otp}`,
+        {
+          phoneNumber: phoneNumber,
+          otp: otp,
+        },
+      );
+      const token = response.headers.access_token;
+      await AsyncStorage.setItem('token', token);
+      dispatch({type: LOGIN_SUCCESS, payload: token});
+    } catch (error) {
+      dispatch({type: LOGIN_FAILURE, payload: error});
+      logMessage.error('error in submit OTP method', error);
+    }
+  };
+};
+
+export const Logout = () => {
+  return async (dispatch: Dispatch) => {
+    const refreshToken = await AsyncStorage.getItem('refresh_token');
+    try {
+      AsyncStorage.removeItem('token');
+      const response = await axios.post(`${url}/user/logout`, null, {
+        headers: {
+          Authorization: `Bearer ${refreshToken}`,
+        },
+      });
+      dispatch(setLoginData({authToken: null, isAuthenticated: false}));
+    } catch (error) {
+      logMessage.error('error in logout method', error);
+    }
+  };
+};
 
 export const postProductToAPI = (item: {id: any}) => {
-  console.log('hello', item);
   return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
     try {
-      const token = await AsyncStorage.getItem('token');
       const id = item.id;
-      console.log(token);
-      // make API call
-      const response = await fetch(`${url}/wishlist/add?productId=${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-        body: JSON.stringify(item.id),
-      });
-      const data = await response.json();
+      const response = await ApiService.post(
+        `${url}/wishlist/add?productId=${id}`,
+        item.id,
+      );
+      const data = await response;
       // update the Redux store with the response data
       dispatch(addProductToStore(data));
-      console.log('====================================');
-      console.log(data);
-      console.log('====================================');
-      console.log('success');
     } catch (error) {
-      console.log(error);
+      logMessage.error('error in wishlist add ', error);
     }
   };
 };
@@ -247,34 +227,13 @@ export const addProductToStore = (product: any) => {
 export const ADDORDER = (razorpayId: string) => {
   return async (dispatch: (arg0: {type: string; payload: any}) => void) => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      const data = razorpayId;
-      console.log('john razarpay', data); // create an object with razorpayId property
-      const response = await fetch(
+      const response = await ApiService.post(
         `${url}/order/add/?razorpayId=${razorpayId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
+        razorpayId,
       );
       dispatch(Orderreducer(razorpayId));
-      console.log('success', response);
     } catch (error) {
-      console.log(error);
+      logMessage.error('error in addorder', error);
     }
-  };
-};
-
-// action type
-export const ADD_PRODUCT_TO_CART_STORE = 'ADD_PRODUCT_TO_CART_STORE';
-
-// action creator
-export const addProductToCartStore = (product: any) => {
-  return {
-    type: ADD_PRODUCT_TO_CART_STORE,
-    payload: product,
   };
 };

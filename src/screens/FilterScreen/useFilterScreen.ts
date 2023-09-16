@@ -1,7 +1,7 @@
 import ApiService from '../../network/network';
 import {FilterProduct} from '../../constants/Apis';
 import {useState} from 'react';
-
+import {logMessage} from 'helpers/helper';
 const useFilterScreen = () => {
   const [minimumPrice, setMinimumPrice] = useState('');
   const [maximumPrice, setMaximumPrice] = useState('');
@@ -13,15 +13,11 @@ const useFilterScreen = () => {
         `${FilterProduct}?maxPrice=${maximumPrice}&minPrice=${minimumPrice}&size=${size}&subcategoryId=${1}`,
       );
       setFilteredProducts(response);
-      console.log(response);
     } catch (error) {
-      console.error('Error fetching filtered products:', error);
+      logMessage.error('Error fetching filtered products:', error);
       setFilteredProducts([]);
     }
   };
-
-  console.log(minimumPrice);
-  console.log(maximumPrice);
 
   return {
     FilterData,

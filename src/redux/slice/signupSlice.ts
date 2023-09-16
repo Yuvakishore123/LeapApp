@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {signupUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 interface SigninData {
   message: string;
@@ -38,10 +39,9 @@ export const postSignup = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.post(signupUrl, credentials);
-      console.log(response);
       return response;
     } catch (error: any) {
-      console.log('error ', error.response.status);
+      logMessage.error('error in signing up', error.response.status);
       dispatch(setError(error.response.status));
       return error;
     }

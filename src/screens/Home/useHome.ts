@@ -8,7 +8,11 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from 'constants/colors';
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
-import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
+import {
+  logMessage,
+  useNavigationProp,
+  useThunkDispatch,
+} from '../../helpers/helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
 
 const useHome = () => {
@@ -29,7 +33,9 @@ const useHome = () => {
 
   const {dispatch} = useThunkDispatch();
   const {navigation} = useNavigationProp();
-  const name = useSelector(state => state.profileData.data);
+  const name = useSelector(
+    (state: {profileData: {data: []}}) => state.profileData.data,
+  );
   const allProducts = useSelector(
     (state: {UserProducts: {data: []}}) => state.UserProducts.data,
   );
@@ -47,22 +53,6 @@ const useHome = () => {
       setError('Something went wrong. Please try again.');
     }
   };
-  // useEffect(() => {
-  //   const interval = setInterval(() => {
-  //     setPlaceholderText(prevText =>
-  //       prevText === 'Search by Brands'
-  //         ? 'Search Products'
-  //         : 'Search by Brands',
-  //     );
-  //   }, 4000);
-
-  //   return () => clearInterval(interval);
-  // }, []);
-  // useEffect(() => {
-  //   setPlaceholderTextColor(
-  //     colorScheme === 'dark' ? Colors.white : Colors.black,
-  //   );
-  // }, [colorScheme, placeholderText]);
 
   const openModal = () => {
     setShowModal(true);
@@ -71,17 +61,6 @@ const useHome = () => {
     setShowModal(false);
   };
   useEffect(() => {
-    // setIsLoading(true);
-    // dispatch(fetchUserProducts({pageSize}) as any)
-    //   .then(() => {
-    //     setIsLoading(false);
-    //     setError(''); // Clear any previous errors on success
-    //   })
-    //   .catch(error => {
-    //     setIsLoading(false);
-    //     setError('Something went wrong. Please try again.');
-    //     console.error(error);
-    //   });
     dispatch(getProfileData());
   }, [dispatch, pageSize]);
   const onRefresh = async () => {
@@ -96,7 +75,7 @@ const useHome = () => {
       setError(''); // Clear any previous errors on success
     } catch (error) {
       setError('Something went wrong. Please try again.');
-      console.error(error);
+      logMessage.error(error);
     }
   };
 
@@ -120,7 +99,6 @@ const useHome = () => {
   const Loading = useSelector(
     (state: {UserProducts: {loading: boolean}}) => state.UserProducts.loading,
   );
-  console.log('Loading and first loading is ', Loading, loading);
   return {
     WishlistProducts,
     onRefresh,

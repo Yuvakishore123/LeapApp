@@ -10,7 +10,7 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {removefromCart} from '../../redux/slice/cartRemoveSlice';
 import {updateCart} from '../../redux/slice/cartUpdateSlice';
-
+import {logMessage} from 'helpers/helper';
 type RootStackParamList = {
   CheckoutScreen: undefined;
   UserHomescreen: {screen: any};
@@ -62,7 +62,6 @@ const useCart = () => {
 
   useEffect(() => {
     if (refreshing) {
-      console.log('what the heck bro ');
       dispatch(fetchCartProducts() as any);
       setRefreshing(false);
     }
@@ -87,9 +86,9 @@ const useCart = () => {
       };
       dispatch(updateCart(data) as any);
       setRefreshing(true);
-
-      console.log('Update response:');
-    } catch (error) {}
+    } catch (error) {
+      logMessage.error('error in handleupdate', error);
+    }
   };
 
   const handleCheckout = async () => {
@@ -101,32 +100,29 @@ const useCart = () => {
       dispatch(removefromCart(productId) as any);
       dispatch(fetchCartProducts as any);
       openModal();
-    } catch (error) {}
+    } catch (error) {
+      logMessage.error('error in handleremove', error);
+    }
   };
 
   const handleIncrement = (item: any) => {
     const productId = item.product.id;
     setCartProductId(item.product.id);
-    console.log('itemID', productId);
     const productQuantity = item.product.availableQuantities;
-    console.log('Validation of product Quantity is ', productQuantity);
     if (item.quantity === productQuantity) {
       setisButtondisable(true);
     } else {
       const Quantity = item.quantity + 1;
-      console.log(Quantity);
+      logMessage.error(Quantity);
       handleUpdate(Quantity, productId);
     }
     setRefreshing(prevRefreshing => !prevRefreshing);
-    console.log('refreshing :', refreshing); // Toggle the value of refreshing
   };
 
   const handleDecrement = (item: any) => {
-    console.log(item.quantity);
     const productId = item.product.id;
     setCartProductId(item.product.id);
     const newQuantity = item.quantity - 1;
-    console.log('itemID', productId);
     handleUpdate(newQuantity, productId);
     setisButtondisable(false);
   };
@@ -145,7 +141,7 @@ const useCart = () => {
   if (isError) {
     showToast();
   }
-  console.log('CartError', cartError);
+  logMessage.error('CartError', cartError);
   if (cartError) {
     CartToast();
   }
@@ -178,7 +174,6 @@ const useCart = () => {
     getTextColor,
     getTextInputStyle,
     cartProductId,
-
     isError,
   };
 };

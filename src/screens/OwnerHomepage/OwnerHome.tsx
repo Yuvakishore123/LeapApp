@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext} from 'react';
+import React, {useContext, useState} from 'react';
 import {
   FlatList,
   Image,
@@ -48,6 +48,7 @@ const OwnerHome = ({navigation}: Props) => {
   } = useOwnerHome();
   const {handleOrders, CategoriePieData, Dashboardyeardata} = useAnalytics();
   const {colorScheme} = useContext(ColorSchemeContext);
+  const [imageLoaded, setImageLoaded] = useState(false);
 
   const renderRecentlyAddedItem = ({item}: {item: Product}) => {
     return (
@@ -60,9 +61,20 @@ const OwnerHome = ({navigation}: Props) => {
             styles.cardContainer,
             colorScheme === 'dark' ? Styles.cardColor : Styles.main,
           ]}>
+          {!imageLoaded && (
+            <Image
+              source={require('../../../assets/imageload1.png')}
+              style={styles.recentlyaddedimage}
+            />
+          )}
           <Image
             source={{uri: item.imageUrl[0]}}
-            style={styles.recentlyaddedimage}
+            style={[
+              styles.recentlyaddedimage,
+              {display: imageLoaded ? 'flex' : 'none'},
+            ]}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(false)}
           />
         </View>
         <View
@@ -149,9 +161,20 @@ const OwnerHome = ({navigation}: Props) => {
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
         <View style={styles.cardContainer}>
+          {!imageLoaded && (
+            <Image
+              source={require('../../../assets/imageload1.png')}
+              style={styles.recentlyaddedimage}
+            />
+          )}
           <Image
             source={{uri: item.imageUrl[0]}}
-            style={styles.recentlyaddedimage}
+            style={[
+              styles.recentlyaddedimage,
+              {display: imageLoaded ? 'flex' : 'none'},
+            ]}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(false)}
           />
         </View>
         <View

@@ -38,12 +38,10 @@ const Useotp = (): UseotpReturnType => {
   const GETOTP = () => {
     dispatch(getOTP(phoneNo));
     openModal();
-    console.log(phoneNo);
   };
 
   const handleLogin = () => {
     dispatch(submitOTP(phoneNo, Number(otp)));
-    console.log(phoneNo, otp);
   };
 
   const handlephoneNumberChange = (value: string) => {

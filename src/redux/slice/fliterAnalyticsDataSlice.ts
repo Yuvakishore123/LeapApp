@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {url} from '../../constants/Apis';
+import {logMessage} from 'helpers/helper';
 
 export const FliterAnalyticslist = createAsyncThunk(
   'FliterAnalyticslist',
@@ -12,12 +13,10 @@ export const FliterAnalyticslist = createAsyncThunk(
       const response = await ApiService.get(
         `${url}/dashboard/date-selector?endDate=${item.formattedEndDate}&startDate=${item.formattedStartDate}`,
       );
-      console.log('FilterAnaltyics', response);
-      console.log('---------------------------------------------');
 
       return response;
     } catch (error) {
-      console.log('error', error);
+      logMessage.error('error in FliterAnalyticslist', error);
       throw error;
     }
   },

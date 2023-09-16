@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {categoryDataUrl, subCategoryList} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export interface CategoryData {
   description: string;
@@ -34,11 +35,9 @@ export const fetchCategoriesData = createAsyncThunk(
   async () => {
     try {
       const response = await ApiService.get(categoryDataUrl);
-      console.log(response);
-      console.log('Response here is', response);
       return response;
     } catch (error) {
-      console.log('Error', error);
+      logMessage.error('Error in fetchCategoriesData', error);
       throw error;
     }
   },
@@ -49,11 +48,9 @@ export const fetchSubcategoryList = createAsyncThunk(
   async () => {
     try {
       const response = await ApiService.get(subCategoryList);
-      console.log(response);
-      console.log('Response here is', response);
       return response;
     } catch (error) {
-      console.log('Error', error);
+      logMessage.error('Error in fetchSubcategoryList', error);
       throw error;
     }
   },

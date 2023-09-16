@@ -3,6 +3,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {url} from '../../constants/Apis';
 
 import ApiService from '../../network/network';
+import {logMessage} from 'helpers/helper';
 export const ownerorderproducts = createAsyncThunk(
   'ownerorderproducts',
   async (status: string) => {
@@ -12,7 +13,7 @@ export const ownerorderproducts = createAsyncThunk(
       );
       return products;
     } catch (error) {
-      console.log(error);
+      logMessage.error('error in ownerorderproducts', error);
     }
   },
 );

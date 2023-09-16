@@ -37,12 +37,10 @@ const Wishlist = ({navigation}: Props) => {
   const allWishlistProducts = useSelector(
     (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
   );
-  console.log('hey', allWishlistProducts);
   const isLoading = useSelector(
     (state: {WishlistProducts: {isLoader: boolean}}) =>
       state.WishlistProducts.isLoader,
   );
-  console.log(isLoading);
 
   if (isLoading || !WishlistProducts) {
     return (

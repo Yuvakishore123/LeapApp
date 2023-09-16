@@ -73,7 +73,6 @@ const DashboardDetails = () => {
   const [selectedYear, setSelectedYear] = useState('');
   const years = Object.keys(DashboardYearly);
 
-  console.log('orderData:', orderData);
   const handleVisibleModal = () => {
     setShowModel(!showModel);
     filterOrderData();

@@ -3,12 +3,16 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {url} from '../../constants/Apis';
 
+import {logger} from 'react-native-logs';
+import {defaultConfig} from '../../helpers/helper';
+
 export const postLogin = createAsyncThunk(
   'postLogin',
   async (
     credentials: {email: string; password: string; deviceToken: string | null},
     {dispatch},
   ) => {
+    const logMessage = logger.createLogger(defaultConfig);
     try {
       const response = await axios.post(`${url}/login`, credentials);
       await AsyncStorage.setItem('token', response.headers.access_token);
@@ -16,11 +20,11 @@ export const postLogin = createAsyncThunk(
         'refresh_token',
         response.headers.refresh_token,
       );
-      console.log('refresh_token', response.headers.refresh_token);
-      console.log('refresh_token expiry time', response.headers);
+      logMessage.error('refresh_token', response.headers.refresh_token);
+      logMessage.error('refresh_token expiry time', response.headers);
       return response;
     } catch (error: any) {
-      console.log('error here is ', error.response.status);
+      logMessage.error('error recieved during Login');
       dispatch(setError(error.response.status));
       throw error;
     }
@@ -58,7 +62,6 @@ const loginThunk = createSlice({
           authToken: action.payload,
           isAuthenticated: true,
         };
-        console.log('Response data:', action.payload);
       })
       .addCase(postLogin.rejected, (state, action) => {
         state.isLoader = false;

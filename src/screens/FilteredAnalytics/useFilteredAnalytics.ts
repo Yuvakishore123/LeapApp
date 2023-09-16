@@ -5,6 +5,7 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
+import {logMessage} from 'helpers/helper';
 import {FliterAnalyticslist} from '../../redux/slice/fliterAnalyticsDataSlice';
 
 const useFilteredAnalytics = () => {
@@ -25,7 +26,6 @@ const useFilteredAnalytics = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      console.log('start date', startDate);
       const formattedStartDate = startDate.toISOString();
       const formattedEndDate = endDate.toISOString();
       const item = {
@@ -35,7 +35,7 @@ const useFilteredAnalytics = () => {
       dispatch(FliterAnalyticslist(item));
       setIsLoading(false);
     } catch (error) {
-      console.log('Error fetching data:', error);
+      logMessage.error('Error fetching data:', error);
     } finally {
       setIsLoading(false);
     }
@@ -62,8 +62,6 @@ const useFilteredAnalytics = () => {
     handleChartData();
     setData(response);
   }, [response]);
-
-  console.log('data is :', data);
 
   const generateKey = () => {
     return Math.random().toString(36);

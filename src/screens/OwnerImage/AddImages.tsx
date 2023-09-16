@@ -35,6 +35,7 @@ const AddImages = () => {
     handleBlur,
     imageUrls,
     pickImages,
+    checkPermission,
     closeModal,
     showModal,
     formik,
@@ -107,7 +108,7 @@ const AddImages = () => {
                 ) : (
                   <TouchableOpacity
                     style={[OwnerImagestyles.Addimage, getTextInputStyle()]}
-                    onPress={pickImages}>
+                    onPress={checkPermission}>
                     <Lottie
                       source={require('../../../assets/addimageol.json')}
                       style={OwnerImagestyles.LottieStyle}

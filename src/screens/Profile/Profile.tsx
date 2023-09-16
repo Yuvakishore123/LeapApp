@@ -15,7 +15,7 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {TextInput} from 'react-native-gesture-handler';
 import {Avatar} from 'react-native-paper';
 import {Logout} from '../../redux/actions/actions';
-
+import Toast from 'react-native-toast-message';
 import useProfile from './useProfile';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import SwitchAccountButton from '../../components/atoms/SwtichAccountButton';
@@ -32,7 +32,7 @@ const Profile = ({navigation}: Props) => {
   const {
     isloading,
     pickImage,
-
+    checkPermission,
     showModall,
     closeModal,
     showModal1,
@@ -112,7 +112,9 @@ const Profile = ({navigation}: Props) => {
         </View>
 
         <View style={style.uploadButtoncontainer}>
-          <TouchableOpacity style={style.uploadButton} onPress={pickImage}>
+          <TouchableOpacity
+            style={style.uploadButton}
+            onPress={checkPermission}>
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -217,6 +219,7 @@ const Profile = ({navigation}: Props) => {
         onClose={closeModal1}
         message="Profile image removed !"
       />
+      <Toast />
     </View>
   );
 };

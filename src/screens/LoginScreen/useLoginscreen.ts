@@ -33,7 +33,6 @@ const useLoginscreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const logMessage = logger.createLogger(defaultConfig);
   var rootLog = logMessage.extend('root');
-  var homeLog = logMessage.extend('login');
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Enter valid email'),
     password: Yup.string()
@@ -51,21 +50,9 @@ const useLoginscreen = () => {
     setShowModal(false);
   };
 
-  const handleLoginGuest = async () => {
-    try {
-      const credentials = {
-        email: 'GuestLogin@leaps.com',
-        password: 'GuestLogin',
-      };
-      navigation.navigate('Homescreen');
-      loginEvent();
-    } catch (error) {
-      console.log('isError', isError);
-    }
-  };
   useEffect(() => {
     const googleApiKey = process.env.GOOGLE_API_KEY;
-    console.log(googleApiKey, 'Hola i am Here');
+    logMessage.error(googleApiKey, 'Hola i am Here');
 
     if (firebase?.apps.length === 0) {
       firebase.initializeApp({
@@ -82,9 +69,8 @@ const useLoginscreen = () => {
     const storeFCMToken = async (Dtoken: string) => {
       try {
         await AsyncStorage.setItem('fcmToken', Dtoken);
-        console.log('FCMtoken is stored', Dtoken);
       } catch (error) {
-        console.log('Error storing FCM token:', error);
+        logMessage.error('Error storing FCM token:', error);
       }
     };
     const onTokenRefresh = async (DnewToken: string) => {
@@ -92,10 +78,9 @@ const useLoginscreen = () => {
         const storedToken = await AsyncStorage.getItem('fcmToken');
         if (storedToken !== DnewToken) {
           await storeFCMToken(DnewToken);
-          console.log('Refreshed FCM token:', DnewToken);
         }
       } catch (error) {
-        console.log('Error handling FCM token refresh:', error);
+        logMessage.error('Error handling FCM token refresh:', error);
       }
     };
 
@@ -105,11 +90,11 @@ const useLoginscreen = () => {
         const Dtoken = await firebase.messaging().getToken();
         onTokenRefresh(Dtoken);
       } catch (error) {
-        console.log('Error requesting FCM permission:', error);
+        logMessage.error('Error requesting FCM permission:', error);
       }
     };
     const backgroundMessageHandler = async (remoteMessage: string) => {
-      console.log('FCM background message:', remoteMessage);
+      logMessage.error('FCM background message:', remoteMessage);
     };
 
     requestFCMPermission();
@@ -119,10 +104,10 @@ const useLoginscreen = () => {
 
   const handleErrorResponse = (error: number) => {
     if (error === 401) {
-      console.log('is this triggered');
+      logMessage.error('error triggered with 401');
       openModal();
     } else {
-      console.log('error', error);
+      logMessage.error('error', error);
     }
   };
   useEffect(() => {
@@ -131,7 +116,6 @@ const useLoginscreen = () => {
   const handleLoginScreen = async () => {
     const Fcm_token = await messaging().getToken();
     await AsyncStorage.setItem('device_token', Fcm_token);
-    console.log('devicetoken', Fcm_token);
     try {
       const token = await AsyncStorage.getItem('fcmToken');
       const credentials = {
@@ -142,11 +126,8 @@ const useLoginscreen = () => {
       const response = await dispatch(postLogin(credentials));
       loginEvent();
       dispatch(fetchUserProducts({pageSize}));
-      logMessage.error('Login data:', response);
-      homeLog.error('error occured during login');
-      logMessage.error('error recieved by sentry during login');
     } catch (error) {
-      logMessage.error('error');
+      logMessage.error('error recieved during login');
     }
   };
   const handleOtpScreen = () => {
@@ -170,7 +151,7 @@ const useLoginscreen = () => {
   const loginEvent = async () => {
     await analytics().logEvent('loged_users');
     rootLog.info('login event is triggered');
-    console.log('log event success');
+    logMessage.error('log event success');
   };
   return {
     openModal,
@@ -180,11 +161,9 @@ const useLoginscreen = () => {
     formik,
     passwordError,
     setPasswordError,
-
     colorScheme,
     handleOtpScreen,
     handleSignUp,
-    handleLoginGuest,
     handleLoginScreen,
     passwordVisible,
 

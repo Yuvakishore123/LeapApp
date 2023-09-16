@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {subCategoryUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export interface SubCategoryData {
   description: string;
@@ -33,10 +34,9 @@ export const getsubcategoryData = createAsyncThunk(
   async (productId: string) => {
     try {
       const response = await ApiService.get(`${subCategoryUrl}${productId}`);
-      console.log('indranil bhuin', response);
       return response;
     } catch (error) {
-      console.log('error ', error);
+      logMessage.error('error in getsubcategoryData', error);
       throw error;
     }
   },

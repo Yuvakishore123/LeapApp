@@ -3,6 +3,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {cartupdateUrl} from '../../constants/apiRoutes';
 import {fetchCartProducts} from './cartSlice';
+import {logMessage} from 'helpers/helper';
 
 interface CartData {
   message: string;
@@ -30,10 +31,9 @@ export const updateCart = createAsyncThunk(
     try {
       const response = await ApiService.put(`${cartupdateUrl}`, data);
       dispatch(fetchCartProducts());
-      console.log(response);
       return response;
     } catch (error) {
-      console.log('error ', error);
+      logMessage.error('error in updating product in cart', error);
       dispatch(setError(error));
       return error;
     }

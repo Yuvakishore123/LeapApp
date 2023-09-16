@@ -19,6 +19,7 @@ import colors from 'constants/colors';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
+import {logMessage} from 'helpers/helper';
 const AddAddress = () => {
   const {
     setStateName,
@@ -53,7 +54,7 @@ const AddAddress = () => {
     if (postalCode !== '') {
       FetchAddress();
     } else {
-      console.log('Wrong Postalcode');
+      logMessage.error('Wrong Postalcode');
     }
   }, [FetchAddress, postalCode]);
 

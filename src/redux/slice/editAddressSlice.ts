@@ -1,5 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
+import {logMessage} from 'helpers/helper';
 interface EditAddressData {
   message: string;
   status: string;
@@ -42,11 +43,9 @@ export const editAddressData = createAsyncThunk(
         `/address/update/${addressid}`,
         updateaddress,
       );
-      console.log('Editaddress', response.data);
-      console.log('-----------------------------');
       return response;
     } catch (error: any) {
-      console.log('error', error);
+      logMessage.error('error in editAddressData', error);
       return error;
     }
   },

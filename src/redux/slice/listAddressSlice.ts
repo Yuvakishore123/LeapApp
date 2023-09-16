@@ -2,14 +2,14 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {listAddressUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export const ListAddress = createAsyncThunk('ListAddress', async () => {
   try {
     const response = await ApiService.get(listAddressUrl);
-    console.log('response of address is ', response);
     return response;
   } catch (error) {
-    console.log('error ', error);
+    logMessage.error('error in listing of Address', error);
     return error;
   }
 });

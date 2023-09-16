@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {cartRemoveUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 interface CartRemoeData {
   message: string;
@@ -28,10 +29,9 @@ export const removefromCart = createAsyncThunk(
   async (productId: number, {dispatch}) => {
     try {
       const response = await ApiService.delete(`${cartRemoveUrl}${productId}`);
-      console.log(response);
       return response;
     } catch (error) {
-      console.log('error ', error);
+      logMessage.error('error in removing of product in cart ', error);
       dispatch(setError(error));
       return error;
     }

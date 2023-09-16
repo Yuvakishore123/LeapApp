@@ -6,9 +6,11 @@ import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../network/network';
 import {useSelector} from 'react-redux';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
-import {useThunkDispatch} from '../../helpers/helper';
-
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {PermissionsAndroid} from 'react-native';
+import Toast from 'react-native-toast-message';
 const useProfile = () => {
+  const MAX_IMAGE_SIZE_BYTES = 1024 * 1024;
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrls, _setImageUrls] = useState([]);
   const [profilePic, setProfileImage] = useState('');
@@ -61,77 +63,104 @@ const useProfile = () => {
     launchImageLibrary(
       {
         mediaType: 'photo',
-        selectionLimit: 10,
+        selectionLimit: 1,
       },
       async response => {
         if (response.didCancel) {
-          console.log('User cancelled image picker');
+          logMessage.error('User cancelled image picker');
         } else if (response.errorCode) {
-          console.log('ImagePicker Error: ', response.errorMessage);
+          logMessage.error('ImagePicker Error: ', response.errorMessage);
         } else if (response.assets) {
-          const images = response.assets.map(imagePath => ({
-            uri: imagePath.uri,
-            type: 'image/png',
-            name: 'image.png',
-          }));
-          const formData = new FormData();
-          images.forEach(file => {
-            formData.append('file', file);
-          });
-          try {
-            setIsloading(true);
-            const token = await AsyncStorage.getItem('token');
-            const result = await fetch(`${url}/file/uploadProfileImage`, {
-              method: 'POST',
-              body: formData,
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`,
-              },
+          const image = response.assets[0];
+          const imageSizeBytes = image.fileSize;
+
+          if (imageSizeBytes <= MAX_IMAGE_SIZE_BYTES) {
+            // Image size is within the acceptable limit, proceed with upload
+            const formData = new FormData();
+            formData.append('file', {
+              uri: image.uri,
+              type: 'image/png',
+              name: 'image.png',
             });
-            if (result.ok) {
-              const res = await result.json();
-              setIsloading(false);
-              console.log('res is ', res);
-              setSelectedImage(res.url);
-              setProfileImage(res.url); // Update the profilePic state with the uploaded image URL
-              uploadImage(res.url);
-              fetchProfileData();
-              openModal();
-            } else {
-              const res = await result.json();
-              console.log('Upload failed');
-              console.log(res);
-              console.log(token);
+
+            try {
+              setIsloading(true);
+              const token = await AsyncStorage.getItem('token');
+              const result = await fetch(`${url}/file/uploadProfileImage`, {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  Authorization: `Bearer ${token}`,
+                },
+              });
+              if (result.ok) {
+                const res = await result.json();
+                setIsloading(false);
+                setSelectedImage(res.url);
+                setProfileImage(res.url);
+                uploadImage(res.url);
+                fetchProfileData();
+                openModal();
+              } else {
+                const res = await result.json();
+                logMessage.error('Upload failed in profile picture', res);
+              }
+            } catch (error) {
+              console.error(error);
+              setIsloading(true);
             }
-          } catch (error) {
-            console.error(error);
-            setIsloading(true);
+          } else {
+            showToast();
           }
         }
       },
     );
   };
-
+  const checkPermission = async () => {
+    try {
+      const permissionGranted = await AsyncStorage.getItem('permissionGranted');
+      if (permissionGranted === 'true') {
+        pickImage();
+      } else {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission',
+            message: 'App needs access to your storage to upload images.',
+            buttonPositive: 'OK',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          await AsyncStorage.setItem('permissionGranted', 'true');
+          pickImage();
+        } else {
+          logMessage.error('Storage permission denied');
+        }
+      }
+    } catch (err) {
+      console.warn(err);
+    }
+  };
+  const showToast = () => {
+    Toast.show({
+      type: 'error',
+      text1: 'Error in uploading and size should be < 1MB',
+    });
+  };
   const uploadImage = async (imageurl: string) => {
-    console.log('selected image is ', imageurl);
-
     const response = await ApiService.post(`${profileUpload}=${imageurl}`, {});
     fetchProfileData();
-
-    console.log('Upload response', response);
+    logMessage.error('Upload response', response);
   };
 
   const handleRemoveProfilePic = async () => {
     const response = await ApiService.post(`${profileUpload}=${null}`, {});
-    console.log('Upload response', response);
+    logMessage.error('Upload response', response);
     dispatch(getProfileData());
     setProfileImage('');
     openModal1();
   };
-
-  console.log(selectedImage);
-  console.log('profilePic', profilePic);
 
   return {
     isloading,
@@ -145,6 +174,7 @@ const useProfile = () => {
     setSelectedImage,
     loading,
     setIsloading,
+    checkPermission,
     openModal,
     closeModal,
     showModall,

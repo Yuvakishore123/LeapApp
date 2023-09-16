@@ -1,6 +1,7 @@
 import {useEffect, useState} from 'react';
 import {FilterProduct, categoriesData} from '../../constants/Apis';
 import ApiService from '../../network/network';
+import {logMessage} from 'helpers/helper';
 
 const useSearchresults = () => {
   const [minimumPrice, setMinimumPrice] = useState('');
@@ -12,7 +13,6 @@ const useSearchresults = () => {
   const [selectedSize, setSelectedSize] = useState('');
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
   const [modalVisible, setModalVisible] = useState(false);
-  console.log('adjakjnkmsx', selectedSubCategory);
   const filterData = async () => {
     try {
       const response = await ApiService.get(
@@ -20,7 +20,6 @@ const useSearchresults = () => {
       );
 
       setFilteredProducts(response);
-      console.log(response);
     } catch (error) {
       console.error('Error fetching filtered products:', error);
       setFilteredProducts([]);
@@ -32,14 +31,13 @@ const useSearchresults = () => {
   const SubcategoryData = async () => {
     try {
       const response = await ApiService.get(categoriesData);
-      console.log('Sub Category data', response);
       const subCategoriesArray = response.map((category: any) => ({
         value: category.id,
         label: category.subcategoryName,
       }));
       setSubcategoriesData(subCategoriesArray);
     } catch (error) {
-      console.log(error);
+      logMessage.error('error subcatgeory data in searchresultscreen', error);
     }
   };
   const handleFilterButtonPress = () => {
@@ -50,8 +48,6 @@ const useSearchresults = () => {
     filterData();
     setModalVisible(!modalVisible);
   };
-  console.log(minimumPrice);
-  console.log(maximumPrice);
   return {
     filterData,
     minimumPrice,

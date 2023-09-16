@@ -6,7 +6,7 @@ import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
-import {useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
@@ -62,7 +62,7 @@ const useProductdetails = (product: {
         openModal();
       }
     } catch (error) {
-      console.log(error);
+      logMessage.error('error in adding product to cart', error);
     }
   };
   const openModal = () => {
@@ -88,7 +88,6 @@ const useProductdetails = (product: {
 
   const productsData = async () => {
     const result = await ApiService.get(`${listProductsById}/${product.id}`);
-    console.log('result is :', result);
     setshareData(result);
   };
   const generateLink = async () => {
@@ -103,10 +102,9 @@ const useProductdetails = (product: {
         },
         dynamicLinks.ShortLinkType.DEFAULT,
       );
-      console.log('Link: ', link);
       return link;
     } catch (error) {
-      console.log('error', error);
+      logMessage.error('error in generating link to share products', error);
     }
   };
   const shareProduct = async () => {

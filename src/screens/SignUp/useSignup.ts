@@ -9,7 +9,11 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useSelector} from 'react-redux';
 
 import {postSignup} from '../../redux/slice/signupSlice';
-import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
+import {
+  logMessage,
+  useNavigationProp,
+  useThunkDispatch,
+} from '../../helpers/helper';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);
@@ -50,7 +54,7 @@ const useSignup = () => {
   };
   const handleError = () => {
     if (isError === 401) {
-      console.log(isError, 'here is the error');
+      logMessage.error(isError, 'error in signup with error status 401');
       openModal();
     } else {
       showToast();
@@ -69,7 +73,7 @@ const useSignup = () => {
       dispatch(postSignup(credentials) as any);
       handleError();
     } catch (error) {
-      console.log('hello', error);
+      logMessage.error('error in signup', error);
       openModal();
     }
   };

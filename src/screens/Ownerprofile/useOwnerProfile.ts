@@ -16,7 +16,6 @@ const UseOwnerprofile = () => {
   const loading = useSelector(
     (state: {profileData: {isLoader: any}}) => state.profileData.isLoader,
   );
-  console.log('data', data);
   const handleLogout = () => {
     dispatch(Logout() as any);
   };

@@ -45,6 +45,8 @@ const App = () => {
     RemoveProducts,
     closeModal,
     showModal,
+    imageLoaded,
+    setImageLoaded,
     handleremove,
     name,
     pickImg,
@@ -100,7 +102,6 @@ const App = () => {
     }
   }, [isModalVisible]);
 
-  console.log('Refreshhhhhh:', refreshData);
   const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 
@@ -323,9 +324,20 @@ const App = () => {
                   <View style={[Style.item_course]}>
                     <View style={[OwnerEditItemstyles.imagePriceContainer]}>
                       <View style={[OwnerEditItemstyles.cardImageContainer]}>
+                        {!imageLoaded && (
+                          <Image
+                            source={require('../../../assets/imageload1.png')}
+                            style={OwnerEditItemstyles.cardImage}
+                          />
+                        )}
                         <Image
-                          style={OwnerEditItemstyles.cardImage}
+                          style={[
+                            OwnerEditItemstyles.cardImage,
+                            {display: imageLoaded ? 'flex' : 'none'},
+                          ]}
                           source={{uri: item.image}}
+                          onLoad={() => setImageLoaded(true)}
+                          onError={() => setImageLoaded(false)}
                         />
                       </View>
                       <View

@@ -3,6 +3,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {updateProfileUrl} from '../../constants/apiRoutes';
 import {getProfileData} from './profileDataSlice';
+import {logMessage} from 'helpers/helper';
 
 interface ProfileData {
   message: string;
@@ -37,11 +38,10 @@ export const updateProfile = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.put(updateProfileUrl, data);
-      console.log('updated data is ', response);
       dispatch(getProfileData());
       return response;
     } catch (error) {
-      console.log('error ', error);
+      logMessage.error('error in updating profile ', error);
       dispatch(setError(error));
       return error;
     }

@@ -139,12 +139,6 @@ const MyOrder = () => {
                           size={20}
                           style={[style.arrowIcon, getTextColor()]}
                         />
-                        {/* <Icons
-                          name="file-download"
-                          size={20}
-                          onPress={() => handleOrderDetails(order.id)}
-                          style={[style.arrowIcon, getTextColor()]}
-                        /> */}
                       </View>
                     </View>
                   </TouchableOpacity>

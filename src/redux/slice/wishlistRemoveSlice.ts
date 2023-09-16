@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {wishListRemoveUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 interface WishlistData {
   message: string;
@@ -30,10 +31,9 @@ export const wishListRemove = createAsyncThunk(
       const response = await ApiService.delete(
         `${wishListRemoveUrl}${productId}`,
       );
-      console.log(response);
       return response;
     } catch (error) {
-      console.log('error ', error);
+      logMessage.error('error in wishListRemove', error);
       dispatch(setError(error));
       return error;
     }

@@ -7,7 +7,7 @@ import {ADDORDER} from '../../redux/actions/actions';
 import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
-
+import {logMessage} from 'helpers/helper';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
 import analtyics from '@react-native-firebase/analytics';
@@ -21,7 +21,7 @@ const useChectout = () => {
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [isChecked, setIschecked] = useState(true);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(-1);
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>([]);
@@ -30,8 +30,6 @@ const useChectout = () => {
   const data = useSelector(
     (state: {listAddress: {data: any}}) => state.listAddress.data,
   );
-
-  console.log('heloo pranay ', data);
 
   useEffect(() => {
     setRefreshing(true);
@@ -105,7 +103,6 @@ const useChectout = () => {
     };
     RazorpayCheckout.open(options)
       .then((paymentData: any) => {
-        console.log(paymentData);
         navigation.navigate('PaymentSuccessScreen');
         dispatch(ADDORDER(paymentData.razorpay_payment_id) as any);
         const userId = cartData.userId; // Replace this with the actual user ID
@@ -129,9 +126,8 @@ const useChectout = () => {
         order_id: orderId,
         order_amount: orderAmount,
       });
-      console.log('Order placed event logged successfully');
     } catch (error) {
-      console.error('Error logging order placed event:', error);
+      logMessage.error('Error logging order placed event:', error);
     }
   };
   return {
@@ -146,7 +142,8 @@ const useChectout = () => {
     setRentalStartDate,
     setRentalEndDate,
     handleCheckboxChange,
-
+    imageLoaded,
+    setImageLoaded,
     selectedAddressIndex,
     isCheckedArray,
     isChecked,

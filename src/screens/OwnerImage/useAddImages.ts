@@ -10,14 +10,16 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import {url as baseUrl} from '../../constants/Apis';
 import {ProductAdd} from '../../redux/slice/ProductAddSlice';
-
-import {useThunkDispatch} from '../../helpers/helper';
+import {PermissionsAndroid} from 'react-native';
+import {logger} from 'react-native-logs';
+import {useThunkDispatch, defaultConfig} from '../../helpers/helper';
 
 type RootStackParamList = {
   Home: {screen: any};
   ProfileScreen: {screen: any};
 };
 const useAddImages = () => {
+  const logMessage = logger.createLogger(defaultConfig);
   const [selectedsize, setSelectedsize] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
@@ -53,8 +55,8 @@ const useAddImages = () => {
     (state: {ItemsReducer: {subcategoryIds: []}}) =>
       state.ItemsReducer.subcategoryIds,
   );
-  console.log(categoryIds);
-  console.log(subcategoryIds);
+  logMessage.error(categoryIds);
+  logMessage.error(subcategoryIds);
   const size = useSelector(
     (state: {SizeReducer: {selected: string}}) => state.SizeReducer.selected,
   );
@@ -62,7 +64,7 @@ const useAddImages = () => {
   const getImageUrl = async () => {
     const url = await AsyncStorage.getItem('url');
     setUrl(url);
-    console.log('Retrieved URL:', url);
+    logMessage.error('Retrieved URL:', url);
   };
   useEffect(() => {
     getImageUrl();
@@ -118,7 +120,7 @@ const useAddImages = () => {
       dispatch(addsize(selectedsize));
       openModal();
     } catch (error) {
-      console.log(error);
+      logMessage.error(error);
     }
   };
 
@@ -150,9 +152,9 @@ const useAddImages = () => {
       },
       async response => {
         if (response.didCancel) {
-          console.log('User cancelled image picker');
+          logMessage.error('User cancelled image picker');
         } else if (response.errorMessage) {
-          console.log('ImagePicker Error: ', response.errorMessage);
+          logMessage.error('ImagePicker Error: ', response.errorMessage);
         } else {
           const images = (response as {assets: {uri: string}[]}).assets.map(
             imagePath => ({
@@ -172,7 +174,7 @@ const useAddImages = () => {
           setIsLoading(true);
           try {
             const token = await AsyncStorage.getItem('token');
-            console.log(token);
+            logMessage.error(token);
             const result = await fetch(`${baseUrl}/file/upload`, {
               method: 'POST',
               body: formData,
@@ -183,25 +185,50 @@ const useAddImages = () => {
             });
             if (result.ok) {
               const res = await result.json();
-              console.log(res);
+              logMessage.error(res);
               setImageUrls(prevUrls => [...prevUrls, ...res.urls]);
               setIsLoading(false);
-              console.log(imageUrls);
+              logMessage.error(imageUrls);
             } else {
               const res = await result.json();
-              console.log('Upload failed');
-              console.log(res);
-              console.log(token);
+              logMessage.error('Upload failed');
+              logMessage.error(res);
+              logMessage.error(token);
               setIsLoading(true);
             }
           } catch (error) {
-            console.error(error);
+            logMessage.error('error in uploading images', error);
           }
         }
       },
     );
   };
-  console.log(name, size);
+  const checkPermission = async () => {
+    try {
+      const permissionGranted = await AsyncStorage.getItem('permissionGranted');
+      if (permissionGranted === 'true') {
+        pickImages();
+      } else {
+        const granted = await PermissionsAndroid.request(
+          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          {
+            title: 'Storage Permission',
+            message: 'App needs access to your storage to upload images.',
+            buttonPositive: 'OK',
+          },
+        );
+        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+          logMessage.error('Storage permission granted');
+          await AsyncStorage.setItem('permissionGranted', 'true');
+          pickImages();
+        } else {
+          logMessage.error('Storage permission denied');
+        }
+      }
+    } catch (err) {
+      logMessage.error('error in permissions of media', err);
+    }
+  };
   const formik = useFormik({
     initialValues: {
       size: '',
@@ -227,6 +254,7 @@ const useAddImages = () => {
     selectedImage,
     handleremove,
     formik,
+    checkPermission,
     handlePriceChange,
     handleQuantityChange,
     handleBlur,

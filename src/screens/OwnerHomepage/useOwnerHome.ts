@@ -8,7 +8,7 @@ import useAnalytics from '../AnalyticsPage/useAnalytics';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/apiRoutes';
-import {useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -33,7 +33,6 @@ const useOwnerHome = () => {
   const [outofStock, setOutofstock] = useState(false);
   const [Name, setName] = useState('');
 
-  //chnages
   const [refreshTrigger, setRefreshTrigger] = useState(false);
   const [rentedItemsPercentage, setRentedItemsPercentage] =
     useState(rentedItems);
@@ -57,8 +56,6 @@ const useOwnerHome = () => {
     setProductQuantity(item.availableQuantities);
     setIsModalVisible(true);
     setSelectedProductId(item.id);
-    console.log('item id is ', item.id);
-    console.log('Product Quantity is :', item.availableQuantities);
   };
   const incrementQuantity = () => {
     setProductQuantity(prevQuantity => prevQuantity + 1);
@@ -78,7 +75,9 @@ const useOwnerHome = () => {
     setRefreshing(false);
   };
   const {HandlePiechart} = useAnalytics();
-  const name = useSelector(state => state.profileData.data);
+  const name = useSelector(
+    (state: {profileData: {data: []}}) => state.profileData.data,
+  );
   useEffect(() => {
     const fetchDashboardData = async () => {
       const token = await AsyncStorage.getItem('token');
@@ -98,7 +97,7 @@ const useOwnerHome = () => {
           throw new Error('Failed to fetch Dashboard Data');
         }
       } catch (error) {
-        console.error(error);
+        logMessage.error('error in fetching of dashboard data', error);
       } finally {
         setIsLoading(false);
       }
@@ -121,7 +120,7 @@ const useOwnerHome = () => {
           const profileData = await response.json();
           setName(profileData.firstName);
         } else {
-          console.log('data not fetched');
+          logMessage.error('data not fetched in Ownerhomescreen');
         }
       } catch (error) {
         console.error(error);
@@ -154,7 +153,6 @@ const useOwnerHome = () => {
   const fetchRecentlyAdded = async () => {
     const result = await ApiService.get(recentyAddedUrl);
     setRecentlyAdded(result);
-    console.log('result is:', result);
   };
   useEffect(() => {
     fetchRecentlyAdded();

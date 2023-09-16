@@ -2,18 +2,19 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {userProductsUrl} from '../../constants/apiRoutes';
-
+import {logger} from 'react-native-logs';
+import {defaultConfig} from '../../helpers/helper';
 export const fetchUserProducts = createAsyncThunk(
   'fetchUserProducts',
   async ({pageSize}: {pageSize: number}) => {
+    const logMessage = logger.createLogger(defaultConfig);
     try {
-      console.log('pageNumber is ', pageSize);
       const response = await ApiService.get(
         `${userProductsUrl}?pageNumber=${0}&pageSize=${pageSize}`,
       );
       return response;
     } catch (error) {
-      console.log(error);
+      logMessage.error('error recieved during Fetching the Products');
       throw error;
     }
   },

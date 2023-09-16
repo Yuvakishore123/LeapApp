@@ -38,7 +38,6 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       const refreshToken = await AsyncStorage.getItem('refresh_token');
-      console.log('refresh_token', refreshToken);
 
       return axios
         .post(`${url}/user/refreshToken`, null, {
@@ -48,7 +47,6 @@ instance.interceptors.response.use(
         })
         .then(async response => {
           const newToken = response.headers.access_token;
-          console.log('New token generated', newToken);
 
           await AsyncStorage.setItem('token', newToken);
 

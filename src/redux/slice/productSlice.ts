@@ -2,12 +2,13 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {rentedProductsUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 export const fetchProducts = createAsyncThunk('fetchProducts', async () => {
   try {
     const products = await ApiService.get(rentedProductsUrl);
     return products;
   } catch (error) {
-    console.log(error);
+    logMessage.error('error in fetching products', error);
   }
 });
 

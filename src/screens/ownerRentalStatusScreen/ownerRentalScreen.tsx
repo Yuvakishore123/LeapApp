@@ -10,7 +10,8 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Image} from 'react-native-elements';
 const OwnerRentalScreen = () => {
   const {getTextColor} = useContext(ColorSchemeContext);
-  const {ownerrentalproducts} = useOwnerorderproducts();
+  const {ownerrentalproducts, imageLoaded, setImageLoaded} =
+    useOwnerorderproducts();
 
   const renderownerrentalItem = ({item}: {item: any; index: number}) => {
     const statusStyle =
@@ -20,9 +21,20 @@ const OwnerRentalScreen = () => {
     return (
       <TouchableOpacity style={OwnerRentalstyles.card}>
         <View>
+          {!imageLoaded && (
+            <Image
+              source={require('../../../assets/imageload1.png')}
+              style={OwnerRentalstyles.Productimage}
+            />
+          )}
           <Image
             source={{uri: item.imageUrl}}
-            style={OwnerRentalstyles.Productimage}
+            style={[
+              OwnerRentalstyles.Productimage,
+              {display: imageLoaded ? 'flex' : 'none'},
+            ]}
+            onLoad={() => setImageLoaded(true)}
+            onError={() => setImageLoaded(false)}
           />
         </View>
         <View

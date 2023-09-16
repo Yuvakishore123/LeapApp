@@ -3,7 +3,7 @@ export const wishListRemoveUrl = '/wishlist/remove?productId=';
 export const categoryDataUrl = '/category/list';
 export const cartRemoveUrl = '/cart/delete/';
 export const cartList = '/cart/list';
-export const cartupdateUrl = '/cart/updateQuantity';
+export const cartupdateUrl = '/cart/update';
 export const listAddressUrl = '/address/listAddress';
 export const profileDataUrl = '/user/getUser';
 export const updateProfileUrl = '/user/update';

@@ -2,16 +2,16 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {generateInvoice} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export const fetchOrderProducts = createAsyncThunk(
   'fetchOrderProducts',
   async () => {
     try {
       const response = await ApiService.get(`${url}/order/list`);
-      console.log('orderData is ', response);
       return response;
     } catch (error) {
-      console.log(error);
+      logMessage.error('error in fetchOrderProducts', error);
     }
   },
 );
@@ -19,13 +19,10 @@ export const fetchInvoiceDetails = createAsyncThunk(
   'fetchInvoiceDetails',
   async (orderId: string) => {
     try {
-      console.log('orderId', orderId);
       const response = await ApiService.get(`${generateInvoice}/${orderId}`);
-      console.log(response);
       return response;
     } catch (error) {
-      console.log('orderId', orderId);
-      console.log(error);
+      logMessage.error('error in fetching InvoiceDetails', error);
       throw error;
     }
   },
