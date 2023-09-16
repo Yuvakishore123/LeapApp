@@ -62,7 +62,6 @@ const useCart = () => {
 
   useEffect(() => {
     if (refreshing) {
-      console.log('what the heck bro ');
       dispatch(fetchCartProducts() as any);
       setRefreshing(false);
     }
@@ -87,8 +86,6 @@ const useCart = () => {
       };
       dispatch(updateCart(data) as any);
       setRefreshing(true);
-
-      console.log('Update response:');
     } catch (error) {}
   };
 
@@ -107,26 +104,24 @@ const useCart = () => {
   const handleIncrement = (item: any) => {
     const productId = item.product.id;
     setCartProductId(item.product.id);
-    console.log('itemID', productId);
+
     const productQuantity = item.product.availableQuantities;
-    console.log('Validation of product Quantity is ', productQuantity);
+
     if (item.quantity === productQuantity) {
       setisButtondisable(true);
     } else {
       const Quantity = item.quantity + 1;
-      console.log(Quantity);
+
       handleUpdate(Quantity, productId);
     }
     setRefreshing(prevRefreshing => !prevRefreshing);
-    console.log('refreshing :', refreshing); // Toggle the value of refreshing
   };
 
   const handleDecrement = (item: any) => {
-    console.log(item.quantity);
     const productId = item.product.id;
     setCartProductId(item.product.id);
     const newQuantity = item.quantity - 1;
-    console.log('itemID', productId);
+
     handleUpdate(newQuantity, productId);
     setisButtondisable(false);
   };
@@ -145,7 +140,6 @@ const useCart = () => {
   if (isError) {
     showToast();
   }
-  console.log('CartError', cartError);
   if (cartError) {
     CartToast();
   }

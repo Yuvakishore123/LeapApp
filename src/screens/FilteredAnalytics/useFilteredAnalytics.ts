@@ -6,6 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {FliterAnalyticslist} from '../../redux/slice/fliterAnalyticsDataSlice';
+import {logMessage} from 'helpers/helper';
 
 const useFilteredAnalytics = () => {
   const [chartData, setChartData] = useState<
@@ -14,6 +15,7 @@ const useFilteredAnalytics = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const {log} = logMessage();
   const response = useSelector(
     (state: {FliterAnalyticsData: {data: any}}) =>
       state.FliterAnalyticsData.data,
@@ -25,7 +27,7 @@ const useFilteredAnalytics = () => {
   const fetchData = async () => {
     try {
       setIsLoading(true);
-      console.log('start date', startDate);
+
       const formattedStartDate = startDate.toISOString();
       const formattedEndDate = endDate.toISOString();
       const item = {
@@ -35,7 +37,7 @@ const useFilteredAnalytics = () => {
       dispatch(FliterAnalyticslist(item));
       setIsLoading(false);
     } catch (error) {
-      console.log('Error fetching data:', error);
+      log.error('error during fetching filtered analytics data ');
     } finally {
       setIsLoading(false);
     }
@@ -62,8 +64,6 @@ const useFilteredAnalytics = () => {
     handleChartData();
     setData(response);
   }, [response]);
-
-  console.log('data is :', data);
 
   const generateKey = () => {
     return Math.random().toString(36);

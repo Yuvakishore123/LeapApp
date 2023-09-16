@@ -20,6 +20,7 @@ import {
 } from '../../redux/actions/actions';
 import {fetchCategoriesData} from '../../redux/slice/categorySlice';
 import {subCategoryUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 type RootStackParamList = {
   OwnerImage: undefined;
@@ -38,6 +39,7 @@ const useAdditems = () => {
   const [subCategoriesData, setSubCategoriesData] = useState([]);
   const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
   const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
+  const {log} = logMessage();
   const Data = useSelector(
     (state: {category: {data: any}}) => state.category.data,
   );
@@ -71,8 +73,6 @@ const useAdditems = () => {
     setOutfitType(selectedOutfit);
   };
   useEffect(() => {
-    console.log(gender);
-
     const fetchSubCategoryData = async () => {
       try {
         const response = await ApiService.get(
@@ -85,9 +85,7 @@ const useAdditems = () => {
           }),
         );
         setSubCategoriesData(subCategoriesArray);
-        console.log(subCategoriesArray, 'data error');
       } catch (error) {
-        console.log(error, 'data error');
         setIsLoading(true);
       } finally {
         setIsLoading(false);
@@ -109,11 +107,8 @@ const useAdditems = () => {
           }),
         );
         setSubEventCategoriesData(subEventCategoriesArray);
-        console.log(subEventCategoriesArray);
       } catch (error) {
-        console.log('error is here  ', error);
-      } finally {
-        console.log('finally');
+        log.error('error is here  ', error);
       }
     };
     fetchEventCategoryData();
@@ -129,11 +124,8 @@ const useAdditems = () => {
           }),
         );
         setSubOutfitCategoriesData(subOutfitCategoriesArray);
-        console.log(subOutfitCategoriesArray);
       } catch (error) {
-        console.log(error);
-      } finally {
-        console.log('finally');
+        log.error('error in fetchhing outfit data');
       }
     };
     OutfitCategoriesData();
@@ -142,8 +134,8 @@ const useAdditems = () => {
   useEffect(() => {
     const fetchCategoryData = async () => {
       try {
-        const response = dispatch(fetchCategoriesData() as any);
-        console.log('category data here is ', response.data);
+        await dispatch(fetchCategoriesData() as any);
+
         const categoriesArray = Data.map(
           (category: {id: any; categoryName: any}) => ({
             ...category,
@@ -153,7 +145,7 @@ const useAdditems = () => {
         );
         setCategoriesData(categoriesArray);
       } catch (error) {
-        console.log(error);
+        log.error('error in fetching category data');
       } finally {
         setIsLoading(false);
       }
@@ -183,7 +175,6 @@ const useAdditems = () => {
     dispatch(addevent(subcategoryIds));
     dispatch(addoutfit(subcategoryIds));
     navigation.navigate('OwnerImage');
-    console.log(Name, Description);
   };
   const formik = useFormik({
     initialValues: {

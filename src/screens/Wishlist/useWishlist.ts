@@ -38,8 +38,6 @@ const useWishlist = () => {
     });
   };
 
-  console.log(JSON.stringify(WishlistProducts));
-  console.log('wishlist succes');
   const onRefresh = async () => {
     setRefreshing(true);
     await dispatch(fetchWishlistProducts());

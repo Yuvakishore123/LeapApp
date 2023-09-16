@@ -18,6 +18,7 @@ const useSignup = () => {
   const {navigation} = useNavigationProp();
   const {colorScheme} = useContext(ColorSchemeContext);
   const {dispatch} = useThunkDispatch();
+
   const isError = useSelector(
     (state: {signup: {error: any}}) => state.signup.error,
   );
@@ -50,7 +51,6 @@ const useSignup = () => {
   };
   const handleError = () => {
     if (isError === 401) {
-      console.log(isError, 'here is the error');
       openModal();
     } else {
       showToast();
@@ -69,7 +69,6 @@ const useSignup = () => {
       dispatch(postSignup(credentials) as any);
       handleError();
     } catch (error) {
-      console.log('hello', error);
       openModal();
     }
   };

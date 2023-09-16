@@ -2,15 +2,17 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {cartList} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export const fetchCartProducts = createAsyncThunk(
   'fetchCartProducts',
   async () => {
+    const {log} = logMessage();
     try {
       const response = await ApiService.get(cartList);
       return response;
     } catch (error) {
-      console.log('error ', error);
+      log.error('error during fetching cart details');
     }
   },
 );

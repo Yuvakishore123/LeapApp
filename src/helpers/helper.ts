@@ -21,9 +21,7 @@ export const useNavigationProp = () => {
   return {navigation};
 };
 export const onClickNotification = () => {
-  messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log(remoteMessage.data);
-  });
+  messaging().onNotificationOpenedApp(remoteMessage => {});
 };
 export const defaultConfig = {
   levels: {

@@ -13,15 +13,11 @@ const useFilterScreen = () => {
         `${FilterProduct}?maxPrice=${maximumPrice}&minPrice=${minimumPrice}&size=${size}&subcategoryId=${1}`,
       );
       setFilteredProducts(response);
-      console.log(response);
     } catch (error) {
       console.error('Error fetching filtered products:', error);
       setFilteredProducts([]);
     }
   };
-
-  console.log(minimumPrice);
-  console.log(maximumPrice);
 
   return {
     FilterData,

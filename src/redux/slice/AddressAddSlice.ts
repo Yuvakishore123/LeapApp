@@ -38,8 +38,7 @@ export const AddressAdd = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.post(addressaddUrl, addressData);
-      console.log('AddressAdd', response);
-      console.log('--------------------------------');
+
       return response;
     } catch (error: any) {
       dispatch(error);

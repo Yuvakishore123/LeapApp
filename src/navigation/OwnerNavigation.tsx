@@ -7,7 +7,7 @@ const OwnerNavigation = () => {
   const role = useSelector(
     (state: {Rolereducer: {role: null}}) => state.Rolereducer.role,
   );
-  console.log(role);
+
   return (
     <>
       <StatusBar backgroundColor="black" barStyle="light-content" />

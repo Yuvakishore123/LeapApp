@@ -30,10 +30,9 @@ export const wishListRemove = createAsyncThunk(
       const response = await ApiService.delete(
         `${wishListRemoveUrl}${productId}`,
       );
-      console.log(response);
+
       return response;
     } catch (error) {
-      console.log('error ', error);
       dispatch(setError(error));
       return error;
     }

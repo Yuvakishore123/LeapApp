@@ -8,7 +8,7 @@ import useAnalytics from '../AnalyticsPage/useAnalytics';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/apiRoutes';
-import {useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -32,8 +32,8 @@ const useOwnerHome = () => {
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [outofStock, setOutofstock] = useState(false);
   const [Name, setName] = useState('');
+  const {log} = logMessage();
 
-  //chnages
   const [refreshTrigger, setRefreshTrigger] = useState(false);
   const [rentedItemsPercentage, setRentedItemsPercentage] =
     useState(rentedItems);
@@ -57,8 +57,6 @@ const useOwnerHome = () => {
     setProductQuantity(item.availableQuantities);
     setIsModalVisible(true);
     setSelectedProductId(item.id);
-    console.log('item id is ', item.id);
-    console.log('Product Quantity is :', item.availableQuantities);
   };
   const incrementQuantity = () => {
     setProductQuantity(prevQuantity => prevQuantity + 1);
@@ -98,38 +96,14 @@ const useOwnerHome = () => {
           throw new Error('Failed to fetch Dashboard Data');
         }
       } catch (error) {
-        console.error(error);
+        log.error('Failed to fetch Dashboard Data');
       } finally {
         setIsLoading(false);
       }
     };
     fetchDashboardData();
   }, []);
-  useEffect(() => {
-    const fetchProfileData = async () => {
-      const token = await AsyncStorage.getItem('token');
-      try {
-        const response = await fetch(`${url}/user/getUser`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        setIsLoading(false);
-        if (response.ok) {
-          const profileData = await response.json();
-          setName(profileData.firstName);
-        } else {
-          console.log('data not fetched');
-        }
-      } catch (error) {
-        console.error(error);
-        setIsLoading(true);
-      }
-    };
-    fetchProfileData();
-  }, [refresh]);
+
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setRefresh(!refresh);
@@ -154,7 +128,6 @@ const useOwnerHome = () => {
   const fetchRecentlyAdded = async () => {
     const result = await ApiService.get(recentyAddedUrl);
     setRecentlyAdded(result);
-    console.log('result is:', result);
   };
   useEffect(() => {
     fetchRecentlyAdded();

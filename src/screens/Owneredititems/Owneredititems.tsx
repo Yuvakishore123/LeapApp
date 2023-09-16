@@ -100,7 +100,6 @@ const App = () => {
     }
   }, [isModalVisible]);
 
-  console.log('Refreshhhhhh:', refreshData);
   const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 

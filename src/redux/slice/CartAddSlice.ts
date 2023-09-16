@@ -33,12 +33,10 @@ export const CartAdd = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.post(cartaddUrl, Item);
-      console.log('CartAdd', response.data);
-      console.log('-------------------------------');
+
       return response;
     } catch (error: any) {
       if (error.response) {
-        console.log('error', error.response.status);
         dispatch(setError(error.response));
       }
       return error.response;

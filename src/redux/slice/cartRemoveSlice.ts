@@ -28,10 +28,9 @@ export const removefromCart = createAsyncThunk(
   async (productId: number, {dispatch}) => {
     try {
       const response = await ApiService.delete(`${cartRemoveUrl}${productId}`);
-      console.log(response);
+
       return response;
     } catch (error) {
-      console.log('error ', error);
       dispatch(setError(error));
       return error;
     }

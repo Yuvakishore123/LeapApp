@@ -35,7 +35,6 @@ const authReducer = (state = initialState, action: any) => {
     case LOGIN_SUCCESS:
     case SIGNUP_SUCCESS:
     case OTP_SUCCESS:
-      console.log('kishore', action.payload);
       return {
         ...state,
         loading: false,

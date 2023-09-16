@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {url} from '../../constants/Apis';
+import {logMessage} from 'helpers/helper';
 
 export const postLogin = createAsyncThunk(
   'postLogin',
@@ -9,6 +10,7 @@ export const postLogin = createAsyncThunk(
     credentials: {email: string; password: string; deviceToken: string | null},
     {dispatch},
   ) => {
+    const {log} = logMessage();
     try {
       const response = await axios.post(`${url}/login`, credentials);
       await AsyncStorage.setItem('token', response.headers.access_token);
@@ -16,11 +18,10 @@ export const postLogin = createAsyncThunk(
         'refresh_token',
         response.headers.refresh_token,
       );
-      console.log('refresh_token', response.headers.refresh_token);
-      console.log('refresh_token expiry time', response.headers);
+
       return response;
     } catch (error: any) {
-      console.log('error here is ', error.response.status);
+      log.error('error during login  ', error.response.status);
       dispatch(setError(error.response.status));
       throw error;
     }
@@ -58,7 +59,6 @@ const loginThunk = createSlice({
           authToken: action.payload,
           isAuthenticated: true,
         };
-        console.log('Response data:', action.payload);
       })
       .addCase(postLogin.rejected, (state, action) => {
         state.isLoader = false;

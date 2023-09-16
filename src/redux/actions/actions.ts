@@ -38,6 +38,8 @@ export const ADD_TO_WISHLIST = 'ADD_TO_WISHLIST';
 export const REMOVE_FROM_WISHLIST = 'REMOVE_FROM_WISHLIST';
 import {setLoginData} from '../slice/loginSlice';
 import {ListAddress} from '../slice/listAddressSlice';
+import ApiService from 'network/network';
+import {logMessage} from 'helpers/helper';
 
 export const addname = (Name: any) => ({
   type: ADD_NAME,
@@ -78,26 +80,24 @@ export const removeAddress = (id: any) => {
       });
       dispatch({type: REMOVE_ADDRESS, payload: id});
       dispatch(ListAddress as any);
-    } catch (error) {
-      console.log('remove address error', error);
-    }
+    } catch (error) {}
   };
 };
 
-export const deleteAddress = (index: any) => ({
-  type: 'DELETE_ADDRESS',
-  payload: index,
-});
+// export const deleteAddress = (index: any) => ({
+//   type: 'DELETE_ADDRESS',
+//   payload: index,
+// });
 export const Init = () => {
+  const {log} = logMessage();
   return async (dispatch: Dispatch) => {
     try {
       let token = await AsyncStorage.getItem('token');
       if (token !== null) {
-        console.log('token fetched');
         dispatch(setLoginData({authToken: token, isAuthenticated: true}));
       }
     } catch (error) {
-      console.log('error in Init:', error);
+      log.error('error in Init:', error);
     }
   };
 };
@@ -112,7 +112,7 @@ export const getOTP = (phoneNumber: string) => {
           phoneNumber,
         },
       );
-      // Alert.alert('OTP'), console.log('otp send');
+
       dispatch({type: VERIFY_OTP_SUCCESS, payload: response.data});
     } catch (error) {
       dispatch({type: VERIFY_OTP_FAILURE, payload: error});
@@ -129,32 +129,31 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
           phoneNumber: phoneNumber,
           otp: otp,
         },
-        // console.log('Phone no', phoneNo, otp),
       );
       const token = response.headers.access_token;
       await AsyncStorage.setItem('token', token);
       dispatch({type: LOGIN_SUCCESS, payload: token});
     } catch (error) {
       dispatch({type: LOGIN_FAILURE, payload: error});
-      console.log('error', error);
     }
   };
 };
 
 export const Logout = () => {
   return async (dispatch: Dispatch) => {
+    const {log} = logMessage();
     const refreshToken = await AsyncStorage.getItem('refresh_token');
-    AsyncStorage.removeItem('token');
     try {
+      AsyncStorage.removeItem('token');
       const response = await axios.post(`${url}/user/logout`, null, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
       });
-      console.log('response for logout is', response);
+
       dispatch(setLoginData({authToken: null, isAuthenticated: false}));
     } catch (error) {
-      console.log('error is', error);
+      log.error(error);
     }
   };
 };
@@ -205,30 +204,23 @@ export const removeFromWishlist = (productId: any) => ({
 // action creator
 
 export const postProductToAPI = (item: {id: any}) => {
-  console.log('hello', item);
   return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
+    const {log} = logMessage();
     try {
-      const token = await AsyncStorage.getItem('token');
       const id = item.id;
-      console.log(token);
+
       // make API call
-      const response = await fetch(`${url}/wishlist/add?productId=${id}`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-          Authorization: `Bearer ${token}`,
+      const response = await ApiService.post(
+        `${url}/wishlist/add?productId=${id}`,
+        {
+          body: JSON.stringify(item.id),
         },
-        body: JSON.stringify(item.id),
-      });
-      const data = await response.json();
+      );
+
       // update the Redux store with the response data
-      dispatch(addProductToStore(data));
-      console.log('====================================');
-      console.log(data);
-      console.log('====================================');
-      console.log('success');
+      dispatch(addProductToStore(response));
     } catch (error) {
-      console.log(error);
+      log.error('error during adding product to cart', error);
     }
   };
 };
@@ -245,25 +237,13 @@ export const addProductToStore = (product: any) => {
 };
 
 export const ADDORDER = (razorpayId: string) => {
+  const {log} = logMessage();
   return async (dispatch: (arg0: {type: string; payload: any}) => void) => {
     try {
-      const token = await AsyncStorage.getItem('token');
-      const data = razorpayId;
-      console.log('john razarpay', data); // create an object with razorpayId property
-      const response = await fetch(
-        `${url}/order/add/?razorpayId=${razorpayId}`,
-        {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+      await ApiService.post(`${url}/order/add/?razorpayId=${razorpayId}`, {});
       dispatch(Orderreducer(razorpayId));
-      console.log('success', response);
     } catch (error) {
-      console.log(error);
+      log.error('error during placing order', error);
     }
   };
 };

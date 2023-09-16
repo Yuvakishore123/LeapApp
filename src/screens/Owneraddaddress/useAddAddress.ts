@@ -8,7 +8,7 @@ import {RootStackParamList} from '../Subcategory/Subcategory';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {AddressAdd} from '../../redux/slice/AddressAddSlice';
-import {useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
 
 const useAddAddress = () => {
@@ -22,6 +22,7 @@ const useAddAddress = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showLoader, setShowLoader] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const {log} = logMessage();
   const openModal = () => {
     setShowModal(true);
   };
@@ -44,13 +45,12 @@ const useAddAddress = () => {
       );
       const data = result[0]?.PostOffice || [];
       setIsLoading(false);
-      console.log(data[0]);
+
       setCountry(data[0]?.Country || '');
       setCity(data[0]?.District || '');
       setStateName(data[0]?.State || '');
-      console.log(city, country, state);
     } catch (error) {
-      console.error(error);
+      log.error('error during saving address', error);
       Alert.alert('Enter valid Pincode');
     } finally {
       setIsLoading(false);
@@ -60,7 +60,6 @@ const useAddAddress = () => {
   const [selectedOption, setSelectedOption] = useState('HOME');
   const handleOptionChange = (value: SetStateAction<string>) => {
     setSelectedOption(value);
-    console.log('addressType is ', selectedOption);
   };
 
   const handlePostalCodeChange = async (text: string) => {
@@ -94,10 +93,7 @@ const useAddAddress = () => {
       dispatch(AddressAdd(addressData));
       dispatch(ListAddress());
       openModal();
-      console.log('what the heack is happening');
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   const formik = useFormik({
     initialValues: {

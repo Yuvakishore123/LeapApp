@@ -22,7 +22,6 @@ const DropdownComponent: React.FC<DropdownComponentProps> = ({
   const {getTextInputStyle, getPlaceholderTextColor} =
     useContext(ColorSchemeContext);
   const [isFocus, setIsFocus] = useState(false);
-  console.log('data is ', data);
 
   return (
     <View style={Ownerstyles.scrollView}>

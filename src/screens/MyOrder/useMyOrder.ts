@@ -45,7 +45,7 @@ const useMyOrder = () => {
   const invoiceData = useSelector(
     (state: {OrderProducts: {data: []}}) => state.OrderProducts.data,
   );
-  console.log('invoiceData', invoiceData);
+
   const onRefresh = async () => {
     setRefreshing(true);
     dispatch(fetchOrderProducts());
@@ -59,7 +59,6 @@ const useMyOrder = () => {
   }, [dispatch]);
 
   const openModal = async (order: Order) => {
-    console.log('openModal Id ', order.id);
     setSelectedOrder(order);
     handleOrderDetails(order.id);
     setIsModalOpen(true);
@@ -104,7 +103,7 @@ const useMyOrder = () => {
   const handleOrderDetails = async (orderId: string) => {
     try {
       const token = await AsyncStorage.getItem('token');
-      console.log('Monday ', orderId, token);
+
       const response = await axios.get(
         `${url}/order/generateInvoice/${orderId}`,
         {
@@ -114,9 +113,7 @@ const useMyOrder = () => {
           responseType: 'blob',
         },
       );
-      console.log('Response:', response);
-      console.log('Response status:', response.status);
-      console.log('Response content type:', response.headers['content-type']);
+
       const blob = response.data;
       const reader = new FileReader();
       reader.onloadend = async () => {
@@ -126,12 +123,8 @@ const useMyOrder = () => {
         );
         const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/invoice.pdf`;
         await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
-        console.log('Invoice downloaded successfully:', filePath);
-        // Push notification
       };
-      reader.onerror = error => {
-        console.log('Error reading file:', error);
-      };
+
       reader.readAsDataURL(blob);
     } catch (error) {
       console.error('An error occurred while fetching invoice details:', error);

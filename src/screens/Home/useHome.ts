@@ -10,7 +10,7 @@ import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
-
+import * as Sentry from '@sentry/react-native';
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
@@ -82,6 +82,7 @@ const useHome = () => {
     //     setError('Something went wrong. Please try again.');
     //     console.error(error);
     //   });
+
     dispatch(getProfileData());
   }, [dispatch, pageSize]);
   const onRefresh = async () => {
@@ -120,7 +121,7 @@ const useHome = () => {
   const Loading = useSelector(
     (state: {UserProducts: {loading: boolean}}) => state.UserProducts.loading,
   );
-  console.log('Loading and first loading is ', Loading, loading);
+
   return {
     WishlistProducts,
     onRefresh,
@@ -145,6 +146,7 @@ const useHome = () => {
     IsError,
     handleEndReached,
     productsData,
+    Loading,
   };
 };
 export default useHome;

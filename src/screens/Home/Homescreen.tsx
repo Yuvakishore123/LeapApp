@@ -58,7 +58,7 @@ const Homescreen = ({navigation}: Props) => {
     getPlaceholderTextColor,
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
-  console.log('ujohnwesly8@gmail.com', IsError);
+
   if (!UserProducts) {
     return (
       <View
@@ -82,7 +82,6 @@ const Homescreen = ({navigation}: Props) => {
     );
   }
 
-  console.log('productsData', allProducts);
   const loadingComponent = () => {
     return (
       <View>

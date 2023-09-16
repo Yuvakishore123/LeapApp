@@ -24,24 +24,27 @@ import ApiService from 'network/network';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';
-Sentry.init({
-  dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
-  enableAutoSessionTracking: true,
-  // Set tracesSampleRate to 1.0 to capture 100% of transactions for performance monitoring.
-  // We recommend adjusting this value in production.
-  tracesSampleRate: 1.0,
-});
 
 import messaging from '@react-native-firebase/messaging';
 import Homescreen from 'screens/Home/Homescreen';
 
-import {setNavigationReference} from '../LeapApp/src/network/network';
+// import {setNavigationReference} from '../LeapApp/src/network/network';
 import {listProductsById} from 'constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
-
+Sentry.init({
+  dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
+  tracesSampleRate: 0.2,
+  _experiments: {
+    // The sampling rate for profiling is relative to TracesSampleRate.
+    // In this case, we'll capture profiles for 100% of transactions.
+    profilesSampleRate: 1.0,
+  },
+});
 const AuthStack = () => {
   const navigation = useNavigation();
+
   useEffect(() => {
     checkFirstTimeUser();
   }, []);
@@ -59,7 +62,6 @@ const AuthStack = () => {
 
         // Store the flag indicating that the user has logged in
         await AsyncStorage.setItem('hasLoggedIn', 'true');
-        console.log('user already logged in');
       }
     } catch (error) {
       console.error('Error checking first time user:', error);
@@ -80,6 +82,8 @@ const AuthStack = () => {
   );
 };
 const RootNavigation = () => {
+  const {log} = logMessage();
+
   const token = useSelector((state: any) => state.login.data.authToken);
   useEffect(() => {
     getToken();
@@ -87,9 +91,8 @@ const RootNavigation = () => {
   const getToken = async () => {
     const Fcm_token = await messaging().getToken();
     await AsyncStorage.setItem('device_token', Fcm_token);
-    console.log('fcm_token is ', Fcm_token);
   };
-  console.log(token);
+
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
   const init = async () => {
@@ -107,7 +110,7 @@ const RootNavigation = () => {
         })
         .catch(error => {
           // Handle any errors if init() rejects
-          console.log(error);
+          log.error('error in clearing cart', error);
         });
     }, 3000);
     // Add a delay of 2 seconds before initializing
@@ -130,25 +133,22 @@ const RootNavigation = () => {
   );
 };
 const App = () => {
-  const navigationRef = useRef<NavigationContainerRef | null>(null);
+  const {log} = logMessage();
+  // const navigationRef = useRef<NavigationContainerRef | null>(null);
 
-  useEffect(() => {
-    setNavigationReference(navigationRef.current);
-  }, []);
+  // useEffect(() => {
+  //   setNavigationReference(navigationRef.current);
+  // }, []);
 
   const HandleDeepLinking = () => {
-    console.log('Inside HandleDeepLinking'); // Add this line to check if HandleDeepLinking is triggered
     const navigation = useNavigation();
     const Handlelink = async (link: any) => {
-      console.log('Inside Handlelink'); // Add this line to check if Handlelink is triggered
       try {
         let productId = link.url.split('=').pop();
-        console.log('Jyothi: ', productId);
+
         const result = await ApiService.get(`${listProductsById}/${productId}`);
         navigation.navigate('UProductDetails', {product: result});
-      } catch (error) {
-        console.log('Error handling deep link:', error);
-      }
+      } catch (error) {}
     };
     useEffect(() => {
       const initialLink = dynamicLinks().getInitialLink();
@@ -159,12 +159,12 @@ const App = () => {
           }
         })
         .catch(error => {
-          console.log('Error getting initial link:', error);
+          log.error('Error getting initial link:', error);
         });
 
       const subscribe = dynamicLinks().onLink(() => {
         Handlelink(initialLink).catch(error => {
-          console.log('error ', error);
+          log.errror('error ', error);
           // Handle any errors if Handlelink() rejects
         });
       });
@@ -178,7 +178,7 @@ const App = () => {
   return (
     <ColorSchemeProvider>
       <Provider store={store}>
-        <NavigationContainer ref={navigationRef}>
+        <NavigationContainer>
           <HandleDeepLinking />
           <RootNavigation />
         </NavigationContainer>

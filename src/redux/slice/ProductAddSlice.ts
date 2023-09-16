@@ -41,8 +41,7 @@ export const ProductAdd = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.post(productaddUrl, Data);
-      console.log('productadd', response.data);
-      console.log('-----------------------------------');
+
       return response;
     } catch (error: any) {
       dispatch(setError(error));

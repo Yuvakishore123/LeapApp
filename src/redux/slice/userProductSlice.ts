@@ -2,18 +2,19 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {userProductsUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export const fetchUserProducts = createAsyncThunk(
   'fetchUserProducts',
   async ({pageSize}: {pageSize: number}) => {
+    const {log} = logMessage();
     try {
-      console.log('pageNumber is ', pageSize);
       const response = await ApiService.get(
         `${userProductsUrl}?pageNumber=${0}&pageSize=${pageSize}`,
       );
       return response;
     } catch (error) {
-      console.log(error);
+      log.error('error in fetching products data', error);
       throw error;
     }
   },

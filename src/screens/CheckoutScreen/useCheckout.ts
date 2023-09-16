@@ -31,8 +31,6 @@ const useChectout = () => {
     (state: {listAddress: {data: any}}) => state.listAddress.data,
   );
 
-  console.log('heloo pranay ', data);
-
   useEffect(() => {
     setRefreshing(true);
     dispatch(ListAddress() as any);
@@ -105,7 +103,6 @@ const useChectout = () => {
     };
     RazorpayCheckout.open(options)
       .then((paymentData: any) => {
-        console.log(paymentData);
         navigation.navigate('PaymentSuccessScreen');
         dispatch(ADDORDER(paymentData.razorpay_payment_id) as any);
         const userId = cartData.userId; // Replace this with the actual user ID
@@ -129,7 +126,6 @@ const useChectout = () => {
         order_id: orderId,
         order_amount: orderAmount,
       });
-      console.log('Order placed event logged successfully');
     } catch (error) {
       console.error('Error logging order placed event:', error);
     }

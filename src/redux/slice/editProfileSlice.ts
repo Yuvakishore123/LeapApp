@@ -37,11 +37,10 @@ export const updateProfile = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.put(updateProfileUrl, data);
-      console.log('updated data is ', response);
+
       dispatch(getProfileData());
       return response;
     } catch (error) {
-      console.log('error ', error);
       dispatch(setError(error));
       return error;
     }

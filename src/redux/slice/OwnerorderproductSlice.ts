@@ -2,17 +2,19 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {url} from '../../constants/Apis';
 
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
+import {logMessage} from 'helpers/helper';
 export const ownerorderproducts = createAsyncThunk(
   'ownerorderproducts',
   async (status: string) => {
+    const {log} = logMessage();
     try {
       const products = await ApiService.get(
         `${url}/order/shipping-status?status=${status}`,
       );
       return products;
     } catch (error) {
-      console.log(error);
+      log.error('error during fetching rental items', error);
     }
   },
 );

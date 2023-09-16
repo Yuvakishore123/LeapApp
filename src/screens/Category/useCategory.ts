@@ -21,7 +21,7 @@ export const useCategory = () => {
   useEffect(() => {
     dispatch(fetchCategoriesData() as any);
   }, [dispatch]);
-  console.log('data here is', data);
+
   const handleCategoryData = (categoryId: string) => {
     navigation.navigate('Subcategory', {categoryId});
     dispatch(getsubcategoryData(categoryId) as any);

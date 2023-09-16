@@ -7,6 +7,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {editAddressData} from '../../redux/slice/editAddressSlice';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
+import {logMessage} from 'helpers/helper';
 const useEditAddress = () => {
   const navigation = useNavigation();
   const route = useRoute();
@@ -26,6 +27,7 @@ const useEditAddress = () => {
   const [showModal, setShowModal] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const {log} = logMessage();
   const openModal = () => {
     dispatch(ListAddress());
     setShowModal(true);
@@ -39,7 +41,6 @@ const useEditAddress = () => {
   };
   const handlePostalcode = (value: React.SetStateAction<string>) => {
     setPostalCode(value);
-    console.log(value);
   };
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = () => {
@@ -58,13 +59,13 @@ const useEditAddress = () => {
         defaultType: isChecked,
       };
       dispatch(editAddressData({updateaddress, addressid}));
-      console.log('editaddress', response);
+
       if (response) {
         setIsLoading(false);
         openModal();
       }
     } catch (error) {
-      console.log('Failed to update address');
+      log.errror('error during editing address');
     } finally {
       setIsLoading(false);
     }

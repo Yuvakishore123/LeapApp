@@ -2,6 +2,7 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import ApiService from '../../network/network';
 import {categoryProductsUrl} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 
 export interface CategoryProduct {
   availableQuantities: number;
@@ -39,17 +40,15 @@ const initialState: CategoryProductState = {
 export const fetchCategoriesProductsdata = createAsyncThunk(
   'fetchCategoriesdata',
   async (subcategoryId: number) => {
+    const {log} = logMessage();
     try {
-      console.log('subcategoryId', subcategoryId);
       const response = await ApiService.get(
         `${categoryProductsUrl}/${subcategoryId}`,
       );
 
-      console.log('category product data is  is ', response);
-
       return response;
     } catch (error) {
-      console.log('error here is  ', error);
+      log.error('error during fetching products in category ');
       return error;
     }
   },

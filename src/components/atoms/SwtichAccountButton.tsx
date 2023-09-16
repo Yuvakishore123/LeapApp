@@ -9,12 +9,14 @@ import IonIcon from 'react-native-vector-icons/Ionicons';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
+import {logMessage} from 'helpers/helper';
 
 const SwitchAccountButton = () => {
   const [showOptions, setShowOptions] = useState(false);
   const dispatch = useDispatch();
   const userType = useSelector((state: any) => state.Rolereducer.role);
   const [accountType, setAccountType] = useState('');
+  const {log} = logMessage();
 
   const buttonAnimation = useState(new Animated.Value(0))[0];
   const optionsAnimation = useState(new Animated.Value(0))[0];
@@ -40,7 +42,7 @@ const SwitchAccountButton = () => {
   const handleOptionPress = async (option: string) => {
     try {
       setShowOptions(false);
-      console.log('option', option);
+
       const response = await ApiService.post(
         `${url}/user/switch?profile=${option}`,
         null,
@@ -50,15 +52,13 @@ const SwitchAccountButton = () => {
         const newToken = response.headers.access_token;
         await AsyncStorage.removeItem('token');
         await AsyncStorage.setItem('token', newToken);
-        console.log(newToken);
+
         dispatch(setRole(option));
         setAccountType(option === 'OWNER' ? 'Owner' : 'Borrower');
       } else {
-        console.log('Request failed');
       }
     } catch (error) {
-      console.log('error is here ');
-      console.log('Request failed');
+      log.error('error during switching profile', error);
     }
   };
 

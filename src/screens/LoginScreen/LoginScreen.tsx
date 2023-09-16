@@ -10,8 +10,6 @@ import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';
 import {
   Donthavetext,
-  Guest,
-  continueAsaguest,
   continueText,
   otp,
   signin,
@@ -30,7 +28,7 @@ const LoginScreen = () => {
     showModal,
     handleLoginScreen,
     placeholadercolor,
-    handleLoginGuest,
+
     handleOtpScreen,
     handleSignUp,
     setPasswordVisible,
@@ -116,14 +114,7 @@ const LoginScreen = () => {
           <Text style={styles.Signuptext}>{signup}</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.sign}>
-        <Text style={[styles.Guesttext, getTextColor()]}>
-          {continueAsaguest}
-        </Text>
-        <TouchableOpacity onPress={handleLoginGuest} testID="Signup-Button">
-          <Text style={styles.Signuptext}>{Guest}</Text>
-        </TouchableOpacity>
-      </View>
+
       <CustomModal
         showModal={showModal}
         onClose={closeModal}

@@ -11,7 +11,7 @@ function Usemyrental() {
   const products = useSelector(
     (state: {products: {data: any[]}}) => state.products.data,
   );
-  console.log(JSON.stringify(products));
+
   return {products};
 }
 export default Usemyrental;

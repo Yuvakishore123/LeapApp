@@ -54,7 +54,7 @@ const AddImages = () => {
           OwnerImagestyles.Scroll,
           colorScheme === 'dark' ? styles.blacktheme : styles.whiteTheme,
         ]}>
-        <HeadingText message="Add products" />
+        <HeadingText message="Add products" navigation={undefined} />
         <View style={[OwnerImagestyles.form]}>
           <View style={[OwnerImagestyles.ImageBox]}>
             {imageUrls && areImagesUploaded ? (

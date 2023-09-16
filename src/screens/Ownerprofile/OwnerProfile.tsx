@@ -21,7 +21,7 @@ import SwitchAccountButton from '../../components/atoms/SwtichAccountButton';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import UseOwnerprofile from './useOwnerProfile';
-
+import Toast from 'react-native-toast-message';
 type Props = {
   navigation: any;
 };
@@ -164,6 +164,7 @@ const OwnerProfile = ({navigation}: Props) => {
         </View>
       </ScrollView>
       <View style={style.outerView} />
+      <Toast />
     </View>
   );
 };

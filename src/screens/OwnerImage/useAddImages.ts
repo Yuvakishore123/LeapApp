@@ -11,7 +11,7 @@ import {useSelector} from 'react-redux';
 import {url as baseUrl} from '../../constants/Apis';
 import {ProductAdd} from '../../redux/slice/ProductAddSlice';
 
-import {useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -32,6 +32,7 @@ const useAddImages = () => {
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {dispatch} = useThunkDispatch();
+  const {log} = logMessage();
   const name = useSelector(
     (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
   );
@@ -53,8 +54,7 @@ const useAddImages = () => {
     (state: {ItemsReducer: {subcategoryIds: []}}) =>
       state.ItemsReducer.subcategoryIds,
   );
-  console.log(categoryIds);
-  console.log(subcategoryIds);
+
   const size = useSelector(
     (state: {SizeReducer: {selected: string}}) => state.SizeReducer.selected,
   );
@@ -62,7 +62,6 @@ const useAddImages = () => {
   const getImageUrl = async () => {
     const url = await AsyncStorage.getItem('url');
     setUrl(url);
-    console.log('Retrieved URL:', url);
   };
   useEffect(() => {
     getImageUrl();
@@ -118,7 +117,7 @@ const useAddImages = () => {
       dispatch(addsize(selectedsize));
       openModal();
     } catch (error) {
-      console.log(error);
+      log.error('erorr in posting Item');
     }
   };
 
@@ -150,9 +149,8 @@ const useAddImages = () => {
       },
       async response => {
         if (response.didCancel) {
-          console.log('User cancelled image picker');
+          log.info('image not selected');
         } else if (response.errorMessage) {
-          console.log('ImagePicker Error: ', response.errorMessage);
         } else {
           const images = (response as {assets: {uri: string}[]}).assets.map(
             imagePath => ({
@@ -172,7 +170,7 @@ const useAddImages = () => {
           setIsLoading(true);
           try {
             const token = await AsyncStorage.getItem('token');
-            console.log(token);
+
             const result = await fetch(`${baseUrl}/file/upload`, {
               method: 'POST',
               body: formData,
@@ -183,25 +181,20 @@ const useAddImages = () => {
             });
             if (result.ok) {
               const res = await result.json();
-              console.log(res);
+
               setImageUrls(prevUrls => [...prevUrls, ...res.urls]);
               setIsLoading(false);
-              console.log(imageUrls);
             } else {
-              const res = await result.json();
-              console.log('Upload failed');
-              console.log(res);
-              console.log(token);
               setIsLoading(true);
             }
           } catch (error) {
-            console.error(error);
+            log.info('error during image upload');
           }
         }
       },
     );
   };
-  console.log(name, size);
+
   const formik = useFormik({
     initialValues: {
       size: '',

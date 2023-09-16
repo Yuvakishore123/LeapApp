@@ -7,7 +7,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {removeAddress} from '../../redux/actions/actions';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
 
-import {useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   EditAddress: {address: any};
@@ -33,6 +33,7 @@ const useAddress = () => {
   const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  const {log} = logMessage();
   const openModal = () => {
     setShowModal(true);
   };
@@ -41,7 +42,6 @@ const useAddress = () => {
     fetchData();
   };
 
-  console.log('address for the owner and borrower', addressdata);
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
@@ -55,17 +55,8 @@ const useAddress = () => {
       setaddressLine1(data.addressLine1);
       setaddressLine2(data.addressLine2);
       setpostalCode(data.postalCode);
-      console.log(
-        id,
-        city,
-        state,
-        country,
-        postalCode,
-        addressLine1,
-        addressLine2,
-      );
     } catch (error) {
-      console.log('Error is ', error);
+      log.error('error in listing Address');
       setIsLoading(true);
     }
   }, [id, city, state, country, postalCode, addressLine1, addressLine2]);

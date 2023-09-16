@@ -2,15 +2,16 @@
 import axios from 'axios';
 import {url} from 'constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {NavigationContainerRef} from '@react-navigation/native';
 
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+// import {NavigationContainerRef} from '@react-navigation/native';
 
-export function setNavigationReference(
-  ref: NavigationContainerRef<BottomTabScreenProps<any>>,
-) {
-  navigationRef = ref;
-}
+// import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+
+// export function setNavigationReference(
+//   ref: NavigationContainerRef<BottomTabScreenProps<any>>,
+// ) {
+//   navigationRef = ref;
+// }
 
 const instance = axios.create({
   baseURL: url,
@@ -38,7 +39,6 @@ instance.interceptors.response.use(
       originalRequest._retry = true;
 
       const refreshToken = await AsyncStorage.getItem('refresh_token');
-      console.log('refresh_token', refreshToken);
 
       return axios
         .post(`${url}/user/refreshToken`, null, {
@@ -48,7 +48,6 @@ instance.interceptors.response.use(
         })
         .then(async response => {
           const newToken = response.headers.access_token;
-          console.log('New token generated', newToken);
 
           await AsyncStorage.setItem('token', newToken);
 
@@ -72,7 +71,6 @@ const ApiService = {
   get: async (url: string) => {
     try {
       const response = await instance.get(url);
-
       return response.data;
     } catch (error) {
       return Promise.reject(error);
