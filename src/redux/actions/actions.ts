@@ -84,10 +84,6 @@ export const removeAddress = (id: any) => {
   };
 };
 
-// export const deleteAddress = (index: any) => ({
-//   type: 'DELETE_ADDRESS',
-//   payload: index,
-// });
 export const Init = () => {
   const {log} = logMessage();
   return async (dispatch: Dispatch) => {
@@ -145,13 +141,13 @@ export const Logout = () => {
     const refreshToken = await AsyncStorage.getItem('refresh_token');
     try {
       AsyncStorage.removeItem('token');
+      dispatch(setLoginData({authToken: null, isAuthenticated: false}));
       const response = await axios.post(`${url}/user/logout`, null, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,
         },
       });
-
-      dispatch(setLoginData({authToken: null, isAuthenticated: false}));
+      log.debug(response);
     } catch (error) {
       log.error(error);
     }

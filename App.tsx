@@ -28,9 +28,10 @@ import * as Sentry from '@sentry/react-native';
 import messaging from '@react-native-firebase/messaging';
 import Homescreen from 'screens/Home/Homescreen';
 
-// import {setNavigationReference} from '../LeapApp/src/network/network';
 import {listProductsById} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
+import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
+import {setNavigationReference} from '../LeapApp/src/network/network';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 Sentry.init({
@@ -77,6 +78,7 @@ const AuthStack = () => {
       <Stack.Screen name="Homescreen" component={Homescreen} />
       <Stack.Screen name="Login" component={LoginScreen} />
       <Stack.Screen name="SignupScreen" component={SignupScreen} />
+      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="OtpScreen" component={OtpScreen} />
     </Stack.Navigator>
   );
@@ -134,11 +136,11 @@ const RootNavigation = () => {
 };
 const App = () => {
   const {log} = logMessage();
-  // const navigationRef = useRef<NavigationContainerRef | null>(null);
+  const navigationRef = useRef<NavigationContainerRef | null>(null);
 
-  // useEffect(() => {
-  //   setNavigationReference(navigationRef.current);
-  // }, []);
+  useEffect(() => {
+    setNavigationReference(navigationRef.current);
+  }, []);
 
   const HandleDeepLinking = () => {
     const navigation = useNavigation();
@@ -178,7 +180,7 @@ const App = () => {
   return (
     <ColorSchemeProvider>
       <Provider store={store}>
-        <NavigationContainer>
+        <NavigationContainer ref={navigationRef}>
           <HandleDeepLinking />
           <RootNavigation />
         </NavigationContainer>

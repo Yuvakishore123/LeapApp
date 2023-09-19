@@ -31,7 +31,7 @@ const useOwnerHome = () => {
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [selectedProductId, setSelectedProductId] = useState(null);
   const [outofStock, setOutofstock] = useState(false);
-  const [Name, setName] = useState('');
+  const [Name, _setName] = useState('');
   const {log} = logMessage();
 
   const [refreshTrigger, setRefreshTrigger] = useState(false);

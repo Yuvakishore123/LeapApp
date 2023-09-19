@@ -12,7 +12,10 @@ export const postLogin = createAsyncThunk(
   ) => {
     const {log} = logMessage();
     try {
-      const response = await axios.post(`${url}/login`, credentials);
+      const response = await axios.post(
+        `${url}/login?email=${credentials.email}&password=${credentials.password}&devicetoken=${credentials.deviceToken}`,
+        credentials,
+      );
       await AsyncStorage.setItem('token', response.headers.access_token);
       await AsyncStorage.setItem(
         'refresh_token',

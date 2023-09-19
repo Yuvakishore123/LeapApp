@@ -21,6 +21,7 @@ import {logMessage} from '../../helpers/helper';
 type RootStackParamList = {
   OtpScreen: undefined;
   SignupScreen: undefined;
+  ApiErrorScreen: {status: number};
 };
 const useLoginscreen = () => {
   const [showModal, setShowModal] = useState(false);
@@ -104,8 +105,8 @@ const useLoginscreen = () => {
   const handleErrorResponse = (error: number) => {
     if (error === 401) {
       openModal();
-    } else {
-      log.debug('successful login');
+    } else if (error === 404) {
+      navigation.navigate('ApiErrorScreen', {status: 404});
     }
   };
   useEffect(() => {

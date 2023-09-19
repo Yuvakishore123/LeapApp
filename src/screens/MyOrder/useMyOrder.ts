@@ -42,9 +42,6 @@ const useMyOrder = () => {
     (state: {OrderProducts: {isLoader: boolean}}) =>
       state.OrderProducts.isLoader,
   );
-  const invoiceData = useSelector(
-    (state: {OrderProducts: {data: []}}) => state.OrderProducts.data,
-  );
 
   const onRefresh = async () => {
     setRefreshing(true);

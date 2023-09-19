@@ -204,12 +204,6 @@ const Useowneredititems = () => {
     };
     fetchCategoryData();
   }, []);
-  const getImageUrl = async () => {
-    const url = await AsyncStorage.getItem('url');
-  };
-  useEffect(() => {
-    getImageUrl();
-  }, []);
 
   const [selectedImage, setSelectedImage] = useState('');
   const [imageUris, setImageUris] = useState([]);
@@ -341,9 +335,6 @@ const Useowneredititems = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
-      const responseData = await response.json();
-
       dispatch(addsize(selectedsize));
       navigation.navigate('OwnerProfile');
     } catch (error) {
@@ -419,10 +410,9 @@ const Useowneredititems = () => {
   const handleDisablebutton = async (id: any, disableQuantity: number) => {
     try {
       if (disableQuantity <= productQuantity) {
-        const response = await ApiService.get(
+        await ApiService.get(
           `${disableProductUrl}${id}&quantity=${disableQuantity}`,
         );
-
         setOutofstock(true);
         fetchData();
         setRefreshData(true);
@@ -442,7 +432,7 @@ const Useowneredititems = () => {
   ) => {
     try {
       if (enableQuantity <= disabledQuantity) {
-        const response = await ApiService.get(
+        await ApiService.get(
           `${enableProductUrl}${id}&quantity=${enableQuantity}`,
         );
         setOutofstock(true);

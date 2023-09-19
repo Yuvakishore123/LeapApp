@@ -56,6 +56,7 @@ const SwitchAccountButton = () => {
         dispatch(setRole(option));
         setAccountType(option === 'OWNER' ? 'Owner' : 'Borrower');
       } else {
+        log.error('error during switching profile', error);
       }
     } catch (error) {
       log.error('error during switching profile', error);

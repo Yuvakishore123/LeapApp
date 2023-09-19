@@ -42,8 +42,6 @@ const Homescreen = ({navigation}: Props) => {
     loading,
     closeModal,
     showModal,
-
-    IsError,
     name,
     handleEndReached,
     allProducts,

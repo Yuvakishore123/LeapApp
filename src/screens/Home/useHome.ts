@@ -10,7 +10,7 @@ import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
-import * as Sentry from '@sentry/react-native';
+
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);

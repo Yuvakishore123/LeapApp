@@ -49,11 +49,13 @@ export const fetchCategoriesData = createAsyncThunk(
 export const fetchSubcategoryList = createAsyncThunk(
   'category/fetchSubcategoryList',
   async () => {
+    const {log} = logMessage();
     try {
       const response = await ApiService.get(subCategoryList);
 
       return response;
     } catch (error) {
+      log.error('error during fetchong subcategory data');
       throw error;
     }
   },

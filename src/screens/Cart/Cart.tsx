@@ -72,7 +72,6 @@ const Cart = () => {
         | number
         | boolean
         | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-        | React.ReactFragment
         | React.ReactPortal
         | null
         | undefined;
@@ -82,7 +81,6 @@ const Cart = () => {
         | number
         | boolean
         | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-        | React.ReactFragment
         | React.ReactPortal
         | null
         | undefined;

@@ -21,7 +21,6 @@ const useAddImages = () => {
   const [selectedsize, setSelectedsize] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [_url, setUrl] = useState<string | null>(null);
 
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -55,17 +54,6 @@ const useAddImages = () => {
       state.ItemsReducer.subcategoryIds,
   );
 
-  const size = useSelector(
-    (state: {SizeReducer: {selected: string}}) => state.SizeReducer.selected,
-  );
-
-  const getImageUrl = async () => {
-    const url = await AsyncStorage.getItem('url');
-    setUrl(url);
-  };
-  useEffect(() => {
-    getImageUrl();
-  }, []);
   const AdditemsvalidationSchema = Yup.object().shape({
     size: Yup.string().required('Size is required'),
     price: Yup.number()
@@ -151,6 +139,7 @@ const useAddImages = () => {
         if (response.didCancel) {
           log.info('image not selected');
         } else if (response.errorMessage) {
+          log.info('image not selected');
         } else {
           const images = (response as {assets: {uri: string}[]}).assets.map(
             imagePath => ({
@@ -170,17 +159,21 @@ const useAddImages = () => {
           setIsLoading(true);
           try {
             const token = await AsyncStorage.getItem('token');
-
-            const result = await fetch(`${baseUrl}/file/upload`, {
-              method: 'POST',
-              body: formData,
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`,
+            console.log(categoryIds, subcategoryIds);
+            const result = await fetch(
+              `${baseUrl}/file/uploadProductImage?categoryId=${1}&subcategoryId=${1}`,
+              {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  Authorization: `Bearer ${token}`,
+                },
               },
-            });
+            );
             if (result.ok) {
               const res = await result.json();
+              console.log('response', res);
 
               setImageUrls(prevUrls => [...prevUrls, ...res.urls]);
               setIsLoading(false);
