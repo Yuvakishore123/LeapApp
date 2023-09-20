@@ -180,62 +180,31 @@ const Cart = () => {
                             <Icon name="minus" color={'white'} size={10} />
                           </TouchableOpacity>
 
-                          {item.product.id === cartProductId ? (
-                            isLoading ? (
-                              <>
-                                <View
-                                  style={{
-                                    alignItems: 'center',
-                                  }}>
-                                  <ActivityIndicator color={'white'} />
-                                </View>
-                                <TouchableOpacity
-                                  onPress={() => handleIncrement(item)}
-                                  testID={`increment-button-${item.id}`}
-                                  disabled={isplusDisable}
-                                  style={[
-                                    style.quantityButton,
-                                    isplusDisable && style.disabled,
-                                  ]}>
-                                  <Icon name="plus" color={'white'} size={10} />
-                                </TouchableOpacity>
-                              </>
-                            ) : (
-                              <>
-                                <View>
-                                  <Text
-                                    style={[style.quantityTxt, getTextColor()]}>
-                                    {item.quantity}
-                                  </Text>
-                                </View>
-                                <TouchableOpacity
-                                  onPress={() => handleIncrement(item)}
-                                  testID={`increment-button-${item.id}`}
-                                  disabled={isplusDisable}
-                                  style={[
-                                    style.quantityButton,
-                                    isplusDisable && style.disabled,
-                                  ]}>
-                                  <Icon name="plus" color={'white'} size={10} />
-                                </TouchableOpacity>
-                              </>
-                            )
-                          ) : (
-                            <>
+                          <View>
+                            {item.product.id === cartProductId && isLoading && (
+                              <View style={{alignItems: 'center'}}>
+                                <ActivityIndicator color={'white'} />
+                              </View>
+                            )}
+                            {!isLoading && (
                               <View>
                                 <Text
                                   style={[style.quantityTxt, getTextColor()]}>
                                   {item.quantity}
                                 </Text>
                               </View>
-                              <TouchableOpacity
-                                onPress={() => handleIncrement(item)}
-                                testID={`increment-button-${item.id}`}
-                                style={[style.quantityButton]}>
-                                <Icon name="plus" color={'white'} size={10} />
-                              </TouchableOpacity>
-                            </>
-                          )}
+                            )}
+                          </View>
+                          <TouchableOpacity
+                            onPress={() => handleIncrement(item)}
+                            testID={`increment-button-${item.id}`}
+                            disabled={isplusDisable}
+                            style={[
+                              style.quantityButton,
+                              isplusDisable && style.disabled,
+                            ]}>
+                            <Icon name="plus" color={'white'} size={10} />
+                          </TouchableOpacity>
                         </View>
                       </View>
                     </View>
@@ -244,19 +213,6 @@ const Cart = () => {
               </View>
             )}
           </ScrollView>
-          {/* <TouchableOpacity style={style.coupons}>
-            <CouponIcon
-              name="local-offer"
-              size={26}
-              style={{marginTop: 14, marginLeft: 5, color: 'white'}}
-            />
-            <Text style={style.couponsText}>Apply Coupons</Text>
-            <CouponIcon
-              name="arrow-forward-ios"
-              size={22}
-              style={{marginTop: 16, marginLeft: '45%', color: 'white'}}
-            />
-          </TouchableOpacity> */}
           <View style={style.GrandtotalContainer}>
             <Text style={[style.GrandtotalText, getTextColor()]}>
               Grand Total

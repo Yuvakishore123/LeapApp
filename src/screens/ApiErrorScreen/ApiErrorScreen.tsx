@@ -14,7 +14,7 @@ interface ApiErrorScreenProps {
 }
 
 const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
-  const [retrying, setRetrying] = useState(false);
+  const [, setRetrying] = useState(false);
 
   const handleRetry = () => {
     setRetrying(true);

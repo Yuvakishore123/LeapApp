@@ -30,10 +30,12 @@ export const updateCart = createAsyncThunk(
   async (data: {productId: string; quantity: number}, {dispatch}) => {
     try {
       const response = await ApiService.put(`${cartupdateUrl}`, data);
+      console.log(response);
       dispatch(fetchCartProducts());
       return response;
     } catch (error) {
       logMessage.error('error in updating product in cart', error);
+      console.log('error in updating product in cart', error);
       dispatch(setError(error));
       return error;
     }
