@@ -10,6 +10,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {logMessage} from 'helpers/helper';
+import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
 
 const SwitchAccountButton = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -46,7 +47,7 @@ const SwitchAccountButton = () => {
         null,
       );
 
-      if (response.status === 200) {
+      if (response.status === HTTP_STATUS_CODES.OK) {
         const newToken = response.headers.access_token;
         await AsyncStorage.removeItem('token');
         await AsyncStorage.setItem('token', newToken);

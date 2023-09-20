@@ -79,7 +79,7 @@ export default function UDetailScreen({route, navigation}: Props) {
         <View style={styles.sharebutton}>
           <Share name="share" size={30} color="black" onPress={shareProduct} />
         </View>
-        <View>
+        <View style={{height: 500, width: 405, backgroundColor: Colors.gray}}>
           <ScrollView
             nestedScrollEnabled
             ref={scrollViewRef}

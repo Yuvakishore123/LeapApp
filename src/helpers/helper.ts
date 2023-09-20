@@ -4,9 +4,8 @@ import {AnyAction} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
 import messaging from '@react-native-firebase/messaging';
 import {useNavigation} from '@react-navigation/native';
-import {sentryTransport} from 'react-native-logs';
+import {sentryTransport, logger} from 'react-native-logs';
 import * as Sentry from '@sentry/react-native';
-import {logger} from 'react-native-logs';
 type RootStackParamList = {
   Login: undefined;
   Subcategory: {categoryId: number};

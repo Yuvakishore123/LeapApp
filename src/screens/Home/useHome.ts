@@ -96,9 +96,6 @@ const useHome = () => {
     (state: {UserProducts: {firstCallLoading: boolean}}) =>
       state.UserProducts.firstCallLoading,
   );
-  const Loading = useSelector(
-    (state: {UserProducts: {loading: boolean}}) => state.UserProducts.loading,
-  );
   return {
     WishlistProducts,
     onRefresh,

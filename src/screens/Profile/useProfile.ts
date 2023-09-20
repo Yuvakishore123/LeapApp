@@ -2,7 +2,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {useEffect, useState} from 'react';
 import {profileUpload, url} from '../../constants/Apis';
-import {launchImageLibrary} from 'react-native-image-picker';
+import {
+  Asset,
+  ImagePickerResponse,
+  launchImageLibrary,
+} from 'react-native-image-picker';
 import ApiService from '../../network/network';
 import {useSelector} from 'react-redux';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
@@ -60,62 +64,83 @@ const useProfile = () => {
   };
 
   const pickImage = async () => {
-    launchImageLibrary(
-      {
-        mediaType: 'photo',
-        selectionLimit: 1,
-      },
-      async response => {
-        if (response.didCancel) {
-          logMessage.error('User cancelled image picker');
-        } else if (response.errorCode) {
-          logMessage.error('ImagePicker Error: ', response.errorMessage);
-        } else if (response.assets) {
-          const image = response.assets[0];
-          const imageSizeBytes = image.fileSize;
+    const response = await launchImageLibrary({
+      mediaType: 'photo',
+      selectionLimit: 1,
+    });
 
-          if (imageSizeBytes <= MAX_IMAGE_SIZE_BYTES) {
-            // Image size is within the acceptable limit, proceed with upload
-            const formData = new FormData();
-            formData.append('file', {
-              uri: image.uri,
-              type: 'image/png',
-              name: 'image.png',
-            });
+    handleImageResponse(response);
+  };
 
-            try {
-              setIsloading(true);
-              const token = await AsyncStorage.getItem('token');
-              const result = await fetch(`${url}/file/uploadProfileImage`, {
-                method: 'POST',
-                body: formData,
-                headers: {
-                  'Content-Type': 'multipart/form-data',
-                  Authorization: `Bearer ${token}`,
-                },
-              });
-              if (result.ok) {
-                const res = await result.json();
-                setIsloading(false);
-                setSelectedImage(res.url);
-                setProfileImage(res.url);
-                uploadImage(res.url);
-                fetchProfileData();
-                openModal();
-              } else {
-                const res = await result.json();
-                logMessage.error('Upload failed in profile picture', res);
-              }
-            } catch (error) {
-              console.error(error);
-              setIsloading(true);
-            }
-          } else {
-            showToast();
-          }
-        }
+  const handleImageResponse = async (response: ImagePickerResponse) => {
+    if (response.didCancel) {
+      logMessage.error('User cancelled image picker');
+      return;
+    }
+
+    if (response.errorCode) {
+      logMessage.error('ImagePicker Error: ', response.errorMessage);
+      return;
+    }
+
+    if (response.assets) {
+      const image = response.assets[0];
+      const imageSizeBytes = image.fileSize;
+
+      if (imageSizeBytes <= MAX_IMAGE_SIZE_BYTES) {
+        await handleValidImage(image);
+      } else {
+        showToast();
+      }
+    }
+  };
+
+  const handleValidImage = async (image: Asset) => {
+    const formData = new FormData();
+    formData.append('file', {
+      uri: image.uri,
+      type: 'image/png',
+      name: 'image.png',
+    });
+
+    try {
+      setIsloading(true);
+      const token = await AsyncStorage.getItem('token');
+      const result = await uploadImageToServer(formData, token);
+      await handleUploadResult(result);
+    } catch (error) {
+      console.error(error);
+      setIsloading(true);
+    }
+  };
+
+  const uploadImageToServer = async (
+    formData: FormData,
+    token: string | null,
+  ) => {
+    return fetch(`${url}/file/uploadProfileImage`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
       },
-    );
+    });
+  };
+
+  const handleUploadResult = async (result: Response) => {
+    if (result.ok) {
+      const res = await result.json();
+      setIsloading(false);
+      setSelectedImage(res.url);
+      setProfileImage(res.url);
+      uploadImage(res.url);
+      fetchProfileData();
+      openModal();
+    } else {
+      const res = await result.json();
+      logMessage.error('Upload failed in profile picture', res);
+    }
   };
   const checkPermission = async () => {
     try {

@@ -31,7 +31,6 @@ type Props = {
 const Profile = ({navigation}: Props) => {
   const {
     isloading,
-    pickImage,
     checkPermission,
     showModall,
     closeModal,

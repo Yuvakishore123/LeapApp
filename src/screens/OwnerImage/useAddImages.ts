@@ -55,11 +55,6 @@ const useAddImages = () => {
     (state: {ItemsReducer: {subcategoryIds: []}}) =>
       state.ItemsReducer.subcategoryIds,
   );
-  logMessage.error(categoryIds);
-  logMessage.error(subcategoryIds);
-  const size = useSelector(
-    (state: {SizeReducer: {selected: string}}) => state.SizeReducer.selected,
-  );
 
   const getImageUrl = async () => {
     const url = await AsyncStorage.getItem('url');

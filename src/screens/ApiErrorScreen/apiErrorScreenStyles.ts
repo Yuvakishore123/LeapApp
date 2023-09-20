@@ -1,4 +1,5 @@
 import {StyleSheet} from 'react-native';
+import Colors from '../../constants/colors';
 
 const styles = StyleSheet.create({
   container: {
@@ -18,6 +19,22 @@ const styles = StyleSheet.create({
     width: 250,
     alignSelf: 'center',
     justifyContent: 'center',
+  },
+  retryButton: {
+    height: 35,
+    width: '60%',
+    marginTop: 20,
+    borderRadius: 25,
+    marginRight: 50,
+    marginLeft: '15%',
+    backgroundColor: Colors.buttonColor,
+  },
+  retryText: {
+    color: Colors.white,
+    fontSize: 20,
+    justifyContent: 'center',
+    textAlign: 'center',
+    fontFamily: 'Poppins-SemiBold',
   },
 });
 export default styles;

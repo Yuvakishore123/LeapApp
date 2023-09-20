@@ -33,7 +33,7 @@ export const getsubcategoryData = createAsyncThunk(
   'subcategoryData',
   async (productId: string) => {
     try {
-      const response = await ApiService.get(`${subCategoryUrl}${productId}`);
+      const response = await ApiService.get(`${subCategoryUrl}/${productId}`);
       return response;
     } catch (error) {
       logMessage.error('error in getsubcategoryData', error);

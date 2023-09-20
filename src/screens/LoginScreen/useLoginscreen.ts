@@ -32,7 +32,6 @@ const useLoginscreen = () => {
   const [pageSize, _setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const logMessage = logger.createLogger(defaultConfig);
-  var rootLog = logMessage.extend('root');
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Enter valid email'),
     password: Yup.string()
@@ -124,6 +123,7 @@ const useLoginscreen = () => {
         deviceToken: token,
       };
       const response = await dispatch(postLogin(credentials));
+      logMessage.info('response of HandleLogin', response);
       loginEvent();
       dispatch(fetchUserProducts({pageSize}));
     } catch (error) {
@@ -150,7 +150,6 @@ const useLoginscreen = () => {
   });
   const loginEvent = async () => {
     await analytics().logEvent('loged_users');
-    rootLog.info('login event is triggered');
     logMessage.error('log event success');
   };
   return {

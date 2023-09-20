@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
 import axios from 'axios';
@@ -210,6 +209,7 @@ const Useowneredititems = () => {
   }, []);
   const getImageUrl = async () => {
     const url = await AsyncStorage.getItem('url');
+    logMessage.info('getImageUrl in useOwneritems', url);
   };
   useEffect(() => {
     getImageUrl();
@@ -350,8 +350,6 @@ const Useowneredititems = () => {
       if (!response.ok) {
         throw new Error('Network response was not ok');
       }
-
-      const responseData = await response.json();
       dispatch(addsize(selectedsize));
       navigation.navigate('OwnerProfile');
     } catch (error) {
@@ -428,6 +426,7 @@ const Useowneredititems = () => {
         const response = await ApiService.get(
           `${disableProductUrl}${id}&quantity=${disableQuantity}`,
         );
+        logMessage.info('handleDisablebutton in useOwneritems', response);
         setOutofstock(true);
         fetchData();
         setRefreshData(true);
@@ -450,6 +449,7 @@ const Useowneredititems = () => {
         const response = await ApiService.get(
           `${enableProductUrl}${id}&quantity=${enableQuantity}`,
         );
+        logMessage.info('handleEnablebutton in useOwneritems', response);
         setOutofstock(true);
         fetchData();
         setRefreshData(prevRefreshData => !prevRefreshData);

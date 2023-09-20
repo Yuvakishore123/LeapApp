@@ -9,6 +9,7 @@ import {CartAdd} from '../../redux/slice/CartAddSlice';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
 
 const useProductdetails = (product: {
   id: any;
@@ -56,7 +57,7 @@ const useProductdetails = (product: {
         rentalStartDate: rentalStartDate.toISOString(),
       };
       dispatch(CartAdd(Item));
-      if (isData.status === 400) {
+      if (isData.status === HTTP_STATUS_CODES.BAD_REQUEST) {
         opennModal();
       } else {
         openModal();

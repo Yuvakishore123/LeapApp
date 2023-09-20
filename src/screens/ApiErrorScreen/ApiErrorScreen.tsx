@@ -1,5 +1,5 @@
-import React from 'react';
-import {View, Text} from 'react-native';
+import React, {useState} from 'react';
+import {View, Text, TouchableOpacity} from 'react-native';
 import Lottie from 'lottie-react-native';
 import {RouteProp} from '@react-navigation/native';
 import styles from './apiErrorScreenStyles';
@@ -14,6 +14,11 @@ interface ApiErrorScreenProps {
 }
 
 const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
+  const [retrying, setRetrying] = useState(false);
+
+  const handleRetry = () => {
+    setRetrying(true);
+  };
   const {status} = route.params;
   const errorMessage =
     status === null
@@ -24,12 +29,17 @@ const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
     <View style={styles.container}>
       <View>
         <Lottie
-          source={require('../../../assets/apiError.json')}
+          source={require('../../../assets/Internetlost.json')}
           autoPlay
           style={styles.LottieStyle}
         />
       </View>
       <Text style={styles.errorText}>{errorMessage}</Text>
+      {status !== null && (
+        <TouchableOpacity onPress={handleRetry} style={styles.retryButton}>
+          <Text style={styles.retryText}>Retry</Text>
+        </TouchableOpacity>
+      )}
     </View>
   );
 };

@@ -189,6 +189,7 @@ export const Logout = () => {
           Authorization: `Bearer ${refreshToken}`,
         },
       });
+      logMessage.info('response of Logout', response);
       dispatch(setLoginData({authToken: null, isAuthenticated: false}));
     } catch (error) {
       logMessage.error('error in logout method', error);
@@ -204,7 +205,7 @@ export const postProductToAPI = (item: {id: any}) => {
         `${url}/wishlist/add?productId=${id}`,
         item.id,
       );
-      const data = await response;
+      const data = response;
       // update the Redux store with the response data
       dispatch(addProductToStore(data));
     } catch (error) {
@@ -231,6 +232,7 @@ export const ADDORDER = (razorpayId: string) => {
         `${url}/order/add/?razorpayId=${razorpayId}`,
         razorpayId,
       );
+      logMessage.info('response of Addorder', response);
       dispatch(Orderreducer(razorpayId));
     } catch (error) {
       logMessage.error('error in addorder', error);

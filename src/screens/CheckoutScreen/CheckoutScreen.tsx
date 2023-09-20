@@ -86,7 +86,6 @@ const CheckoutScreen = ({navigation}: Props) => {
                           any,
                           string | React.JSXElementConstructor<any>
                         >
-                      | React.ReactFragment
                       | React.ReactPortal
                       | null
                       | undefined;
@@ -99,7 +98,6 @@ const CheckoutScreen = ({navigation}: Props) => {
                           any,
                           string | React.JSXElementConstructor<any>
                         >
-                      | React.ReactFragment
                       | React.ReactPortal
                       | null
                       | undefined;

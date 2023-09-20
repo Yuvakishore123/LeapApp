@@ -168,6 +168,7 @@ const useAdditems = () => {
     setItemType(selectedItemType);
   };
   const handleItems = async () => {
+    // handles to store the selected options in redux
     const CategoryIds = [gender];
     const subcategoryIds = [itemType, eventType, outfitType];
     const Name = name;

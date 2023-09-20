@@ -1,14 +1,11 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import axios from 'axios';
+import axios, {AxiosRequestConfig} from 'axios';
 import {url} from 'constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainerRef} from '@react-navigation/native';
 
-import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-
-export function setNavigationReference(
-  ref: NavigationContainerRef<BottomTabScreenProps<any>>,
-) {
+let navigationRef: NavigationContainerRef | null = null;
+export function setNavigationReference(ref: NavigationContainerRef) {
   navigationRef = ref;
 }
 
@@ -65,14 +62,17 @@ instance.interceptors.response.use(
     return Promise.reject(error);
   },
 );
-
 const ApiService = {
   get: async (url: string) => {
     try {
       const response = await instance.get(url);
 
       return response.data;
-    } catch (error) {
+    } catch (error: any) {
+      const status = error.response ? error.response.status : null;
+      if (navigationRef) {
+        navigationRef.navigate('ApiErrorScreen', {status});
+      }
       return Promise.reject(error);
     }
   },
@@ -87,6 +87,14 @@ const ApiService = {
   delete: async (url: string) => {
     const response = await instance.delete(url);
     return response.data;
+  },
+  retryRequest: async (originalRequest: AxiosRequestConfig<any>) => {
+    try {
+      const response = await instance(originalRequest);
+      return response.data;
+    } catch (error) {
+      return Promise.reject(error);
+    }
   },
 };
 

@@ -30,6 +30,7 @@ import Homescreen from 'screens/Home/Homescreen';
 import {setNavigationReference} from '../LeapApp/src/network/network';
 import {listProductsById} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
+import NetInfo from '@react-native-community/netinfo';
 Sentry.init({
   dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
   enableAutoSessionTracking: true,
@@ -127,11 +128,27 @@ const RootNavigation = () => {
     </>
   );
 };
+const checkInternetConnectivity = async () => {
+  try {
+    const state = await NetInfo.fetch();
+    return state.isConnected;
+  } catch (error) {
+    return false;
+  }
+};
 const App = () => {
   const navigationRef = useRef<NavigationContainerRef | null>(null);
 
   useEffect(() => {
     setNavigationReference(navigationRef.current);
+    const checkConnectivity = async () => {
+      const isConnected = await checkInternetConnectivity();
+      if (!isConnected && navigationRef.current) {
+        navigationRef.current.navigate('ApiErrorScreen', {status: null});
+      }
+    };
+
+    checkConnectivity();
   }, []);
 
   const HandleDeepLinking = () => {
