@@ -4,17 +4,15 @@ import axios from 'axios';
 import {url} from '../../constants/Apis';
 import {logMessage} from 'helpers/helper';
 
-export const postLogin = createAsyncThunk(
-  'postLogin',
-  async (
-    credentials: {email: string; password: string; deviceToken: string | null},
-    {dispatch},
-  ) => {
+export const GetOtp = createAsyncThunk(
+  'OtpLogin',
+  async (credentials: {phoneNumber: string}, {dispatch}) => {
     const {log} = logMessage();
     try {
+      console.log(credentials.phoneNumber);
       const response = await axios.post(
-        `${url}/login?email=${credentials.email}&password=${credentials.password}&devicetoken=${credentials.deviceToken}`,
-        credentials,
+        `${url}/phoneNo?phoneNumber=${credentials.phoneNumber}`,
+        credentials.phoneNumber,
       );
       console.log('access_token', response.headers.access_token);
       await AsyncStorage.setItem('token', response.headers.access_token);
@@ -22,6 +20,7 @@ export const postLogin = createAsyncThunk(
         'refresh_token',
         response.headers.refresh_token,
       );
+      console.log(response);
       return response;
     } catch (error: any) {
       log.error('error during login  ', error.response.status);
@@ -32,7 +31,7 @@ export const postLogin = createAsyncThunk(
   },
 );
 
-const loginThunk = createSlice({
+const otpLoginThunk = createSlice({
   name: 'loginData',
   initialState: {
     data: {
@@ -53,10 +52,10 @@ const loginThunk = createSlice({
   },
   extraReducers: builder => {
     builder
-      .addCase(postLogin.pending, state => {
+      .addCase(GetOtp.pending, state => {
         state.isLoader = true;
       })
-      .addCase(postLogin.fulfilled, (state, action) => {
+      .addCase(GetOtp.fulfilled, (state, action) => {
         state.isLoader = false;
         state.data = {
           ...state,
@@ -64,7 +63,7 @@ const loginThunk = createSlice({
           isAuthenticated: true,
         };
       })
-      .addCase(postLogin.rejected, (state, action) => {
+      .addCase(GetOtp.rejected, (state, action) => {
         state.isLoader = false;
         state.isError = true;
         state.error = action.payload;
@@ -72,5 +71,5 @@ const loginThunk = createSlice({
   },
 });
 
-export const {setLoginData, setError} = loginThunk.actions;
-export default loginThunk.reducer;
+export const {setLoginData, setError} = otpLoginThunk.actions;
+export default otpLoginThunk.reducer;

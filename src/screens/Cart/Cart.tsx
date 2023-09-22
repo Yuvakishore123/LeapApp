@@ -21,6 +21,7 @@ import DatePickerComponent from '../../components/atoms/DatePickerComponent/Date
 
 import style from './CartItemStyles';
 import Colors from '../../constants/colors';
+import LottieAnimation from 'components/molecules/LottieAnimation/LottieAnimation';
 
 const Cart = () => {
   const {
@@ -51,9 +52,8 @@ const Cart = () => {
   if (!cartData) {
     return (
       <View testID="loading-view'" style={style.lottiecontainer}>
-        <Lottie
+        <LottieAnimation
           source={require('../../../assets/loading2.json')}
-          autoPlay
           style={style.lottie}
         />
         <Text style={{color: Colors.iconscolor}}>The Items are Loading...</Text>
@@ -67,23 +67,9 @@ const Cart = () => {
     imageUrl: string;
     quantity: number;
     product: {
-      name:
-        | string
-        | number
-        | boolean
-        | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-        | React.ReactPortal
-        | null
-        | undefined;
+      name: string | number;
       id: any;
-      size:
-        | string
-        | number
-        | boolean
-        | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-        | React.ReactPortal
-        | null
-        | undefined;
+      size: string | number;
       price: string;
     };
   };
@@ -180,46 +166,22 @@ const Cart = () => {
                             <Icon name="minus" color={'white'} size={10} />
                           </TouchableOpacity>
 
-                          {item.product.id === cartProductId ? (
-                            isLoading ? (
-                              <>
-                                <View
-                                  style={{
-                                    alignItems: 'center',
-                                  }}>
-                                  <ActivityIndicator color={'white'} />
-                                </View>
-                                <TouchableOpacity
-                                  onPress={() => handleIncrement(item)}
-                                  testID={`increment-button-${item.id}`}
-                                  disabled={isplusDisable}
-                                  style={[
-                                    style.quantityButton,
-                                    isplusDisable && style.disabled,
-                                  ]}>
-                                  <Icon name="plus" color={'white'} size={10} />
-                                </TouchableOpacity>
-                              </>
-                            ) : (
-                              <>
-                                <View>
-                                  <Text
-                                    style={[style.quantityTxt, getTextColor()]}>
-                                    {item.quantity}
-                                  </Text>
-                                </View>
-                                <TouchableOpacity
-                                  onPress={() => handleIncrement(item)}
-                                  testID={`increment-button-${item.id}`}
-                                  disabled={isplusDisable}
-                                  style={[
-                                    style.quantityButton,
-                                    isplusDisable && style.disabled,
-                                  ]}>
-                                  <Icon name="plus" color={'white'} size={10} />
-                                </TouchableOpacity>
-                              </>
-                            )
+                          {item.product.id === cartProductId && isLoading ? (
+                            <>
+                              <View style={{alignItems: 'center'}}>
+                                <ActivityIndicator color={'white'} />
+                              </View>
+                              <TouchableOpacity
+                                onPress={() => handleIncrement(item)}
+                                testID={`increment-button-${item.id}`}
+                                disabled={isplusDisable}
+                                style={[
+                                  style.quantityButton,
+                                  isplusDisable && style.disabled,
+                                ]}>
+                                <Icon name="plus" color={'white'} size={10} />
+                              </TouchableOpacity>
+                            </>
                           ) : (
                             <>
                               <View>
@@ -231,7 +193,11 @@ const Cart = () => {
                               <TouchableOpacity
                                 onPress={() => handleIncrement(item)}
                                 testID={`increment-button-${item.id}`}
-                                style={[style.quantityButton]}>
+                                disabled={isplusDisable}
+                                style={[
+                                  style.quantityButton,
+                                  isplusDisable && style.disabled,
+                                ]}>
                                 <Icon name="plus" color={'white'} size={10} />
                               </TouchableOpacity>
                             </>

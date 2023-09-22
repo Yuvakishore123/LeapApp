@@ -1,13 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import {
-  FlatList,
-  Image,
-  Text,
-  TouchableOpacity,
-  View,
-  Modal,
-} from 'react-native';
+import {FlatList, Text, TouchableOpacity, View, Modal} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 import {useNavigation} from '@react-navigation/native';
@@ -19,6 +12,7 @@ import PriceRangeDropdown from '../../components/atoms/PriceRange/PriceDropdown'
 import SubCategoryDropdown from '../../components/atoms/SubcategoryDropdown/SubcategoryDropdown';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from '../../constants/colors';
+import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
 
 type RootStackParamList = {
   UProductDetails: {product: number};
@@ -39,8 +33,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
     selectedSize,
     setSelectedSize,
     sizes,
-    imageLoaded,
-    setImageLoaded,
+
     modalVisible,
     setModalVisible,
     handleFilterButtonPress,
@@ -150,21 +143,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
                         })
                       }>
                       <View style={style.imageContainer}>
-                        {!imageLoaded && (
-                          <Image
-                            source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                            style={style.image}
-                          />
-                        )}
-                        <Image
-                          source={{uri: item.imageUrl[0]}}
-                          style={[
-                            style.image,
-                            {display: imageLoaded ? 'flex' : 'none'},
-                          ]}
-                          onLoad={() => setImageLoaded(true)}
-                          onError={() => setImageLoaded(false)}
-                        />
+                        <ImageComponent imageUrl={item.imageUrl[0]} />
                       </View>
                     </TouchableOpacity>
                     <View style={style.cardTextContainer}>

@@ -55,10 +55,10 @@ const OwnerEditProfile = () => {
   const [isFormValid, setIsFormValid] = useState(false);
   useEffect(() => {
     setIsFormValid(
-      firstName.trim().length > 0 &&
-        lastName.trim().length > 0 &&
-        email.trim().length > 0 &&
-        phoneNumber.trim().length > 0,
+      firstName?.trim().length > 0 &&
+        lastName?.trim().length > 0 &&
+        email?.trim().length > 0 &&
+        phoneNumber?.trim().length > 0,
     );
   }, [firstName, lastName, email, phoneNumber]);
   return (

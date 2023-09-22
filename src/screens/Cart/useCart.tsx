@@ -41,6 +41,7 @@ const useCart = () => {
     setShowModal(true);
   };
   const closeModal = () => {
+    dispatch(fetchCartProducts() as any);
     setShowModal(false);
   };
   const isLoading = useSelector(
@@ -66,17 +67,17 @@ const useCart = () => {
       setRefreshing(false);
     }
   }, [refreshing]);
-  useEffect(() => {
-    if (!showModal) {
-      dispatch(fetchCartProducts() as any);
-    }
-  }, [showModal]);
-  useEffect(() => {
-    const unsubscribe = navigation.addListener('focus', () => {
-      dispatch(fetchCartProducts() as any);
-    });
-    return unsubscribe;
-  }, [navigation, refreshing]);
+  // useEffect(() => {
+  //   if (!showModal) {
+  //     dispatch(fetchCartProducts() as any);
+  //   }
+  // }, [showModal]);
+  // useEffect(() => {
+  //   const unsubscribe = navigation.addListener('focus', () => {
+  //     dispatch(fetchCartProducts() as any);
+  //   });
+  //   return unsubscribe;
+  // }, [navigation, refreshing]);
 
   const handleUpdate = async (newQuantity: number, productId: string) => {
     try {

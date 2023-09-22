@@ -6,6 +6,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {useNavigation} from '@react-navigation/native';
 import {sentryTransport, logger} from 'react-native-logs';
 import * as Sentry from '@sentry/react-native';
+import NetInfo from '@react-native-community/netinfo';
 
 type RootStackParamList = {
   Login: undefined;
@@ -50,4 +51,8 @@ export const defaultConfig = {
 export const logMessage = () => {
   const log = logger.createLogger(defaultConfig);
   return {log};
+};
+export const networkStatus = async () => {
+  const state = await NetInfo.fetch();
+  return state.isConnected;
 };

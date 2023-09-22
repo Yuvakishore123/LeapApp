@@ -19,15 +19,14 @@ interface ApiErrorScreenProps {
 const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
   const {status} = route.params;
   let errorMessage;
-
   switch (status) {
-    case null:
+    case StatusCodes.NETWORK_ERROR:
       errorMessage = 'Please check your network connection.';
       break;
-    case 404:
+    case StatusCodes.NOT_FOUND:
       errorMessage = 'Oops! Something went wrong.';
       break;
-    case 500:
+    case StatusCodes.INTERNAL_SERVER_ERROR:
       errorMessage = 'Server error. Please try again later.';
       break;
     case StatusCodes.FORBIDDEN:

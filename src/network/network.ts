@@ -6,6 +6,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainerRef} from '@react-navigation/native';
 
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
+import {StatusCodes} from '../utils/utils';
+import {networkStatus} from 'helpers/helper';
 
 let navigationRef: NavigationContainerRef | null = null;
 export function setNavigationReference(
@@ -23,6 +25,9 @@ instance.interceptors.request.use(
   async config => {
     const token = await AsyncStorage.getItem('token');
     config.headers.Authorization = `Bearer ${token}`;
+    const userPreferredLanguage = 'en-US';
+    config.headers['Accept-Language'] = userPreferredLanguage;
+
     return config;
   },
   error => {
@@ -37,7 +42,10 @@ instance.interceptors.response.use(
   async error => {
     const originalRequest = error.config;
 
-    if (error.response?.status === 401 && !originalRequest._retry) {
+    if (
+      error.response?.status === StatusCodes.UNAUTHORIZED &&
+      !originalRequest._retry
+    ) {
       originalRequest._retry = true;
       const refreshToken = await AsyncStorage.getItem('refresh_token');
       console.log(refreshToken);
@@ -61,7 +69,6 @@ instance.interceptors.response.use(
         })
         .catch(error => {
           console.error('Refresh token failed:', error);
-          // throw error;
         });
     }
 
@@ -72,13 +79,22 @@ instance.interceptors.response.use(
 const ApiService = {
   get: async (url: string) => {
     try {
+      const isConnected = await networkStatus();
+
+      if (!isConnected) {
+        // If not connected, pass the custom status code
+        navigationRef.navigate('ApiErrorScreen', {
+          status: StatusCodes.NETWORK_ERROR,
+        });
+        return Promise.reject('No network connection');
+      }
       const response = await instance.get(url);
 
       return response.data;
     } catch (error: any) {
       const status = error.response.status;
       console.log('status', status);
-      if (navigationRef) {
+      if (status === StatusCodes.NOT_FOUND || StatusCodes.UNDER_MAINTAINANCE) {
         navigationRef.navigate('ApiErrorScreen', {status});
       }
 

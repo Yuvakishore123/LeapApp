@@ -10,10 +10,8 @@ interface LottieAnimationProps {
 
 const LottieAnimation: React.FC<LottieAnimationProps> = ({source, style}) => {
   return (
-    <View>
-      <View style={styles.loaderContainer} testID="lottie-component">
-        <Lottie source={source} style={style} autoPlay />
-      </View>
+    <View style={styles.loaderContainer} testID="lottie-component">
+      <Lottie source={source} style={style} autoPlay />
     </View>
   );
 };
