@@ -19,13 +19,16 @@ const DropdownComponent: React.FC<DropdownComponentProps> = ({
   placeholder,
   data,
 }) => {
+  // Access color scheme context for styling
   const {getTextInputStyle, getPlaceholderTextColor} =
     useContext(ColorSchemeContext);
+  // State to track focus state of the dropdown
   const [isFocus, setIsFocus] = useState(false);
 
   return (
     <View style={Ownerstyles.scrollView}>
       <View style={[styles.dropdownContainer, getTextInputStyle()]}>
+        {/* Render the Dropdown component */}
         <Dropdown
           testID="dropdown-component"
           style={styles.dropdown}

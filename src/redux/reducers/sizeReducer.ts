@@ -4,11 +4,12 @@ type SizeAction = {
 };
 
 const initialState = {
-  selected: '',
+  selected: '', // Initially, no size is selected
 };
 
 const SizeReducer = (state = initialState, action: SizeAction) => {
   if (action.type === 'ADD_SIZE') {
+    // If the action is of type 'ADD_SIZE', update the selected size
     return {
       ...state,
       selected: action.payload,

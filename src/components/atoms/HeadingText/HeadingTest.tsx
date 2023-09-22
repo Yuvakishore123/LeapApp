@@ -6,18 +6,20 @@ import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import {useNavigation} from '@react-navigation/native';
 
 type HeadingTextProps = {
-  message: string;
+  message: string; // The message to be displayed as the heading
   navigation: any; // Assuming navigation is available as a prop
 };
 
 const HeadingText = ({message}: HeadingTextProps) => {
-  const {getTextColor} = useContext(ColorSchemeContext);
-  const navigation = useNavigation();
+  const {getTextColor} = useContext(ColorSchemeContext); // Using context to get color scheme
+  const navigation = useNavigation(); // Getting navigation object from react-navigation
   return (
     <>
+      {/* BackButton component for navigation */}
       <View style={{position: 'absolute', zIndex: 1}}>
         <BackButton navigation={navigation} />
       </View>
+      {/* Heading text container */}
       <View
         style={{
           alignItems: 'center',

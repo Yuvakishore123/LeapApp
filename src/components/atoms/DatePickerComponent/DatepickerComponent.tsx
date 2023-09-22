@@ -23,10 +23,11 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
   buttonStyle,
   buttonTextColor,
 }) => {
+  // State hooks for selected start and end dates, and modal visibility
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(startDate);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(endDate);
   const [showPicker, setShowPicker] = useState<boolean>(false);
-
+  // Function to handle date change in the calendar picker
   const onDateChange = (date: Date, type: string) => {
     if (type === 'END_DATE') {
       setSelectedEndDate(date);
@@ -37,18 +38,19 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
       onStartDateChange(date);
     }
   };
-
+  // Function to clear selected dates
   const onClearDates = () => {
     setSelectedStartDate(null);
     setSelectedEndDate(null);
   };
-
+  // Function to toggle the visibility of the date picker modal
   const onTogglePicker = () => {
     setShowPicker(!showPicker);
   };
 
   return (
     <View style={styles.mainContainer}>
+      {/* Button to select start date */}
       <TouchableOpacity
         style={buttonStyle}
         testID="start-date-button"
@@ -59,6 +61,7 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
             : 'Select Start Date'}
         </Text>
       </TouchableOpacity>
+      {/* Button to select end date */}
       <TouchableOpacity
         style={[buttonStyle]}
         testID="end-date-button"
@@ -69,11 +72,13 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
             : 'Select End Date'}
         </Text>
       </TouchableOpacity>
+      {/* Modal for the date picker */}
       <Modal
         visible={showPicker}
         animationType="slide"
         testID="date-picker-modal">
         <View style={{flex: 1}}>
+          {/* Calendar picker component */}
           <CalendarPicker
             startFromMonday={true}
             allowRangeSelection={true}
@@ -84,6 +89,7 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
             minDate={startDate}
             testID="calendar-picker-start-date"
           />
+          {/* Buttons for clearing and confirming dates */}
           <View style={styles.clearButtonview}>
             <TouchableOpacity
               testID="clear-dates"

@@ -6,21 +6,25 @@ import {
   ADD_OUTFIT,
   ADD_TYPE,
 } from '../actions/actionTypes';
+
+// Initial state for the ItemsReducer
 const initialState = {
   CategoryId: null,
   Name: null,
   Description: null,
   subcategoryIds: null,
 };
+
+// Reducer function for handling item-related actions
 export const ItemsReducer = (
-  state = initialState,
-  action: {type: any; payload: any},
+  state = initialState, // Set the initial state to the default state defined above
+  action: {type: any; payload: any}, // The action object contains a type and a payload
 ) => {
   switch (action.type) {
     case ADD_NAME:
       return {
-        ...state,
-        Name: action.payload,
+        ...state, // Spread the current state to avoid mutation
+        Name: action.payload, // Update the Name property with the payload value from the action
       };
     case ADD_DESCRIPTION:
       return {

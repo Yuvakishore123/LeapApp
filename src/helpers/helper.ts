@@ -6,24 +6,34 @@ import messaging from '@react-native-firebase/messaging';
 import {useNavigation} from '@react-navigation/native';
 import {sentryTransport, logger} from 'react-native-logs';
 import * as Sentry from '@sentry/react-native';
+
+// Define the types for the navigation stack
 type RootStackParamList = {
   Login: undefined;
   Subcategory: {categoryId: number};
   SearchResultsScreen: {searchResults: null[]};
 };
+
+// Custom hook for dispatching Thunk actions
 export const useThunkDispatch = () => {
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   return {dispatch};
 };
+
+// Custom hook for accessing navigation prop
 export const useNavigationProp = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return {navigation};
 };
+
+// Function to handle opening notifications
 export const onClickNotification = () => {
   messaging().onNotificationOpenedApp(remoteMessage => {
     console.log(remoteMessage.data);
   });
 };
+
+// Default logging configuration
 export const defaultConfig = {
   levels: {
     debug: 0,
@@ -50,4 +60,5 @@ export const defaultConfig = {
     enabled: true,
   },
 };
+// Logger instance with the default configuration
 export const logMessage = logger.createLogger(defaultConfig);

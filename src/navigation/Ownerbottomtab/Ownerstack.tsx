@@ -33,8 +33,11 @@ import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRental
 import OwnerRentalDetailsScreen from '../../screens/ownerRentaldetailsScreen/ownerRentaldetailsScreen';
 import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 
+// Creating a native stack navigator and a bottom tab navigator
 const Stack = createNativeStackNavigator();
 const Tab = createBottomTabNavigator();
+
+// Function to get route name and control tab bar visibility
 const getRouteName = (route: Partial<Route<string>>) => {
   const routeName = getFocusedRouteNameFromRoute(route);
   if (
@@ -54,9 +57,12 @@ const getRouteName = (route: Partial<Route<string>>) => {
   return 'flex';
 };
 
+// Helper function to create a stack screen
 const createStackScreen = (name: string, component: any) => {
   return <Stack.Screen name={name} component={component} />;
 };
+
+// Helper function to get the tab bar icon
 const getTabBarIcon = (
   route: {name: any},
   focused: any,
@@ -141,6 +147,7 @@ const createTabScreen = (
   );
 };
 
+// Define the OwnerProfilestack component
 const OwnerProfilestack = () => {
   return (
     <Stack.Navigator
@@ -158,6 +165,7 @@ const OwnerProfilestack = () => {
   );
 };
 
+// Define the OwnerHomestack component
 const OwnerHomestack = () => {
   return (
     <Stack.Navigator
@@ -174,6 +182,7 @@ const OwnerHomestack = () => {
   );
 };
 
+// Define the Owneradditemsstack component
 const Owneradditemsstack = () => {
   return (
     <Stack.Navigator
@@ -186,6 +195,7 @@ const Owneradditemsstack = () => {
   );
 };
 
+// Define the OwnerRentalStatusScreen component
 const OwnerRentalStatusScreen = () => {
   return (
     <Stack.Navigator
@@ -197,6 +207,7 @@ const OwnerRentalStatusScreen = () => {
   );
 };
 
+// Define the Ownerstack component
 const Ownerstack = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   return (

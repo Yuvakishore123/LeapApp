@@ -12,6 +12,8 @@ interface CartAddState {
   isError: boolean;
   error: null | string;
 }
+
+// Define the initial state of the cart slice
 const initialState: CartAddState = {
   data: {
     message: '',

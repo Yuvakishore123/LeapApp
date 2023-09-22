@@ -2,11 +2,14 @@ import React, {useContext, useRef} from 'react';
 import {View, Switch, StyleSheet, Animated} from 'react-native';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 const Togglebutton = () => {
+  // Context to handle color scheme
   const {colorScheme, toggleColorScheme} = useContext(ColorSchemeContext);
+  // Animation for switch
   const switchAnim = useRef(
     new Animated.Value(colorScheme === 'dark' ? 0 : 1),
   ).current;
 
+  // Function to toggle color scheme
   const handleToggle = () => {
     toggleColorScheme();
     Animated.timing(switchAnim, {
@@ -15,7 +18,7 @@ const Togglebutton = () => {
       useNativeDriver: false,
     }).start();
   };
-
+  // Translate animation for icon
   const iconTranslateX = switchAnim.interpolate({
     inputRange: [0, 1],
     outputRange: [23, -4],
@@ -23,6 +26,7 @@ const Togglebutton = () => {
 
   return (
     <View style={styles.container} testID="toggle-container">
+      {/* Dark mode icon */}
       {colorScheme === 'dark' ? (
         <Animated.Image
           source={require('../../../../assets/darkmoon.jpeg')}
@@ -30,12 +34,15 @@ const Togglebutton = () => {
           style={[styles.icon, {transform: [{translateX: iconTranslateX}]}]}
         />
       ) : (
+        /* Light mode icon */
         <Animated.Image
           testID="switch-light"
           source={require('../../../../assets/sun.png')}
           style={[styles.Wicon, {transform: [{translateX: iconTranslateX}]}]}
         />
       )}
+
+      {/* Switch component */}
       <Switch
         value={colorScheme === 'dark'}
         onValueChange={() => handleToggle()}

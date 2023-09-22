@@ -5,12 +5,16 @@ import Colors from '../../../constants/colors';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Styles from '../../../constants/themeColors';
 import styles from './priceRangestyles';
+
+// Define an array of price range options
 const options = [
   {label: '₹0 - ₹100', min: 0, max: 100},
   {label: '₹100 - ₹1000', min: 100, max: 1000},
   {label: '₹1000 - ₹2000', min: 1000, max: 2000},
   {label: '₹2000 - ₹3000', min: 2000, max: 3000},
 ];
+
+// Define types for PriceRange and PriceRangeProps
 type PriceRange = {
   label: string;
   min: string;
@@ -28,11 +32,14 @@ const PriceRangeDropdown = ({
   maxPrice,
   onSelectPriceRange,
 }: PriceRangeProps) => {
+  // Define component state and context
   const [open, setOpen] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
   const [selectedOption, setSelectedOption] = useState<PriceRange | null>(null);
-
+  // Define a ref for the dropdown height animation
   const dropdownHeight = useRef(new Animated.Value(0)).current;
+
+  // Define event handlers for dropdown interaction
   const handleDropdownToggle = () => {
     setOpen(!open);
     if (!open) {
@@ -41,6 +48,7 @@ const PriceRangeDropdown = ({
       closeDropdown();
     }
   };
+  // Define animation functions for opening and closing the dropdown
   const openDropdown = () => {
     Animated.timing(dropdownHeight, {
       toValue: options.length * 40, // Adjust the height as per your requirement
@@ -55,6 +63,7 @@ const PriceRangeDropdown = ({
       useNativeDriver: false,
     }).start();
   };
+  // Define an event handler for selecting an option
   const handleSelectOption = (option: any) => {
     setSelectedOption(option);
     onSelectPriceRange(option.min.toString(), option.max.toString());

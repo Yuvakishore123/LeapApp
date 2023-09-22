@@ -1,5 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
-
 import {useEffect, useState} from 'react';
 import {profileUpload, url} from '../../constants/Apis';
 import {
@@ -13,6 +11,7 @@ import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
 import {PermissionsAndroid} from 'react-native';
 import Toast from 'react-native-toast-message';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 const useProfile = () => {
   const MAX_IMAGE_SIZE_BYTES = 1024 * 1024;
   const [isLoading, setIsLoading] = useState(false);
@@ -105,7 +104,7 @@ const useProfile = () => {
 
     try {
       setIsloading(true);
-      const token = await AsyncStorage.getItem('token');
+      const token = await asyncStorageWrapper.getItem('token');
       const result = await uploadImageToServer(formData, token);
       await handleUploadResult(result);
     } catch (error) {
@@ -144,7 +143,9 @@ const useProfile = () => {
   };
   const checkPermission = async () => {
     try {
-      const permissionGranted = await AsyncStorage.getItem('permissionGranted');
+      const permissionGranted = await asyncStorageWrapper.getItem(
+        'permissionGranted',
+      );
       if (permissionGranted === 'true') {
         pickImage();
       } else {
@@ -157,7 +158,7 @@ const useProfile = () => {
           },
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          await AsyncStorage.setItem('permissionGranted', 'true');
+          await asyncStorageWrapper.setItem('permissionGranted', 'true');
           pickImage();
         } else {
           logMessage.error('Storage permission denied');

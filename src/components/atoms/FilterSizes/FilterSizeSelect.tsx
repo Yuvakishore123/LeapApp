@@ -18,9 +18,10 @@ const FilterSelectSize = ({
   selectedSize,
   onSelectSize,
 }: FilterSelectSizeProps) => {
-  const [open, setOpen] = useState(false);
-  const dropdownHeight = useRef(new Animated.Value(0)).current;
-  const {colorScheme} = useContext(ColorSchemeContext);
+  const [open, setOpen] = useState(false); // State for dropdown open/close
+  const dropdownHeight = useRef(new Animated.Value(0)).current; // Animated value for dropdown height
+  const {colorScheme} = useContext(ColorSchemeContext); // Accessing color scheme from context
+  // Function to handle dropdown toggle
   const handleToggle = () => {
     setOpen(!open);
     if (open) {
@@ -29,6 +30,7 @@ const FilterSelectSize = ({
       openDropdown();
     }
   };
+  // Function to animate opening the dropdown
   const openDropdown = () => {
     Animated.timing(dropdownHeight, {
       toValue: sizes.length * 40, // Adjust the height based on the number of sizes
@@ -36,6 +38,7 @@ const FilterSelectSize = ({
       useNativeDriver: false,
     }).start();
   };
+  // Function to animate closing the dropdown
   const closeDropdown = () => {
     Animated.timing(dropdownHeight, {
       toValue: 0,
@@ -43,6 +46,7 @@ const FilterSelectSize = ({
       useNativeDriver: false,
     }).start();
   };
+  // Function to handle size selection
   const handleSelectSize = (size: string) => {
     onSelectSize(size);
     setOpen(false);
@@ -50,6 +54,7 @@ const FilterSelectSize = ({
   };
   return (
     <View style={styles.container}>
+      {/* Button to trigger dropdown */}
       <TouchableOpacity
         testID="button"
         style={[

@@ -1,13 +1,14 @@
 import {SET_ROLE} from '../actions/actionTypes';
 
 const initialState = {
-  role: 'borrower',
+  role: 'borrower', // Default role is set to 'borrower'
 };
 
 const Rolereducer = (
   state = initialState,
   action: {type: string; role: string},
 ) => {
+  // Checking if the action type is SET_ROLE
   if (action.type === SET_ROLE) {
     return {
       ...state,

@@ -34,9 +34,12 @@ import Colors from 'constants/colors';
 import {View} from 'react-native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
+
+// Creating navigation stacks and tabs
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
+// Stack for the Home screen
 const HomeStack = () => {
   return (
     <Stack.Navigator
@@ -55,6 +58,7 @@ const HomeStack = () => {
   );
 };
 
+// Stack for the Category screen
 const CategoryStack = () => {
   return (
     <Stack.Navigator
@@ -67,6 +71,7 @@ const CategoryStack = () => {
   );
 };
 
+// Stack for the Cart screen
 const CartStack = () => {
   return (
     <Stack.Navigator
@@ -86,6 +91,7 @@ const CartStack = () => {
   );
 };
 
+// Stack for the Profile screen
 const ProfileStack = () => {
   return (
     <Stack.Navigator
@@ -101,17 +107,20 @@ const ProfileStack = () => {
     </Stack.Navigator>
   );
 };
+
+// Main navigation component containing the bottom tab navigator
 const MyStack = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   const isFocused = useIsFocused();
 
+  // Determine tab bar background color based on color scheme
   let tabBarBackgroundColor: string;
   if (colorScheme === 'dark') {
     tabBarBackgroundColor = Colors.black;
   } else {
     tabBarBackgroundColor = Colors.white;
   }
-
+  // Define bottom tab navigator with screens and options
   return (
     <Tab.Navigator
       screenOptions={{
@@ -576,6 +585,8 @@ const MyStack = () => {
     </Tab.Navigator>
   );
 };
+
+// Function to get route name and control tab bar visibility
 const getRouteName = (route: Partial<Route<string>>) => {
   const routeName = getFocusedRouteNameFromRoute(route);
   if (

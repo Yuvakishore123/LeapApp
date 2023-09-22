@@ -5,10 +5,14 @@ import colors from '../../constants/colors';
 import {useDispatch} from 'react-redux';
 import {ownerorderproducts} from '../../redux/slice/OwnerorderproductSlice';
 const OwnerRentalSwitch = () => {
+  // State to keep track of the selected tab
   const [selectedTab, setSelectedTab] = useState(0);
+  // Animation value for tab switching animation
   const animationValue = useState(new Animated.Value(0))[0];
+  // Redux dispatcher for dispatching actions
   const dispatch = useDispatch();
-  const handleTabPress = tabIndex => {
+  // Function to handle tab press
+  const handleTabPress = (tabIndex: React.SetStateAction<number>) => {
     setSelectedTab(tabIndex);
 
     // Determine the status based on the selectedTab index
@@ -16,6 +20,8 @@ const OwnerRentalSwitch = () => {
 
     // Dispatch the async thunk with the selected status
     dispatch(ownerorderproducts(status) as any);
+
+    // Set animation value based on selectedTab
     const toValue = tabIndex === 0 ? 0 : 1;
     Animated.timing(animationValue, {
       toValue,
@@ -23,6 +29,7 @@ const OwnerRentalSwitch = () => {
       useNativeDriver: false,
     }).start();
   };
+  // Style for the animated container
   const containerStyle = {
     transform: [
       {
@@ -47,6 +54,7 @@ const OwnerRentalSwitch = () => {
           flexDirection: 'row',
           alignItems: 'center',
         }}>
+        {/* Ordered Tab */}
         <TouchableOpacity
           style={{
             width: '50%',
@@ -72,6 +80,7 @@ const OwnerRentalSwitch = () => {
             </Text>
           </Animated.View>
         </TouchableOpacity>
+        {/* Returned Tab */}
         <TouchableOpacity
           style={{
             width: '50%',

@@ -1,6 +1,9 @@
+// Import necessary modules and components
 import React, {useContext, useState} from 'react';
 import {View, StyleSheet} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
+
+// Import custom hooks and constants
 import useSearchresults from '../../../screens/SearchResultScreen/useSearchResults';
 import Colors from '../../../constants/colors';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
@@ -12,13 +15,17 @@ const SubCategoryDropdown = ({
   value: any;
   onChange: (value: any) => void;
 }) => {
+  // Retrieve subcategories data using custom hook
   const {subcategoriesData} = useSearchresults();
+  // State for handling focus of the dropdown
   const [isFocus, setIsFocus] = useState(false);
 
+  // Retrieve styles from context using useContext
   const {getContainerStyle, getTextColor} = useContext(ColorSchemeContext);
 
   return (
     <View style={[styles.container, getContainerStyle()]}>
+      {/* Dropdown component */}
       <Dropdown
         testID="sub-category-dropdown"
         style={[styles.dropdown, getContainerStyle()]}

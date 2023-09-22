@@ -12,6 +12,7 @@ interface AddressAddState {
   isError: boolean;
   error: null | string;
 }
+// Define the initial state
 const initialState: AddressAddState = {
   data: {
     message: '',
@@ -21,6 +22,8 @@ const initialState: AddressAddState = {
   isError: false,
   error: null,
 };
+
+// Define an asynchronous thunk to handle the address adding process
 export const AddressAdd = createAsyncThunk(
   'AddressAdd',
   async (
@@ -37,6 +40,7 @@ export const AddressAdd = createAsyncThunk(
     {dispatch},
   ) => {
     try {
+      // Make a POST request to the API to add an address
       const response = await ApiService.post(addressaddUrl, addressData);
       return response;
     } catch (error: any) {
@@ -46,15 +50,16 @@ export const AddressAdd = createAsyncThunk(
   },
 );
 
+// Define a slice to manage address adding state
 const AddressAddThunk = createSlice({
   name: 'AddressAddData',
   initialState,
   reducers: {
     setAdressAddData: (state, action) => {
-      state.data = action.payload;
+      state.data = action.payload; // Update the address data in the state
     },
     setError: (state, action) => {
-      state.data = action.payload;
+      state.data = action.payload; // Set an error in the state
     },
   },
   extraReducers: builder => {
@@ -73,5 +78,7 @@ const AddressAddThunk = createSlice({
       });
   },
 });
+
+// Export the action creators and reducer
 export const {setAdressAddData, setError} = AddressAddThunk.actions;
 export default AddressAddThunk.reducer;

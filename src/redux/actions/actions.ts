@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {AnyAction, Dispatch} from 'redux';
 import {url} from '../../constants/Apis';
@@ -7,6 +6,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {SetStateAction} from 'react';
 import {Orderreducer} from '../reducers/Orderreducer';
 import {
+  // Action Types
   ADD_DESCRIPTION,
   ADD_EVENT,
   ADD_GENDER,
@@ -32,7 +32,9 @@ import {setLoginData} from '../slice/loginSlice';
 import {ListAddress} from '../slice/listAddressSlice';
 import {logMessage} from 'helpers/helper';
 import ApiService from 'network/network';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
+// Action creators
 export const addname = (Name: any) => ({
   type: ADD_NAME,
   payload: Name,
@@ -95,9 +97,6 @@ export const removeFromWishlist = (productId: any) => ({
   type: REMOVE_FROM_WISHLIST,
   payload: productId,
 });
-// action type
-
-// action creator
 export const addProductToCartStore = (product: any) => {
   return {
     type: ADD_PRODUCT_TO_CART_STORE,
@@ -123,7 +122,7 @@ export const deleteAddress = (index: any) => ({
 export const Init = () => {
   return async (dispatch: Dispatch) => {
     try {
-      let token = await AsyncStorage.getItem('token');
+      let token = await asyncStorageWrapper.getItem('token');
       if (token !== null) {
         dispatch(setLoginData({authToken: token, isAuthenticated: true}));
       }
@@ -161,7 +160,7 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
         },
       );
       const token = response.headers.access_token;
-      await AsyncStorage.setItem('token', token);
+      await asyncStorageWrapper.setItem('token', token);
       dispatch({type: LOGIN_SUCCESS, payload: token});
     } catch (error) {
       dispatch({type: LOGIN_FAILURE, payload: error});
@@ -172,9 +171,9 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
 
 export const Logout = () => {
   return async (dispatch: Dispatch) => {
-    const refreshToken = await AsyncStorage.getItem('refresh_token');
+    const refreshToken = await asyncStorageWrapper.getItem('refresh_token');
     try {
-      AsyncStorage.removeItem('token');
+      asyncStorageWrapper.removeItem('token');
       const response = await axios.post(`${url}/user/logout`, null, {
         headers: {
           Authorization: `Bearer ${refreshToken}`,

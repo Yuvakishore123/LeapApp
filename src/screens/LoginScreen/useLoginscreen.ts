@@ -12,11 +12,11 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import colors from 'constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import messaging, {firebase} from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 import {logger} from 'react-native-logs';
 import {defaultConfig} from '../../helpers/helper';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   OtpScreen: undefined;
@@ -67,14 +67,14 @@ const useLoginscreen = () => {
     }
     const storeFCMToken = async (Dtoken: string) => {
       try {
-        await AsyncStorage.setItem('fcmToken', Dtoken);
+        await asyncStorageWrapper.setItem('fcmToken', Dtoken);
       } catch (error) {
         logMessage.error('Error storing FCM token:', error);
       }
     };
     const onTokenRefresh = async (DnewToken: string) => {
       try {
-        const storedToken = await AsyncStorage.getItem('fcmToken');
+        const storedToken = await asyncStorageWrapper.getItem('fcmToken');
         if (storedToken !== DnewToken) {
           await storeFCMToken(DnewToken);
         }
@@ -114,9 +114,9 @@ const useLoginscreen = () => {
   }, [isError]);
   const handleLoginScreen = async () => {
     const Fcm_token = await messaging().getToken();
-    await AsyncStorage.setItem('device_token', Fcm_token);
+    await asyncStorageWrapper.setItem('device_token', Fcm_token);
     try {
-      const token = await AsyncStorage.getItem('fcmToken');
+      const token = await asyncStorageWrapper.getItem('fcmToken');
       const credentials = {
         email: formik.values.email,
         password: formik.values.password,

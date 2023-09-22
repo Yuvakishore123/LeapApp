@@ -4,18 +4,21 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import styles from './analyticStyle';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 
+// Defining the type of props that AnalyticsDropdown component expects
 type AnalyticsDropdownProps = {
-  onSelect: (value: string) => void;
+  onSelect: (value: string) => void; // Expects a function that takes a string as an argument
 };
 
 const AnalyticsDropdown = ({onSelect}: AnalyticsDropdownProps) => {
+  // State variables to manage selected value and dropdown visibility
   const [selectedValue, setSelectedValue] = useState('Quantity');
   const [isOpen, setIsOpen] = useState(false);
 
+  // Function to handle selection of an item in the dropdown
   const handleSelect = (value: string) => {
     setSelectedValue(value);
-    onSelect(value);
-    setIsOpen(false);
+    onSelect(value); // Call the provided onSelect function with the selected value
+    setIsOpen(false); // Close the dropdown after selection
   };
 
   return (
@@ -27,6 +30,8 @@ const AnalyticsDropdown = ({onSelect}: AnalyticsDropdownProps) => {
         <Text style={styles.buttonText}>{selectedValue}</Text>
         <Icons style={{marginLeft: 5}} size={20} name="keyboard-arrow-down" />
       </TouchableOpacity>
+
+      {/* Render the dropdown if isOpen state is true */}
       {isOpen && (
         <View style={styles.dropdownConatiner}>
           <TouchableOpacity onPress={() => handleSelect('quantity')}>
@@ -49,5 +54,4 @@ const AnalyticsDropdown = ({onSelect}: AnalyticsDropdownProps) => {
     </View>
   );
 };
-
 export default AnalyticsDropdown;

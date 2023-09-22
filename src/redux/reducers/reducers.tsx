@@ -13,12 +13,13 @@ import {
   VERIFY_OTP_FAILURE,
 } from '../actions/actionTypes';
 
+// Initial state for the authentication reducer
 const initialState = {
-  authToken: null,
-  loading: false,
-  isAuthenticated: false,
-  error: '',
-  verifyingOTP: false, // new state to keep track of whether OTP is being verified
+  authToken: null, // Token for authenticated user
+  loading: false, // Loading state indicator
+  isAuthenticated: false, // Flag indicating if user is authenticated
+  error: '', // Error message in case of failure
+  verifyingOTP: false, // Flag indicating if OTP is being verified
 };
 
 const authReducer = (state = initialState, action: any) => {

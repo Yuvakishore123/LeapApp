@@ -16,6 +16,7 @@ const AnalyticsDatePicker = ({
   onStartDateChange: (date: Date) => void;
   onEndDateChange: (date: any) => void;
 }) => {
+  // Define some initial variables and states
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
@@ -26,7 +27,7 @@ const AnalyticsDatePicker = ({
   const [showPicker, setShowPicker] = useState(false);
   const [showPickerClone, setShowPickerClone] = useState(false);
   const [, setPickerType] = useState('');
-
+  // Function to handle date changes
   const onDateChange = (date: any, type: string) => {
     if (type === 'END_DATE') {
       setSelectedEndDate(date);
@@ -37,7 +38,7 @@ const AnalyticsDatePicker = ({
       onStartDateChange(date);
     }
   };
-
+  // Function to clear selected dates
   const onClearDates = () => {
     setSelectedStartDate(null);
     setSelectedEndDate(null);
@@ -45,7 +46,7 @@ const AnalyticsDatePicker = ({
     onStartDateChange(null); // Call the onStartDateChange callback with null
     onEndDateChange(null); // Call the onEndDateChange callback with null
   };
-
+  // Function to toggle date picker visibility
   const onTogglePicker = (type: string) => {
     setPickerType(type);
     if (type === 'END_DATE') {
@@ -67,6 +68,7 @@ const AnalyticsDatePicker = ({
           }}
           //newly added
           testID="start-date-text">
+          {/* Display selected start date or placeholder */}
           {selectedStartDate
             ? moment(selectedStartDate).format('MMM D, YYYY')
             : 'Select Start Date'}

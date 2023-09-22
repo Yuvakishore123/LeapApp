@@ -5,12 +5,12 @@ import {ThunkDispatch} from 'redux-thunk';
 import {fetchOrderProducts} from '../../redux/slice/orderSlice';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import notifee, {AndroidImportance, AndroidColor} from '@notifee/react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import {url} from '../../constants/Apis';
 import {logMessage} from 'helpers/helper';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 interface Order {
   id: string;
@@ -102,7 +102,7 @@ const useMyOrder = () => {
   };
   const handleOrderDetails = async (orderId: string) => {
     try {
-      const token = await AsyncStorage.getItem('token');
+      const token = await asyncStorageWrapper.getItem('token');
       logMessage.error('Monday ', orderId, token);
       const response = await axios.get(
         `${url}/order/generateInvoice/${orderId}`,

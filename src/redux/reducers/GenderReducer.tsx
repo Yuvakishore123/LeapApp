@@ -3,6 +3,7 @@ const initialState = {
 };
 
 const GenderReducer = (state = initialState, action: any) => {
+  // If action type is 'ADD_GENDER_DATA', update genderData in the state
   if (action.type === 'ADD_GENDER_DATA') {
     return {
       ...state,

@@ -2,7 +2,6 @@ import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import * as Yup from 'yup';
 import {SetStateAction, useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useFormik} from 'formik';
 
 import {addsize} from '../../redux/actions/actions';
@@ -13,6 +12,7 @@ import {ProductAdd} from '../../redux/slice/ProductAddSlice';
 import {PermissionsAndroid} from 'react-native';
 import {logger} from 'react-native-logs';
 import {useThunkDispatch, defaultConfig} from '../../helpers/helper';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -57,7 +57,7 @@ const useAddImages = () => {
   );
 
   const getImageUrl = async () => {
-    const url = await AsyncStorage.getItem('url');
+    const url = await asyncStorageWrapper.getItem('url');
     setUrl(url);
     logMessage.error('Retrieved URL:', url);
   };
@@ -129,7 +129,7 @@ const useAddImages = () => {
 
   useEffect(() => {
     const getImageUrls = async () => {
-      const url = await AsyncStorage.getItem('url');
+      const url = await asyncStorageWrapper.getItem('url');
       if (url) {
         const imageUrls = Array.from({length: 10}, (_, index) => {
           return `${url}/file${index + 1}`;
@@ -168,7 +168,7 @@ const useAddImages = () => {
           });
           setIsLoading(true);
           try {
-            const token = await AsyncStorage.getItem('token');
+            const token = await asyncStorageWrapper.getItem('token');
             logMessage.error(token);
             const result = await fetch(`${baseUrl}/file/upload`, {
               method: 'POST',
@@ -200,7 +200,9 @@ const useAddImages = () => {
   };
   const checkPermission = async () => {
     try {
-      const permissionGranted = await AsyncStorage.getItem('permissionGranted');
+      const permissionGranted = await asyncStorageWrapper.getItem(
+        'permissionGranted',
+      );
       if (permissionGranted === 'true') {
         pickImages();
       } else {
@@ -214,7 +216,7 @@ const useAddImages = () => {
         );
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
           logMessage.error('Storage permission granted');
-          await AsyncStorage.setItem('permissionGranted', 'true');
+          await asyncStorageWrapper.setItem('permissionGranted', 'true');
           pickImages();
         } else {
           logMessage.error('Storage permission denied');

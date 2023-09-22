@@ -2,13 +2,13 @@ import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 import {fetchProducts} from '../../redux/slice/productSlice';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../constants/Apis';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/apiRoutes';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -80,7 +80,7 @@ const useOwnerHome = () => {
   );
   useEffect(() => {
     const fetchDashboardData = async () => {
-      const token = await AsyncStorage.getItem('token');
+      const token = await asyncStorageWrapper.getItem('token');
       try {
         const response = await fetch(`${url}/dashboard/owner-view`, {
           method: 'GET',
@@ -106,7 +106,7 @@ const useOwnerHome = () => {
   }, []);
   useEffect(() => {
     const fetchProfileData = async () => {
-      const token = await AsyncStorage.getItem('token');
+      const token = await asyncStorageWrapper.getItem('token');
       try {
         const response = await fetch(`${url}/user/getUser`, {
           method: 'GET',

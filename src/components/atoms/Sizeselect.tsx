@@ -6,6 +6,7 @@ import Colors from '../../constants/colors';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
+// Data for the dropdown options
 const data = [
   {label: 'XS', value: '1', accessibilityLabel: 'XS'},
   {label: 'S', value: '2', accessibilityLabel: 'S'},
@@ -13,8 +14,9 @@ const data = [
   {label: 'XL', value: '4', accessibilityLabel: 'XL'},
   {label: 'XXL', value: '5', accessibilityLabel: 'XXL'},
 ];
-
+// Functional component for Size Selection
 const Sizeselection = ({onChange}: {onChange: (value: string) => void}) => {
+  // State variables
   const [value, _setValue] = useState(null);
   const [isFocus, setIsFocus] = useState(false);
   const {getTextInputStyle, getPlaceholderTextColor} =

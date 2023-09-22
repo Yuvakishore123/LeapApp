@@ -6,26 +6,27 @@ import {StyleSheet, Text, TouchableOpacity, View, Animated} from 'react-native';
 import Colors from '../../constants/colors';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {logMessage} from 'helpers/helper';
 import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
 import {Request_SwitchError, Switchrole_Error} from 'constants/errorCodes';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 const SwitchAccountButton = () => {
+  // State and dispatch setup
   const [showOptions, setShowOptions] = useState(false);
   const dispatch = useDispatch();
   const userType = useSelector((state: any) => state.Rolereducer.role);
   const [accountType, setAccountType] = useState('');
-
+  // Animations setup
   const buttonAnimation = useState(new Animated.Value(0))[0];
   const optionsAnimation = useState(new Animated.Value(0))[0];
-
+  // Update account type when user type changes
   useEffect(() => {
     setAccountType(userType === 'OWNER' ? 'Owner' : 'Borrower');
   }, [userType]);
-
+  // Toggle options visibility and animate button/options
   const handlePress = () => {
     setShowOptions(!showOptions);
     Animated.timing(buttonAnimation, {
@@ -39,19 +40,21 @@ const SwitchAccountButton = () => {
       useNativeDriver: false,
     }).start();
   };
-
+  // Handle selection of account type option
   const handleOptionPress = async (option: string) => {
     try {
       setShowOptions(false);
+      // Make a request to switch account type
       const response = await ApiService.post(
         `${url}/user/switch?profile=${option}`,
         null,
       );
 
       if (response.status === HTTP_STATUS_CODES.OK) {
+        // Update token and role on successful switch
         const newToken = response.headers.access_token;
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.setItem('token', newToken);
+        await asyncStorageWrapper.removeItem('token');
+        await asyncStorageWrapper.setItem('token', newToken);
         dispatch(setRole(option));
         setAccountType(option === 'OWNER' ? 'Owner' : 'Borrower');
       } else {
@@ -64,6 +67,7 @@ const SwitchAccountButton = () => {
 
   return (
     <View>
+      {/* Switch Account Button */}
       <TouchableOpacity
         onPress={handlePress}
         testID="switch-account-button"
@@ -76,6 +80,7 @@ const SwitchAccountButton = () => {
           <IonIcon name="chevron-down" color={'#fff'} size={20} />
         </View>
       </TouchableOpacity>
+      {/* Account Type Options */}
       {showOptions && (
         <Animated.View
           style={[

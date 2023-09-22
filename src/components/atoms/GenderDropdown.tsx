@@ -1,13 +1,16 @@
+// Importing necessary modules and components
 import React, {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
+// Importing styles and hooks from other files
 import Ownerstyles from '../../screens/Additems/Additemsstyle';
 import Useadditems from '../../screens/Additems/useAdditems';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Styles from '../../constants/themeColors';
 import Colors from '../../constants/colors';
 
+// Defining the prop types for the GenderDropdown component
 type GenderDropdownProps = {
   onSelectGender: (selectedGender: string) => void;
   onChange: (selectedGender: string) => void;
@@ -17,6 +20,7 @@ const DropdownComponent: React.FC<GenderDropdownProps> = ({
   onChange,
   value,
 }) => {
+  // Getting categories data and managing focus state using hooks
   const {categoriesData} = Useadditems();
   const [isFocus, setIsFocus] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
@@ -28,6 +32,7 @@ const DropdownComponent: React.FC<GenderDropdownProps> = ({
           styles.dropdownContainer,
           colorScheme === 'dark' ? Styles.cardColor : Styles.main,
         ]}>
+        {/* Dropdown component with various styles and configurations */}
         <Dropdown
           style={[styles.dropdown]}
           placeholderStyle={[styles.placeholderStyle]}

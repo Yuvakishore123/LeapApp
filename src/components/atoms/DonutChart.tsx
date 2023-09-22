@@ -14,6 +14,7 @@ const Donut = ({
   max = 1000,
   textcolor,
 }: {
+  // Define prop types for the Donut component
   refreshTrigger: any;
   percentage?: number;
   radius?: number;
@@ -24,14 +25,20 @@ const Donut = ({
   max?: number;
   textcolor?: string;
 }) => {
+  // Create animated components
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
   const AnimatedInput = Animated.createAnimatedComponent(TextInput);
+
+  // State and Refs initialization
   const [finalPercentage, setFinalPercentage] = useState(percentage);
   const animatedValue = useRef(new Animated.Value(0)).current;
   const circleRef = useRef();
   const inputRef = useRef();
+
+  // Constants for calculations
   const halfCircle = radius + strokeWidth;
   const circleCircumference = 2 * Math.PI * radius;
+  // Function to handle animations
   const animation = (toValue: number) => {
     return Animated.timing(animatedValue, {
       toValue,
@@ -52,6 +59,8 @@ const Donut = ({
       }
     });
   };
+
+  // Effect to handle animations and updates on mount and prop changes
   useEffect(() => {
     setFinalPercentage(percentage);
     animation(finalPercentage);
