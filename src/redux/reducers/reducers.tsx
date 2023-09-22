@@ -11,7 +11,7 @@ import {
   VERIFY_OTP_REQUEST,
   VERIFY_OTP_SUCCESS,
   VERIFY_OTP_FAILURE,
-} from '../actions/actions';
+} from '../actions/actionTypes';
 
 const initialState = {
   authToken: null,

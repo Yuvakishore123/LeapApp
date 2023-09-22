@@ -3,6 +3,7 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Lottie from 'lottie-react-native';
 import {RouteProp} from '@react-navigation/native';
 import styles from './apiErrorScreenStyles';
+import {Network_Error} from 'constants/errorCodes';
 type RootStackParamList = {
   ApiErrorScreen: {status: number | null};
 };
@@ -22,7 +23,7 @@ const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
   const {status} = route.params;
   const errorMessage =
     status === null
-      ? 'Please check your network connection '
+      ? Network_Error
       : `Oops! Something went wrong. ${status} error`;
 
   return (

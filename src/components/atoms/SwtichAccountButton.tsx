@@ -11,6 +11,7 @@ import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {logMessage} from 'helpers/helper';
 import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
+import {Request_SwitchError, Switchrole_Error} from 'constants/errorCodes';
 
 const SwitchAccountButton = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -54,10 +55,10 @@ const SwitchAccountButton = () => {
         dispatch(setRole(option));
         setAccountType(option === 'OWNER' ? 'Owner' : 'Borrower');
       } else {
-        logMessage.error('Request failed to switch user');
+        logMessage.error(Request_SwitchError);
       }
     } catch (error) {
-      logMessage.error('error in switching of user ');
+      logMessage.error(Switchrole_Error);
     }
   };
 

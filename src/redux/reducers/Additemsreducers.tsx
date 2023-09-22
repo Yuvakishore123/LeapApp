@@ -1,10 +1,11 @@
-export const ADD_ITEMSDATA = 'ADD_ITEMSDATA';
-export const ADD_GENDER = 'ADD_GENDER';
-export const ADD_EVENT = 'ADD_EVENT';
-export const ADD_NAME = 'ADD_NAME';
-export const ADD_DESCRIPTION = 'ADD_DESCRIPTION';
-export const ADD_TYPE = 'ADD_TYPE';
-export const ADD_OUTFIT = 'ADD_OUTFIT';
+import {
+  ADD_GENDER,
+  ADD_DESCRIPTION,
+  ADD_EVENT,
+  ADD_NAME,
+  ADD_OUTFIT,
+  ADD_TYPE,
+} from '../actions/actionTypes';
 const initialState = {
   CategoryId: null,
   Name: null,

@@ -1,4 +1,4 @@
-import {ADD_ADDRESS, REMOVE_ADDRESS} from '../actions/actions';
+import {ADD_ADDRESS, REMOVE_ADDRESS} from '../actions/actionTypes';
 
 export const AddressReducers = (
   state = [],

@@ -49,6 +49,5 @@ const AnalyticsDropdown = ({onSelect}: AnalyticsDropdownProps) => {
     </View>
   );
 };
-//new changes in quality//
 
 export default AnalyticsDropdown;

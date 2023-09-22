@@ -3,6 +3,7 @@ import axios, {AxiosRequestConfig} from 'axios';
 import {url} from 'constants/Apis';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainerRef} from '@react-navigation/native';
+import {RefreshToken_Error} from 'constants/errorCodes';
 
 let navigationRef: NavigationContainerRef | null = null;
 export function setNavigationReference(ref: NavigationContainerRef) {
@@ -54,7 +55,7 @@ instance.interceptors.response.use(
           return instance(originalRequest);
         })
         .catch(error => {
-          console.error('Refresh token failed:', error);
+          console.error(RefreshToken_Error, error);
           // throw error;
         });
     }
