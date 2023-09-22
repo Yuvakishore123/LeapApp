@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import axios from 'axios';
 import {AnyAction, Dispatch} from 'redux';
 import {url} from '../../constants/Apis';
@@ -40,6 +39,7 @@ import {setLoginData} from '../slice/loginSlice';
 import {ListAddress} from '../slice/listAddressSlice';
 import ApiService from 'network/network';
 import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 
 export const addname = (Name: any) => ({
   type: ADD_NAME,
@@ -72,7 +72,7 @@ export const addsize = (selected: any) => ({
 export const removeAddress = (id: any) => {
   return async (dispatch: Dispatch) => {
     try {
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorageWrapper.getItem('token');
       await axios.delete(`${url}/address/delete/${id}`, {
         headers: {
           Authorization: `Bearer ${token}`,
@@ -88,7 +88,7 @@ export const Init = () => {
   const {log} = logMessage();
   return async (dispatch: Dispatch) => {
     try {
-      let token = await AsyncStorage.getItem('token');
+      let token = await AsyncStorageWrapper.getItem('token');
       if (token !== null) {
         dispatch(setLoginData({authToken: token, isAuthenticated: true}));
       }
@@ -127,7 +127,7 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
         },
       );
       const token = response.headers.access_token;
-      await AsyncStorage.setItem('token', token);
+      await AsyncStorageWrapper.setItem('token', token);
       dispatch({type: LOGIN_SUCCESS, payload: token});
     } catch (error) {
       dispatch({type: LOGIN_FAILURE, payload: error});
@@ -138,9 +138,9 @@ export const submitOTP = (phoneNumber: string, otp: number) => {
 export const Logout = () => {
   return async (dispatch: Dispatch) => {
     const {log} = logMessage();
-    const refreshToken = await AsyncStorage.getItem('refresh_token');
+    const refreshToken = await AsyncStorageWrapper.getItem('refresh_token');
     try {
-      AsyncStorage.removeItem('token');
+      AsyncStorageWrapper.removeItem('token');
       dispatch(setLoginData({authToken: null, isAuthenticated: false}));
       const response = await axios.post(`${url}/user/logout`, null, {
         headers: {

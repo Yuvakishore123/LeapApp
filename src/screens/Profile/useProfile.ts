@@ -1,4 +1,3 @@
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Alert, Linking, PermissionsAndroid} from 'react-native';
 import {useEffect, useState} from 'react';
 import {profileUpload, url} from '../../constants/Apis';
@@ -9,6 +8,7 @@ import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
 
 import Toast from 'react-native-toast-message';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 const useProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrls, _setImageUrls] = useState([]);
@@ -83,7 +83,7 @@ const useProfile = () => {
 
   const ImapgeUpload = async () => {
     // Check if permission is granted
-    const status = await AsyncStorage.getItem('Status');
+    const status = await AsyncStorageWrapper.getItem('Status');
     const isPermissionGranted = status === 'granted';
 
     if (isPermissionGranted) {
@@ -153,7 +153,7 @@ const useProfile = () => {
         });
 
         setIsloading(true);
-        const token = await AsyncStorage.getItem('token');
+        const token = await AsyncStorageWrapper.getItem('token');
         const result = await fetch(`${url}/file/uploadProfileImage`, {
           method: 'POST',
           body: formData,

@@ -1,5 +1,5 @@
 import {useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import RNFetchBlob from 'rn-fetch-blob';
 import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
 
@@ -15,6 +15,7 @@ import ApiService from '../../network/network';
 import axios from 'axios';
 import {onclickDasboardUrl} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../..//utils/asyncStorage';
 
 const useAnalytics = () => {
   const [Data, setData] = useState('');
@@ -48,7 +49,7 @@ const useAnalytics = () => {
 
   const handleExportpdf = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorageWrapper.getItem('token');
       const response = await axios.get(`${url}/pdf/export`, {
         headers: {
           Authorization: `Bearer ${token}`,

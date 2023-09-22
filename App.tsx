@@ -22,7 +22,6 @@ import SignupScreen from 'screens/SignUp/SignupScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import ApiService from 'network/network';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';
 
 import messaging from '@react-native-firebase/messaging';
@@ -32,6 +31,7 @@ import {listProductsById} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
 import {setNavigationReference} from '../LeapApp/src/network/network';
+import AsyncStorageWrapper from '../LeapApp/src/utils/asyncStorage';
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 Sentry.init({
@@ -52,7 +52,7 @@ const AuthStack = () => {
   const checkFirstTimeUser = async () => {
     try {
       // Check if the user has already logged in
-      const hasLoggedIn = await AsyncStorage.getItem('hasLoggedIn');
+      const hasLoggedIn = await AsyncStorageWrapper.getItem('hasLoggedIn');
 
       // If the user has logged in before, navigate to the LoginScreen
       if (hasLoggedIn) {
@@ -62,7 +62,7 @@ const AuthStack = () => {
         navigation.navigate('SplashScreen' as never);
 
         // Store the flag indicating that the user has logged in
-        await AsyncStorage.setItem('hasLoggedIn', 'true');
+        await AsyncStorageWrapper.setItem('hasLoggedIn', 'true');
       }
     } catch (error) {
       console.error('Error checking first time user:', error);
@@ -92,7 +92,7 @@ const RootNavigation = () => {
   }, []);
   const getToken = async () => {
     const Fcm_token = await messaging().getToken();
-    await AsyncStorage.setItem('device_token', Fcm_token);
+    await AsyncStorageWrapper.setItem('device_token', Fcm_token);
   };
 
   const [loading, setLoading] = useState(true);

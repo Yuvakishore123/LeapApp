@@ -6,10 +6,10 @@ import {StyleSheet, Text, TouchableOpacity, View, Animated} from 'react-native';
 import Colors from '../../constants/colors';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 
-import AsyncStorage from '@react-native-async-storage/async-storage';
 import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 
 const SwitchAccountButton = () => {
   const [showOptions, setShowOptions] = useState(false);
@@ -50,8 +50,8 @@ const SwitchAccountButton = () => {
 
       if (response.status === 200) {
         const newToken = response.headers.access_token;
-        await AsyncStorage.removeItem('token');
-        await AsyncStorage.setItem('token', newToken);
+        await AsyncStorageWrapper.removeItem('token');
+        await AsyncStorageWrapper.setItem('token', newToken);
 
         dispatch(setRole(option));
         setAccountType(option === 'OWNER' ? 'Owner' : 'Borrower');

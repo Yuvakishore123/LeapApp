@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   FlatList,
-  Image,
   Text,
   TouchableOpacity,
   View,
@@ -25,6 +24,7 @@ import {postProductToAPI} from '../../redux/actions/actions';
 import useHome from 'screens/Home/useHome';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';
+import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
 type Props = {
   route: {name: string};
   navigation: any;
@@ -283,21 +283,7 @@ const Homescreen = ({navigation}: Props) => {
                             })
                           }>
                           <View style={style.imageContainer}>
-                            {!imageLoaded && (
-                              <Image
-                                source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                                style={style.image}
-                              />
-                            )}
-                            <Image
-                              source={{uri: item.imageUrl[0]}}
-                              style={[
-                                style.image,
-                                {display: imageLoaded ? 'flex' : 'none'},
-                              ]}
-                              onLoad={() => setImageLoaded(true)}
-                              onError={() => setImageLoaded(false)}
-                            />
+                            <ImageComponent imageUrl={item.imageUrl[0]} />
                             <TouchableOpacity
                               style={style.wishlistButton}
                               onPress={() => {

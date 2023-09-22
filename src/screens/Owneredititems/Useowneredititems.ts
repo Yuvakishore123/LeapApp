@@ -10,7 +10,7 @@ import {
 } from '../../redux/actions/actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -23,6 +23,7 @@ import {
   subCategoryUrl,
 } from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 type RootStackParamList = {
   OwnerProfile: undefined;
 };
@@ -217,7 +218,7 @@ const Useowneredititems = () => {
   };
   useEffect(() => {
     const getImageUrls = async () => {
-      const url = await AsyncStorage.getItem('url');
+      const url = await AsyncStorageWrapper.getItem('url');
       if (url) {
         const imageUrls = Array.from({length: 10}, (_, index) => {
           return `${url}/file${index + 1}`;
@@ -229,7 +230,7 @@ const Useowneredititems = () => {
   }, [imageUris]);
   const pickImg = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorageWrapper.getItem('token');
 
       const response = await launchImageLibrary({
         mediaType: 'photo',
@@ -302,7 +303,7 @@ const Useowneredititems = () => {
   };
   const handleedit = async () => {
     try {
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorageWrapper.getItem('token');
       const data = {
         brand: 'addidas',
         categoryIds: [gender],
@@ -342,7 +343,7 @@ const Useowneredititems = () => {
     }
   };
   const RemoveProducts = async (productId: any) => {
-    const token = await AsyncStorage.getItem('token');
+    const token = await AsyncStorageWrapper.getItem('token');
 
     fetch(`${baseUrl}/product/deleteProduct/${productId}`, {
       method: 'DELETE',
@@ -362,7 +363,7 @@ const Useowneredititems = () => {
   const getOwnerProducts = async () => {
     try {
       setViisble(true);
-      const token = await AsyncStorage.getItem('token');
+      const token = await AsyncStorageWrapper.getItem('token');
       const response = await axios.get(
         `${baseUrl}/product/listByProductId/${editProductId}`,
         {

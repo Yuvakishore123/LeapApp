@@ -2,7 +2,7 @@ import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import * as Yup from 'yup';
 import {SetStateAction, useEffect, useState} from 'react';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import {useFormik} from 'formik';
 
 import {addsize} from '../../redux/actions/actions';
@@ -12,6 +12,7 @@ import {url as baseUrl} from '../../constants/Apis';
 import {ProductAdd} from '../../redux/slice/ProductAddSlice';
 
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -119,7 +120,7 @@ const useAddImages = () => {
 
   useEffect(() => {
     const getImageUrls = async () => {
-      const url = await AsyncStorage.getItem('url');
+      const url = await AsyncStorageWrapper.getItem('url');
       if (url) {
         const imageUrls = Array.from({length: 10}, (_, index) => {
           return `${url}/file${index + 1}`;
@@ -158,7 +159,7 @@ const useAddImages = () => {
           });
           setIsLoading(true);
           try {
-            const token = await AsyncStorage.getItem('token');
+            const token = await AsyncStorageWrapper.getItem('token');
             console.log(categoryIds, subcategoryIds);
             const result = await fetch(
               `${baseUrl}/file/uploadProductImage?categoryId=${1}&subcategoryId=${1}`,

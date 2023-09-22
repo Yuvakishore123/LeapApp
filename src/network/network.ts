@@ -1,13 +1,13 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import axios from 'axios';
 import {url} from 'constants/Apis';
-import AsyncStorage from '@react-native-async-storage/async-storage';
 
 import {NavigationContainerRef} from '@react-navigation/native';
 
 import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
-import {StatusCodes} from '../utils/utils';
+import {StatusCodes} from '../utils/statusCodes';
 import {networkStatus} from 'helpers/helper';
+import AsyncStorageWrapper from '../utils/asyncStorage';
 
 let navigationRef: NavigationContainerRef | null = null;
 export function setNavigationReference(
@@ -23,7 +23,7 @@ const instance = axios.create({
 
 instance.interceptors.request.use(
   async config => {
-    const token = await AsyncStorage.getItem('token');
+    const token = await AsyncStorageWrapper.getItem('token');
     config.headers.Authorization = `Bearer ${token}`;
     const userPreferredLanguage = 'en-US';
     config.headers['Accept-Language'] = userPreferredLanguage;
@@ -47,7 +47,7 @@ instance.interceptors.response.use(
       !originalRequest._retry
     ) {
       originalRequest._retry = true;
-      const refreshToken = await AsyncStorage.getItem('refresh_token');
+      const refreshToken = await AsyncStorageWrapper.getItem('refresh_token');
       console.log(refreshToken);
 
       return axios
@@ -59,7 +59,7 @@ instance.interceptors.response.use(
         .then(async response => {
           const newToken = response.headers.access_token;
 
-          await AsyncStorage.setItem('token', newToken);
+          await AsyncStorageWrapper.setItem('token', newToken);
 
           // Update the default headers and original request headers with the new token
           instance.defaults.headers.common.Authorization = `Bearer ${newToken}`;

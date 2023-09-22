@@ -1,8 +1,9 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+
 import axios from 'axios';
 import {url} from '../../constants/Apis';
 import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 
 export const postLogin = createAsyncThunk(
   'postLogin',
@@ -17,8 +18,8 @@ export const postLogin = createAsyncThunk(
         credentials,
       );
       console.log('access_token', response.headers.access_token);
-      await AsyncStorage.setItem('token', response.headers.access_token);
-      await AsyncStorage.setItem(
+      await AsyncStorageWrapper.setItem('token', response.headers.access_token);
+      await AsyncStorageWrapper.setItem(
         'refresh_token',
         response.headers.refresh_token,
       );

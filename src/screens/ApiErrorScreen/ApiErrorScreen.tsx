@@ -3,8 +3,8 @@ import {View, Text} from 'react-native';
 import Lottie from 'lottie-react-native';
 import {RouteProp} from '@react-navigation/native';
 import styles from './apiErrorScreenStyles';
-import {StatusCodes} from '../../utils/utils';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import {StatusCodes} from '../../utils/statusCodes';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
 
 type RootStackParamList = {
   ApiErrorScreen: {status: any};
@@ -30,7 +30,7 @@ const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
       errorMessage = 'Server error. Please try again later.';
       break;
     case StatusCodes.FORBIDDEN:
-      AsyncStorage.removeItem('token');
+      AsyncStorageWrapper.removeItem('token');
       break;
     default:
       errorMessage = 'An unknown error occurred.';
