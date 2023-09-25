@@ -1,33 +1,62 @@
 {
   "project_info": {
-    "project_number": "280824523367",
-    "project_id": "in-app-messaging-feed0",
-    "storage_bucket": "in-app-messaging-feed0.appspot.com"
+    "project_number": "72358819363",
+    "project_id": "leaps-3169b",
+    "storage_bucket": "leaps-3169b.appspot.com"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:280824523367:android:5d9cfd3fae3dc9e65b02c2",
+        "mobilesdk_app_id": "1:72358819363:android:2015340b0a26ff182b2396",
         "android_client_info": {
           "package_name": "com.clothesrentalapp"
         }
       },
       "oauth_client": [
         {
-          "client_id": "280824523367-m7pebt5csibimrba8dbv3ff2sbmtjqls.apps.googleusercontent.com",
+          "client_id": "72358819363-1d12hi6ot56u0jvfccsufb1g67e2glrj.apps.googleusercontent.com",
           "client_type": 3
         }
       ],
       "api_key": [
         {
-          "current_key": "AIzaSyCocxGzIbsJo6nAv62pM6CWdrP5JbkxbW0"
+          "current_key": "AIzaSyD9OIuoZ6qIK3gnPxdvyuEytXpVSF44Tss"
         }
       ],
       "services": {
         "appinvite_service": {
           "other_platform_oauth_client": [
             {
-              "client_id": "280824523367-m7pebt5csibimrba8dbv3ff2sbmtjqls.apps.googleusercontent.com",
+              "client_id": "72358819363-1d12hi6ot56u0jvfccsufb1g67e2glrj.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:72358819363:android:09eb7eb8021691e32b2396",
+        "android_client_info": {
+          "package_name": "com.leapApp"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "72358819363-1d12hi6ot56u0jvfccsufb1g67e2glrj.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyD9OIuoZ6qIK3gnPxdvyuEytXpVSF44Tss"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "72358819363-1d12hi6ot56u0jvfccsufb1g67e2glrj.apps.googleusercontent.com",
               "client_type": 3
             }
           ]

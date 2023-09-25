@@ -15,6 +15,7 @@ import analytics from '@react-native-firebase/analytics';
 
 import messaging, {firebase} from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
+import crashlytics from '@react-native-firebase/crashlytics';
 
 import {logMessage} from '../../helpers/helper';
 import AsyncStorageWrapper from '../..//utils/asyncStorage';
@@ -118,6 +119,9 @@ const useLoginscreen = () => {
     await AsyncStorageWrapper.setItem('device_token', Fcm_token);
 
     try {
+      const customError = new Error('This is a custom error for testing.');
+      console.log(customError);
+      crashlytics().recordError(customError);
       const token = await AsyncStorageWrapper.getItem('fcmToken');
       const credentials = {
         email: formik.values.email,

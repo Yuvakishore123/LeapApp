@@ -48,7 +48,6 @@ const Homescreen = ({navigation}: Props) => {
   } = useHome();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const {
     colorScheme,
     getContainerStyle,
