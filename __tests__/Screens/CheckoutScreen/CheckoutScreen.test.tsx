@@ -5,13 +5,13 @@ import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Category from 'screens/Category/Category';
+import CheckoutScreen from 'screens/CheckoutScreen/CheckoutScreen';
+
+jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
-jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
@@ -21,23 +21,35 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-describe('Address Page', () => {
+const mockNav = jest.fn();
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({
+      navigate: mockNav,
+      addListener: jest.fn(),
+    }),
+  };
+});
+describe('Checkout Screen', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
-  test('renders correctly', () => {
+  it('renders CheckoutScreen correctly', () => {
     const Stack = createNativeStackNavigator();
 
     const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Category" component={Category} />
+            <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
-
     expect(result).toBeTruthy();
+
+    // Add similar assertions for other elements as needed
   });
 });

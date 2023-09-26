@@ -5,7 +5,7 @@ import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Category from 'screens/Category/Category';
+import Owneraddresspage from '../../../src/screens/Owneraddaddress/Address';
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
@@ -32,7 +32,10 @@ describe('Address Page', () => {
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Category" component={Category} />
+            <Stack.Screen
+              name="Owneraddresspage"
+              component={Owneraddresspage}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,

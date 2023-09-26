@@ -126,7 +126,8 @@ const SignUpScreen = () => {
             />
             <TouchableOpacity
               style={Styles.eyeButton}
-              onPress={() => setSignInPasswordVisible(!signInPasswordVisible)}>
+              onPress={() => setSignInPasswordVisible(!signInPasswordVisible)}
+              testID="eye-button">
               <MaterialIcons
                 size={22}
                 color="#888"

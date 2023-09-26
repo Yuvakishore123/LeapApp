@@ -73,6 +73,7 @@ const LoginScreen = () => {
           />
           <TouchableOpacity
             style={styles.eyeButton}
+            testID="eye-button"
             onPress={() => setPasswordVisible(!passwordVisible)}>
             <MaterialIcons
               size={22}

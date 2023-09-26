@@ -19,7 +19,7 @@ const OwnerRentalScreen = () => {
         ? OwnerRentalstyles.orderPlaced
         : OwnerRentalstyles.returned;
     return (
-      <TouchableOpacity style={OwnerRentalstyles.card}>
+      <TouchableOpacity style={OwnerRentalstyles.card} testID="Rentalitemcard">
         <View>
           {!imageLoaded && (
             <Image

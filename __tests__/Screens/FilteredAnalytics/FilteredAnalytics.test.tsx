@@ -5,7 +5,7 @@ import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Category from 'screens/Category/Category';
+import FilteredAnalytics from 'screens/FilteredAnalytics/FilteredAnalytics';
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
@@ -21,18 +21,21 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-describe('Address Page', () => {
+describe('FilteredAnalytics Page', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
-  test('renders correctly', () => {
+  test('renders FilteredAnalytics correctly', () => {
     const Stack = createNativeStackNavigator();
 
     const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Category" component={Category} />
+            <Stack.Screen
+              name="FilteredAnalytics"
+              component={FilteredAnalytics}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,

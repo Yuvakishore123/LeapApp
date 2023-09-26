@@ -6,13 +6,13 @@ import {
   ScrollView,
   ActivityIndicator,
   RefreshControl,
+  TextInput,
 } from 'react-native';
 import React, {useContext} from 'react';
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import {TextInput} from 'react-native-gesture-handler';
 import {Avatar} from 'react-native-paper';
 import {Logout} from '../../redux/actions/actions';
 import Toast from 'react-native-toast-message';

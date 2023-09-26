@@ -2,7 +2,6 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {useDispatch} from 'react-redux';
 import {AnyAction} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
-import messaging from '@react-native-firebase/messaging';
 import {useNavigation} from '@react-navigation/native';
 import {sentryTransport, logger} from 'react-native-logs';
 import * as Sentry from '@sentry/react-native';
@@ -24,13 +23,6 @@ export const useThunkDispatch = () => {
 export const useNavigationProp = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   return {navigation};
-};
-
-// Function to handle opening notifications
-export const onClickNotification = () => {
-  messaging().onNotificationOpenedApp(remoteMessage => {
-    console.log(remoteMessage.data);
-  });
 };
 
 // Default logging configuration

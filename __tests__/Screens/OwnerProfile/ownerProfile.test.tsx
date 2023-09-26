@@ -1,43 +1,38 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
+import OwnerProfile from '../../../src/screens/Ownerprofile/OwnerProfile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {NavigationContainer} from '@react-navigation/native';
 import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
-import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Category from 'screens/Category/Category';
 
-jest.mock('@react-native-firebase/analytics', () =>
-  require('@react-native-firebase'),
-);
-jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
-jest.mock('@react-native-firebase/messaging', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-describe('Address Page', () => {
+describe('OwnerProfile', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
-  test('renders correctly', () => {
-    const Stack = createNativeStackNavigator();
 
+  test('should render OwnerProfile correctly', () => {
+    const Stack = createNativeStackNavigator();
     const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Category" component={Category} />
+            <Stack.Screen name="OwnerProfile" component={OwnerProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
 
-    expect(result).toBeTruthy();
+    // Test for the presence of specific elements or text
+    expect(result).toBeDefined();
+
+    // Add more assertions as needed to test the rendering of your component
   });
 });
