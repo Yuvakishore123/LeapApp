@@ -4,6 +4,20 @@ import {url} from '../../constants/Apis';
 
 import ApiService from 'network/network';
 import {logMessage} from 'helpers/helper';
+
+export interface OwnerOrderProductsState {
+  data: [] | null;
+  isLoader: boolean;
+  isError: boolean;
+}
+
+// Define the initial state for your slice
+const initialState: OwnerOrderProductsState = {
+  data: null,
+  isLoader: false,
+  isError: false,
+};
+
 export const ownerorderproducts = createAsyncThunk(
   'ownerorderproducts',
   async (status: string) => {
@@ -21,11 +35,7 @@ export const ownerorderproducts = createAsyncThunk(
 
 const ownerorderproductsSlice = createSlice({
   name: 'ownerorderproducts',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder

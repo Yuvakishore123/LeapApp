@@ -4,6 +4,20 @@ import ApiService from '../../network/network';
 import {generateInvoice} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 
+export interface OrderProductsState {
+  data: null | any; // Replace 'any' with the actual type of your data
+  isLoader: boolean;
+  isError: boolean;
+}
+const initialState: OrderProductsState = {
+  data: {
+    message: '',
+    status: '',
+  },
+  isLoader: false,
+  isError: false,
+};
+
 export const fetchOrderProducts = createAsyncThunk(
   'fetchOrderProducts',
   async () => {
@@ -34,11 +48,7 @@ export const fetchInvoiceDetails = createAsyncThunk(
 
 export const orderSlice = createSlice({
   name: 'orderproducts',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder

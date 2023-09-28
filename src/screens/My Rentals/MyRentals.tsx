@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {Image, Text, TouchableOpacity, View} from 'react-native';
+import {Image, Text, TouchableOpacity, View, ScrollView} from 'react-native';
 import styles from '../OwnerHomepage/OwnerHomestyle';
-import {ScrollView} from 'react-native-gesture-handler';
+
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Usemyrental from './Usemyrental';
 type Props = {

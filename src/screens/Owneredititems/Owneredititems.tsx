@@ -30,7 +30,7 @@ import styles from '../OwnerHomepage/OwnerHomestyle';
 import DropdownComponent from '../../components/atoms/DropDownComponent/DropDown';
 import useAdditems from '../Additems/useAdditems';
 
-const App = () => {
+const EditItem = () => {
   const {
     data,
     setGender,
@@ -537,7 +537,7 @@ const App = () => {
   );
 };
 
-export default App;
+export default EditItem;
 
 const Style = StyleSheet.create({
   form: {

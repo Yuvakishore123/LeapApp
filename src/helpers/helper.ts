@@ -54,5 +54,5 @@ export const logMessage = () => {
 };
 export const networkStatus = async () => {
   const state = await NetInfo.fetch();
-  return state.isConnected;
+  return state?.isConnected;
 };

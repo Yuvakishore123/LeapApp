@@ -83,7 +83,7 @@ const ApiService = {
 
       if (!isConnected) {
         // If not connected, pass the custom status code
-        navigationRef.navigate('ApiErrorScreen', {
+        navigationRef?.navigate('ApiErrorScreen', {
           status: StatusCodes.NETWORK_ERROR,
         });
         return Promise.reject('No network connection');
@@ -92,10 +92,10 @@ const ApiService = {
 
       return response.data;
     } catch (error: any) {
-      const status = error.response.status;
+      const status = error.response?.status;
       console.log('status', status);
       if (status === StatusCodes.NOT_FOUND || StatusCodes.UNDER_MAINTAINANCE) {
-        navigationRef.navigate('ApiErrorScreen', {status});
+        navigationRef?.navigate('ApiErrorScreen', {status});
       }
 
       return Promise.reject(error);

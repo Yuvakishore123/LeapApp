@@ -31,7 +31,7 @@ const useMyOrder = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const orderData = useSelector((state: RootState) => state.OrderProducts.data);
   const OrderProducts = useSelector(
-    (state: RootState) => state.OrderProducts.data,
+    (state: {OrderProducts: {data: []}}) => state.OrderProducts.data,
   );
   const [showModal, setShowModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);

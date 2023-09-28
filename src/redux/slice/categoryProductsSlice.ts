@@ -23,7 +23,7 @@ export interface CategoryProduct {
   totalQuantity: number;
 }
 
-interface CategoryProductState {
+export interface CategoryProductState {
   data: CategoryProduct[];
   isLoader: boolean;
   isError: boolean;

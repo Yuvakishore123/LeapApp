@@ -3,15 +3,28 @@ import ApiService from '../../network/network';
 import {url} from '../../constants/Apis';
 import {logMessage} from 'helpers/helper';
 
+export interface FilterAnalyticsState {
+  data: any | null; // Replace 'any' with the actual type of your data
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string;
+}
+const initialState: FilterAnalyticsState = {
+  data: {
+    message: '',
+    status: '',
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
+
 export const FliterAnalyticslist = createAsyncThunk(
   'FliterAnalyticslist',
 
   async (item: {formattedStartDate: string; formattedEndDate: string}) => {
     const {log} = logMessage();
     try {
-      if (!item.formattedStartDate || !item.formattedEndDate) {
-        throw new Error('Invalid date range');
-      }
       const response = await ApiService.get(
         `${url}/dashboard/date-selector?endDate=${item.formattedEndDate}&startDate=${item.formattedStartDate}`,
       );
@@ -25,11 +38,7 @@ export const FliterAnalyticslist = createAsyncThunk(
 );
 const FilterAnaltyicsThunk = createSlice({
   name: 'FilterAnaltyicsData',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {
     setData: (state, action) => {
       state.data = action.payload;
@@ -43,6 +52,7 @@ const FilterAnaltyicsThunk = createSlice({
       .addCase(FliterAnalyticslist.fulfilled, (state, action) => {
         state.isLoader = false;
         state.data = action.payload;
+        state.isError = false;
       })
       .addCase(FliterAnalyticslist.rejected, state => {
         state.isError = true;

@@ -8,7 +8,7 @@ interface ProfileData {
   message: string;
   status: string;
 }
-interface ProfileDataState {
+export interface ProfileDataState {
   data: ProfileData;
   isLoader: boolean;
   isError: boolean;

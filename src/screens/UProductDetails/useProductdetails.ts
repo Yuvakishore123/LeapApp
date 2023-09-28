@@ -88,7 +88,7 @@ const useProductdetails = (product: {
   }, []);
 
   const productsData = async () => {
-    const result = await ApiService.get(`${listProductsById}/${product.id}`);
+    const result = await ApiService.get(`${listProductsById}/${product?.id}`);
     setshareData(result);
   };
   const generateLink = async () => {
@@ -130,7 +130,7 @@ const useProductdetails = (product: {
       scrollViewRef.current.scrollTo({x: nextIndex * 405, animated: true});
       setActiveIndex(nextIndex);
     }
-  }, [activeIndex, product.imageUrl]);
+  }, [activeIndex, product?.imageUrl]);
 
   const startScrollTimer = useCallback(() => {
     stopScrollTimer();

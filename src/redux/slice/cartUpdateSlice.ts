@@ -8,13 +8,13 @@ interface CartData {
   message: string;
   status: string;
 }
-interface CartDataState {
+export interface CartDataState {
   data: CartData;
   isLoader: boolean;
   isError: boolean;
   error: null | string;
 }
-const initialState: CartDataState = {
+export const initialState: CartDataState = {
   data: {
     message: '',
     status: '',
@@ -30,7 +30,6 @@ export const updateCart = createAsyncThunk(
     try {
       const response = await ApiService.put(`${cartupdateUrl}`, data);
       dispatch(fetchCartProducts());
-
       return response;
     } catch (error) {
       dispatch(setError(error));

@@ -31,7 +31,7 @@ const useLoginscreen = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
-  const isError = useSelector((state: any) => state.login.error);
+  const isError = useSelector((state: any) => state.login?.error);
   const [pageSize, _setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {log} = logMessage();
@@ -52,11 +52,28 @@ const useLoginscreen = () => {
   const closeModal = () => {
     setShowModal(false);
   };
+  const onTokenRefresh = async (DnewToken: string) => {
+    try {
+      const storedToken = await AsyncStorageWrapper.getItem('fcmToken');
+      if (storedToken !== DnewToken) {
+        await storeFCMToken(DnewToken);
+      }
+    } catch (error) {
+      log.error('Error handling FCM token refresh:', error);
+    }
+  };
+  const storeFCMToken = async (Dtoken: string) => {
+    try {
+      await AsyncStorageWrapper.setItem('fcmToken', Dtoken);
+    } catch (error) {
+      log.error('Error storing FCM token:', error);
+    }
+  };
 
   useEffect(() => {
     const googleApiKey = process.env.GOOGLE_API_KEY;
 
-    if (firebase?.apps.length === 0) {
+    if (firebase?.apps?.length === 0) {
       firebase.initializeApp({
         apiKey: googleApiKey,
         authDomain: 'In-App Messaging.firebase.com',
@@ -68,23 +85,6 @@ const useLoginscreen = () => {
         appId: '1:280824523367:android:5d9cfd3fae3dc9e65b02c2',
       });
     }
-    const storeFCMToken = async (Dtoken: string) => {
-      try {
-        await AsyncStorageWrapper.setItem('fcmToken', Dtoken);
-      } catch (error) {
-        log.error('Error storing FCM token:', error);
-      }
-    };
-    const onTokenRefresh = async (DnewToken: string) => {
-      try {
-        const storedToken = await AsyncStorageWrapper.getItem('fcmToken');
-        if (storedToken !== DnewToken) {
-          await storeFCMToken(DnewToken);
-        }
-      } catch (error) {
-        log.error('Error handling FCM token refresh:', error);
-      }
-    };
 
     const requestFCMPermission = async () => {
       try {
@@ -100,7 +100,7 @@ const useLoginscreen = () => {
     };
 
     requestFCMPermission();
-    firebase?.messaging().onTokenRefresh(onTokenRefresh);
+    firebase?.messaging()?.onTokenRefresh(onTokenRefresh);
     firebase?.messaging().setBackgroundMessageHandler(backgroundMessageHandler);
   }, []);
 
@@ -115,7 +115,7 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
-    const Fcm_token = await messaging().getToken();
+    const Fcm_token = await messaging()?.getToken();
     await AsyncStorageWrapper.setItem('device_token', Fcm_token);
 
     try {

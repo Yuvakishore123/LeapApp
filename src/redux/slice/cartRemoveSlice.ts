@@ -3,12 +3,12 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {cartRemoveUrl} from '../../constants/apiRoutes';
 
-interface CartRemoeData {
+interface CartRemoveData {
   message: string;
   status: string;
 }
-interface CartRemoveState {
-  data: CartRemoeData;
+export interface CartRemoveState {
+  data: CartRemoveData;
   isLoader: boolean;
   isError: boolean;
   error: null | string;

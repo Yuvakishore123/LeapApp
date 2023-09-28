@@ -53,6 +53,7 @@ const LoginScreen = () => {
           placeholderTextColor={placeholadercolor()}
           value={formik.values.email}
           autoCapitalize="none"
+          testID="email"
           onChangeText={formik.handleChange('email')}
           onBlur={formik.handleBlur('email')}
         />
@@ -68,12 +69,14 @@ const LoginScreen = () => {
             placeholderTextColor={placeholadercolor()}
             value={formik.values.password}
             // secureTextEntry={true}
+            testID="password"
             onChangeText={formik.handleChange('password')}
             onBlur={formik.handleBlur('password')}
             secureTextEntry={!passwordVisible} // Use secureTextEntry based on passwordVisible state
           />
           <TouchableOpacity
             style={styles.eyeButton}
+            testID="eye-button"
             onPress={() => setPasswordVisible(!passwordVisible)}>
             <MaterialIcons
               size={22}

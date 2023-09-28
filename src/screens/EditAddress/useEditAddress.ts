@@ -15,13 +15,14 @@ const useEditAddress = () => {
   const response = useSelector(
     (state: {editAddressData: {data: any}}) => state.editAddressData.data,
   );
-  const [city, setCity] = useState(address.city);
-  const [state, setStateName] = useState(address.state);
-  const [addressid] = useState(address.id);
-  const [addressLine1, setAddressLine1] = useState(address.addressLine1);
-  const [addressLine2, setAddressLine2] = useState(address.addressLine2);
-  const [postalCode, setPostalCode] = useState(address.postalCode);
-  const [country, _setCountry] = useState(address.country);
+  const [city, setCity] = useState(address?.city || ''); // Use a default value if address or city is undefined
+
+  const [state, setStateName] = useState(address?.state || '');
+  const [addressid] = useState(address?.id || '');
+  const [addressLine1, setAddressLine1] = useState(address?.addressLine1);
+  const [addressLine2, setAddressLine2] = useState(address?.addressLine2);
+  const [postalCode, setPostalCode] = useState(address?.postalCode);
+  const [country, _setCountry] = useState(address?.country);
   const [selectedOption, setSelectedOption] = useState('Home');
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);

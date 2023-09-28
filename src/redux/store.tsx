@@ -16,7 +16,6 @@ import UserProductSlice from './slice/userProductSlice';
 import wishlistSlice from './slice/wishlistSlice';
 import cartSlice from './slice/cartSlice';
 import orderSlice from './slice/orderSlice';
-import editItemSlice from './slice/editItemSlice';
 import thunk from 'redux-thunk';
 import loginSlice from './slice/loginSlice';
 import signupSlice from './slice/signupSlice';
@@ -48,7 +47,7 @@ export const RootReducers = combineReducers({
   WishlistProducts: wishlistSlice,
   CartProducts: cartSlice,
   OrderProducts: orderSlice,
-  editItem: editItemSlice,
+
   login: loginSlice,
   signup: signupSlice,
   wishlist: wishlistSlice,

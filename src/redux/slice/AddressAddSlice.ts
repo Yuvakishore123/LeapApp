@@ -6,7 +6,7 @@ interface AddressAddData {
   message: string;
   status: string;
 }
-interface AddressAddState {
+export interface AddressAddState {
   data: AddressAddData;
   isLoader: boolean;
   isError: boolean;
@@ -55,7 +55,8 @@ const AddressAddThunk = createSlice({
       state.data = action.payload;
     },
     setError: (state, action) => {
-      state.data = action.payload;
+      state.isError = true;
+      state.error = action.payload;
     },
   },
   extraReducers: builder => {

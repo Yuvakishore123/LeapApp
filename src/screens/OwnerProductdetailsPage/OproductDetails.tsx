@@ -45,7 +45,7 @@ const OproductDetails: React.FC<Props> = ({route, navigation}: Props) => {
       </View>
       <ScrollView horizontal={true}>
         <View style={styles.productImagecon}>
-          {product.imageUrl.map((item: any) => (
+          {product.imageUrl?.map((item: any) => (
             <ImageBackground
               testID="product-image"
               key={item}

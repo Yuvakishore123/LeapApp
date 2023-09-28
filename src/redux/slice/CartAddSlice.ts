@@ -5,7 +5,7 @@ interface CartAddData {
   message: string;
   status: string;
 }
-interface CartAddState {
+export interface CartAddState {
   data: CartAddData;
   isLoader: boolean;
   isError: boolean;
@@ -36,9 +36,8 @@ export const CartAdd = createAsyncThunk(
 
       return response;
     } catch (error: any) {
-      if (error.response) {
-        dispatch(setError(error.response));
-      }
+      dispatch(setError(error.response));
+
       return error.response;
     }
   },
@@ -62,6 +61,7 @@ const cartThunk = createSlice({
       .addCase(CartAdd.fulfilled, (state, action) => {
         state.isLoader = false;
         state.data = action.payload;
+        state.isError = false;
       })
       .addCase(CartAdd.rejected, (state, action) => {
         state.isLoader = false;
