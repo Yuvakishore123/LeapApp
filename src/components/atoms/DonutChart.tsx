@@ -84,6 +84,7 @@ const Donut = ({
   return (
     <View>
       <Svg
+        testID="svg-circle"
         width={radius * 2}
         height={radius * 2}
         viewBox={`0 0 ${halfCircle * 2} ${halfCircle * 2}`}>

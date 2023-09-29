@@ -11,7 +11,7 @@ export interface CategoryData {
   subcategoryName: string;
 }
 
-interface CategoryState {
+export interface CategoryState {
   data: CategoryData;
   isLoader: boolean;
   isError: boolean;

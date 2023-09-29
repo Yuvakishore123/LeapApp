@@ -1,0 +1,125 @@
+import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
+import ApiService from 'network/network';
+import reducer, {
+  fetchCategoriesProductsdata,
+  setData,
+  setError,
+  CategoryProductState,
+} from '../../../src/redux/slice/categoryProductsSlice';
+import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
+jest.mock('@react-native-community/netinfo', () => ({
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
+}));
+jest.mock('@react-native-async-storage/async-storage', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+}));
+describe('categoryproducts', () => {
+  let store: ToolkitStore<
+    {fetchcategoryProductsData: unknown},
+    AnyAction,
+    [ThunkMiddleware<{fetchcategoryProductsData: unknown}, AnyAction>]
+  >;
+
+  beforeEach(() => {
+    store = configureStore({
+      reducer: {
+        fetchcategoryProductsData: reducer,
+      },
+    });
+  });
+  const initialState = {
+    data: [],
+    isLoader: false,
+    isError: false,
+    error: null,
+  };
+  const mockId = 20;
+  const mockData = {
+    availableQuantities: 10,
+    brand: 'Sample Brand',
+    categoryIds: [1, 2],
+    color: 'Sample Color',
+    description: 'Sample Description',
+    disabled: false,
+    disabledQuantities: 2,
+    id: 1,
+    imageUrl: ['sample-image-1.jpg', 'sample-image-2.jpg'],
+    material: 'Sample Material',
+    name: 'Sample Product',
+    price: 99.99,
+    rentedQuantities: 3,
+    size: 'Sample Size',
+    subcategoryIds: [3, 4],
+    totalQuantity: 15,
+  };
+
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should return the initial state', () => {
+    expect(store.getState().fetchcategoryProductsData).toEqual(initialState);
+  });
+  it('should handle fetchCartProducts.fulfilled action', async () => {
+    jest.spyOn(ApiService, 'get').mockResolvedValue(mockData);
+
+    await store.dispatch(fetchCategoriesProductsdata(mockId));
+    const state = store.getState()
+      .fetchcategoryProductsData as CategoryProductState;
+    expect(state.isLoader).toBe(false);
+    expect(state.data).toEqual(mockData);
+  });
+
+  it('should handle fetchCartProducts.rejected action', async () => {
+    const mockError = new Error('Some error message');
+    jest.spyOn(ApiService, 'get').mockRejectedValueOnce(mockError);
+
+    store.dispatch(fetchCategoriesProductsdata(mockId)).catch(() => {
+      const state = store.getState()
+        .fetchcategoryProductsData as CategoryProductState;
+      expect(state.isLoader).toBe(false);
+      expect(state.isError).toBe(true);
+      expect(state.error).toEqual(mockError);
+    });
+  });
+  // it('should handle setData correctly', () => {
+  //   const newState = reducer(
+  //     undefined,
+  //     setData({
+  //       availableQuantities: 10,
+  //       brand: 'Sample Brand',
+  //       categoryIds: [1, 2],
+  //       color: 'Sample Color',
+  //       description: 'Sample Description',
+  //       disabled: false,
+  //       disabledQuantities: 2,
+  //       id: 1,
+  //       imageUrl: ['sample-image-1.jpg', 'sample-image-2.jpg'],
+  //       material: 'Sample Material',
+  //       name: 'Sample Product',
+  //       price: 99.99,
+  //       rentedQuantities: 3,
+  //       size: 'Sample Size',
+  //       subcategoryIds: [3, 4],
+  //       totalQuantity: 15,
+  //     }),
+  //   );
+
+  //   expect(newState.data.availableQuantities).toBe(10);
+  //   expect(newState.data.status).toBe('OK');
+  // });
+  it('should handle setError', () => {
+    const payload = {message: 'Error message', status: 'ERROR'};
+    const action = setError(payload);
+    const newState = reducer(initialState, action);
+
+    expect(newState.data).toEqual(initialState.data); // Ensure data remains the same
+    expect(newState.isLoader).toEqual(initialState.isLoader); // Ensure isLoader remains the same
+    expect(newState.isError).toBe(initialState.isError); // Ensure isError remains the same
+    expect(newState.error).toEqual(payload); // Check the error field
+  });
+});

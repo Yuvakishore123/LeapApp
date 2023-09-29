@@ -23,12 +23,14 @@ const OwnerRentalScreen = () => {
         <View>
           {!imageLoaded && (
             <Image
+              testID="image-loaded"
               source={require('../../../assets/imageload1.png')}
               style={OwnerRentalstyles.Productimage}
             />
           )}
           <Image
             source={{uri: item.imageUrl}}
+            testID="owner-rental-image"
             style={[
               OwnerRentalstyles.Productimage,
               {display: imageLoaded ? 'flex' : 'none'},

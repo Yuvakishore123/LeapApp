@@ -67,7 +67,9 @@ const MyOrder = () => {
             justifyContent: 'center',
           }}
         />
-        <Text style={{color: Colors.white, marginLeft: '30%'}}>
+        <Text
+          style={{color: Colors.white, marginLeft: '30%'}}
+          testID="loading-text">
           The Items are Loading...
         </Text>
       </View>
@@ -178,6 +180,7 @@ export const OrderDetailsModal = ({
   return (
     <Modal
       visible={true}
+      testID="order-details-modal"
       animationType="slide"
       transparent={false}
       onRequestClose={onClose}>

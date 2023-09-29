@@ -49,7 +49,7 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
   };
 
   return (
-    <View style={styles.mainContainer}>
+    <View style={styles.mainContainer} testID="mainContainer">
       {/* Button to select start date */}
       <TouchableOpacity
         style={buttonStyle}

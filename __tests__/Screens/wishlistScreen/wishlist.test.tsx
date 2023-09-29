@@ -12,6 +12,10 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('react-redux', () => ({
+  useSelector: jest.fn(),
+  useDispatch: jest.fn(),
+}));
 describe('Wishlist Screen', () => {
   beforeEach(() => {
     AsyncStorage.clear();

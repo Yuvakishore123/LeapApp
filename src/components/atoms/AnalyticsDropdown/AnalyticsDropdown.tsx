@@ -34,7 +34,9 @@ const AnalyticsDropdown = ({onSelect}: AnalyticsDropdownProps) => {
       {/* Render the dropdown if isOpen state is true */}
       {isOpen && (
         <View style={styles.dropdownConatiner}>
-          <TouchableOpacity onPress={() => handleSelect('quantity')}>
+          <TouchableOpacity
+            onPress={() => handleSelect('quantity')}
+            testID="quantity">
             <Text
               style={[
                 {color: selectedValue === 'quantity' ? 'blue' : 'black'},

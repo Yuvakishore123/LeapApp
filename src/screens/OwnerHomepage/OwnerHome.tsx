@@ -169,6 +169,7 @@ const OwnerHome = ({navigation}: Props) => {
           )}
           <Image
             source={{uri: item.imageUrl[0]}}
+            testID="avatar-image"
             style={[
               styles.recentlyaddedimage,
               {display: imageLoaded ? 'flex' : 'none'},

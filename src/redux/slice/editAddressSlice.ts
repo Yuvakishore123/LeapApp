@@ -5,7 +5,7 @@ interface EditAddressData {
   message: string;
   status: string;
 }
-interface EditAddressState {
+export interface EditAddressState {
   data: EditAddressData;
   isLoader: boolean;
   isError: boolean;

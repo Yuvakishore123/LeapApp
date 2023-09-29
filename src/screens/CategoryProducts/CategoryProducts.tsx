@@ -83,6 +83,7 @@ const CategoryProducts = ({route}: any) => {
                           )}
                           <Image
                             source={{uri: item.imageUrl[0]}}
+                            testID="productimage"
                             style={[
                               style.image,
                               {display: imageLoaded ? 'flex' : 'none'},

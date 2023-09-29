@@ -12,6 +12,7 @@ export const fetchCartProducts = createAsyncThunk(
       return response;
     } catch (error) {
       logMessage.error('error in fetching products in cart', error);
+      throw error;
     }
   },
 );

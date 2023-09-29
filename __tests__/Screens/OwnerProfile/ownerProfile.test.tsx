@@ -17,6 +17,19 @@ describe('OwnerProfile', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
+  jest.mock('../../../src/screens/Ownerprofile/useOwnerProfile', () => ({
+    __esModule: true,
+    default: jest.fn().mockReturnValue({
+      name: 'John Doe',
+      email: 'johndoe@example.com',
+      phonenumber: '1234567890',
+      isLoading: false,
+      pickImage: jest.fn(),
+      profilePic: 'https://example.com/profile.jpg',
+      handleRemoveProfilePic: jest.fn(),
+      isloading: false,
+    }),
+  }));
 
   test('should render OwnerProfile correctly', () => {
     const Stack = createNativeStackNavigator();

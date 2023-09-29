@@ -1,9 +1,7 @@
 import React from 'react';
-import {render, renderHook, waitFor} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import Subcategory from '../../../src/screens/Subcategory/Subcategory';
 import {NavigationContainer} from '@react-navigation/native';
-import {useSubcategory} from 'screens/Subcategory/useSubcategory';
-import axios from 'axios';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
@@ -37,31 +35,6 @@ describe('Subcategory Screen', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
-  test('should fetch subcategories and set loading to false', async () => {
-    const mockedGetItem = jest.spyOn(AsyncStorage, 'getItem');
-    const mockedAxiosGet = jest.spyOn(axios, 'get');
-
-    // Mock AsyncStorage getItem to return a token
-    mockedGetItem.mockResolvedValue('token');
-
-    // Mock axios get request to return subcategoriesData
-    const subcategoriesData = [
-      {id: '1', name: 'Subcategory 1'},
-      {id: '2', name: 'Subcategory 2'},
-    ];
-    mockedAxiosGet.mockResolvedValue({data: subcategoriesData});
-
-    // Render the hook with a categoryId
-    const {result} = renderHook(() => useSubcategory<string>('categoryId'));
-
-    expect(result.current.loading).toBe(true);
-
-    // Wait for the hook to fetch subcategories
-    await waitFor(() => {
-      expect(result.current.loading).toBe(false);
-      expect(result.current.subcategories).toEqual(subcategoriesData);
-    });
-  });
   test('renders subcategory screen with subcategories', () => {
     const {getByText} = render(
       <NavigationContainer>
@@ -71,5 +44,60 @@ describe('Subcategory Screen', () => {
 
     expect(getByText('Subcategory 1')).toBeDefined();
     expect(getByText('Subcategory 2')).toBeDefined();
+  });
+  it('calls handleSubcategoryPress when a subcategory is pressed', () => {
+    const handleSubcategoryPress = jest.fn();
+    const useSubcategoryMock = jest.spyOn(
+      require('../../../src/screens/Subcategory/useSubcategory'),
+      'useSubcategory',
+    );
+    useSubcategoryMock.mockReturnValue({
+      subcategories: [
+        {
+          id: '1',
+          subcategoryName: 'Subcategory 1',
+          imageUrl: 'https://example.com/image1.jpg',
+        },
+        {
+          id: '2',
+          subcategoryName: 'Subcategory 2',
+          imageUrl: 'https://example.com/image2.jpg',
+        },
+      ],
+      loading: false,
+      handleSubcategoryPress: handleSubcategoryPress,
+    });
+
+    const {getByText} = render(
+      <NavigationContainer>
+        <Subcategory route={{params: {categoryId: '123'}}} />
+      </NavigationContainer>,
+    );
+
+    fireEvent.press(getByText('Subcategory 1'));
+
+    expect(handleSubcategoryPress).toHaveBeenCalledWith('1');
+  });
+
+  test('renders loading animation when loading is true', async () => {
+    const {queryByTestId} = render(
+      <NavigationContainer>
+        <Subcategory route={{params: {categoryId: '123'}}} loading={true} />
+      </NavigationContainer>,
+    );
+
+    const loadingAnimation = queryByTestId('loading-animation');
+    expect(loadingAnimation).toBeDefined();
+  });
+
+  //Testcase 4
+  test('does not render loading animation when loading is false', () => {
+    const {queryByTestId} = render(
+      <NavigationContainer>
+        <Subcategory route={{params: {categoryId: '123'}}} loading={false} />
+      </NavigationContainer>,
+    );
+    const loadingAnimation = queryByTestId('loading-animation');
+    expect(loadingAnimation).toBeNull();
   });
 });

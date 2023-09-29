@@ -33,13 +33,13 @@ export const removefromCart = createAsyncThunk(
     } catch (error) {
       logMessage.error('error in removing of product in cart ', error);
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );
 
 const cartRemoveThunk = createSlice({
-  name: 'removefromCartData',
+  name: 'removefromCart',
   initialState,
   reducers: {
     setData: (state, action) => {

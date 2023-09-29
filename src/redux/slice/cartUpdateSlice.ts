@@ -9,7 +9,7 @@ interface CartData {
   message: string;
   status: string;
 }
-interface CartDataState {
+export interface CartDataState {
   data: CartData;
   isLoader: boolean;
   isError: boolean;
@@ -43,7 +43,7 @@ export const updateCart = createAsyncThunk(
 );
 
 const cartUpdateThunk = createSlice({
-  name: 'updateCartData',
+  name: 'updateCart',
   initialState,
   reducers: {
     setData: (state, action) => {

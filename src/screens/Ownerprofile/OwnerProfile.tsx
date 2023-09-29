@@ -54,12 +54,17 @@ const OwnerProfile = ({navigation}: Props) => {
         </View>
       );
     } else if (data.profileImageUrl) {
-      return <Avatar.Image size={100} source={{uri: data.profileImageUrl}} />;
+      return (
+        <Avatar.Image
+          size={100}
+          testID="avatar-image"
+          source={{uri: data.profileImageUrl}}
+        />
+      );
     } else {
       return (
         <View testID="avatar-container">
           <Avatar.Image
-            testID="profile-image"
             size={100}
             source={require('../../../assets/profile.jpg')}
           />
