@@ -47,12 +47,27 @@ describe('Wishlist  Slice', () => {
     const state = store.getState().wishlist; // Assuming AddressAddState is the correct type
     expect(state.isError).toBe(false);
   });
-  it('should handle the ` `fetchProducts .fulfilled` actions correctly', async () => {
+  it('should handle the  `fetchWishlistProducts .fulfilled` actions correctly', async () => {
     const responseData = [
-      {id: 1, name: 'Product 1'},
-      {id: 2, name: 'Product 2'},
+      {
+        availableQuantities: 10,
+        brand: 'Example Brand',
+        categoryIds: [1, 2],
+        color: 'Blue',
+        description: 'This is a sample product description.',
+        disabled: false,
+        disabledQuantities: 2,
+        id: 12345,
+        imageUrl: ['https://example.com/product_image.jpg'],
+        material: 'Cotton',
+        name: 'Sample Product',
+        price: 29.99,
+        rentedQuantities: 5,
+        size: 'Medium',
+        subcategoryIds: [3, 4],
+        totalQuantity: 20,
+      },
     ];
-
     jest.spyOn(ApiService, 'get').mockResolvedValue(responseData);
 
     // Dispatch the FliterAnalyticslist action with your mockItem
@@ -70,7 +85,7 @@ describe('Wishlist  Slice', () => {
     // Assert that the isError state is set to false
     expect(state.isError).toBe(false);
   });
-  it('should handle the `fetchProducts.rejected` action correctly', async () => {
+  it('should handle the `fetchWishlistProducts.rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
     jest.spyOn(ApiService, 'get').mockRejectedValueOnce(errorMessage);
 

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useContext} from 'react';
 import {useSelector} from 'react-redux';
 import {
   Image,
@@ -13,27 +13,21 @@ import Lottie from 'lottie-react-native';
 
 import useWishlist from './useWishlist';
 
-import Colors from '../../constants/colors';
-import Styles from '../../constants/themeColors';
 import style from './wishlistStyles';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import Toast from 'react-native-toast-message';
 import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
+import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 type Props = {
   route: {name: string};
   navigation: any;
 };
 const Wishlist = ({navigation}: Props) => {
-  const {
-    WishlistProducts,
-    wishlistremove,
-    closeModal,
-    showModal,
-    openModal,
-    colorScheme,
-  } = useWishlist();
-
+  const {WishlistProducts, wishlistremove, closeModal, showModal, openModal} =
+    useWishlist();
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
+    useContext(ColorSchemeContext);
   const {refreshing, onRefresh} = useWishlist();
   const allWishlistProducts = useSelector(
     (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
@@ -47,10 +41,12 @@ const Wishlist = ({navigation}: Props) => {
   if (isLoading || !WishlistProducts) {
     return (
       <View
-        style={{
-          flex: 1,
-          backgroundColor: colorScheme === 'dark' ? Colors.black : Colors.main,
-        }}>
+        style={[
+          {
+            flex: 1,
+          },
+          getContainerStyle(),
+        ]}>
         <Lottie
           source={require('../../../assets/loading2.json')}
           autoPlay
@@ -62,102 +58,66 @@ const Wishlist = ({navigation}: Props) => {
   }
 
   return (
-    <View
-      style={[
-        style.maincontainer,
-        colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-      ]}>
+    <View style={[style.maincontainer, getContainerStyle()]}>
       <ScrollView
         refreshControl={
           <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
         }>
-        <Text
-          style={[
-            style.textStylewishlist,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
-          Wishlist
-        </Text>
-        <View
-          style={[
-            style.textConatiner,
-            colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-          ]}>
-          <Text
-            style={[
-              style.textStyle,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+        <Text style={[style.textStylewishlist, getTextColor()]}>Wishlist</Text>
+        <View style={[style.textConatiner, getContainerStyle()]}>
+          <Text style={[style.textStyle, getTextColor()]}>
             My favorites ({allWishlistProducts.length})
           </Text>
         </View>
         {allWishlistProducts.length === 0 ? (
           <>
-            <View
-              style={[
-                style.lottieStyle,
-                colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-              ]}>
+            <View style={[style.lottieStyle, getContainerStyle()]}>
               <Lottie
                 source={require('../../../assets/wishlistanime.json')}
                 autoPlay
                 style={style.lottieImage}
               />
-              <Text style={style.Emptytext}>Your wishlist is empty</Text>
+              <Text style={style.Emptytext} testID="wishlist-Loading">
+                Your wishlist is empty
+              </Text>
             </View>
           </>
         ) : (
-          <View
-            style={[
-              style.maincontainer,
-              colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-            ]}>
+          <View style={[style.maincontainer, getContainerStyle()]}>
             <View style={style.wishlistViewContaner}>
               <View style={style.whishlistView}>
                 {allWishlistProducts?.map(item => {
                   return (
                     <View style={style.wishlistConatinerwrap} key={item.id}>
                       <View
-                        style={[
-                          style.container,
-                          colorScheme === 'dark'
-                            ? Styles.cardColor
-                            : Styles.main,
-                        ]}>
+                        style={[style.container, getTextInputStyle()]}
+                        testID={`wishlist-${item.id}`}>
                         <TouchableOpacity
+                          testID={`wishlist-Button-${item.id}`}
                           onPress={() =>
                             navigation.navigate('UProductDetails', {
                               product: item,
                             })
                           }>
                           <View style={style.imageContainer}>
-                            <ImageComponent imageUrl={item.imageUrl[0]} />
+                            <ImageComponent imageUrl={item?.imageUrl[0]} />
                           </View>
                         </TouchableOpacity>
                         <View style={style.cardTextContainer}>
                           <View style={style.Cartcontents}>
                             <Text
-                              style={[
-                                style.name,
-                                colorScheme === 'dark'
-                                  ? Styles.whitetext
-                                  : Styles.blackText,
-                              ]}>
+                              testID={`ProductName-${item.id}`}
+                              style={[style.name, getTextColor()]}>
                               {item.name}
                             </Text>
                           </View>
-                          <View
-                            style={[
-                              style.textContainer,
-                              colorScheme === 'dark'
-                                ? Styles.whitetext
-                                : Styles.blackText,
-                            ]}>
+                          <View style={[style.textContainer, getTextColor()]}>
                             <Text style={style.price}>{'₹' + item.price}</Text>
                           </View>
                         </View>
                         <TouchableOpacity
                           style={style.wishlistButton}
+                          testID={`Wishlist-remove-${item.id}`}
                           onPress={() => wishlistremove(item.id)}
                           onPressIn={() => openModal()}>
                           <Image

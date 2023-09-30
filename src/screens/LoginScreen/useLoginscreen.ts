@@ -19,7 +19,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 
 import {logMessage} from '../../helpers/helper';
 import AsyncStorageWrapper from '../..//utils/asyncStorage';
-import {StatusCodes} from 'src/utils/statusCodes';
+import {StatusCodes} from '../../utils/statusCodes';
 
 type RootStackParamList = {
   OtpScreen: undefined;

@@ -125,7 +125,9 @@ const Cart = () => {
                     <View style={style.subContainer}>
                       <View style={style.cardTextContainer}>
                         <View style={{width: 100, height: 20}}>
-                          <Text style={[style.productname, getTextColor()]}>
+                          <Text
+                            testID={`product-name-${item.id}`}
+                            style={[style.productname, getTextColor()]}>
                             {item.product.name}
                           </Text>
                         </View>

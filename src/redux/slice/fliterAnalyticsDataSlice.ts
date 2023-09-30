@@ -4,16 +4,13 @@ import {url} from '../../constants/Apis';
 import {logMessage} from 'helpers/helper';
 
 export interface FilterAnalyticsState {
-  data: any | null; // Replace 'any' with the actual type of your data
+  data: null; // Replace 'any' with the actual type of your data
   isLoader: boolean;
   isError: boolean;
   error: null | string;
 }
 const initialState: FilterAnalyticsState = {
-  data: {
-    message: '',
-    status: '',
-  },
+  data: null,
   isLoader: false,
   isError: false,
   error: null,

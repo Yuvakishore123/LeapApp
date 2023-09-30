@@ -43,10 +43,7 @@ describe('Filter Analytics  Slice', () => {
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {type: undefined})).toEqual({
-      data: {
-        message: '',
-        status: '',
-      },
+      data: null,
       isLoader: false,
       isError: false,
       error: null,
@@ -54,22 +51,28 @@ describe('Filter Analytics  Slice', () => {
   });
   test('should handle a Data being added to an empty list', () => {
     const previousState: FilterAnalyticsState = {
-      data: {
-        message: '',
-        status: '',
-      },
+      data: null,
       isLoader: false,
       isError: false,
       error: null,
     };
 
-    const successPayload = {
-      message: 'Success',
-      status: 'OK',
+    const mockApiResponse = {
+      borrowerEmail: 'example@email.com',
+      borrowerId: 123,
+      borrowerName: 'John Doe',
+      borrowerPhoneNumber: '123-456-7890',
+      imageUrl: 'https://example.com/image.jpg',
+      name: 'Product Name',
+      productId: 456,
+      quantity: 2,
+      rentalCost: 50.99,
+      rentalEndDate: '2023-09-27T11:55:52.957Z',
+      rentalStartDate: '2023-09-25T11:55:52.957Z',
     };
 
-    expect(reducer(previousState, setData(successPayload))).toEqual({
-      data: successPayload,
+    expect(reducer(previousState, setData(mockApiResponse))).toEqual({
+      data: mockApiResponse,
       isLoader: false,
       isError: false,
       error: null,
