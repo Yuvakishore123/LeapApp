@@ -48,7 +48,6 @@ instance.interceptors.response.use(
     ) {
       originalRequest._retry = true;
       const refreshToken = await AsyncStorageWrapper.getItem('refresh_token');
-      console.log(refreshToken);
 
       return axios
         .post(`${url}/user/refreshToken`, null, {

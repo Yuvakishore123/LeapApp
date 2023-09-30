@@ -10,6 +10,7 @@ export const fetchWishlistProducts = createAsyncThunk(
       return res;
     } catch (error) {
       dispatch(setError(error));
+      throw error;
     }
   },
 );
@@ -18,7 +19,6 @@ const WishlistSlice = createSlice({
   name: 'WishlistProducts',
   initialState: {
     data: null,
-
     isLoader: false,
     isError: false,
     error: null,

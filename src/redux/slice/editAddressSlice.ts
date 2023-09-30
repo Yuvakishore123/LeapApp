@@ -48,7 +48,7 @@ export const editAddressData = createAsyncThunk(
       return response;
     } catch (error: any) {
       log.error('error', error);
-      return error;
+      throw error;
     }
   },
 );

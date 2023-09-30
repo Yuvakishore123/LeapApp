@@ -33,7 +33,7 @@ export const updateCart = createAsyncThunk(
       return response;
     } catch (error) {
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );

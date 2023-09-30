@@ -26,7 +26,6 @@ export const postLogin = createAsyncThunk(
       return response;
     } catch (error: any) {
       log.error('error during login  ', error.response.status);
-      console.log(error);
       dispatch(setError(error.response.status));
       throw error;
     }
@@ -60,7 +59,6 @@ const loginThunk = createSlice({
       .addCase(postLogin.fulfilled, (state, action) => {
         state.isLoader = false;
         state.data = {
-          ...state,
           authToken: action.payload,
           isAuthenticated: true,
         };

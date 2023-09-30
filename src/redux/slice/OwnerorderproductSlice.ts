@@ -29,6 +29,7 @@ export const ownerorderproducts = createAsyncThunk(
       return products;
     } catch (error) {
       log.error('error during fetching rental items', error);
+      throw error;
     }
   },
 );

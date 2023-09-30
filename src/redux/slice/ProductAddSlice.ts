@@ -1,25 +1,46 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {productaddUrl} from '../../constants/apiRoutes';
-interface ProductAddData {
-  message: string;
-  status: string;
+export interface ProductData {
+  brand: string;
+  categoryIds: [];
+  color: string;
+  name: string;
+  description: string;
+  id: number;
+  imageUrl: string[];
+  material: string;
+  price: string;
+  totalQuantity: string;
+  size: string;
+  subcategoryIds: [];
 }
-interface ProductAddState {
-  data: ProductAddData;
+export interface ProductAddState {
+  data: ProductData;
   isLoader: boolean;
   isError: boolean;
   error: null | string;
 }
 const initialState: ProductAddState = {
   data: {
-    message: '',
-    status: '',
+    brand: '',
+    categoryIds: [],
+    color: '',
+    name: '',
+    description: '',
+    id: 0,
+    imageUrl: [],
+    material: '',
+    price: '',
+    totalQuantity: '',
+    size: '',
+    subcategoryIds: [],
   },
   isLoader: false,
   isError: false,
   error: null,
 };
+
 export const ProductAdd = createAsyncThunk(
   'ProductAdd',
   async (

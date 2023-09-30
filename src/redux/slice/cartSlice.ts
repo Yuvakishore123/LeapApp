@@ -65,6 +65,7 @@ export const fetchCartProducts = createAsyncThunk(
       return response;
     } catch (error) {
       log.error('error during fetching cart details');
+      throw error;
     }
   },
 );

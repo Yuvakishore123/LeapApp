@@ -19,6 +19,7 @@ import crashlytics from '@react-native-firebase/crashlytics';
 
 import {logMessage} from '../../helpers/helper';
 import AsyncStorageWrapper from '../..//utils/asyncStorage';
+import {StatusCodes} from 'src/utils/statusCodes';
 
 type RootStackParamList = {
   OtpScreen: undefined;
@@ -105,9 +106,9 @@ const useLoginscreen = () => {
   }, []);
 
   const handleErrorResponse = (error: number) => {
-    if (error === 401) {
+    if (error === StatusCodes.UNAUTHORIZED) {
       openModal();
-    } else if (error === 404) {
+    } else if (error === StatusCodes.NOT_FOUND) {
       navigation.navigate('ApiErrorScreen', {status: 404});
     }
   };

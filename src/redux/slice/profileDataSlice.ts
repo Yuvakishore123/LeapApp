@@ -4,7 +4,7 @@ import ApiService from '../../network/network';
 import {profileDataUrl} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 
-interface ProfileData {
+export interface ProfileData {
   email: string;
   firstName: string;
   lastName: string;
@@ -12,7 +12,7 @@ interface ProfileData {
   profileImageUrl: string;
   role: string;
 }
-interface ProfileDataState {
+export interface ProfileDataState {
   data: ProfileData;
   isLoader: boolean;
   isError: boolean;
@@ -40,7 +40,7 @@ export const getProfileData = createAsyncThunk('getProfileData', async () => {
     return response;
   } catch (error) {
     log.error('error ', error);
-    return error;
+    throw error;
   }
 });
 

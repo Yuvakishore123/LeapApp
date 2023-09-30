@@ -28,6 +28,7 @@ export const fetchOrderProducts = createAsyncThunk(
       return response;
     } catch (error) {
       log.error('error in fetching order details');
+      throw error;
     }
   },
 );

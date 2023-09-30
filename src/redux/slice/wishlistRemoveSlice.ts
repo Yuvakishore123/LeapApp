@@ -7,7 +7,7 @@ interface WishlistData {
   message: string;
   status: string;
 }
-interface WishlistDataState {
+export interface WishlistDataState {
   data: WishlistData;
   isLoader: boolean;
   isError: boolean;
@@ -28,13 +28,13 @@ export const wishListRemove = createAsyncThunk(
   async (productId: string, {dispatch}) => {
     try {
       const response = await ApiService.delete(
-        `${wishListRemoveUrl}${productId}`,
+        `${wishListRemoveUrl}/${productId}`,
       );
 
       return response;
     } catch (error) {
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );

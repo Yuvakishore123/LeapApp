@@ -10,7 +10,7 @@ export interface SubCategoryData {
   subcategoryName: string;
 }
 
-interface SubCategoryState {
+export interface SubCategoryState {
   data: SubCategoryData;
   isLoader: boolean;
   isError: boolean;
@@ -45,7 +45,7 @@ export const getsubcategoryData = createAsyncThunk(
 );
 
 const subcategoryThunk = createSlice({
-  name: 'profileData',
+  name: 'SubCategoryData',
   initialState,
   reducers: {
     setSubcategoryData: (state, action) => {
