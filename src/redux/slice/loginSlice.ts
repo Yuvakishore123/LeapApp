@@ -5,7 +5,27 @@ import {url} from '../../constants/Apis';
 import {logger} from 'react-native-logs';
 import {defaultConfig} from '../../helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+export interface LoginData {
+  authToken: null | string;
+  isAuthenticated: boolean;
+}
 
+export interface LoginState {
+  data: LoginData;
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string;
+}
+
+const initialState: LoginState = {
+  data: {
+    authToken: null,
+    isAuthenticated: false,
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
 export const postLogin = createAsyncThunk(
   'postLogin',
   async (
@@ -29,7 +49,6 @@ export const postLogin = createAsyncThunk(
       return response;
     } catch (error: any) {
       logMessage.error('error recieved during Login');
-      console.log('yokes bhosidike', error);
       dispatch(setError(error.response.status));
       throw error;
     }
@@ -38,15 +57,7 @@ export const postLogin = createAsyncThunk(
 
 const loginThunk = createSlice({
   name: 'loginData',
-  initialState: {
-    data: {
-      authToken: null,
-      isAuthenticated: false,
-    },
-    isLoader: false,
-    isError: false,
-    error: null,
-  },
+  initialState,
   reducers: {
     setLoginData: (state, action) => {
       state.data = action.payload;

@@ -4,6 +4,28 @@ import {url} from '../../constants/Apis';
 
 import ApiService from '../../network/network';
 import {logMessage} from 'helpers/helper';
+
+export interface OrderData {
+  message: string;
+  status: string;
+}
+
+export interface OrderdataState {
+  data: OrderData;
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string;
+}
+
+const initialState: OrderdataState = {
+  data: {
+    message: '',
+    status: '',
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
 export const ownerorderproducts = createAsyncThunk(
   'ownerorderproducts',
   async (status: string) => {
@@ -14,17 +36,14 @@ export const ownerorderproducts = createAsyncThunk(
       return products;
     } catch (error) {
       logMessage.error('error in ownerorderproducts', error);
+      throw error;
     }
   },
 );
 
 const ownerorderproductsSlice = createSlice({
   name: 'ownerorderproducts',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder

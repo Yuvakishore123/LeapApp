@@ -3,24 +3,38 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {listAddressUrl} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
-
+export interface ListAddressData {
+  message: string;
+  status: string;
+}
+export interface ListAddressState {
+  data: ListAddressData;
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string;
+}
+const initialState: ListAddressState = {
+  data: {
+    message: '',
+    status: '',
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
 export const ListAddress = createAsyncThunk('ListAddress', async () => {
   try {
     const response = await ApiService.get(listAddressUrl);
     return response;
   } catch (error) {
     logMessage.error('error in listing of Address', error);
-    return error;
+    throw error;
   }
 });
 
 const listAddressThunk = createSlice({
   name: 'listAddressData',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {
     setData: (state, action) => {
       state.data = action.payload;

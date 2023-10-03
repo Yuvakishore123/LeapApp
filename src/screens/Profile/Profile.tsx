@@ -60,7 +60,7 @@ const Profile = ({navigation}: Props) => {
           <ActivityIndicator size="large" color="gray" />
         </View>
       );
-    } else if (data.profileImageUrl) {
+    } else if (data?.profileImageUrl) {
       return (
         <View testID="avatar-container">
           <Avatar.Image
@@ -112,11 +112,13 @@ const Profile = ({navigation}: Props) => {
 
         <View style={style.uploadButtoncontainer}>
           <TouchableOpacity
+            testID="uploadimage"
             style={style.uploadButton}
             onPress={checkPermission}>
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            testID="removeProfile"
             style={style.removeButton}
             onPress={() => {
               handleRemoveProfilePic();
@@ -135,13 +137,13 @@ const Profile = ({navigation}: Props) => {
         ) : (
           <View style={[style.card, getTextInputStyle()]}>
             <Text style={[style.profileText, getPlaceholderTextColor()]}>
-              {data.firstName}
+              {data?.firstName}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.email}
+              {data?.email}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.phoneNumber}
+              {data?.phoneNumber}
             </Text>
           </View>
         )}

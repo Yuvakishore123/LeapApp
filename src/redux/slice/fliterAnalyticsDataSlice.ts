@@ -2,7 +2,26 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {url} from '../../constants/Apis';
 import {logMessage} from 'helpers/helper';
+export interface FliterAnalyticsData {
+  message: string;
+  status: string;
+}
+export interface FilteranalyticsState {
+  data: FliterAnalyticsData;
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string;
+}
 
+const initialState: FilteranalyticsState = {
+  data: {
+    message: '',
+    status: '',
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
 export const FliterAnalyticslist = createAsyncThunk(
   'FliterAnalyticslist',
   async (item: {formattedStartDate: string; formattedEndDate: string}) => {
@@ -23,11 +42,7 @@ export const FliterAnalyticslist = createAsyncThunk(
 );
 const FilterAnaltyicsThunk = createSlice({
   name: 'FilterAnaltyicsData',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {
     setData: (state, action) => {
       state.data = action.payload;

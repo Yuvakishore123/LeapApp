@@ -1,9 +1,15 @@
 /* eslint-disable @typescript-eslint/no-unused-vars */
-import {render} from '@testing-library/react-native';
+import {
+  act,
+  fireEvent,
+  render,
+  renderHook,
+} from '@testing-library/react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ApiService from '../../../src/network/network';
 import SearchResultsScreen from '../../../src/screens/SearchResultScreen/SearchResultScreen';
+import useSearchresults from 'screens/SearchResultScreen/useSearchResults';
 jest.mock('../../../src/network/network', () => ({
   get: jest.fn(),
 }));
@@ -13,9 +19,16 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('@react-navigation/native', () => ({
-  useNavigation: jest.fn(() => ({goBack: jest.fn()})),
-}));
+const mockNav = jest.fn();
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({
+      navigate: mockNav,
+    }),
+  };
+});
 describe('SearchResultScreen', () => {
   beforeEach(() => {
     // Clear AsyncStorage before each test
@@ -67,6 +80,37 @@ describe('SearchResultScreen', () => {
     const renderedItems = getAllByTestId('item-touchable');
     expect(renderedItems.length).toBe(searchResults.length);
   });
+  test('filter modal should open when TouchableOpacity is pressed', () => {
+    const searchResults = [
+      {
+        id: 1,
+        name: 'Product 1',
+        price: 10,
+        imageUrl: ['https://example.com/image1.jpg'],
+      },
+      {
+        id: 2,
+        name: 'Product 2',
+        price: 20,
+        imageUrl: ['https://example.com/image2.jpg'],
+      },
+      {
+        id: 3,
+        name: 'Product 3',
+        price: 30,
+        imageUrl: ['https://example.com/image3.jpg'],
+      },
+    ];
+    const {getByTestId} = render(
+      <SearchResultsScreen route={{params: {searchResults}}} />,
+    );
+
+    const touchableOpacity = getByTestId('filter-apply-button');
+
+    fireEvent.press(touchableOpacity);
+    const apply = getByTestId('Apply');
+    fireEvent.press(apply);
+  });
 
   test('renders no results message when search results are empty', () => {
     const {getByText} = render(
@@ -75,5 +119,38 @@ describe('SearchResultScreen', () => {
 
     const noResultsText = getByText('Umm...No results found');
     expect(noResultsText).toBeTruthy();
+  });
+  test('navigates to UProductDetailsScreen when TouchableOpacity is pressed', () => {
+    const searchResults = [
+      {
+        id: 1,
+        name: 'Product 1',
+        price: 10,
+        imageUrl: ['https://example.com/image1.jpg'],
+      },
+    ];
+    const {getByTestId} = render(
+      <SearchResultsScreen route={{params: {searchResults: searchResults}}} />,
+    );
+
+    // Find the TouchableOpacity element
+    const touchableOpacity = getByTestId('item-touchable');
+
+    // Simulate a press event on the TouchableOpacity element
+    fireEvent.press(touchableOpacity);
+  });
+  test('should handle errors when filtering data', async () => {
+    // Mock ApiService.get to throw an error
+    apiGetMock.mockRejectedValue(new Error('Network Error'));
+
+    const {result} = renderHook(() => useSearchresults());
+
+    // Wait for the asynchronous function to complete
+    await act(async () => {
+      await result.current.filterData();
+    });
+
+    // Assert that the setFilteredProducts function is called with an empty array
+    expect(result.current.filteredProducts).toEqual([]);
   });
 });

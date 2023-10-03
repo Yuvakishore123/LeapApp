@@ -47,7 +47,7 @@ export const fetchCategoriesProductsdata = createAsyncThunk(
       return response;
     } catch (error) {
       logMessage.error('error in fetchCategoriesProductsdata ', error);
-      return error;
+      throw error;
     }
   },
 );

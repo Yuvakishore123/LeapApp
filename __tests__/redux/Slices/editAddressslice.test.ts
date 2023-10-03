@@ -62,29 +62,42 @@ describe('edit Address slice', () => {
   it('should handle EditAddress.pending action', () => {
     const state = store.getState().editaddressdata as EditAddressState;
     expect(state.isLoader).toBe(false);
-    store.dispatch(editAddressData({mockeditAddressData, mockId}));
+    store.dispatch(
+      editAddressData({
+        updateaddress: mockeditAddressData,
+        addressid: mockId,
+      }),
+    );
     const newState = store.getState().editaddressdata as EditAddressState;
     expect(newState.isLoader).toBe(true);
   });
 
-  it('should handle EditAddress.fulfilled action', () => {
-    jest.spyOn(ApiService, 'post').mockResolvedValue(mockeditAddressData);
+  it('should handle EditAddress.fulfilled action', async () => {
+    jest.spyOn(ApiService, 'put').mockResolvedValue(mockeditAddressData);
 
-    return store
-      .dispatch(editAddressData({mockeditAddressData, mockId}))
-      .then(() => {
-        const state = store.getState().editaddressdata as EditAddressState;
-        expect(state.isLoader).toBe(false);
-        expect(state.data).toEqual(mockeditAddressData);
-      });
+    await store.dispatch(
+      editAddressData({
+        updateaddress: mockeditAddressData,
+        addressid: mockId,
+      }),
+    );
+
+    const state = store.getState().editaddressdata as EditAddressState;
+    expect(state.isLoader).toBe(false);
+    expect(state.data).toEqual(mockeditAddressData);
   });
 
   it('should handle EditAddress.rejected action', () => {
     const mockError = 'Some error message';
-    jest.spyOn(ApiService, 'get').mockRejectedValueOnce(mockError);
+    jest.spyOn(ApiService, 'put').mockRejectedValueOnce(mockError);
 
     return store
-      .dispatch(editAddressData({mockeditAddressData, mockId}))
+      .dispatch(
+        editAddressData({
+          updateaddress: mockeditAddressData,
+          addressid: mockId,
+        }),
+      )
       .catch(() => {
         const state = store.getState().editaddressdata as EditAddressState;
         expect(state.isLoader).toBe(false);

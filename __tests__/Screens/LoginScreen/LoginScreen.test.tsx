@@ -14,6 +14,10 @@ jest.mock('@react-native-firebase/analytics', () =>
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
+jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+}));
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),

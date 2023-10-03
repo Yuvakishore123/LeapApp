@@ -10,6 +10,16 @@ import DashboardDetails from 'screens/OwnerHomepage/DashboardDetails';
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
+const mockNav = jest.fn();
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({
+      navigate: mockNav,
+    }),
+  };
+});
 jest.mock('@react-native-firebase/in-app-messaging', () =>
   require('@react-native-firebase'),
 );
@@ -29,20 +39,7 @@ describe('Analytics Page', () => {
     AsyncStorage.clear();
   });
   test('renders Analytics correctly', () => {
-    const Stack = createNativeStackNavigator();
-
-    const result = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="DashboardDetails"
-              component={DashboardDetails}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
-    );
+    const result = render(<DashboardDetails />);
 
     expect(result).toBeDefined();
   });

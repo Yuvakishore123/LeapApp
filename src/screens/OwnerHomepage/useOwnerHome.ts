@@ -52,19 +52,6 @@ const useOwnerHome = () => {
     return unsubscribe;
   }, [navigation]);
 
-  const handleDisableProduct = (item: any) => {
-    setProductQuantity(item.availableQuantities);
-    setIsModalVisible(true);
-    setSelectedProductId(item.id);
-  };
-  const incrementQuantity = () => {
-    setProductQuantity(prevQuantity => prevQuantity + 1);
-  };
-  const decrementQuantity = () => {
-    if (productQuantity > 1) {
-      setProductQuantity(prevQuantity => prevQuantity - 1);
-    }
-  };
   const {dispatch} = useThunkDispatch();
   useEffect(() => {
     dispatch(fetchProducts() as any);
@@ -139,12 +126,6 @@ const useOwnerHome = () => {
     (state: {products: {data: any[]}}) => state.products.data,
   );
 
-  const handleAdditems = () => {
-    navigation.navigate('Additems');
-  };
-  const handleMyrentals = () => {
-    navigation.navigate('MyRentals');
-  };
   const handleAnalatyics = () => {
     HandlePiechart();
     navigation.navigate('DashboardDetails');
@@ -160,17 +141,12 @@ const useOwnerHome = () => {
 
   return {
     products,
-    handleAdditems,
     handleAnalatyics,
-    handleMyrentals,
-    handleDisableProduct,
-
+    setRefreshing,
     setIsModalVisible,
     setIsMinusDisabled,
     setIsPlusDisabled,
     setIsQuantity,
-    incrementQuantity,
-    decrementQuantity,
     isModalVisible,
     isMinusDisabled,
     isPlusDisabled,

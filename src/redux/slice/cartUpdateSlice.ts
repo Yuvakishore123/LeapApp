@@ -37,7 +37,7 @@ export const updateCart = createAsyncThunk(
       logMessage.error('error in updating product in cart', error);
       console.log('error in updating product in cart', error);
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );

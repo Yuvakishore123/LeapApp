@@ -21,7 +21,6 @@ const useSearchresults = () => {
 
       setFilteredProducts(response);
     } catch (error) {
-      console.error('Error fetching filtered products:', error);
       setFilteredProducts([]);
     }
   };
@@ -58,6 +57,7 @@ const useSearchresults = () => {
     sizes,
     modalVisible,
     selectedSize,
+    setFilteredProducts,
     setSelectedSize,
     setModalVisible,
     handleFilterButtonPress,

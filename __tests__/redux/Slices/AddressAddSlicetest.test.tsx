@@ -75,25 +75,14 @@ describe('AddressAddThunk Slice', () => {
   });
 
   it('should handle AddressAdd.fulfilled correctly', async () => {
-    const mockResponse = {
-      data: {
-        message: 'CartAdd ',
-        status: 'SUCCESS',
-      },
-      status: 200,
-      statusText: 'OK',
-      headers: {},
-      config: {},
-    };
-
-    jest.spyOn(ApiService, 'post').mockImplementation(mockResponse);
+    jest.spyOn(ApiService, 'post').mockImplementation(mockData);
 
     await store.dispatch(AddressAdd(mockData));
 
     const state = store.getState().addressAdd;
 
     expect(state.isLoader).toBe(false);
-    expect(state.data).toEqual(mockResponse);
+    expect(state.data).toEqual(mockData);
   });
 
   it('should handle AddressAdd.rejected correctly', async () => {

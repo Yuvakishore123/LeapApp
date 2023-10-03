@@ -4,6 +4,22 @@ import ApiService from '../../network/network';
 import {userProductsUrl} from '../../constants/apiRoutes';
 import {logger} from 'react-native-logs';
 import {defaultConfig} from '../../helpers/helper';
+
+export interface UserproductState {
+  data: null;
+  firstCallLoading: boolean;
+  loading: boolean;
+  isError: boolean;
+  productsEnd: boolean;
+}
+
+const initialState: UserproductState = {
+  data: null,
+  firstCallLoading: false, // Loading state for the first call
+  loading: false, // Loading state for subsequent calls
+  isError: false,
+  productsEnd: false,
+};
 export const fetchUserProducts = createAsyncThunk(
   'fetchUserProducts',
   async ({pageSize}: {pageSize: number}) => {
@@ -22,13 +38,7 @@ export const fetchUserProducts = createAsyncThunk(
 
 export const UserProductSlice = createSlice({
   name: 'products',
-  initialState: {
-    data: null,
-    firstCallLoading: false, // Loading state for the first call
-    loading: false, // Loading state for subsequent calls
-    isError: false,
-    productsEnd: false,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder

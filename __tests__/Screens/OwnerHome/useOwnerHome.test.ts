@@ -1,14 +1,16 @@
 import {act, renderHook} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
-import useChectout from '../../../src/screens/CheckoutScreen/useCheckout';
 import React from 'react';
+import useOwnerHome from '../../../src/screens/OwnerHomepage/useOwnerHome';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
+jest.mock('@notifee/react-native', () => require('react-native-notifee'));
+jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
@@ -30,8 +32,9 @@ jest.mock('@react-navigation/native', () => {
     ...actualNav,
     useNavigation: () => ({
       navigate: mockNav,
-      // addListener: jest.fn(),
+      addListener: jest.fn(),
     }),
+    useIsFocused: jest.fn().mockReturnValue(true),
   };
 });
 
@@ -43,17 +46,22 @@ const configureDispatch = () => {
 
 describe('Checkout Screen', () => {
   const mockDispatch = configureDispatch();
-  const mockCartData: cartData[] = [];
+  let HandlePiechart: jest.Mock<any, any, any>;
   beforeEach(() => {
     useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockImplementation(selector =>
-      selector({
-        cartData: {cartData: mockCartData},
-        appliedCoupon: {appliedCouponData: 'mockCouponCode'},
-        listAddress: {data: {}},
-        CartProducts: {data: {}},
-      }),
+    useSelector.mockImplementation(
+      (
+        selector: (arg0: {
+          profileData: {data: {}};
+          products: {data: {}};
+        }) => any,
+      ) =>
+        selector({
+          profileData: {data: {}},
+          products: {data: {}},
+        }),
     );
+    HandlePiechart = jest.fn();
     AsyncStorage.clear();
   });
 
@@ -64,7 +72,7 @@ describe('Checkout Screen', () => {
   it('handles useEffect hook correctly', () => {
     const useEffectSpy = jest.spyOn(React, 'useEffect');
 
-    renderHook(() => useChectout());
+    renderHook(() => useOwnerHome());
 
     // Expect that the useEffect hook was called
     expect(useEffectSpy).toHaveBeenCalled();
@@ -73,20 +81,27 @@ describe('Checkout Screen', () => {
     expect(useEffectSpy.mock.calls[0][0]).toBeInstanceOf(Function);
   });
   it('handles onRefresh correctly', () => {
-    const {result} = renderHook(() => useChectout());
+    const {result} = renderHook(() => useOwnerHome());
 
     act(() => {
       result.current.onRefresh();
     });
 
-    expect(result.current.refreshing).toBe(true);
+    expect(result.current.refreshing).toBe(false);
 
-    expect(mockDispatch).toBeCalledTimes(3);
+    expect(mockDispatch).toBeCalledTimes(2);
 
     act(() => {
       result.current.setRefreshing(true);
     });
 
     expect(result.current.refreshing).toBe(true);
+  });
+  it('handles handleAnalatyics correctly', () => {
+    const {handleAnalatyics} = useOwnerHome();
+    handleAnalatyics();
+
+    expect(HandlePiechart).toHaveBeenCalled();
+    expect(mockNav).toHaveBeenCalledWith('DashboardDetails');
   });
 });

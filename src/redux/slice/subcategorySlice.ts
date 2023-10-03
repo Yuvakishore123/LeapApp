@@ -10,7 +10,7 @@ export interface SubCategoryData {
   subcategoryName: string;
 }
 
-interface SubCategoryState {
+export interface SubCategoryState {
   data: SubCategoryData;
   isLoader: boolean;
   isError: boolean;

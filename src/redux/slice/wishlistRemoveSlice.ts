@@ -8,7 +8,7 @@ interface WishlistData {
   message: string;
   status: string;
 }
-interface WishlistDataState {
+export interface WishlistDataState {
   data: WishlistData;
   isLoader: boolean;
   isError: boolean;
@@ -35,7 +35,7 @@ export const wishListRemove = createAsyncThunk(
     } catch (error) {
       logMessage.error('error in wishListRemove', error);
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );

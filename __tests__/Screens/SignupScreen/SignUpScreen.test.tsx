@@ -1,11 +1,17 @@
 import React from 'react';
-import {render, fireEvent, act} from '@testing-library/react-native';
+import {
+  render,
+  fireEvent,
+  act,
+  renderHook,
+} from '@testing-library/react-native';
 import SignupScreen from '../../../src/screens/SignUp/SignupScreen';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import useSignup from '../../../src/screens/SignUp/useSignup';
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
@@ -261,5 +267,28 @@ describe('SignUpScreen', () => {
     fireEvent.press(getByTestId('radio-owner'));
     const handleRole = 'OWNER';
     expect(handleRole).toBe('OWNER');
+  });
+  it('This should open modal', () => {
+    const signup = renderHook(() => useSignup(), {
+      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+    });
+    act(() => {
+      signup.result.current.openModal();
+    });
+    expect(signup.result.current.showModal).toBe(true);
+  });
+  it('This should close  modal', () => {
+    const {result} = renderHook(() => useSignup(), {
+      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+    });
+    expect(result.current.showModal).toBe(false);
+
+    // Open the modal
+    act(() => {
+      result.current.closeModal();
+    });
+
+    // After opening the modal, showModal should be true
+    expect(result.current.showModal).toBe(false);
   });
 });

@@ -64,6 +64,7 @@ const useWishlist = () => {
     WishlistProducts,
     wishlistremove,
     refreshing,
+    setRefreshing,
     onRefresh,
     imageLoaded,
     setImageLoaded,

@@ -3,7 +3,27 @@ import {url} from '../../constants/Apis';
 import ApiService from '../../network/network';
 import {generateInvoice} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
+export interface OrderData {
+  message: string;
+  status: string;
+}
 
+export interface OrderdataState {
+  data: OrderData;
+  isLoader: boolean;
+  isError: boolean;
+  error: null | string;
+}
+
+const initialState: OrderdataState = {
+  data: {
+    message: '',
+    status: '',
+  },
+  isLoader: false,
+  isError: false,
+  error: null,
+};
 export const fetchOrderProducts = createAsyncThunk(
   'fetchOrderProducts',
   async () => {
@@ -12,6 +32,7 @@ export const fetchOrderProducts = createAsyncThunk(
       return response;
     } catch (error) {
       logMessage.error('error in fetchOrderProducts', error);
+      throw error;
     }
   },
 );
@@ -30,11 +51,7 @@ export const fetchInvoiceDetails = createAsyncThunk(
 
 export const orderSlice = createSlice({
   name: 'orderproducts',
-  initialState: {
-    data: null,
-    isLoader: false,
-    isError: false,
-  },
+  initialState,
   reducers: {},
   extraReducers: builder => {
     builder

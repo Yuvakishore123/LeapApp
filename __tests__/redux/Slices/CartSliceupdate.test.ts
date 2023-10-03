@@ -23,8 +23,6 @@ describe('cartThunk Slice', () => {
   const mockData = {
     productId: '1',
     quantity: 12,
-    rentalEndDate: '2023-09-01',
-    rentalStartDate: '2023-09-30',
   };
   const initialState = {
     data: {message: '', status: ''},
@@ -69,39 +67,32 @@ describe('cartThunk Slice', () => {
     expect(newState.isLoader).toBe(true);
   });
 
-  //   it('should handle cartupdate.fulfilled correctly', async () => {
-  //     const mockResponse = {
-  //       productId: '1',
-  //       quantity: 12,
-  //       rentalEndDate: '2023-09-01',
-  //       rentalStartDate: '2023-09-30',
-  //     };
+  it('should handle cartupdate.fulfilled correctly', async () => {
+    jest.spyOn(ApiService, 'put').mockResolvedValue(mockData);
 
-  //     jest.spyOn(ApiService, 'post').mockImplementation(mockResponse);
+    await store.dispatch(updateCart(mockData));
 
-  //     await store.dispatch(updateCart(mockData));
+    const state = store.getState().cartupdate as CartDataState;
 
-  //     const state = store.getState().cartupdate as CartDataState;
+    expect(state.isLoader).toBe(false);
+    expect(state.data).toEqual(mockData);
+  });
 
-  //     expect(state.isLoader).toBe(false);
-  //     expect(state.data).toEqual(mockResponse);
-  //   });
+  it('should handle cartupdate.rejected correctly', async () => {
+    const errorMessage = 'An error occurred while adding the address';
 
-  //   it('should handle cartupdate.rejected correctly', async () => {
-  //     const errorMessage = 'An error occurred while adding the address';
+    jest.spyOn(ApiService, 'put').mockRejectedValueOnce(errorMessage);
 
-  //     jest.spyOn(ApiService, 'post').mockRejectedValueOnce(errorMessage);
+    try {
+      await store.dispatch(updateCart(mockData));
+    } catch (error) {
+      const state = store.getState().cartupdate as CartDataState;
 
-  //     try {
-  //       await store.dispatch(updateCart(mockData));
-  //     } catch (error) {
-  //       const state = store.getState().cartupdate as CartDataState;
-
-  //       expect(state.isLoader).toBe(false);
-  //       expect(state.isError).toBe(true);
-  //       expect(state.error).toEqual(errorMessage);
-  //     }
-  //   });
+      expect(state.isLoader).toBe(false);
+      expect(state.isError).toBe(true);
+      expect(state.error).toEqual(errorMessage);
+    }
+  });
   it('should handle setData correctly', () => {
     const newState = reducer(
       undefined,

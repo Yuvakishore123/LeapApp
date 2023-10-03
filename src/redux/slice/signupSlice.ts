@@ -8,7 +8,7 @@ interface SigninData {
   message: string;
   status: string;
 }
-interface SigninDataState {
+export interface SigninDataState {
   data: SigninData;
   isLoader: boolean;
   isError: boolean;

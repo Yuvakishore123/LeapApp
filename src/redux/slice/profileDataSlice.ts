@@ -12,7 +12,7 @@ interface ProfileData {
   profileImageUrl: string;
   role: string;
 }
-interface ProfileDataState {
+export interface ProfileDataState {
   data: ProfileData;
   isLoader: boolean;
   isError: boolean;
@@ -39,7 +39,7 @@ export const getProfileData = createAsyncThunk('getProfileData', async () => {
   } catch (error) {
     logMessage.error('error in getting profile data', error);
 
-    return error;
+    throw error;
   }
 });
 

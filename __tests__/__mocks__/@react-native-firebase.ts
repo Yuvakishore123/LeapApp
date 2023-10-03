@@ -4,11 +4,11 @@ const analytics = {
   // Add other mock methods if needed
 };
 
-const messaging = {
+const messaging = jest.fn(() => ({
   getToken: jest.fn(),
   onMessage: jest.fn(),
   // Add other mock methods if needed
-};
+}));
 const InAppMessaging = {
   // Define mock methods here
   setMessagesDisplaySuppressed: jest.fn(),

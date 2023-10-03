@@ -33,6 +33,11 @@ const useAddress = () => {
   const [id, setId] = useState('');
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  useEffect(() => {
+    console.log('in uneeffect');
+    dispatch(ListAddress());
+    // fetchData();
+  }, []);
   const openModal = () => {
     setShowModal(true);
   };
@@ -43,7 +48,7 @@ const useAddress = () => {
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      dispatch(ListAddress() as any);
+      // dispatch(ListAddress() as any);
       const data = addressdata;
       setIsLoading(false);
       setAddress(data);
@@ -58,11 +63,6 @@ const useAddress = () => {
       setIsLoading(true);
     }
   }, [id, city, state, country, postalCode, addressLine1, addressLine2]);
-
-  useEffect(() => {
-    dispatch(ListAddress());
-    fetchData();
-  }, [fetchData]);
 
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {

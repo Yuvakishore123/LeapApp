@@ -90,6 +90,16 @@ const CartStack = () => {
     </Stack.Navigator>
   );
 };
+// stack for the wishlist screen
+const WishlistStack = () => {
+  return (
+    <Stack.Navigator
+      screenOptions={{headerShown: false}}
+      initialRouteName="Wishlist">
+      <Stack.Screen name="Wishlist" component={Wishlist} />
+    </Stack.Navigator>
+  );
+};
 
 // Stack for the Profile screen
 const ProfileStack = () => {
@@ -316,7 +326,7 @@ const MyStack = () => {
 
       <Tab.Screen
         name="Wishlist"
-        component={Wishlist}
+        component={WishlistStack}
         options={({route}) => ({
           tabBarLabel: 'Wishlist',
           tabBarStyle: {

@@ -9,7 +9,7 @@ interface ProfileData {
   message: string;
   status: string;
 }
-interface ProfileDataState {
+export interface ProfileDataState {
   data: ProfileData;
   isLoader: boolean;
   isError: boolean;
@@ -43,13 +43,13 @@ export const updateProfile = createAsyncThunk(
     } catch (error) {
       logMessage.error('error in updating profile ', error);
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );
 
 const updateProfileThunk = createSlice({
-  name: 'updateCartData',
+  name: 'updateprofile',
   initialState,
   reducers: {
     setData: (state, action) => {

@@ -45,6 +45,7 @@ const Wishlist = ({navigation}: Props) => {
   if (isLoading || !WishlistProducts) {
     return (
       <View
+        testID="loadingAnimation"
         style={{
           flex: 1,
           backgroundColor: colorScheme === 'dark' ? Colors.black : Colors.main,
@@ -92,6 +93,7 @@ const Wishlist = ({navigation}: Props) => {
         {allWishlistProducts.length === 0 ? (
           <>
             <View
+              testID="empty-animation"
               style={[
                 style.lottieStyle,
                 colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
@@ -123,12 +125,15 @@ const Wishlist = ({navigation}: Props) => {
                             : Styles.main,
                         ]}>
                         <TouchableOpacity
+                          testID="wishlist-touchable"
                           onPress={() =>
                             navigation.navigate('UProductDetails', {
                               product: item,
                             })
                           }>
-                          <View style={style.imageContainer}>
+                          <View
+                            style={style.imageContainer}
+                            testID="wishlist-image">
                             {!imageLoaded && (
                               <Image
                                 source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
@@ -170,6 +175,7 @@ const Wishlist = ({navigation}: Props) => {
                         </View>
                         <TouchableOpacity
                           style={style.wishlistButton}
+                          testID="wishlist-button"
                           onPress={() => wishlistremove(item.id)}
                           onPressIn={() => openModal()}>
                           <Image

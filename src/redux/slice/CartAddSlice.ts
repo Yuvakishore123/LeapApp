@@ -40,9 +40,9 @@ export const CartAdd = createAsyncThunk(
     } catch (error: any) {
       if (error.response) {
         logMessage.error('error in cart add ', error.response.status);
-        dispatch(setError(error.response));
       }
-      return error.response;
+      dispatch(setError(error.response));
+      throw error.response;
     }
   },
 );
