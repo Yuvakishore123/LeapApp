@@ -82,15 +82,13 @@ const useAddress = () => {
     dispatch(removeAddress(deleteId) as any);
     openModal();
   };
-  const goBackButton = () => {
-    navigation.goBack();
-  };
+
   return {
     addressList,
     handleOwnerAddAddress,
     handleDeleteAddress,
     isFocused,
-    goBackButton,
+
     city,
     state,
     postalCode,
@@ -109,6 +107,7 @@ const useAddress = () => {
     handleEditItems,
     addressdata,
     isloading,
+    fetchData,
     // FetchAddress,
   };
 };

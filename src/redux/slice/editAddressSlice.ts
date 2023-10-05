@@ -27,16 +27,16 @@ export const editAddressData = createAsyncThunk(
     addressid,
   }: {
     updateaddress: {
-      addressLine1: any;
-      addressLine2: any;
+      addressLine1: string;
+      addressLine2: string;
       addressType: string;
-      city: any;
-      country: any;
-      postalCode: any;
-      state: any;
+      city: string;
+      country: string;
+      postalCode: string;
+      state: string;
       defaultType: boolean;
     };
-    addressid: any;
+    addressid: number;
   }) => {
     const {log} = logMessage();
     try {

@@ -4,7 +4,7 @@ import {Text, View, TouchableOpacity, Image, FlatList} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 
 import style from './categoryStyles';
-import {useCategory} from './useCategory';
+import useCategory from './useCategory';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import LottieAnimation from '../../components/molecules/LottieAnimation/LottieAnimation';
 

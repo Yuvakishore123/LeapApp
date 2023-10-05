@@ -2,23 +2,25 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import FilterScreen from 'screens/FilterScreen/FilterScreen';
+import Profile from 'screens/Profile/Profile';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
-
+jest.mock('react-native-skeleton-placeholder', () => {
+  const mockSkeletonPlaceholder = jest.fn();
+  return mockSkeletonPlaceholder;
+});
+jest.mock('react-native-razorpay', () => require('razorpay-mock'));
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
-jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
-jest.mock('@notifee/react-native', () => require('notifee-mocks'));
 jest.mock('@react-native-firebase/messaging', () =>
   require('react-native-firebase-mock'),
 );
@@ -54,20 +56,20 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('FilterScreen Screen', () => {
-  it('should render the FilterScreen Screen', () => {
+describe('Profile Screen', () => {
+  it('should render the Profile Screen', () => {
     // Define a mock route with the necessary params
 
-    const categoryProducts = render(
+    const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="FilterScreen" component={FilterScreen} />
+            <Stack.Screen name="Profile" component={Profile} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
 
-    expect(categoryProducts).toBeDefined();
+    expect(result).toBeDefined();
   });
 });

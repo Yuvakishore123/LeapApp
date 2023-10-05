@@ -2,26 +2,20 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import UDetailScreen from 'screens/UProductDetails/UProductDetails';
+import CheckoutScreen from 'screens/CheckoutScreen/CheckoutScreen';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
-jest.mock('react-native-skeleton-placeholder', () => {
-  const mockSkeletonPlaceholder = jest.fn();
-  return mockSkeletonPlaceholder;
-});
+
 jest.mock('react-native-razorpay', () => require('razorpay-mock'));
 jest.mock('@react-native-firebase/analytics', () =>
-  require('react-native-firebase-mock'),
-);
-jest.mock('@react-native-firebase/dynamic-links', () =>
   require('react-native-firebase-mock'),
 );
 jest.mock('@react-native-firebase/messaging', () =>
@@ -59,29 +53,20 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('useProductdetails Screen', () => {
-  it('should render the useProductdetails Screen', () => {
+describe('CategoryProducts Screen', () => {
+  it('should render the CategoryProducts Screen', () => {
     // Define a mock route with the necessary params
-    const route = {
-      params: {
-        subcategoryId: '123', // Provide a valid subcategoryId here
-      },
-    };
 
-    const result = render(
+    const categoryProducts = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen
-              name="useProductdetails"
-              component={UDetailScreen}
-              initialParams={route}
-            />
+            <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
 
-    expect(result).toBeDefined();
+    expect(categoryProducts).toBeDefined();
   });
 });

@@ -4,11 +4,11 @@ import {fetchCategoriesData} from '../../redux/slice/categorySlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {getsubcategoryData} from '../../redux/slice/subcategorySlice';
+
 type RootStackParamList = {
   Subcategory: {categoryId: string};
 };
-export const useCategory = () => {
+const useCategory = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const data = useSelector(
     (state: {category: {data: any}}) => state.category.data,
@@ -24,12 +24,13 @@ export const useCategory = () => {
 
   const handleCategoryData = (categoryId: string) => {
     navigation.navigate('Subcategory', {categoryId});
-    dispatch(getsubcategoryData(categoryId) as any);
   };
 
   return {
     loading,
     data,
     handleCategoryData,
+    dispatch,
   };
 };
+export default useCategory;

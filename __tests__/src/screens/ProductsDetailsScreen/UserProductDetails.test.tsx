@@ -2,11 +2,11 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import EditAddress from 'screens/EditAddress/EditAddress';
+import UDetailScreen from 'screens/UProductDetails/UProductDetails';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -19,6 +19,9 @@ jest.mock('react-native-skeleton-placeholder', () => {
 });
 jest.mock('react-native-razorpay', () => require('razorpay-mock'));
 jest.mock('@react-native-firebase/analytics', () =>
+  require('react-native-firebase-mock'),
+);
+jest.mock('@react-native-firebase/dynamic-links', () =>
   require('react-native-firebase-mock'),
 );
 jest.mock('@react-native-firebase/messaging', () =>
@@ -56,20 +59,29 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('EditAddress Screen', () => {
-  it('should render the EditAddress Screen', () => {
+describe('useProductdetails Screen', () => {
+  it('should render the useProductdetails Screen', () => {
     // Define a mock route with the necessary params
+    const route = {
+      params: {
+        subcategoryId: '123', // Provide a valid subcategoryId here
+      },
+    };
 
-    const categoryProducts = render(
+    const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="EditAddress" component={EditAddress} />
+            <Stack.Screen
+              name="useProductdetails"
+              component={UDetailScreen}
+              initialParams={route}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
 
-    expect(categoryProducts).toBeDefined();
+    expect(result).toBeDefined();
   });
 });

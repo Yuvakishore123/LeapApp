@@ -9,6 +9,13 @@ import {logMessage, useThunkDispatch} from '../../helpers/helper';
 
 import Toast from 'react-native-toast-message';
 import AsyncStorageWrapper from '../../utils/asyncStorage';
+import {useNavigation} from '@react-navigation/native';
+import {StackNavigationProp} from '@react-navigation/stack';
+type RootStackParamList = {
+  Ownereditprofile: undefined;
+  Owneraddresspage: undefined;
+  MyOrder: undefined;
+};
 const useProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrls, _setImageUrls] = useState([]);
@@ -19,6 +26,7 @@ const useProfile = () => {
   const [showModal1, setShowModall1] = useState(false);
   const [refreshState, setRefreshState] = useState(false);
   const {dispatch} = useThunkDispatch();
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {log} = logMessage();
   const fetchProfileData = async () => {
     try {
@@ -43,12 +51,13 @@ const useProfile = () => {
     setRefreshState(true);
   };
 
-  const openModal = () => {
+  const openModal = async () => {
     setShowModall(true);
     setRefreshState(true);
-    fetchProfileData();
+    await fetchProfileData(); // Wait for the asynchronous operation to complete
     setRefreshState(false);
   };
+
   const closeModal = () => {
     setShowModall(false);
   };
@@ -81,7 +90,7 @@ const useProfile = () => {
     );
   };
 
-  const ImapgeUpload = async () => {
+  const ImageUpload = async () => {
     // Check if permission is granted
     const status = await AsyncStorageWrapper.getItem('Status');
     const isPermissionGranted = status === 'granted';
@@ -99,13 +108,10 @@ const useProfile = () => {
     const granted = await PermissionsAndroid.request(
       PermissionsAndroid.PERMISSIONS.CAMERA,
     );
-
     if (granted === PermissionsAndroid.RESULTS.NEVER_ASK_AGAIN) {
       showDialogToAppSettings();
     } else if (granted === PermissionsAndroid.RESULTS.GRANTED) {
       await pickImage();
-    } else {
-      ErrorToast();
     }
   };
 
@@ -183,14 +189,13 @@ const useProfile = () => {
 
   const uploadImage = async (imageurl: string) => {
     const response = await ApiService.post(`${profileUpload}=${imageurl}`, {});
-    log.info('image upload success', response);
     fetchProfileData();
   };
 
   const handleRemoveProfilePic = async () => {
     const response = await ApiService.post(`${profileUpload}=${null}`, {});
     dispatch(getProfileData());
-    log.info('image removed successfully', response);
+
     setProfileImage('');
     openModal1();
   };
@@ -206,6 +211,15 @@ const useProfile = () => {
       type: 'error',
       text1: 'Allow the Permissions for the Photos',
     });
+  };
+  const handleEditAddress = () => {
+    navigation.navigate('Owneraddresspage');
+  };
+  const handleOwnerScreen = () => {
+    navigation.navigate('MyOrder');
+  };
+  const handleEditProfile = () => {
+    navigation.navigate('Ownereditprofile');
   };
 
   return {
@@ -231,7 +245,16 @@ const useProfile = () => {
     refreshState,
     fetchProfileData,
     isLoading,
-    ImapgeUpload,
+    ImageUpload,
+    dispatch,
+    showDialogToAppSettings,
+    openAppSettings,
+    requestCameraPermission,
+    ErrorToast,
+    setIsLoading,
+    handleEditAddress,
+    handleOwnerScreen,
+    handleEditProfile,
   };
 };
 

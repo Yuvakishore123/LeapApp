@@ -2,18 +2,21 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import CheckoutScreen from 'screens/CheckoutScreen/CheckoutScreen';
+import EditAddress from 'screens/EditAddress/EditAddress';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
-
+jest.mock('react-native-skeleton-placeholder', () => {
+  const mockSkeletonPlaceholder = jest.fn();
+  return mockSkeletonPlaceholder;
+});
 jest.mock('react-native-razorpay', () => require('razorpay-mock'));
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
@@ -53,15 +56,15 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('CategoryProducts Screen', () => {
-  it('should render the CategoryProducts Screen', () => {
+describe('EditAddress Screen', () => {
+  it('should render the EditAddress Screen', () => {
     // Define a mock route with the necessary params
 
     const categoryProducts = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="CheckoutScreen" component={CheckoutScreen} />
+            <Stack.Screen name="EditAddress" component={EditAddress} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,

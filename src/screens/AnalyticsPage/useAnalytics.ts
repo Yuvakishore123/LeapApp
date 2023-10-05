@@ -29,7 +29,6 @@ const useAnalytics = () => {
     setisLoading(true);
     try {
       const result = await ApiService.get(onclickDasboardUrl); // need to chaange to dispatch
-
       setData(result);
       setisLoading(false);
     } catch (error) {
@@ -38,12 +37,10 @@ const useAnalytics = () => {
   };
   const handleOrders = async () => {
     const results = await ApiService.get(getdashboard); // need to chaange to dispatch
-
     setOrderdata(results);
   };
   const HandlePiechart = async () => {
     const resultData = await ApiService.get(pieChartUrl); // need to chaange to dispatch
-
     setPiechart(resultData);
   };
 
@@ -68,33 +65,35 @@ const useAnalytics = () => {
         await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
 
         // Push notification
-        const channelId = await notifee.createChannel({
-          id: 'pdf_download_channel1',
-          name: 'PDF Download Channel1',
-          sound: 'default',
-          importance: AndroidImportance.HIGH,
-          lights: true,
-          lightColor: AndroidColor.RED,
-        });
-        await notifee.displayNotification({
-          title: 'Leaps',
-          body: 'PDF file downloaded successfully.',
-          android: {
-            channelId,
-            largeIcon: require('../../../assets/Leaps-1.png'),
-            lights: [AndroidColor.RED, 300, 600],
-            progress: {
-              max: 10,
-              current: 10,
-            },
-          },
-        });
+        HandleNotification();
       };
 
       reader.readAsDataURL(blob);
     } catch (error) {
       log.error('Error downloading file:', error);
     }
+  };
+  const HandleNotification = async () => {
+    const channelId = await notifee.createChannel({
+      id: 'pdf_download_channel1',
+      name: 'PDF Download Channel1',
+      sound: 'default',
+
+      lights: true,
+    });
+    await notifee.displayNotification({
+      title: 'Leaps',
+      body: 'PDF file downloaded successfully.',
+      android: {
+        channelId,
+        // largeIcon: require('../../../assets/Leaps-1.png'),
+
+        progress: {
+          max: 10,
+          current: 10,
+        },
+      },
+    });
   };
 
   const CategoriePieData = async () => {
@@ -130,6 +129,8 @@ const useAnalytics = () => {
     CategoriesPiechart,
     Dashboardyeardata,
     DashboardYearly,
+    HandleNotification,
+    log,
   };
 };
 

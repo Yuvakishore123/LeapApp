@@ -24,14 +24,10 @@ import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 
 import style from '../Ownerprofile/ownerProfileStyle';
 
-type Props = {
-  navigation: any;
-};
-
-const Profile = ({navigation}: Props) => {
+const Profile = () => {
   const {
     isloading,
-    ImapgeUpload,
+    ImageUpload,
     showModall,
     closeModal,
     showModal1,
@@ -41,6 +37,9 @@ const Profile = ({navigation}: Props) => {
     refreshData,
     refreshState,
     data,
+    handleEditAddress,
+    handleOwnerScreen,
+    handleEditProfile,
   } = useProfile();
   const {
     colorScheme,
@@ -111,7 +110,7 @@ const Profile = ({navigation}: Props) => {
         </View>
 
         <View style={style.uploadButtoncontainer}>
-          <TouchableOpacity style={style.uploadButton} onPress={ImapgeUpload}>
+          <TouchableOpacity style={style.uploadButton} onPress={ImageUpload}>
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
           <TouchableOpacity
@@ -147,7 +146,7 @@ const Profile = ({navigation}: Props) => {
         <View style={style.profileFields}>
           <TouchableOpacity
             style={[style.whiteBtn, getTextInputStyle()]}
-            onPress={() => navigation.navigate('Ownereditprofile')}
+            onPress={handleEditProfile}
             testID="edit-profile-button">
             <Icons
               name="account"
@@ -165,7 +164,7 @@ const Profile = ({navigation}: Props) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[style.whiteBtn, getTextInputStyle()]}
-            onPress={() => navigation.navigate('Owneraddresspage')}>
+            onPress={handleEditAddress}>
             <Icon
               name="location-pin"
               size={30}
@@ -182,7 +181,7 @@ const Profile = ({navigation}: Props) => {
           </TouchableOpacity>
           <TouchableOpacity
             style={[style.whiteBtn, getTextInputStyle()]}
-            onPress={() => navigation.navigate('MyOrder')}>
+            onPress={handleOwnerScreen}>
             <Icons
               name="basket-check"
               size={30}

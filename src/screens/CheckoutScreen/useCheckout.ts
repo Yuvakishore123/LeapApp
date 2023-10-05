@@ -47,10 +47,14 @@ const useChectout = () => {
 
   const handleCheckboxChange = (index: any) => {
     setSelectedAddressIndex(index);
-    const newIsCheckedArray = data.map((_: any, i: any) => i === index);
-    setIsCheckedArray(newIsCheckedArray);
+    // Check if data is an array before using map
+    if (Array.isArray(data)) {
+      const newIsCheckedArray = data.map((_, i) => i === index);
+      setIsCheckedArray(newIsCheckedArray);
+    }
     setIschecked(false);
   };
+
   const onRefresh = async () => {
     setRefreshing(true);
     await dispatch(fetchCartProducts() as any);

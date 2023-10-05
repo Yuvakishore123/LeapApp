@@ -1,8 +1,8 @@
-import {fireEvent, render, waitFor} from '@testing-library/react-native';
+import {render, waitFor} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Cart from 'screens/Cart/Cart';
@@ -175,7 +175,7 @@ describe('Cart Screen', () => {
     };
 
     jest.spyOn(ApiService, 'get').mockResolvedValue(mockCartData);
-    const {queryAllByTestId, getByTestId} = render(
+    const {queryAllByTestId} = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>

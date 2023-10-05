@@ -2,15 +2,18 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import Category from 'screens/Category/Category';
+import CategoryProducts from 'screens/CategoryProducts/CategoryProducts';
 
-jest.mock('@react-native-community/netinfo', () =>
-  require('react-native-netinfo'),
-);
+jest.mock('@react-native-community/netinfo', () => ({
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
+}));
+
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
@@ -49,17 +52,29 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('Category  Screen', () => {
-  it('should render the category Screen', () => {
-    const login = render(
+describe('CategoryProducts Screen', () => {
+  it('should render the CategoryProducts Screen', () => {
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        subcategoryId: '123', // Provide a valid subcategoryId here
+      },
+    };
+
+    const categoryProducts = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="Category" component={Category} />
+            <Stack.Screen
+              name="CategoryProducts"
+              component={CategoryProducts}
+              initialParams={route.params}
+            />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
-    expect(login).toBeDefined();
+
+    expect(categoryProducts).toBeDefined();
   });
 });

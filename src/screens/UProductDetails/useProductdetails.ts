@@ -11,7 +11,7 @@ import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
 const useProductdetails = (product: {
-  id: any;
+  id: string;
   imageUrl: string | any[];
   availableQuantities: number;
 }) => {
@@ -28,6 +28,7 @@ const useProductdetails = (product: {
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [_shareData, setshareData] = useState({});
+
   const {dispatch} = useThunkDispatch();
   const {log} = logMessage();
   const scrollViewRef = useRef<ScrollView>(null);
@@ -198,6 +199,14 @@ const useProductdetails = (product: {
     startScrollTimer,
     stopScrollTimer,
     handleScroll,
+    dispatch,
+    isData,
+    openModal,
+    opennModal,
+    productsData,
+    showToast,
+    generateLink,
+    errorToast,
   };
 };
 

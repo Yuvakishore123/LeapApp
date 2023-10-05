@@ -122,6 +122,7 @@
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(- community)?|@sentry/react-native|@react-navigation/(.*)|@react-native-community/netinfo)/)"
     ],
+    
     "moduleFileExtensions": [
       "ts",
       "tsx",
@@ -136,5 +137,6 @@
         "useESM": true
       }
     }
+    
   }
 }

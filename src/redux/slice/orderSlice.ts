@@ -5,7 +5,7 @@ import {generateInvoice} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 
 export interface OrderProductsState {
-  data: null | any; // Replace 'any' with the actual type of your data
+  data: null | unknown;
   isLoader: boolean;
   isError: boolean;
 }
