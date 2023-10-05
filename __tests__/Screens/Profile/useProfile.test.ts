@@ -162,7 +162,7 @@ describe('Profile Screen', () => {
     // Call the function
     await pickImage();
 
-    // Now you can add your assertions based on the expected behavior
+    expect(launchImageLibrary).toBeCalled();
   });
   it('should pick image if permission is granted', async () => {
     const {result} = renderHook(() => useProfile());

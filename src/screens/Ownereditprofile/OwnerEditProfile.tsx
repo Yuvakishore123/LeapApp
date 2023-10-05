@@ -4,7 +4,7 @@ import React, {useState, useEffect, useContext} from 'react';
 import style from './ownerEditProfileStyle';
 import Colors from '../../constants/colors';
 
-import useOwnerProfile from './useOwnerProfile';
+import useOwnerProfile from './useOwnerEditProfileCustomHook';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';

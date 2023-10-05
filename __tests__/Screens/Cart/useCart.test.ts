@@ -1,7 +1,6 @@
-import {renderHook} from '@testing-library/react-native';
+import {act, renderHook} from '@testing-library/react-native';
 import {useSelector} from 'react-redux';
 import useCart from '../../../src/screens/Cart/useCart';
-import React from 'react';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -15,13 +14,6 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(() => mockDispatch),
 }));
-
-// jest.mock('../../../src/helpers/helper', () => ({
-//   useThunkDispatch: () => ({dispatch: mockDispatch}),
-// }));
-// jest.mock('react-test-renderer', () => ({
-//   act: jest.fn(),
-// }));
 const mockNav = jest.fn();
 
 jest.mock('@react-navigation/native', () => {
@@ -52,15 +44,93 @@ describe('useCart', () => {
   afterEach(() => {
     jest.clearAllMocks();
   });
-  it('handles useEffect hook correctly', () => {
-    const useEffectSpy = jest.spyOn(React, 'useEffect');
+  it('This should open modal', () => {
+    const wishlist = renderHook(() => useCart());
+    act(() => {
+      wishlist.result.current.openModal();
+    });
+    expect(wishlist.result.current.showModal).toBe(true);
+  });
+  it('This should close  modal', () => {
+    const {result} = renderHook(() => useCart());
+    expect(result.current.showModal).toBe(false);
 
-    renderHook(() => useCart());
+    // Open the modal
+    act(() => {
+      result.current.closeModal();
+    });
 
-    // Expect that the useEffect hook was called
-    expect(useEffectSpy).toHaveBeenCalled();
+    // After opening the modal, showModal should be true
+    expect(result.current.showModal).toBe(false);
+  });
+  it('should navigate to CheckoutScreen', () => {
+    const {result} = renderHook(() => useCart());
 
-    // Expect that the useEffect hook was called with a function
-    expect(useEffectSpy.mock.calls[0][0]).toBeInstanceOf(Function);
+    result.current.handleCheckout();
+
+    expect(mockNav).toHaveBeenCalledWith('CheckoutScreen');
+  });
+  it('should dispatch removefromCart and fetchCartProducts actions and open modal', () => {
+    const {result} = renderHook(() => useCart());
+
+    const productId = 123; // Example product ID
+
+    result.current.handleRemove(productId);
+
+    expect(mockDispatch).toHaveBeenCalledTimes(4);
+    act(() => {
+      result.current.openModal();
+    });
+
+    expect(result.current.showModal).toBe(true);
+  });
+  it('should dispatch updateCart action with the correct data', async () => {
+    const {result} = renderHook(() => useCart());
+
+    const newQuantity = 5;
+    const productId = '123';
+
+    // Call the handleUpdate function
+    await act(async () => {
+      await result.current.handleUpdate(newQuantity, productId);
+    });
+
+    // Check if updateCart was called with the correct data
+    expect(mockDispatch).toHaveBeenCalledTimes(3);
+
+    // You can also check if setRefreshing was called if it's a state-setting function
+    // expect(result.current.setRefreshing).toHaveBeenCalledWith(true);
+  });
+  it('should disable button when quantity reaches available quantity', () => {
+    const {result} = renderHook(() => useCart());
+
+    const item = {
+      product: {
+        id: 123,
+        availableQuantities: 3, // Assuming available quantity is 3
+      },
+      quantity: 3, // Current quantity is equal to available quantity
+    };
+
+    act(async () => {
+      await result.current.handleIncrement(item);
+    });
+    expect(result.current.isplusDisable).toBe(true);
+  });
+  it('should decrement quatity when quantity reaches available quantity', () => {
+    const {result} = renderHook(() => useCart());
+
+    const item = {
+      product: {
+        id: 123,
+        availableQuantities: 3, // Assuming available quantity is 3
+      },
+      quantity: 2, // Current quantity is equal to available quantity
+    };
+
+    act(async () => {
+      await result.current.handleDecrement(item);
+    });
+    expect(result.current.isplusDisable).toBe(false);
   });
 });

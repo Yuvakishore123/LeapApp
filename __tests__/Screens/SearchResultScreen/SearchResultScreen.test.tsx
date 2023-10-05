@@ -4,6 +4,7 @@ import {
   fireEvent,
   render,
   renderHook,
+  waitFor,
 } from '@testing-library/react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -43,9 +44,6 @@ describe('SearchResultScreen', () => {
   });
   afterEach(() => {
     jest.clearAllMocks();
-  });
-  test('renders SearchResultsScreen without errors', () => {
-    render(<SearchResultsScreen route={{params: {searchResults: []}}} />);
   });
 
   test('render searchResultsScreen and FlatList with the correct number of items', () => {
@@ -108,8 +106,7 @@ describe('SearchResultScreen', () => {
     const touchableOpacity = getByTestId('filter-apply-button');
 
     fireEvent.press(touchableOpacity);
-    const apply = getByTestId('Apply');
-    fireEvent.press(apply);
+    expect(getByTestId('modal')).toBeDefined();
   });
 
   test('renders no results message when search results are empty', () => {
@@ -132,12 +129,42 @@ describe('SearchResultScreen', () => {
     const {getByTestId} = render(
       <SearchResultsScreen route={{params: {searchResults: searchResults}}} />,
     );
+    const mockData = {
+      id: 1,
+      name: 'Product 1',
+      price: 10,
+      imageUrl: ['https://example.com/image1.jpg'],
+    };
 
     // Find the TouchableOpacity element
     const touchableOpacity = getByTestId('item-touchable');
 
     // Simulate a press event on the TouchableOpacity element
     fireEvent.press(touchableOpacity);
+    expect(mockNav).toHaveBeenCalledWith('UProductDetails', {
+      product: mockData,
+    });
+  });
+  test('should handle filterData ', async () => {
+    const mockData = {
+      id: 1,
+      name: 'Product 1',
+      price: 10,
+      imageUrl: ['https://example.com/image1.jpg'],
+    };
+    // Mock ApiService.get to throw an error
+    apiGetMock.mockResolvedValue(mockData);
+
+    const {result} = renderHook(() => useSearchresults());
+
+    // Wait for the asynchronous function to complete
+    await act(async () => {
+      await result.current.filterData();
+    });
+    waitFor(() => {
+      // Assert that the setFilteredProducts function is called with an empty array
+      expect(result.current.filteredProducts).toBe(mockData);
+    });
   });
   test('should handle errors when filtering data', async () => {
     // Mock ApiService.get to throw an error
@@ -152,5 +179,26 @@ describe('SearchResultScreen', () => {
 
     // Assert that the setFilteredProducts function is called with an empty array
     expect(result.current.filteredProducts).toEqual([]);
+  });
+  test('should handle Filterapply ', async () => {
+    const mockData = {
+      id: 1,
+      name: 'Product 1',
+      price: 10,
+      imageUrl: ['https://example.com/image1.jpg'],
+    };
+    // Mock ApiService.get to throw an error
+    apiGetMock.mockResolvedValue(mockData);
+
+    const {result} = renderHook(() => useSearchresults());
+
+    // Wait for the asynchronous function to complete
+    await act(async () => {
+      await result.current.handleFilterapply();
+    });
+    waitFor(() => {
+      // Assert that the setFilteredProducts function is called with an empty array
+      expect(result.current.modalVisible).toBe(false);
+    });
   });
 });

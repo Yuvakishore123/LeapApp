@@ -88,7 +88,9 @@ const AddAddress = () => {
             ]}
           />
           {formik.touched.addressLine1 && formik.errors.addressLine1 && (
-            <Text style={style.errorText}>{formik.errors.addressLine1}</Text>
+            <Text style={style.errorText} testID="addressLine1error">
+              {formik.errors.addressLine1}
+            </Text>
           )}
         </View>
         <View style={style.innerContainer}>
@@ -103,7 +105,9 @@ const AddAddress = () => {
             style={[style.StreetInput, getTextInputStyle(), getTextColor()]}
           />
           {formik.touched.addressLine2 && formik.errors.addressLine2 && (
-            <Text style={style.errorText}>{formik.errors.addressLine2}</Text>
+            <Text style={style.errorText} testID="streetname">
+              {formik.errors.addressLine2}
+            </Text>
           )}
         </View>
         <View style={style.cityContainer}>
@@ -120,6 +124,7 @@ const AddAddress = () => {
 
           <TextInput
             placeholder="City"
+            testID="city-input"
             placeholderTextColor={
               colorScheme === 'dark' ? colors.Textinput : colors.black
             }
@@ -158,21 +163,31 @@ const AddAddress = () => {
       <View style={style.containerRadio}>
         <View style={style.optionRadio}>
           <RadioButton
+            testID="home-radio-button"
             value="HOME"
             status={selectedOption === 'HOME' ? 'checked' : 'unchecked'}
             onPress={() => handleOptionChange('HOME')}
             color={colorScheme === 'dark' ? colors.white : colors.black}
           />
-          <Text style={[style.textRadio, getTextColor()]}>Home</Text>
+          <Text
+            style={[style.textRadio, getTextColor()]}
+            testID="home-radio-text">
+            Home
+          </Text>
         </View>
         <View style={style.optionRadio}>
           <RadioButton
+            testID="office-radio-button"
             value="OFFICE"
             status={selectedOption === 'OFFICE' ? 'checked' : 'unchecked'}
             onPress={() => handleOptionChange('OFFICE')}
             color={colorScheme === 'dark' ? colors.white : colors.black}
           />
-          <Text style={[style.textRadio, getTextColor()]}>Office</Text>
+          <Text
+            style={[style.textRadio, getTextColor()]}
+            testID="office-radio-text">
+            Office
+          </Text>
         </View>
       </View>
       <Spinner visible={isLoading} />

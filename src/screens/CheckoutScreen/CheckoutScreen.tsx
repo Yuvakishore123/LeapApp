@@ -105,6 +105,7 @@ const CheckoutScreen = ({navigation}: Props) => {
                   };
                 }) => (
                   <View
+                    testID="checkoutproducts"
                     key={item.id}
                     style={[
                       style.cardContainer,

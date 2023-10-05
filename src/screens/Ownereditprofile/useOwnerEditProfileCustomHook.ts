@@ -4,7 +4,7 @@ import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateProfile} from '../../redux/slice/editProfileSlice';
 import {logMessage} from 'helpers/helper';
-const OwnerEditProfileCustomHook = () => {
+const useOwnerEditProfileCustomHook = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
   const [showModal, setShowModal] = useState(false);
@@ -69,4 +69,4 @@ const OwnerEditProfileCustomHook = () => {
     Data,
   };
 };
-export default OwnerEditProfileCustomHook;
+export default useOwnerEditProfileCustomHook;

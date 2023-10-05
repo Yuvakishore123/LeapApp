@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react-native';
+import {act, fireEvent, render} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
@@ -20,6 +20,26 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
+}));
+jest.mock('../../../src/screens/Owneraddaddress/useAddress', () => () => ({
+  handleOwnerAddAddress: jest.fn(),
+  handleDeleteAddress: jest.fn(),
+  closeModal: jest.fn(),
+  showModal: false,
+  handleEditItems: jest.fn(),
+  isloading: false,
+  addressdata: [
+    {
+      id: 1,
+      addressLine1: '123 Main Street',
+      addressLine2: '',
+      postalCode: '12345',
+      city: 'Cityville',
+      state: 'CA',
+      country: 'USA',
+    },
+    // Add more sample address data if needed
+  ],
 }));
 describe('Address Page', () => {
   beforeEach(() => {
@@ -42,5 +62,41 @@ describe('Address Page', () => {
     );
 
     expect(result).toBeTruthy();
+  });
+  it('should call handleEditItems on edit button press', () => {
+    const Stack = createNativeStackNavigator();
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Owneraddresspage"
+              component={Owneraddresspage}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    act(() => {
+      fireEvent.press(getByTestId('edit-button')); // Assuming you have a testID for the edit button
+    });
+  });
+  it('should call handleDeleteAddress on delete button press', () => {
+    const Stack = createNativeStackNavigator();
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Owneraddresspage"
+              component={Owneraddresspage}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    act(() => {
+      fireEvent.press(getByTestId('delete-button'));
+    });
   });
 });

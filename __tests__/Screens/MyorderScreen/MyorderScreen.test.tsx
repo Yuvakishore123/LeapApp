@@ -147,6 +147,7 @@ describe('My Order Screen', () => {
     });
     const OpenModal = getByTestId('order-1');
     fireEvent.press(OpenModal);
+    expect(OpenModal).toBeDefined();
   });
   it('should render modal in the Order screen', async () => {
     const mockOrderProducts = [
@@ -174,5 +175,6 @@ describe('My Order Screen', () => {
 
     const OpenModal = getByTestId('Order-1-1');
     fireEvent.press(OpenModal);
+    expect(OpenModal).toBeDefined();
   });
 });

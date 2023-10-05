@@ -53,7 +53,7 @@ const OwnerProfile = ({navigation}: Props) => {
           <ActivityIndicator size="large" color="gray" />
         </View>
       );
-    } else if (data.profileImageUrl) {
+    } else if (data?.profileImageUrl) {
       return (
         <Avatar.Image
           size={100}
@@ -81,7 +81,7 @@ const OwnerProfile = ({navigation}: Props) => {
         <View style={style.imageContainer}>
           <View style={style.viewS}>{renderProfileImage()}</View>
         </View>
-        <View style={style.uploadButtoncontainer}>
+        <View style={style.uploadButtoncontainer} testID="uploadimage">
           <TouchableOpacity style={style.uploadButton} onPress={pickImage}>
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
@@ -98,19 +98,20 @@ const OwnerProfile = ({navigation}: Props) => {
         ) : (
           <View style={[style.card, getTextInputStyle()]}>
             <Text style={[style.profileText, getPlaceholderTextColor()]}>
-              {data.firstName}
+              {data?.firstName}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.email}
+              {data?.email}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.phoneNumber}
+              {data?.phoneNumber}
             </Text>
           </View>
         )}
 
         <View style={style.profileFields}>
           <TouchableOpacity
+            testID="editprofile"
             style={[style.whiteBtn, getTextInputStyle()]}
             onPress={() => navigation.navigate('OwnerEditProfile')}>
             <Icons

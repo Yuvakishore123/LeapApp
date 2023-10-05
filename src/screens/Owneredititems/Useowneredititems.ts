@@ -71,15 +71,9 @@ const Useowneredititems = () => {
     setRefreshData(false);
   };
   const [Mapdata, setMapdata] = useState('');
-  const handleName = () => {
-    setName(data.name);
-  };
   const handleGenderChange = (selectedGender: React.SetStateAction<string>) => {
     setGender(selectedGender);
     dispatch(addGenderData(selectedGender));
-  };
-  const handleSelectItem = (item: SetStateAction<null>) => {
-    setSelectedItem(item);
   };
   const fetchData = async () => {
     try {
@@ -498,14 +492,12 @@ const Useowneredititems = () => {
     subOutfitCategoriesData,
     handleSizeTypeChange,
     setSelectedsize,
-    handleName,
     setPrice,
     price,
     visible,
     pref,
     setViisble,
     setQuantity,
-    handleSelectItem,
     setEditProductId,
     selectedItem,
     getOwnerProducts,
@@ -526,7 +518,7 @@ const Useowneredititems = () => {
     isMinusDisabled,
     isPlusDisabled,
     productQuantity,
-
+    gender,
     selectedProductId,
     outofStock,
     setOutofstock,

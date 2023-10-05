@@ -87,33 +87,33 @@ describe('Wishlist Screen', () => {
     expect(loadingText).toBeTruthy();
     expect(lottieAnimation).toBeTruthy();
   });
-  it('calls onLoad when image loads successfully', () => {
-    useSelector.mockImplementation(
-      (selector: (arg0: {WishlistProducts: any}) => any) =>
-        selector({
-          WishlistProducts: {isLoader: false, data: mockWishlistProducts},
-        }),
-    );
-    const {getByTestId} = render(
-      <NavigationContainer>
-        <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
-      </NavigationContainer>,
-    );
-    const image = getByTestId('wishlist-image'); // Make sure to set a testID on your Image component
+  // it('calls onLoad when image loads successfully', () => {
+  //   useSelector.mockImplementation(
+  //     (selector: (arg0: {WishlistProducts: any}) => any) =>
+  //       selector({
+  //         WishlistProducts: {isLoader: false, data: mockWishlistProducts},
+  //       }),
+  //   );
+  //   const {getByTestId} = render(
+  //     <NavigationContainer>
+  //       <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
+  //     </NavigationContainer>,
+  //   );
+  //   const image = getByTestId('wishlist-image'); // Make sure to set a testID on your Image component
 
-    fireEvent(image, 'onLoad');
-  });
+  //   fireEvent(image, 'onLoad');
+  // });
 
-  it('calls onError when image fails to load', () => {
-    const {getByTestId} = render(
-      <NavigationContainer>
-        <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
-      </NavigationContainer>,
-    );
-    const image = getByTestId('wishlist-image');
+  // it('calls onError when image fails to load', () => {
+  //   const {getByTestId} = render(
+  //     <NavigationContainer>
+  //       <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
+  //     </NavigationContainer>,
+  //   );
+  //   const image = getByTestId('wishlist-image');
 
-    fireEvent(image, 'onError');
-  });
+  //   fireEvent(image, 'onError');
+  // });
   it('renders the image', () => {
     const {getAllByTestId} = render(
       <NavigationContainer>

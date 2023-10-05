@@ -170,14 +170,17 @@ const useAddImages = () => {
           try {
             const token = await asyncStorageWrapper.getItem('token');
             logMessage.error(token);
-            const result = await fetch(`${baseUrl}/file/upload`, {
-              method: 'POST',
-              body: formData,
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                Authorization: `Bearer ${token}`,
+            const result = await fetch(
+              `${baseUrl}/file/uploadProductImage?categoryId=${categoryIds}&subcategoryId=${subcategoryIds[0]}`,
+              {
+                method: 'POST',
+                body: formData,
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  Authorization: `Bearer ${token}`,
+                },
               },
-            });
+            );
             if (result.ok) {
               const res = await result.json();
               logMessage.error(res);

@@ -152,6 +152,7 @@ const useCart = () => {
     handleRemove,
     refreshing,
     setRefreshing,
+    setisButtondisable,
     handleUpdate,
     rentalStartDate,
     rentalEndDate,

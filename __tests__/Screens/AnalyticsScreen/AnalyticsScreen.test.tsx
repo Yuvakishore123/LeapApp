@@ -20,6 +20,12 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+jest.mock('victory-native', () => ({
+  VictoryChart: jest.fn().mockReturnValue(null), // Mock the VictoryChart component
+  VictoryBar: jest.fn().mockReturnValue(null), // Mock the VictoryBar component
+  VictoryAxis: jest.fn().mockReturnValue(null), // Mock the VictoryAxis component
+  VictoryLabel: jest.fn().mockReturnValue(null), // Mock the VictoryLabel component
+}));
 jest.mock('@react-native-firebase/in-app-messaging', () =>
   require('@react-native-firebase'),
 );
@@ -39,7 +45,11 @@ describe('Analytics Page', () => {
     AsyncStorage.clear();
   });
   test('renders Analytics correctly', () => {
-    const result = render(<DashboardDetails />);
+    const result = render(
+      <NavigationContainer>
+        <DashboardDetails />
+      </NavigationContainer>,
+    );
 
     expect(result).toBeDefined();
   });

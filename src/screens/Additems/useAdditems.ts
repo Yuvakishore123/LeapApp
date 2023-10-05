@@ -70,28 +70,25 @@ const useAdditems = () => {
   const handleOutfitChange = (selectedOutfit: React.SetStateAction<string>) => {
     setOutfitType(selectedOutfit);
   };
+  const fetchSubCategoryData = async () => {
+    try {
+      const response = await ApiService.get(`${subCategoryUrl}/${genderData}`);
+      const subCategoriesArray = response.map(
+        (category: {id: any; subcategoryName: any}) => ({
+          value: category.id,
+          label: category.subcategoryName,
+        }),
+      );
+      setSubCategoriesData(subCategoriesArray);
+      logMessage.error(subCategoriesArray, 'data error');
+    } catch (error) {
+      logMessage.error(error, 'data error');
+      setIsLoading(true);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchSubCategoryData = async () => {
-      try {
-        const response = await ApiService.get(
-          `${subCategoryUrl}/${genderData}`,
-        );
-        const subCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubCategoriesData(subCategoriesArray);
-        logMessage.error(subCategoriesArray, 'data error');
-      } catch (error) {
-        logMessage.error(error, 'data error');
-        setIsLoading(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
-
     fetchSubCategoryData();
   }, [gender, genderData]);
 
@@ -217,6 +214,8 @@ const useAdditems = () => {
     subCategoriesData,
     subEventCategoriesData,
     subOutfitCategoriesData,
+    fetchSubCategoryData,
+    fetchCategoriesData,
     formik,
     gender,
     eventType,

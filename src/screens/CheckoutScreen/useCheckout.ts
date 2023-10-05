@@ -47,8 +47,10 @@ const useChectout = () => {
 
   const handleCheckboxChange = (index: any) => {
     setSelectedAddressIndex(index);
-    const newIsCheckedArray = data.map((_: any, i: any) => i === index);
-    setIsCheckedArray(newIsCheckedArray);
+    if (Array.isArray(data)) {
+      const newIsCheckedArray = data.map((_: any, i: any) => i === index);
+      setIsCheckedArray(newIsCheckedArray);
+    }
     setIschecked(false);
   };
   const onRefresh = async () => {
@@ -136,7 +138,6 @@ const useChectout = () => {
     onRefresh,
     handlePayment,
     data,
-
     rentalStartDate,
     rentalEndDate,
     setRentalStartDate,

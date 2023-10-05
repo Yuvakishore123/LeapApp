@@ -52,14 +52,18 @@ const Address = () => {
           </View>
         </View>
         <View>
-          <TouchableOpacity onPress={() => handleEditItems(item)}>
+          <TouchableOpacity
+            onPress={() => handleEditItems(item)}
+            testID="edit-button">
             <MaterialIcons
               name="edit"
               size={25}
               color={colorScheme === 'dark' ? Colors.white : Colors.black}
             />
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => handleDeleteAddress(item.id)}>
+          <TouchableOpacity
+            onPress={() => handleDeleteAddress(item.id)}
+            testID="delete-button">
             <MaterialIcons
               name="delete"
               size={25}

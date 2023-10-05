@@ -136,7 +136,7 @@ describe('LoginScreen', () => {
 
   test('toggle password visibility', () => {
     const Stack = createNativeStackNavigator();
-    const {getByTestId} = render(
+    const {getByTestId, getByPlaceholderText} = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
@@ -145,12 +145,21 @@ describe('LoginScreen', () => {
         </NavigationContainer>
       </Provider>,
     );
-
+    const passwordInput = getByPlaceholderText('Enter password');
     const eyeButton = getByTestId('eye-button');
-    act(() => {
-      fireEvent.press(eyeButton);
-    });
 
+    // Initially, password should be hidden (secureTextEntry)
+    expect(passwordInput.props.secureTextEntry).toBe(true);
+
+    // Simulate a press on the eye button
+    fireEvent.press(eyeButton);
+
+    // Now, password should be visible
+    expect(passwordInput.props.secureTextEntry).toBe(false);
+
+    // Pressing the eye button again should hide the password
+    fireEvent.press(eyeButton);
+    expect(passwordInput.props.secureTextEntry).toBe(true);
     // Add assertions to verify if password visibility changes
   });
 

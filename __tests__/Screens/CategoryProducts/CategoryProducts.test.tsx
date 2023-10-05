@@ -59,10 +59,13 @@ describe('Category Products', () => {
     });
     const productButton = getByTestId('product-button-1');
     fireEvent.press(productButton);
+    expect(productButton).toBeDefined();
     const productButton2 = getByTestId('product-Button-1');
     fireEvent.press(productButton2);
+    expect(productButton2).toBeDefined();
     const wishlistButton = getByTestId('wishlist-1');
     fireEvent.press(wishlistButton);
+    expect(wishlistButton).toBeDefined();
     expect(mockNavigate).toHaveBeenCalledWith('UProductDetails', {
       product: subcategories[0],
     });
