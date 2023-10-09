@@ -1,10 +1,7 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {store} from '../../../src/redux/store';
-import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import DashboardDetails from 'screens/OwnerHomepage/DashboardDetails';
 
 jest.mock('@react-native-firebase/analytics', () =>

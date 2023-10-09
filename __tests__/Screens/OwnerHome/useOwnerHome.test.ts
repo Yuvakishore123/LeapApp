@@ -1,14 +1,18 @@
-import {act, renderHook} from '@testing-library/react-native';
+import {act, renderHook, waitFor} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import React from 'react';
 import useOwnerHome from '../../../src/screens/OwnerHomepage/useOwnerHome';
+import ApiService from 'network/network';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
+jest.mock('../../../src/network/network', () => ({
+  get: jest.fn(),
+}));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@react-native-firebase/messaging', () =>
@@ -24,7 +28,27 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-
+const mockData = [
+  {
+    id: '1',
+    imageUrl: [
+      'https://example.com/image1.jpg',
+      'https://example.com/image2.jpg',
+    ],
+    name: 'white shirt',
+    price: 1000,
+  },
+  {
+    id: '2',
+    imageUrl: [
+      'https://example.com/image3.jpg',
+      'https://example.com/image4.jpg',
+    ],
+    name: 'black shirt',
+    price: 1500,
+  },
+  // ... (more products)
+];
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -43,10 +67,9 @@ const configureDispatch = () => {
   useDispatch.mockReturnValue(dispatch);
   return dispatch;
 };
-
+const HandlePiechart = jest.fn();
 describe('Checkout Screen', () => {
   const mockDispatch = configureDispatch();
-  let HandlePiechart: jest.Mock<any, any, any>;
   beforeEach(() => {
     useDispatch.mockReturnValue(mockDispatch);
     useSelector.mockImplementation(
@@ -61,7 +84,6 @@ describe('Checkout Screen', () => {
           products: {data: {}},
         }),
     );
-    HandlePiechart = jest.fn();
     AsyncStorage.clear();
   });
 
@@ -98,10 +120,23 @@ describe('Checkout Screen', () => {
     expect(result.current.refreshing).toBe(true);
   });
   it('handles handleAnalatyics correctly', () => {
-    const {handleAnalatyics} = useOwnerHome();
-    handleAnalatyics();
-
-    expect(HandlePiechart).toHaveBeenCalled();
-    expect(mockNav).toHaveBeenCalledWith('DashboardDetails');
+    const {result} = renderHook(() => useOwnerHome());
+    act(() => {
+      result.current.handleAnalatyics();
+    });
+    waitFor(() => {
+      expect(HandlePiechart).toBeCalled();
+      expect(mockNav).toHaveBeenCalledWith('DashboardDetails');
+    });
+  });
+  it('handles fetchRecentlyAdded correctly', () => {
+    const {result} = renderHook(() => useOwnerHome());
+    act(() => {
+      result.current.fetchRecentlyAdded();
+    });
+    ApiService.get.mockResolvedValue(mockData);
+    waitFor(() => {
+      expect(result.current.recentyAdded).toBe(mockData);
+    });
   });
 });

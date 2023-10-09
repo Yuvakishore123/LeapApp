@@ -1,6 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
-import axios from 'axios';
 import {url as baseUrl} from '../../constants/Apis';
 import {
   addGenderData,
@@ -216,9 +215,6 @@ const Useowneredititems = () => {
   const handleremove = () => {
     setSelectedImage('');
   };
-  const handleRemoveImages = () => {
-    setImageUris([]);
-  };
   useEffect(() => {
     const getImageUrls = async () => {
       const url = await asyncStorageWrapper.getItem('url');
@@ -269,14 +265,17 @@ const Useowneredititems = () => {
         });
       });
 
-      const result = await fetch(`${baseUrl}/file/upload`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+      const result = await fetch(
+        `${baseUrl}/file/uploadProductImage?categoryId=${1}&subcategoryId=${1}`,
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (result.ok) {
         const res = await result.json();
@@ -311,7 +310,6 @@ const Useowneredititems = () => {
   };
   const handleedit = async () => {
     try {
-      const token = await asyncStorageWrapper.getItem('token');
       const data = {
         brand: 'addidas',
         categoryIds: [gender],
@@ -327,23 +325,10 @@ const Useowneredititems = () => {
         subcategoryIds: [itemType, outfitType, eventType],
       };
 
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      };
-
-      const response = await fetch(
+      const response = await ApiService.put(
         `${baseUrl}/product/update/${editProductId}`,
-        {
-          method: 'PUT',
-          headers: headers,
-          body: JSON.stringify(data),
-        },
+        data,
       );
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       dispatch(addsize(selectedsize));
       navigation.navigate('OwnerProfile');
     } catch (error) {
@@ -365,26 +350,6 @@ const Useowneredititems = () => {
       .catch(error => {
         console.error(error);
       });
-  };
-
-  const getOwnerProducts = async () => {
-    try {
-      setViisble(true);
-      const token = await asyncStorageWrapper.getItem('token');
-      const response = await axios.get(
-        `${baseUrl}/product/listByProductId/${editProductId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
-      setPrefill(response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error occurred while getting owner products:', error);
-      throw error;
-    }
   };
   const handleDisableProduct = (item: any) => {
     setIsModalVisible(true);
@@ -474,7 +439,6 @@ const Useowneredititems = () => {
     setShowModal,
     showModal,
     handleremove,
-    handleRemoveImages,
     pickImg,
     imageUris,
     imageLoaded,
@@ -500,7 +464,6 @@ const Useowneredititems = () => {
     setQuantity,
     setEditProductId,
     selectedItem,
-    getOwnerProducts,
     FetchData,
     Mapdata,
     quantity,
@@ -530,6 +493,11 @@ const Useowneredititems = () => {
     refreshData,
     setRefreshData,
     handleRefresh,
+    eventType,
+    outfitType,
+    itemType,
+    selectedsize,
+    setPrefill,
     handleDisableProduct,
   };
 };

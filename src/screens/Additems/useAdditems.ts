@@ -22,7 +22,7 @@ import {fetchCategoriesData} from '../../redux/slice/categorySlice';
 import {subCategoryUrl} from '../../constants/apiRoutes';
 import {logMessage} from '../../helpers/helper';
 type RootStackParamList = {
-  OwnerImage: undefined;
+  AddImages: undefined;
 };
 const useAdditems = () => {
   const dispatch = useDispatch();
@@ -176,7 +176,7 @@ const useAdditems = () => {
     dispatch(addGender(CategoryIds));
     dispatch(addevent(subcategoryIds));
     dispatch(addoutfit(subcategoryIds));
-    navigation.navigate('OwnerImage');
+    navigation.navigate('AddImages');
   };
   const formik = useFormik({
     initialValues: {

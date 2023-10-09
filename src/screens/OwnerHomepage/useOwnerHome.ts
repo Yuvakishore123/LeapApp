@@ -151,6 +151,8 @@ const useOwnerHome = () => {
     isMinusDisabled,
     isPlusDisabled,
     productQuantity,
+    HandlePiechart,
+    fetchRecentlyAdded,
     name,
     isLoading,
     totalEarnings,

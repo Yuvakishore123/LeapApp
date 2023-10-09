@@ -11,6 +11,7 @@ const messaging = jest.fn(() => ({
 }));
 const InAppMessaging = {
   // Define mock methods here
+  inAppMessaging: jest.fn(),
   setMessagesDisplaySuppressed: jest.fn(),
   // ...
 };

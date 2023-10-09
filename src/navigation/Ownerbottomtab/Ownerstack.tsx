@@ -20,7 +20,6 @@ import {
   getFocusedRouteNameFromRoute,
   useIsFocused,
 } from '@react-navigation/native';
-import OwnerImage from '../../screens/OwnerImage/AddImages';
 import OproductDetails from '../../screens/OwnerProductdetailsPage/OproductDetails';
 import Owneredititems from '../../screens/Owneredititems/Owneredititems';
 import Colors from '../../constants/colors';
@@ -32,6 +31,7 @@ import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics
 import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRentalScreen';
 import OwnerRentalDetailsScreen from '../../screens/ownerRentaldetailsScreen/ownerRentaldetailsScreen';
 import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
+import AddImages from '../../screens/OwnerImage/AddImages';
 
 // Creating a native stack navigator and a bottom tab navigator
 const Stack = createNativeStackNavigator();
@@ -46,7 +46,7 @@ const getRouteName = (route: Partial<Route<string>>) => {
     routeName?.includes('DeliveryScreen') ||
     routeName?.includes('Owneraddaddress') ||
     routeName?.includes('Owneredititems') ||
-    routeName?.includes('OwnerImage') ||
+    routeName?.includes('AddImages') ||
     routeName?.includes('OproductDetails') ||
     routeName?.includes('DashboardDetails') ||
     routeName?.includes('FilteredAnalytics') ||
@@ -189,7 +189,7 @@ const Owneradditemsstack = () => {
       screenOptions={{headerShown: false}}
       initialRouteName="Additems">
       {createStackScreen('Additems', Additems)}
-      {createStackScreen('OwnerImage', OwnerImage)}
+      {createStackScreen('AddImages', AddImages)}
       {createStackScreen('OwnerHome', OwnerHome)}
     </Stack.Navigator>
   );

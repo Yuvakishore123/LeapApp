@@ -81,7 +81,11 @@ const useHome = () => {
 
   const handleEndReached = async () => {
     setPageSize(pageSize + 10);
-    setProductsdata([...productsData, ...allProducts]);
+    if (Array.isArray(allProducts)) {
+      setProductsdata([...productsData, ...allProducts]);
+    } else {
+      logMessage.error('allProducts is not an array:', allProducts);
+    }
     dispatch(fetchUserProducts({pageSize}) as any);
     await inAppMessaging().setMessagesDisplaySuppressed(true);
   };
@@ -110,10 +114,12 @@ const useHome = () => {
     placeholderTextColor,
     loading,
     openModal,
+    setRefreshing,
     closeModal,
     showModal,
     Data,
     oldData,
+    pageSize,
     wishlistremove,
     allProducts,
     pageError,
