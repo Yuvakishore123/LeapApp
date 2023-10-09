@@ -47,7 +47,6 @@ const OwnerEditProfileCustomHook = () => {
         phoneNumber: phoneNumber,
       };
       dispatch(updateProfile(data) as any);
-
       openModal();
     } catch (error) {
       console.error(error);

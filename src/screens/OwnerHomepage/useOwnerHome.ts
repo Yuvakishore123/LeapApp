@@ -25,12 +25,12 @@ const useOwnerHome = () => {
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [rentedItems, setRentedItems] = useState(0);
   const [recentyAdded, setRecentlyAdded] = useState([]);
-  const [productQuantity, setProductQuantity] = useState(0);
+
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [, setIsQuantity] = useState(true);
   const [isMinusDisabled, setIsMinusDisabled] = useState(true);
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
-  const [selectedProductId, setSelectedProductId] = useState(null);
+
   const [outofStock, setOutofstock] = useState(false);
   const [Name, _setName] = useState('');
   const {log} = logMessage();
@@ -54,19 +54,6 @@ const useOwnerHome = () => {
     return unsubscribe;
   }, [navigation]);
 
-  const handleDisableProduct = (item: any) => {
-    setProductQuantity(item.availableQuantities);
-    setIsModalVisible(true);
-    setSelectedProductId(item.id);
-  };
-  const incrementQuantity = () => {
-    setProductQuantity(prevQuantity => prevQuantity + 1);
-  };
-  const decrementQuantity = () => {
-    if (productQuantity > 1) {
-      setProductQuantity(prevQuantity => prevQuantity - 1);
-    }
-  };
   const {dispatch} = useThunkDispatch();
   useEffect(() => {
     dispatch(fetchProducts() as any);
@@ -139,18 +126,16 @@ const useOwnerHome = () => {
     handleAdditems,
     handleAnalatyics,
     handleMyrentals,
-    handleDisableProduct,
 
     setIsModalVisible,
     setIsMinusDisabled,
     setIsPlusDisabled,
     setIsQuantity,
-    incrementQuantity,
-    decrementQuantity,
+
     isModalVisible,
     isMinusDisabled,
     isPlusDisabled,
-    productQuantity,
+
     name,
     isLoading,
     totalEarnings,
@@ -158,7 +143,7 @@ const useOwnerHome = () => {
     refreshing,
     onRefresh,
     recentyAdded,
-    selectedProductId,
+
     outofStock,
     setOutofstock,
     refreshTrigger,

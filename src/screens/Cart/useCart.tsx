@@ -1,12 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useContext, useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
 
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
-import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {removefromCart} from '../../redux/slice/cartRemoveSlice';
 import {updateCart} from '../../redux/slice/cartUpdateSlice';
@@ -27,13 +26,7 @@ const useCart = () => {
   const [isplusDisable, setisButtondisable] = useState(false); // Added loading state
   const [cartProductId, setCartProductId] = useState(0);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const {
-    colorScheme,
-    getPlaceholderTextColor,
-    getContainerStyle,
-    getTextColor,
-    getTextInputStyle,
-  } = useContext(ColorSchemeContext);
+
   const dispatch = useDispatch();
 
   const openModal = () => {
@@ -150,17 +143,14 @@ const useCart = () => {
     setImageLoaded,
     closeModal,
     showModal,
-    colorScheme,
+
     quantity,
     setQuantity,
     handleDecrement,
     handleIncrement,
     isplusDisable,
     isLoading,
-    getPlaceholderTextColor,
-    getContainerStyle,
-    getTextColor,
-    getTextInputStyle,
+
     cartProductId,
     dispatch,
     setCartProductId,

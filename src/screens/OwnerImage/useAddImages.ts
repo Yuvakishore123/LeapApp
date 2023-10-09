@@ -160,9 +160,8 @@ const useAddImages = () => {
           setIsLoading(true);
           try {
             const token = await AsyncStorageWrapper.getItem('token');
-            console.log(categoryIds, subcategoryIds);
             const result = await fetch(
-              `${baseUrl}/file/uploadProductImage?categoryId=${1}&subcategoryId=${1}`,
+              `${baseUrl}/file/uploadProductImage?categoryId=${categoryIds}&subcategoryId=${subcategoryIds[0]}`,
               {
                 method: 'POST',
                 body: formData,

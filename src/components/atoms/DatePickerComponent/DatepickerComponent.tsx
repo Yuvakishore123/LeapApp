@@ -82,7 +82,7 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
             selectedEndDate={selectedEndDate}
             onDateChange={onDateChange}
             minDate={startDate}
-            testID="calendar-picker-start-date"
+            testID="Calander-Picker"
           />
           <View style={styles.clearButtonview}>
             <TouchableOpacity

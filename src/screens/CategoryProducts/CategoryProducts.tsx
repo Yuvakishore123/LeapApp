@@ -21,9 +21,10 @@ type RootStackParamList = {
 const CategoryProducts = ({route}: any) => {
   const {subcategoryId} = route.params;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const {subcategories, wishlistList, toggleWishlist, getContainerStyle} =
+  const {subcategories, wishlistList, toggleWishlist} =
     useCategoryProducts(subcategoryId);
-  const {getTextColor, getTextInputStyle} = useContext(ColorSchemeContext);
+  const {getTextColor, getTextInputStyle, getContainerStyle} =
+    useContext(ColorSchemeContext);
   return (
     <ScrollView style={[style.maincontainer, getContainerStyle()]}>
       <HeadingText message={'Products'} navigation={undefined} />
@@ -76,7 +77,7 @@ const CategoryProducts = ({route}: any) => {
                       <View style={style.cardTextContainer}>
                         <View style={style.Cartcontents}>
                           <Text
-                            testID="product-name"
+                            testID={`product-name-${item.name}`}
                             style={[style.name, getTextColor()]}>
                             {item.name}
                           </Text>

@@ -7,6 +7,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Wishlist from 'screens/Wishlist/Wishlist';
 import useWishlist from 'screens/Wishlist/useWishlist';
+import Toast from 'react-native-toast-message';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -194,6 +195,37 @@ describe('useWishlist Screen', () => {
           payload: mockItemId,
         }),
       );
+    });
+  });
+  it('should showToast when error occured', async () => {
+    const {result} = renderHook(() => useWishlist(), {
+      // Provide the Redux store as a value for the Provider
+      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+    });
+    const toastShowMock = jest.spyOn(Toast, 'show');
+
+    await act(() => {
+      result.current.showToast();
+    });
+    await waitFor(() => {
+      expect(toastShowMock).toHaveBeenCalledWith({
+        type: 'error',
+        text1: 'Error in wislist cart',
+      });
+    });
+  });
+  it('should onRefresh when on refresh is called', async () => {
+    const {result} = renderHook(() => useWishlist(), {
+      // Provide the Redux store as a value for the Provider
+      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+    });
+    const toastShowMock = jest.spyOn(Toast, 'show');
+
+    await act(() => {
+      result.current.onRefresh();
+    });
+    await waitFor(() => {
+      expect(result.current.refreshing).toBe(false);
     });
   });
 });

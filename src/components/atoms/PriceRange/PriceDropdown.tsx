@@ -3,7 +3,7 @@ import {View, Text, TouchableOpacity, Animated} from 'react-native';
 import Icon from 'react-native-vector-icons/Ionicons'; // Import the icon component from the library
 import Colors from '../../../constants/colors';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
-import Styles from '../../../constants/themeColors';
+
 import styles from './priceRangestyles';
 const options = [
   {label: '₹0 - ₹100', min: 0, max: 100},
@@ -29,7 +29,7 @@ const PriceRangeDropdown = ({
   onSelectPriceRange,
 }: PriceRangeProps) => {
   const [open, setOpen] = useState(false);
-  const {colorScheme} = useContext(ColorSchemeContext);
+  const {getContainerStyle, getTextColor} = useContext(ColorSchemeContext);
   const [selectedOption, setSelectedOption] = useState<PriceRange | null>(null);
 
   const dropdownHeight = useRef(new Animated.Value(0)).current;
@@ -68,17 +68,10 @@ const PriceRangeDropdown = ({
         // colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
       ]}>
       <TouchableOpacity
-        style={[
-          styles.button,
-          colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-        ]}
+        style={[styles.button, getContainerStyle()]}
         onPress={handleDropdownToggle}
         testID="dropdown-button">
-        <Text
-          style={[
-            styles.buttonText,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
+        <Text style={[styles.buttonText, getTextColor()]}>
           {selectedOption
             ? selectedOption.label
             : `₹${minPrice} - ₹${maxPrice}`}
@@ -94,6 +87,7 @@ const PriceRangeDropdown = ({
         testID="dropdown-content">
         {options.map(option => (
           <TouchableOpacity
+            testID={`option-select-${option.label}`}
             key={option.label}
             style={styles.option}
             onPress={() => handleSelectOption(option)}>

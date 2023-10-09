@@ -66,7 +66,7 @@ const useSignup = () => {
         password: formik.values.password,
         role: role,
       };
-      dispatch(postSignup(credentials) as any);
+      dispatch(postSignup(credentials));
       handleError();
     } catch (error) {
       openModal();
@@ -123,6 +123,9 @@ const useSignup = () => {
     isError,
     signInPasswordVisible,
     setSignInPasswordVisible,
+    showToast,
+    handleError,
+    dispatch,
   };
 };
 export default useSignup;

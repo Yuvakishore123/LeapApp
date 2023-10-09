@@ -26,6 +26,7 @@ const inAppMessaging = {
   // Define mock functions or methods for Firebase In-App Messaging
   // You can add mock implementations for specific methods as needed
   triggerEvent: jest.fn(),
+  default: jest.fn(),
   // Add other methods as needed
 };
 

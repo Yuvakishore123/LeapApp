@@ -12,9 +12,14 @@ const ImageComponent = ({imageUrl}) => {
   return (
     <View>
       {!imageLoaded && (
-        <Image source={placeholderImageSource} style={style.image} />
+        <Image
+          testID="placeholder-image"
+          source={placeholderImageSource}
+          style={style.image}
+        />
       )}
       <Image
+        testID="main-image"
         source={{uri: imageUrl}}
         style={[style.image, {display: imageLoaded ? 'flex' : 'none'}]}
         onLoad={() => setImageLoaded(true)}

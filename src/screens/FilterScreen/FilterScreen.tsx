@@ -19,6 +19,7 @@ const FilterScreen = () => {
     minimumPrice,
     maximumPrice,
     setMinimumPrice,
+
     setMaximumPrice,
     filteredProducts,
     SetSize,
@@ -55,12 +56,19 @@ const FilterScreen = () => {
                 <Image
                   source={{uri: product.imageUrl[0]}}
                   style={styles.productImage}
+                  testID={`Image-${product.id}`}
                 />
               )}
               <View>
-                <Text>Product Name: {product.name}</Text>
-                <Text>Brand: {product.brand}</Text>
-                <Text>Price: {product.price}</Text>
+                <Text testID={`Name-${product.id}`}>
+                  Product Name: {product.name}
+                </Text>
+                <Text testID={`Brand-${product.id}`}>
+                  Brand: {product.brand}
+                </Text>
+                <Text testID={`price-${product.id}`}>
+                  Price: {product.price}
+                </Text>
               </View>
             </View>
           ))
@@ -68,6 +76,7 @@ const FilterScreen = () => {
           <Text>No products found.</Text>
         )}
       </View>
+
       <TouchableOpacity
         style={{
           width: 150,
@@ -77,7 +86,8 @@ const FilterScreen = () => {
           justifyContent: 'center',
           alignItems: 'center',
         }}
-        onPress={FilterData}>
+        onPress={FilterData}
+        testID="Filter-Button">
         <Text style={{color: Colors.white}}>FilterScreen</Text>
       </TouchableOpacity>
     </View>

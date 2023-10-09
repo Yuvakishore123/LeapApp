@@ -12,7 +12,7 @@ import React, {useContext} from 'react';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 
-import Useownerimage from './useAddImages';
+import useAddImages from './useAddImages';
 import Sizeselection from '../../components/atoms/Sizeselect';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {addImages} from '../../constants/languages/en';
@@ -39,7 +39,7 @@ const AddImages = () => {
     showModal,
     formik,
     isLoading,
-  } = Useownerimage();
+  } = useAddImages();
   const areImagesUploaded = imageUrls && imageUrls.length > 0;
   const {colorScheme, getTextColor, getTextInputStyle, getContainerStyle} =
     useContext(ColorSchemeContext);
@@ -47,13 +47,9 @@ const AddImages = () => {
     <ScrollView
       style={[
         {height: '100%', backgroundColor: Colors.black},
-        colorScheme === 'dark' ? styles.blacktheme : styles.whiteTheme,
+        getContainerStyle(),
       ]}>
-      <View
-        style={[
-          OwnerImagestyles.Scroll,
-          colorScheme === 'dark' ? styles.blacktheme : styles.whiteTheme,
-        ]}>
+      <View style={[OwnerImagestyles.Scroll, getContainerStyle()]}>
         <HeadingText message="Add products" navigation={undefined} />
         <View style={[OwnerImagestyles.form]}>
           <View style={[OwnerImagestyles.ImageBox]}>
@@ -74,11 +70,13 @@ const AddImages = () => {
                             ? styles.cardColor
                             : styles.whiteTheme,
                         ]}
+                        testID={`image-${index}`}
                         source={{uri: image}}
                       />
                       <TouchableOpacity
                         onPress={() => handleRemoveImage(index)}
-                        style={OwnerImagestyles.removeIconContainer}>
+                        style={OwnerImagestyles.removeIconContainer}
+                        testID={`remove-button-${index}`}>
                         <MaterialIcons
                           name="cancel"
                           size={25}
@@ -92,7 +90,8 @@ const AddImages = () => {
                   <View style={OwnerImagestyles.removeContainer}>
                     <TouchableOpacity
                       onPress={pickImages}
-                      style={OwnerImagestyles.touchableContainer}>
+                      style={OwnerImagestyles.touchableContainer}
+                      testID="add-more-button">
                       <Text style={OwnerImagestyles.removeText}>Add More</Text>
                     </TouchableOpacity>
                   </View>
@@ -101,11 +100,14 @@ const AddImages = () => {
             ) : (
               <>
                 {isLoading ? (
-                  <View style={OwnerImagestyles.overlay}>
+                  <View
+                    testID="loading-indicator"
+                    style={OwnerImagestyles.overlay}>
                     <ActivityIndicator size="large" color="white" />
                   </View>
                 ) : (
                   <TouchableOpacity
+                    testID="AddImages-Button"
                     style={[OwnerImagestyles.Addimage, getTextInputStyle()]}
                     onPress={pickImages}>
                     <Lottie
@@ -143,6 +145,7 @@ const AddImages = () => {
               placeholder="Select price"
               placeholderTextColor="gray"
               keyboardType="numeric"
+              testID="price"
               onChangeText={handlePriceChange}
               onBlur={() => handleBlur('price')}
             />
@@ -153,6 +156,7 @@ const AddImages = () => {
               keyboardType="numeric"
               placeholder="Select quantity"
               placeholderTextColor="gray"
+              testID="quantity"
               style={[
                 OwnerImagestyles.quantity,
                 {paddingLeft: 25},

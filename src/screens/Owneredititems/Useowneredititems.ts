@@ -1,26 +1,24 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
-import axios from 'axios';
+
 import {url as baseUrl} from '../../constants/Apis';
 import {
   addGenderData,
   addsize,
   removeproducts,
 } from '../../redux/actions/actions';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {
-  categoryDataUrl,
   disableProductUrl,
   editItemsDataUrl,
   editProductsByIdUrl,
   enableProductUrl,
-  subCategoryUrl,
 } from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import AsyncStorageWrapper from '../../utils/asyncStorage';
@@ -38,11 +36,12 @@ const Useowneredititems = () => {
   const [itemType, setItemType] = useState('');
   const [selectedsize, setSelectedsize] = useState('');
   const [editProductId, setEditProductId] = useState<number | null>(null);
-  const [pref, setPrefill] = useState([]);
+  const [pref, _setPrefill] = useState([]);
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
   const [selectedItem, setSelectedItem] = useState(null);
-  const [visible, setViisble] = useState(false);
+  const [visible, setVisible] = useState(false);
+
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [isMinusDisabled, setIsMinusDisabled] = useState(true);
@@ -51,9 +50,7 @@ const Useowneredititems = () => {
     null,
   );
   const [categoriesData, setCategoriesData] = useState([]);
-  const [subCategoriesData, setSubCategoriesData] = useState([]);
-  const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
-  const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
+
   const [outofStock, setOutofstock] = useState(false);
   const [totalQuantity, settotalQuantities] = useState(0);
   const [updatedQuantity, setupdatedquantity] = useState(0);
@@ -73,9 +70,7 @@ const Useowneredititems = () => {
     setRefreshData(false);
   };
   const [Mapdata, setMapdata] = useState('');
-  const handleName = () => {
-    setName(data.name);
-  };
+
   const handleGenderChange = (selectedGender: React.SetStateAction<string>) => {
     setGender(selectedGender);
     dispatch(addGenderData(selectedGender));
@@ -86,17 +81,7 @@ const Useowneredititems = () => {
   const fetchData = async () => {
     try {
       const response = await ApiService.get(editItemsDataUrl);
-      const mappedData = response.map((item: any) => ({
-        id: item.id,
-        name: item.name,
-        price: item.price,
-        image: item.imageUrl[0],
-        disabledQuantities: item.disabledQuantities,
-        availableQuantities: item.availableQuantities,
-        disabled: item.disabled,
-        totalQuantity: item.totalQuantity,
-      }));
-      setData(mappedData);
+      setData(response);
 
       setIsLoading(false);
     } catch (error) {
@@ -108,6 +93,11 @@ const Useowneredititems = () => {
     setIsLoading(true);
     fetchData();
   }, []);
+  useEffect(() => {
+    if (!isModalVisible) {
+      setRefreshData(false);
+    }
+  }, [isModalVisible]);
 
   const FetchData = async (editProductId: any) => {
     try {
@@ -125,86 +115,6 @@ const Useowneredititems = () => {
       log.error('error during fetching productData', error);
     }
   };
-  const genderData = useSelector(
-    (state: {GenderReducer: {genderData: null[]}}) =>
-      state.GenderReducer.genderData,
-  );
-
-  useEffect(() => {
-    const fetchSubCategoryData = async () => {
-      try {
-        const response = await ApiService.get(
-          `${subCategoryUrl}/${genderData}`,
-        );
-        const subCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubCategoriesData(subCategoriesArray);
-      } catch (error) {
-        log.error('error during fetching category data');
-      }
-    };
-    fetchSubCategoryData();
-  }, [genderData]);
-
-  useEffect(() => {
-    const fetchEventCategoryData = async () => {
-      try {
-        const response = await ApiService.get(`${subCategoryUrl}/${1}`);
-        const subEventCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubEventCategoriesData(subEventCategoriesArray);
-      } catch (error) {
-        log.error('error during fetching event category data');
-      }
-    };
-    fetchEventCategoryData();
-  }, []);
-
-  useEffect(() => {
-    const subOutfitCategoriesData = async () => {
-      try {
-        const response = await ApiService.get(`${subCategoryUrl}/${2}`);
-        const subOutfitCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubOutfitCategoriesData(subOutfitCategoriesArray);
-      } catch (error) {
-        log.error('error during fetching outfit category  data');
-      }
-    };
-    subOutfitCategoriesData();
-  }, []);
-  // 2nd api call here
-
-  useEffect(() => {
-    const fetchCategoryData = async () => {
-      try {
-        const response = await ApiService.get(categoryDataUrl);
-        const categoriesArray = response.map(
-          (category: {id: any; categoryName: any}) => ({
-            ...category,
-            value: category.id,
-            label: category.categoryName,
-          }),
-        );
-        setCategoriesData(categoriesArray);
-      } catch (error) {
-        log.error('error during fetching event category data');
-      }
-    };
-    fetchCategoryData();
-  }, []);
 
   const [selectedImage, setSelectedImage] = useState('');
   const [imageUris, setImageUris] = useState([]);
@@ -213,9 +123,7 @@ const Useowneredititems = () => {
   const handleremove = () => {
     setSelectedImage('');
   };
-  const handleRemoveImages = () => {
-    setImageUris([]);
-  };
+
   useEffect(() => {
     const getImageUrls = async () => {
       const url = await AsyncStorageWrapper.getItem('url');
@@ -261,14 +169,17 @@ const Useowneredititems = () => {
         });
       });
 
-      const result = await fetch(`${baseUrl}/file/upload`, {
-        method: 'POST',
-        body: formData,
-        headers: {
-          'Content-Type': 'multipart/form-data',
-          Authorization: `Bearer ${token}`,
+      const result = await fetch(
+        `${baseUrl}/file/uploadProductImage?categoryId=${1}&subcategoryId=${1}`,
+        {
+          method: 'POST',
+          body: formData,
+          headers: {
+            'Content-Type': 'multipart/form-data',
+            Authorization: `Bearer ${token}`,
+          },
         },
-      });
+      );
 
       if (result.ok) {
         const res = await result.json();
@@ -303,7 +214,6 @@ const Useowneredititems = () => {
   };
   const handleedit = async () => {
     try {
-      const token = await AsyncStorageWrapper.getItem('token');
       const data = {
         brand: 'addidas',
         categoryIds: [gender],
@@ -319,38 +229,18 @@ const Useowneredititems = () => {
         subcategoryIds: [itemType, outfitType, eventType],
       };
 
-      const headers = {
-        'Content-Type': 'application/json',
-        Authorization: `Bearer ${token}`,
-      };
+      await ApiService.put(`${baseUrl}/product/update/${editProductId}`, data);
+      fetchData();
+      setRefreshData(true);
 
-      const response = await fetch(
-        `${baseUrl}/product/update/${editProductId}`,
-        {
-          method: 'PUT',
-          headers: headers,
-          body: JSON.stringify(data),
-        },
-      );
-
-      if (!response.ok) {
-        throw new Error('Network response was not ok');
-      }
       dispatch(addsize(selectedsize));
       navigation.navigate('OwnerProfile');
     } catch (error) {
-      log.error('error during editing data');
+      log.error('error during editing data', error);
     }
   };
   const RemoveProducts = async (productId: any) => {
-    const token = await AsyncStorageWrapper.getItem('token');
-
-    fetch(`${baseUrl}/product/deleteProduct/${productId}`, {
-      method: 'DELETE',
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
-    })
+    ApiService.delete(`${baseUrl}/product/deleteProduct/${productId}`)
       .then(_data => {
         dispatch(removeproducts(productId));
         openModal();
@@ -360,26 +250,26 @@ const Useowneredititems = () => {
       });
   };
 
-  const getOwnerProducts = async () => {
-    try {
-      setViisble(true);
-      const token = await AsyncStorageWrapper.getItem('token');
-      const response = await axios.get(
-        `${baseUrl}/product/listByProductId/${editProductId}`,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      );
+  // const getOwnerProducts = async () => {
+  //   try {
+  //     setViisble(true);
+  //     const token = await AsyncStorageWrapper.getItem('token');
+  //     const response = await axios.get(
+  //       `${baseUrl}/product/listByProductId/${editProductId}`,
+  //       {
+  //         headers: {
+  //           Authorization: `Bearer ${token}`,
+  //         },
+  //       },
+  //     );
 
-      setPrefill(response.data);
-      return response.data;
-    } catch (error) {
-      console.error('Error occurred while getting owner products:', error);
-      throw error;
-    }
-  };
+  //     setPrefill(response.data);
+  //     return response.data;
+  //   } catch (error) {
+  //     console.error('Error occurred while getting owner products:', error);
+  //     throw error;
+  //   }
+  // };
   const handleDisableProduct = (item: any) => {
     setIsModalVisible(true);
     setProductQuantity(item.availableQuantities);
@@ -392,7 +282,6 @@ const Useowneredititems = () => {
     if (productQuantity < disabledQuantity && disabledQuantity !== 0) {
       maxQuantity = disabledQuantity;
     }
-
     if (updatedQuantity >= maxQuantity) {
       setIsPlusDisabled(true);
     } else {
@@ -466,7 +355,7 @@ const Useowneredititems = () => {
     setShowModal,
     showModal,
     handleremove,
-    handleRemoveImages,
+
     pickImg,
     imageUris,
     handleGenderChange,
@@ -477,22 +366,20 @@ const Useowneredititems = () => {
     setDescription,
     setCategoriesData,
     categoriesData,
-    subCategoriesData,
-    subEventCategoriesData,
-    subOutfitCategoriesData,
+
     handleSizeTypeChange,
     setSelectedsize,
-    handleName,
+
     setPrice,
     price,
     visible,
     pref,
-    setViisble,
+    setVisible,
     setQuantity,
     handleSelectItem,
     setEditProductId,
     selectedItem,
-    getOwnerProducts,
+
     FetchData,
     Mapdata,
     quantity,
@@ -510,6 +397,7 @@ const Useowneredititems = () => {
     isMinusDisabled,
     isPlusDisabled,
     productQuantity,
+    gender,
 
     selectedProductId,
     outofStock,
@@ -520,9 +408,14 @@ const Useowneredititems = () => {
     updatedQuantity,
     disabledQuantity,
     refreshData,
-    setRefreshData,
+
     handleRefresh,
     handleDisableProduct,
+
+    eventType,
+    outfitType,
+    selectedsize,
+    itemType,
   };
 };
 

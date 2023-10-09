@@ -71,6 +71,7 @@ const useWishlist = () => {
     showModal,
     openModal,
     colorScheme,
+    showToast,
   };
 };
 export default useWishlist;

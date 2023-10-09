@@ -29,6 +29,7 @@ type OrderDetailsModalProps = {
 const MyOrder = () => {
   const {
     OrderProducts,
+    orderData,
 
     refreshing,
     selectedOrder,
@@ -50,6 +51,7 @@ const MyOrder = () => {
   if (loading) {
     return (
       <View
+        testID="Loading-Container"
         style={[
           {
             flex: 1,
@@ -104,7 +106,8 @@ const MyOrder = () => {
               </View>
             </View>
           ) : (
-            OrderProducts?.map((order: any) => (
+            Array.isArray(orderData) &&
+            orderData.map((order: any) => (
               <TouchableOpacity
                 key={order.id}
                 testID={`order-${order.id}`}
@@ -196,7 +199,9 @@ export const OrderDetailsModal = ({
         <View style={style.modalContainer}>
           <ScrollView style={{flex: 1}}>
             <View style={{marginTop: 10}}>
-              <Text style={[style.totalOrderText, getTextColor()]}>
+              <Text
+                testID={`OrderId-${order.id}`}
+                style={[style.totalOrderText, getTextColor()]}>
                 Order ID: {order.id}
               </Text>
               <View style={{flexDirection: 'row'}}>
@@ -206,6 +211,7 @@ export const OrderDetailsModal = ({
               </View>
               {order.orderItems?.map((item: any) => (
                 <View
+                  testID={`OrderContainer-${order.id}-${item.id}`}
                   style={[style.viewS, getPlaceholderTextColor()]}
                   key={item.id}>
                   <Image source={{uri: item.imageUrl}} style={style.image} />

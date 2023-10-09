@@ -8,11 +8,11 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useContext} from 'react';
 import Lottie from 'lottie-react-native';
 import {useSelector} from 'react-redux';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-
+import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Toast from 'react-native-toast-message';
 
 import useCart from './useCart';
@@ -37,11 +37,12 @@ const Cart = () => {
     handleIncrement,
     isplusDisable,
     isLoading,
-    getContainerStyle,
-    getTextColor,
-    getTextInputStyle,
+    CartProducts,
+
     cartProductId,
   } = useCart();
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
+    useContext(ColorSchemeContext);
 
   const cartData = useSelector(
     (state: {CartProducts: {data: any}}) => state.CartProducts.data,
@@ -79,12 +80,12 @@ const Cart = () => {
         <Text style={[style.MainTitleText, getTextColor()]}>Cart</Text>
         <View style={[style.titleContainer, getContainerStyle()]}>
           <Text style={[style.titleText, getTextColor()]}>
-            Cart products ({cartData.cartItems.length}){' '}
+            Cart products ({CartProducts?.cartItems?.length}){' '}
           </Text>
         </View>
         <View>
           <ScrollView style={style.ScrollContainer}>
-            {cartData?.cartItems.length === 0 ? (
+            {CartProducts?.cartItems?.length === 0 ? (
               <View style={style.noAddressContainer1}>
                 <View style={style.titleTextContainer1}>
                   <Lottie
@@ -101,7 +102,7 @@ const Cart = () => {
               </View>
             ) : (
               <View>
-                {cartData?.cartItems?.map((item: items) => (
+                {CartProducts?.cartItems?.map((item: items) => (
                   <View
                     key={item.id}
                     style={[style.cardContainer, getTextInputStyle()]}>
@@ -113,6 +114,7 @@ const Cart = () => {
                         />
                       )}
                       <Image
+                        testID={`Image-${item.id}`}
                         source={{uri: item.imageUrl}}
                         style={[
                           style.image,
@@ -155,7 +157,7 @@ const Cart = () => {
                       </View>
                       <View style={style.removeAndQuantity}>
                         <TouchableOpacity
-                          testID={`product-button-${item.id}`}
+                          testID={`remove-${item.id}`}
                           style={style.RemoveButton}
                           onPress={() => handleRemove(item.product.id)}>
                           <Text style={style.RemoveButtonText}>Remove</Text>
@@ -175,7 +177,7 @@ const Cart = () => {
                               </View>
                               <TouchableOpacity
                                 onPress={() => handleIncrement(item)}
-                                testID={`increment-button-${item.id}`}
+                                testID={`increment-${item.id}`}
                                 disabled={isplusDisable}
                                 style={[
                                   style.quantityButton,
@@ -231,14 +233,15 @@ const Cart = () => {
             </Text>
             <View style={{width: 100, height: 25}}>
               <Text style={[style.priceTotalText, getTextColor()]}>
-                ₹ {cartData.totalCost}
+                ₹ {CartProducts?.totalCost}
               </Text>
             </View>
           </View>
         </View>
         <View>
-          {cartData.cartItems.length === 0 ? (
+          {CartProducts?.cartItems?.length === 0 ? (
             <TouchableOpacity
+              testID="disabled-button"
               style={[style.PaymentButton, style.disabled]}
               disabled={true}>
               <Text style={style.PaymentButtonText}>Checkout</Text>
@@ -247,6 +250,7 @@ const Cart = () => {
             <>
               <TouchableOpacity
                 style={style.PaymentButton}
+                testID="checkoutButton"
                 onPress={handleCheckout}
                 disabled={false}>
                 <Text style={style.PaymentButtonText}>Checkout</Text>

@@ -31,7 +31,7 @@ const useMyOrder = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const orderData = useSelector((state: RootState) => state.OrderProducts.data);
   const OrderProducts = useSelector(
-    (state: {OrderProducts: {data: []}}) => state.OrderProducts.data,
+    (state: RootState) => state.OrderProducts.data,
   );
   const [showModal, setShowModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
@@ -79,9 +79,9 @@ const useMyOrder = () => {
       id: 'pdf_download_channel1',
       name: 'PDF Download Channel1',
       sound: 'default',
-      importance: AndroidImportance.HIGH,
+      // importance: AndroidImportance.HIGH,
       lights: true,
-      lightColor: AndroidColor.RED,
+      // lightColor: AndroidColor.RED,
     });
     await notifee.displayNotification({
       title: 'Leaps',
@@ -89,7 +89,7 @@ const useMyOrder = () => {
       android: {
         channelId,
         largeIcon: require('../../../assets/Leaps-1.png'),
-        lights: [AndroidColor.RED, 300, 600],
+        // lights: [AndroidColor.RED, 300, 600],
         progress: {
           max: 10,
           current: 10,
