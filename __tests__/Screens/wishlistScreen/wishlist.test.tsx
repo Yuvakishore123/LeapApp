@@ -1,58 +1,94 @@
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react-native';
-import Wishlist from '../../../src/screens/Wishlist/Wishlist';
+import {act, fireEvent, render} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
+import {useDispatch} from 'react-redux';
+import Wishlist from 'screens/Wishlist/Wishlist';
+import useWishlist from 'screens/Wishlist/useWishlist';
 import {NavigationContainer} from '@react-navigation/native';
-import {useSelector} from 'react-redux';
-
+jest.mock('@react-native-firebase/analytics', () =>
+  require('@react-native-firebase'),
+);
+jest.mock('@notifee/react-native', () => require('react-native-notifee'));
+jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
+jest.mock('@react-native-firebase/messaging', () =>
+  require('@react-native-firebase'),
+);
+jest.mock('screens/Wishlist/useWishlist', () => ({
+  refreshing: false,
+  setRefreshing: jest.fn(),
+  imageLoaded: false,
+  setImageLoaded: jest.fn(),
+  showModal: false,
+  openModal: jest.fn(),
+  closeModal: jest.fn(),
+  wishlistremove: jest.fn(),
+  WishlistProducts: [],
+  allWishlistProducts: [],
+  isLoading: false,
+  colorScheme: 'light',
+  onRefresh: jest.fn(),
+  default: jest.fn(),
+  __esModule: true,
+}));
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-
-jest.mock('@react-native-firebase/analytics', () =>
-  require('@react-native-firebase'),
-);
-jest.mock('@react-native-firebase/messaging', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
   useSelector: jest.fn(),
-  useDispatch: () => jest.fn(),
 }));
-describe('Wishlist Screen', () => {
-  const mockWishlistProducts = [
-    {
-      id: 1,
-      imageUrl: ['https://example.com/product1.jpg'],
-      name: 'Product 1',
-      price: 100,
-    },
-    // Add more products as needed
-  ];
+const mockNav = jest.fn();
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({
+      addListener: jest.fn(),
+      navigate: mockNav,
+      // Add other navigation properties and methods as needed
+    }),
+  };
+});
+describe('OwnerImages Screen', () => {
+  const mockDispatch = jest.fn();
   beforeEach(() => {
-    useSelector.mockImplementation(
-      (
-        selector: (arg0: {
-          WishlistProducts: {
-            data: {
-              id: number;
-              imageUrl: string[];
-              name: string;
-              price: number;
-            }[];
-          };
-        }) => any,
-      ) =>
-        selector({
-          WishlistProducts: {data: mockWishlistProducts},
-        }),
-    );
     AsyncStorage.clear();
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useWishlist as jest.Mock).mockReturnValue({
+      refreshing: false,
+      setRefreshing: jest.fn(),
+      imageLoaded: false,
+      setImageLoaded: jest.fn(),
+      showModal: false,
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+      wishlistremove: jest.fn(),
+      WishlistProducts: [
+        {
+          id: 1,
+          imageUrl: ['https://example.com/product1.jpg'],
+          name: 'Product 1',
+          price: 100,
+        },
+      ],
+      allWishlistProducts: [
+        {
+          id: 1,
+          imageUrl: ['https://example.com/product1.jpg'],
+          name: 'Product 1',
+          price: 100,
+        },
+      ],
+      isLoading: false,
+      colorScheme: 'light',
+      onRefresh: jest.fn(),
+    });
   });
-  test('should render the Wishlist page correctly', () => {
+  it('renders correctly', () => {
     const result = render(
       <NavigationContainer>
         <Wishlist
@@ -65,17 +101,56 @@ describe('Wishlist Screen', () => {
       </NavigationContainer>,
     );
 
-    // Add your assertions to check if the Wishlist page renders correctly
-    expect(result).toBeDefined();
-    // ... add more assertions based on your component's structure
+    expect(result).toBeTruthy();
+  });
+  it('renders dark mode correctly', () => {
+    (useWishlist as jest.Mock).mockReturnValue({
+      refreshing: false,
+      setRefreshing: jest.fn(),
+      imageLoaded: false,
+      setImageLoaded: jest.fn(),
+      showModal: false,
+      openModal: jest.fn(),
+      closeModal: jest.fn(),
+      wishlistremove: jest.fn(),
+      WishlistProducts: [
+        {
+          id: 1,
+          imageUrl: ['https://example.com/product1.jpg'],
+          name: 'Product 1',
+          price: 100,
+        },
+      ],
+      allWishlistProducts: [
+        {
+          id: 1,
+          imageUrl: ['https://example.com/product1.jpg'],
+          name: 'Product 1',
+          price: 100,
+        },
+      ],
+      isLoading: false,
+      colorScheme: 'dark',
+      onRefresh: jest.fn(),
+    });
+    const result = render(
+      <NavigationContainer>
+        <Wishlist
+          route={{
+            name: '',
+          }}
+          navigation={undefined}
+        />
+        ,
+      </NavigationContainer>,
+    );
+
+    expect(result).toBeTruthy();
   });
   test('renders loading state correctly', () => {
-    useSelector.mockImplementation(
-      (selector: (arg0: {WishlistProducts: {isLoader: boolean}}) => any) =>
-        selector({
-          WishlistProducts: {isLoader: true},
-        }),
-    );
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: true,
+    });
     const {getByText, getByTestId} = render(
       <NavigationContainer>
         <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
@@ -87,33 +162,6 @@ describe('Wishlist Screen', () => {
     expect(loadingText).toBeTruthy();
     expect(lottieAnimation).toBeTruthy();
   });
-  // it('calls onLoad when image loads successfully', () => {
-  //   useSelector.mockImplementation(
-  //     (selector: (arg0: {WishlistProducts: any}) => any) =>
-  //       selector({
-  //         WishlistProducts: {isLoader: false, data: mockWishlistProducts},
-  //       }),
-  //   );
-  //   const {getByTestId} = render(
-  //     <NavigationContainer>
-  //       <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
-  //     </NavigationContainer>,
-  //   );
-  //   const image = getByTestId('wishlist-image'); // Make sure to set a testID on your Image component
-
-  //   fireEvent(image, 'onLoad');
-  // });
-
-  // it('calls onError when image fails to load', () => {
-  //   const {getByTestId} = render(
-  //     <NavigationContainer>
-  //       <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
-  //     </NavigationContainer>,
-  //   );
-  //   const image = getByTestId('wishlist-image');
-
-  //   fireEvent(image, 'onError');
-  // });
   it('renders the image', () => {
     const {getAllByTestId} = render(
       <NavigationContainer>
@@ -125,6 +173,22 @@ describe('Wishlist Screen', () => {
     expect(image).toBeTruthy();
   });
   test('calls wishlistremove when the button is pressed', () => {
+    const mockModal = jest.fn();
+    const mockWishlistProducts = [
+      {
+        id: 1,
+        imageUrl: ['https://example.com/product1.jpg'],
+        name: 'Product 1',
+        price: 100,
+      },
+    ];
+    (useWishlist as jest.Mock).mockReturnValue({
+      openModal: mockModal,
+      isLoading: false,
+      WishlistProducts: mockWishlistProducts,
+      allWishlistProducts: mockWishlistProducts,
+      wishlistremove: jest.fn(),
+    });
     const {getByTestId} = render(
       <NavigationContainer>
         <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
@@ -132,15 +196,36 @@ describe('Wishlist Screen', () => {
     );
 
     const wishlistButton = getByTestId('wishlist-button');
-    fireEvent.press(wishlistButton);
+    expect(wishlistButton).toBeTruthy();
+    act(() => {
+      fireEvent.press(wishlistButton);
+    });
+    expect(mockModal).toBeCalled();
   });
   test('renders empty state correctly', () => {
-    useSelector.mockImplementation(
-      (selector: (arg0: {WishlistProducts: any}) => any) =>
-        selector({
-          WishlistProducts: {isLoader: false, data: []},
-        }),
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: false,
+      WishlistProducts: [],
+      allWishlistProducts: [],
+      colorScheme: 'dark',
+    });
+    const {getByText, getByTestId} = render(
+      <NavigationContainer>
+        <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
+      </NavigationContainer>,
     );
+    const loadingText = getByText('Your wishlist is empty');
+    const lottieAnimation = getByTestId('empty-animation'); // Assuming you have a testID on the Lottie animation element
+
+    expect(loadingText).toBeTruthy();
+    expect(lottieAnimation).toBeTruthy();
+  });
+  test('renders empty state in dark mode correctly', () => {
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: false,
+      WishlistProducts: [],
+      allWishlistProducts: [],
+    });
     const {getByText, getByTestId} = render(
       <NavigationContainer>
         <Wishlist navigation={{navigate: jest.fn()}} route={{name: ''}} />,
@@ -154,19 +239,28 @@ describe('Wishlist Screen', () => {
   });
   test('navigates to UProductDetailsScreen when TouchableOpacity is pressed', () => {
     const mockNavigate = jest.fn();
+    const mockWishlistProducts = [
+      {
+        id: 1,
+        imageUrl: ['https://example.com/product1.jpg'],
+        name: 'Product 1',
+        price: 100,
+      },
+    ];
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: false,
+      WishlistProducts: mockWishlistProducts,
+      allWishlistProducts: mockWishlistProducts,
+    });
     const {getByTestId} = render(
       <NavigationContainer>
         <Wishlist navigation={{navigate: mockNavigate}} route={{name: ''}} />
       </NavigationContainer>,
     );
 
-    // Find the TouchableOpacity element
     const touchableOpacity = getByTestId('wishlist-touchable');
-
-    // Simulate a press event on the TouchableOpacity element
     fireEvent.press(touchableOpacity);
 
-    // Check if navigation.navigate was called with the correct arguments
     expect(mockNavigate).toHaveBeenCalledWith('UProductDetails', {
       product: mockWishlistProducts[0],
     });

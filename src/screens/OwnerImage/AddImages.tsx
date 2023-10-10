@@ -69,6 +69,7 @@ const AddImages = () => {
                   {imageUrls.map((image, index) => (
                     <View key={image} style={[OwnerImagestyles.ImageContainer]}>
                       <Image
+                        testID={`image-${index}`}
                         style={[
                           OwnerImagestyles.image,
                           colorScheme === 'dark'
@@ -78,6 +79,7 @@ const AddImages = () => {
                         source={{uri: image}}
                       />
                       <TouchableOpacity
+                        testID={`remove-button-${index}`}
                         onPress={() => handleRemoveImage(index)}
                         style={OwnerImagestyles.removeIconContainer}>
                         <MaterialIcons
@@ -103,7 +105,11 @@ const AddImages = () => {
               <>
                 {isLoading ? (
                   <View style={OwnerImagestyles.overlay}>
-                    <ActivityIndicator size="large" color="white" />
+                    <ActivityIndicator
+                      size="large"
+                      color="white"
+                      testID="spinnerloading"
+                    />
                   </View>
                 ) : (
                   <TouchableOpacity
@@ -131,7 +137,9 @@ const AddImages = () => {
             </View>
             <View style={{marginTop: 20}}>
               {formik.touched.size && formik.errors.size && (
-                <Text style={Styles.errorText}>{formik.errors.size}</Text>
+                <Text style={Styles.errorText} testID="sizeerror">
+                  {formik.errors.size}
+                </Text>
               )}
             </View>
             <TextInput
@@ -148,7 +156,9 @@ const AddImages = () => {
               onBlur={() => handleBlur('price')}
             />
             {formik.touched.price && formik.errors.price && (
-              <Text style={Styles.errorText}>{formik.errors.price}</Text>
+              <Text style={Styles.errorText} testID="pricerror">
+                {formik.errors.price}
+              </Text>
             )}
             <TextInput
               keyboardType="numeric"
@@ -164,7 +174,9 @@ const AddImages = () => {
               onBlur={() => handleBlur('quantity')}
             />
             {formik.touched.quantity && formik.errors.quantity && (
-              <Text style={Styles.errorText}>{formik.errors.quantity}</Text>
+              <Text style={Styles.errorText} testID="quantityerror">
+                {formik.errors.quantity}
+              </Text>
             )}
             <View style={Styles.mainButton}>
               <TouchableOpacity

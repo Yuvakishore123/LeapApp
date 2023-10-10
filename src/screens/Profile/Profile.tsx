@@ -130,7 +130,7 @@ const Profile = ({navigation}: Props) => {
           <SkeletonPlaceholder
             highlightColor="#e0e0e0"
             backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
-            <View>
+            <View testID="profileDataloading">
               <TextInput style={style.card} placeholderTextColor="#999" />
             </View>
           </SkeletonPlaceholder>

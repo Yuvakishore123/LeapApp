@@ -3,13 +3,13 @@ import {fireEvent, render} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {store} from '../../../src/redux/store';
-import {Provider} from 'react-redux';
+import {Provider, useDispatch} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Profile from '../../../src/screens/Profile/Profile';
-const mockDispatch = jest.fn();
+import useProfile from 'screens/Profile/useProfile';
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
-  useDispatch: () => mockDispatch,
+  useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -24,6 +24,7 @@ jest.mock('../../../src/screens/Profile/useProfile', () => ({
     isloading: false, // Set isLoading to false
     profileData: {
       firstName: 'John',
+      loading: false,
       email: 'john@example.com',
       phoneNumber: '1234567890',
       profileImageUrl: 'https://example.com/profile.jpg',
@@ -36,8 +37,21 @@ jest.mock('../../../src/screens/Profile/useProfile', () => ({
   fetchProfileData: jest.fn(),
 }));
 describe('Profile Screen', () => {
+  const mockDispatch = jest.fn();
   beforeEach(() => {
     AsyncStorage.clear();
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: jest.fn(),
+      isloading: false, // Set isLoading to false
+      loading: false,
+      profileData: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phoneNumber: '1234567890',
+        profileImageUrl: 'https://example.com/profile.jpg',
+      },
+    });
   });
   test('should render OwnerProfile correctly', () => {
     const Stack = createNativeStackNavigator();
@@ -70,6 +84,56 @@ describe('Profile Screen', () => {
 
     expect(navigationMock.navigate).toHaveBeenCalledWith('Ownereditprofile');
   });
+  test('loading state when image is uploading', () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: jest.fn(),
+      isloading: true, // Set isLoading to false
+      loading: false,
+      profileData: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phoneNumber: '1234567890',
+        profileImageUrl: 'https://example.com/profile.jpg',
+      },
+    });
+    const navigationMock = {navigate: jest.fn()};
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Profile navigation={navigationMock} />
+        </NavigationContainer>
+      </Provider>,
+    );
+
+    const loading = getByTestId('activity-indicator');
+
+    expect(loading).toBeDefined();
+  });
+  test('image conatiner should be defined', () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: jest.fn(),
+      isloading: false, // Set isLoading to false
+      loading: false,
+      profileData: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phoneNumber: '1234567890',
+        profileImageUrl: 'https://example.com/profile.jpg',
+      },
+    });
+    const navigationMock = {navigate: jest.fn()};
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Profile navigation={navigationMock} />
+        </NavigationContainer>
+      </Provider>,
+    );
+
+    const image = getByTestId('avatar-image');
+
+    expect(image).toBeDefined();
+  });
   test('handleuploadProfilePic button is pressed', async () => {
     const navigationMock = {navigate: jest.fn()};
     const {getByTestId} = render(
@@ -81,6 +145,30 @@ describe('Profile Screen', () => {
     );
     const removeButton = getByTestId('uploadimage');
     fireEvent.press(removeButton);
+  });
+  test('handleRemoveProfilePic button is pressed', async () => {
+    const mockhandleRemoveProfile = jest.fn();
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: mockhandleRemoveProfile,
+      isloading: false, // Set isLoading to false
+      profileData: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phoneNumber: '1234567890',
+        profileImageUrl: 'https://example.com/profile.jpg',
+      },
+    });
+    const navigationMock = {navigate: jest.fn()};
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Profile navigation={navigationMock} />
+        </NavigationContainer>
+      </Provider>,
+    );
+    const removeButton = getByTestId('removeProfile');
+    fireEvent.press(removeButton);
+    expect(mockhandleRemoveProfile).toBeCalled();
   });
 
   test('navigates to Address page when "Address" button is pressed', () => {

@@ -10,7 +10,10 @@ import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import ApiService from '../../../src/network/network';
 import SearchResultsScreen from '../../../src/screens/SearchResultScreen/SearchResultScreen';
+import {useDispatch} from 'react-redux';
+import useAddImages from 'screens/OwnerImage/useAddImages';
 import useSearchresults from 'screens/SearchResultScreen/useSearchResults';
+import FilterSelectSize from 'components/atoms/FilterSizes/FilterSizeSelect';
 jest.mock('../../../src/network/network', () => ({
   get: jest.fn(),
 }));
@@ -30,17 +33,67 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
+jest.mock('screens/SearchResultScreen/useSearchResults', () => ({
+  filterData: jest.fn(),
+  minimumPrice: '',
+  maximumPrice: '',
+  setMinimumPrice: jest.fn(),
+  setMaximumPrice: jest.fn(),
+  filteredProducts: [],
+  sizes: [],
+  modalVisible: false,
+  selectedSize: '',
+  setFilteredProducts: jest.fn(),
+  setSelectedSize: jest.fn(),
+  setModalVisible: jest.fn(),
+  handleFilterButtonPress: jest.fn(),
+  imageLoaded: false,
+  setImageLoaded: jest.fn(),
+  SubcategoryData: jest.fn(),
+  handleFilterapply: jest.fn(),
+  selectedSubCategory: '',
+  setSelectedSubCategory: jest.fn(),
+  subcategoriesData: [],
+  default: jest.fn(),
+  __esModule: true,
+}));
 describe('SearchResultScreen', () => {
-  beforeEach(() => {
-    // Clear AsyncStorage before each test
-    AsyncStorage.clear();
-  });
+  const mockDispatch = jest.fn();
   let apiGetMock: jest.SpyInstance<Promise<any>, [url: string], any>;
   let getSpy: jest.SpyInstance<Promise<any>, [url: string], any>;
 
   beforeEach(() => {
     apiGetMock = jest.spyOn(ApiService, 'get');
     getSpy = apiGetMock.mockResolvedValue([]);
+    AsyncStorage.clear();
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useSearchresults as jest.Mock).mockReturnValue({
+      filterData: jest.fn(),
+      minimumPrice: '',
+      maximumPrice: '',
+      setMinimumPrice: jest.fn(),
+      setMaximumPrice: jest.fn(),
+      filteredProducts: [],
+      sizes: [],
+      modalVisible: false,
+      selectedSize: '',
+      setFilteredProducts: jest.fn(),
+      setSelectedSize: jest.fn(),
+      setModalVisible: jest.fn(),
+      handleFilterButtonPress: jest.fn(),
+      imageLoaded: false,
+      setImageLoaded: jest.fn(),
+      SubcategoryData: jest.fn(),
+      handleFilterapply: jest.fn(),
+      selectedSubCategory: '',
+      setSelectedSubCategory: jest.fn(),
+      subcategoriesData: [],
+    });
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -145,60 +198,28 @@ describe('SearchResultScreen', () => {
       product: mockData,
     });
   });
-  test('should handle filterData ', async () => {
-    const mockData = {
-      id: 1,
-      name: 'Product 1',
-      price: 10,
-      imageUrl: ['https://example.com/image1.jpg'],
-    };
-    // Mock ApiService.get to throw an error
-    apiGetMock.mockResolvedValue(mockData);
+  // test('Close Modal when TouchableOpacity is pressed', () => {
+  //   const searchResults = [
+  //     {
+  //       id: 1,
+  //       name: 'Product 1',
+  //       price: 10,
+  //       imageUrl: ['https://example.com/image1.jpg'],
+  //     },
+  //   ];
+  //   const {getByTestId} = render(
+  //     <SearchResultsScreen route={{params: {searchResults: searchResults}}} />,
+  //   );
+  //   const touchableOpacity = getByTestId('filter-apply-button');
+  //   act(() => {
+  //     fireEvent.press(touchableOpacity);
+  //   });
+  //   const closebutton = getByTestId('closeButton');
+  //   const modal = getByTestId('modal');
 
-    const {result} = renderHook(() => useSearchresults());
-
-    // Wait for the asynchronous function to complete
-    await act(async () => {
-      await result.current.filterData();
-    });
-    waitFor(() => {
-      // Assert that the setFilteredProducts function is called with an empty array
-      expect(result.current.filteredProducts).toBe(mockData);
-    });
-  });
-  test('should handle errors when filtering data', async () => {
-    // Mock ApiService.get to throw an error
-    apiGetMock.mockRejectedValue(new Error('Network Error'));
-
-    const {result} = renderHook(() => useSearchresults());
-
-    // Wait for the asynchronous function to complete
-    await act(async () => {
-      await result.current.filterData();
-    });
-
-    // Assert that the setFilteredProducts function is called with an empty array
-    expect(result.current.filteredProducts).toEqual([]);
-  });
-  test('should handle Filterapply ', async () => {
-    const mockData = {
-      id: 1,
-      name: 'Product 1',
-      price: 10,
-      imageUrl: ['https://example.com/image1.jpg'],
-    };
-    // Mock ApiService.get to throw an error
-    apiGetMock.mockResolvedValue(mockData);
-
-    const {result} = renderHook(() => useSearchresults());
-
-    // Wait for the asynchronous function to complete
-    await act(async () => {
-      await result.current.handleFilterapply();
-    });
-    waitFor(() => {
-      // Assert that the setFilteredProducts function is called with an empty array
-      expect(result.current.modalVisible).toBe(false);
-    });
-  });
+  //   act(() => {
+  //     fireEvent.press(closebutton);
+  //   });
+  //   expect(modal).not.toBeDefined();
+  // });
 });

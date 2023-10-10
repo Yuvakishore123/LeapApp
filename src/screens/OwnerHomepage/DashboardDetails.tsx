@@ -280,7 +280,9 @@ const DashboardDetails = () => {
               </Text>
             </View>
             {selectedBarIndex !== null ? (
-              <View style={{flexDirection: 'row', marginLeft: 8}}>
+              <View
+                style={{flexDirection: 'row', marginLeft: 8}}
+                testID="information-Sec">
                 <TouchableOpacity
                   onPress={() => navigation.navigate('FilteredAnalytics')}
                   style={{

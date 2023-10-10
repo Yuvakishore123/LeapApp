@@ -53,6 +53,7 @@ const OwnerHome = ({navigation}: Props) => {
   const renderRecentlyAddedItem = ({item}: {item: Product}) => {
     return (
       <TouchableOpacity
+        testID="navigateProductDetailId"
         key={item.id}
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
@@ -119,7 +120,9 @@ const OwnerHome = ({navigation}: Props) => {
         <SkeletonPlaceholder
           backgroundColor={colorScheme === 'dark' ? '#373737' : Colors.white}>
           <>
-            <ScrollView style={styles.mainContainer}>
+            <ScrollView
+              style={styles.mainContainer}
+              testID="recentlyAddedContainer">
               {renderTouchableOpacity()}
               <View>
                 <View style={styles.cardSt}>{renderTouchableOpacity()}</View>
@@ -130,7 +133,7 @@ const OwnerHome = ({navigation}: Props) => {
       );
     } else if (recentyAdded && recentyAdded.length === 0) {
       return (
-        <View style={styles.lottieS}>
+        <View style={styles.lottieS} testID="loading-state">
           <Lottie source={require('../../../assets/ownerHome.json')} autoPlay />
         </View>
       );
@@ -157,6 +160,7 @@ const OwnerHome = ({navigation}: Props) => {
   }) => {
     return (
       <TouchableOpacity
+        testID="navigateOProductscreenId"
         key={`${item.id.toString()}-${index}`}
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
@@ -267,6 +271,7 @@ const OwnerHome = ({navigation}: Props) => {
           </View>
         </View>
         <TouchableOpacity
+          testID="viewmoretest"
           onPress={() => {
             handleAnalatyics();
             handleOrders();

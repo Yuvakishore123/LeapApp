@@ -80,9 +80,30 @@ describe('Subcategory Screen', () => {
   });
 
   test('renders loading animation when loading is true', async () => {
+    const handleSubcategoryPress = jest.fn();
+    const useSubcategoryMock = jest.spyOn(
+      require('../../../src/screens/Subcategory/useSubcategory'),
+      'useSubcategory',
+    );
+    useSubcategoryMock.mockReturnValue({
+      subcategories: [
+        {
+          id: '1',
+          subcategoryName: 'Subcategory 1',
+          imageUrl: 'https://example.com/image1.jpg',
+        },
+        {
+          id: '2',
+          subcategoryName: 'Subcategory 2',
+          imageUrl: 'https://example.com/image2.jpg',
+        },
+      ],
+      loading: true,
+      handleSubcategoryPress: handleSubcategoryPress,
+    });
     const {queryByTestId} = render(
       <NavigationContainer>
-        <Subcategory route={{params: {categoryId: '123'}}} loading={true} />
+        <Subcategory route={{params: {categoryId: '123'}}} />
       </NavigationContainer>,
     );
 
@@ -92,6 +113,27 @@ describe('Subcategory Screen', () => {
 
   //Testcase 4
   test('does not render loading animation when loading is false', () => {
+    const handleSubcategoryPress = jest.fn();
+    const useSubcategoryMock = jest.spyOn(
+      require('../../../src/screens/Subcategory/useSubcategory'),
+      'useSubcategory',
+    );
+    useSubcategoryMock.mockReturnValue({
+      subcategories: [
+        {
+          id: '1',
+          subcategoryName: 'Subcategory 1',
+          imageUrl: 'https://example.com/image1.jpg',
+        },
+        {
+          id: '2',
+          subcategoryName: 'Subcategory 2',
+          imageUrl: 'https://example.com/image2.jpg',
+        },
+      ],
+      loading: false,
+      handleSubcategoryPress: handleSubcategoryPress,
+    });
     const {queryByTestId} = render(
       <NavigationContainer>
         <Subcategory route={{params: {categoryId: '123'}}} loading={false} />

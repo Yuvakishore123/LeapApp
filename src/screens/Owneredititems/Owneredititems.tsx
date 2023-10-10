@@ -196,6 +196,7 @@ const App = () => {
                             style={[OwnerEditItemstyles.imagehorizontal]}>
                             {imageUrls.map(image => (
                               <Image
+                                testID="image"
                                 style={OwnerEditItemstyles.image}
                                 source={{uri: image}}
                                 key={image} // Update the key to include a prefix and index
@@ -247,7 +248,7 @@ const App = () => {
                       placeholder="Set price"
                       placeholderTextColor={Colors.black}
                       keyboardType="numeric"
-                      value={price.toString()}
+                      value={price?.toString()}
                       onChangeText={setPrice}
                     />
                     <TextInput
@@ -260,7 +261,7 @@ const App = () => {
                         getTextInputStyle(),
                         getTextColor(),
                       ]}
-                      value={quantity.toString()}
+                      value={quantity?.toString()}
                       onChangeText={setQuantity}
                     />
                   </View>
@@ -381,6 +382,7 @@ const App = () => {
                     </View>
                     <View style={OwnerEditItemstyles.buttonContainer}>
                       <TouchableOpacity
+                        testID="editButton"
                         onPress={() => {
                           FetchData(item.id);
                           setEditProductId(item.id);
@@ -391,6 +393,7 @@ const App = () => {
                         </View>
                       </TouchableOpacity>
                       <TouchableOpacity
+                        testID="ManageButton"
                         onPress={() => {
                           setSelectedProductId(item.id);
                           handleDisableProduct(item);
@@ -399,7 +402,9 @@ const App = () => {
                           <Text style={Style.txt_edit}>Manage</Text>
                         </View>
                       </TouchableOpacity>
-                      <TouchableOpacity onPress={() => RemoveProducts(item.id)}>
+                      <TouchableOpacity
+                        testID="removeButton"
+                        onPress={() => RemoveProducts(item.id)}>
                         <View style={OwnerEditItemstyles.button}>
                           <Text style={Style.txt_del}>Delete</Text>
                         </View>
@@ -414,6 +419,7 @@ const App = () => {
                 </View>
                 <View>
                   <Modal
+                    testID="modal-test"
                     animationType="slide"
                     visible={isModalVisible}
                     onRequestClose={() => setIsModalVisible(false)}
@@ -421,6 +427,7 @@ const App = () => {
                     <View style={styles.modalContainer}>
                       <View style={{alignItems: 'flex-end', marginRight: 20}}>
                         <TouchableOpacity
+                          testID="closeButton"
                           onPress={() => setIsModalVisible(false)}
                           style={styles.closeButton}>
                           <Text style={styles.closeButtonText}>Close</Text>
@@ -469,6 +476,7 @@ const App = () => {
                       </View>
                       <View style={styles.quantityContainer}>
                         <TouchableOpacity
+                          testID="decerementQuantity"
                           onPress={() => decrementQuantity()}
                           style={styles.quantityButton}>
                           <Text style={styles.quantityButtonText}>-</Text>
@@ -501,6 +509,7 @@ const App = () => {
                           marginLeft: 40,
                         }}>
                         <TouchableOpacity
+                          testID="disbalebutton"
                           onPress={() =>
                             handleDisablebutton(
                               selectedProductId,
@@ -519,6 +528,7 @@ const App = () => {
                           </Text>
                         </TouchableOpacity>
                         <TouchableOpacity
+                          testID="enablebutton"
                           onPress={() =>
                             handleEnablebutton(
                               selectedProductId,

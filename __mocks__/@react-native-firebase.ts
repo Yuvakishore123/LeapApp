@@ -12,12 +12,19 @@ const messaging = jest.fn(() => ({
 const InAppMessaging = {
   // Define mock methods here
   inAppMessaging: jest.fn(),
+  onTokenRefresh: jest.fn(),
   setMessagesDisplaySuppressed: jest.fn(),
   // ...
+};
+const buildShortLink = jest.fn();
+
+const dynamicLinks = {
+  buildShortLink,
 };
 
 export default {
   analytics,
   messaging,
   InAppMessaging,
+  dynamicLinks,
 };

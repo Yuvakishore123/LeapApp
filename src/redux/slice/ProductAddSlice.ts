@@ -5,7 +5,7 @@ interface ProductAddData {
   message: string;
   status: string;
 }
-interface ProductAddState {
+export interface ProductAddState {
   data: ProductAddData;
   isLoader: boolean;
   isError: boolean;
@@ -44,7 +44,7 @@ export const ProductAdd = createAsyncThunk(
       return response;
     } catch (error: any) {
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );

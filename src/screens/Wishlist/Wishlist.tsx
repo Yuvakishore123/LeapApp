@@ -1,6 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {useSelector} from 'react-redux';
 import {
   Image,
   RefreshControl,
@@ -28,19 +27,14 @@ const Wishlist = ({navigation}: Props) => {
     WishlistProducts,
     wishlistremove,
     closeModal,
+    allWishlistProducts,
+    isLoading,
     showModal,
     openModal,
     colorScheme,
   } = useWishlist();
 
   const {refreshing, onRefresh, imageLoaded, setImageLoaded} = useWishlist();
-  const allWishlistProducts = useSelector(
-    (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
-  );
-  const isLoading = useSelector(
-    (state: {WishlistProducts: {isLoader: boolean}}) =>
-      state.WishlistProducts.isLoader,
-  );
 
   if (isLoading || !WishlistProducts) {
     return (
@@ -176,8 +170,10 @@ const Wishlist = ({navigation}: Props) => {
                         <TouchableOpacity
                           style={style.wishlistButton}
                           testID="wishlist-button"
-                          onPress={() => wishlistremove(item.id)}
-                          onPressIn={() => openModal()}>
+                          onPress={() => {
+                            wishlistremove(item.id);
+                            openModal();
+                          }}>
                           <Image
                             source={require('../../../assets/fillheart.png')}
                             style={style.EmptyImage}

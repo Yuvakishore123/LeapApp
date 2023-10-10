@@ -129,7 +129,7 @@ const useProductdetails = (product: {
       scrollViewRef.current.scrollTo({x: nextIndex * 405, animated: true});
       setActiveIndex(nextIndex);
     }
-  }, [activeIndex, product.imageUrl]);
+  }, [activeIndex, product?.imageUrl]);
 
   const startScrollTimer = useCallback(() => {
     stopScrollTimer();

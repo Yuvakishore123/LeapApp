@@ -116,6 +116,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
             />
             <View style={style.btnStyle}>
               <TouchableOpacity
+                testID="closeButton"
                 style={style.closetouchablecontainer}
                 onPress={() => setModalVisible(false)}>
                 <Text style={style.closeText}>close</Text>

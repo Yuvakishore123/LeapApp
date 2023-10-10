@@ -28,7 +28,7 @@ type Props = {
   route: {params: {product: any}};
   navigation: any;
 };
-export default function UDetailScreen({route, navigation}: Props) {
+export default function UProductDetails({route, navigation}: Props) {
   const {product} = route.params;
   const {colorScheme} = useContext(ColorSchemeContext);
   const {
@@ -55,7 +55,7 @@ export default function UDetailScreen({route, navigation}: Props) {
     startScrollTimer,
     handleScroll,
   } = useProductdetails(product);
-  const Quantity = product.quantity;
+  const Quantity = product?.quantity;
   return (
     <ScrollView
       style={{
@@ -119,10 +119,10 @@ export default function UDetailScreen({route, navigation}: Props) {
             animation={'slideInUp'}
             duration={1000}
             style={styles.startext}>
-            {product.name}
+            {product?.name}
           </Animatable.Text>
           <Pagination
-            dotsLength={product.imageUrl.length}
+            dotsLength={product?.imageUrl.length}
             activeDotIndex={activeIndex}
             containerStyle={styles.paginationContainer}
             dotStyle={styles.pagingActiveText}
@@ -136,13 +136,13 @@ export default function UDetailScreen({route, navigation}: Props) {
             styles.detailsContainer,
             colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
           ]}>
-          <Text style={[styles.detailsPrice]}>₹{product.price}</Text>
+          <Text style={[styles.detailsPrice]}>₹{product?.price}</Text>
           <Text
             style={[
               styles.detailsdescription,
               colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
             ]}>
-            {product.description}
+            {product?.description}
           </Text>
           <View style={{marginTop: 10, marginBottom: 20, flexDirection: 'row'}}>
             <Text
@@ -180,7 +180,7 @@ export default function UDetailScreen({route, navigation}: Props) {
                   styles.detailsSize,
                   colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
                 ]}>
-                {product.size}
+                {product?.size}
               </Text>
             </View>
           </View>
@@ -229,7 +229,7 @@ export default function UDetailScreen({route, navigation}: Props) {
               style={styles.touchablebtn}
               onPress={handleSubmit}>
               <Text style={styles.detailsaddPrice}>
-                ₹{product.price * quantity}
+                ₹{product?.price * quantity}
               </Text>
               <Text style={styles.touchableText}>Add to Bag</Text>
             </TouchableOpacity>

@@ -27,6 +27,13 @@ const useWishlist = () => {
   const WishlistProducts = useSelector(
     (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
   );
+  const allWishlistProducts = useSelector(
+    (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
+  );
+  const isLoading = useSelector(
+    (state: {WishlistProducts: {isLoader: boolean}}) =>
+      state.WishlistProducts.isLoader,
+  );
   const isError = useSelector(
     (state: {WishlistProducts: {error: boolean}}) =>
       state.WishlistProducts.error,
@@ -67,6 +74,8 @@ const useWishlist = () => {
     setRefreshing,
     onRefresh,
     imageLoaded,
+    allWishlistProducts,
+    isLoading,
     setImageLoaded,
     closeModal,
     showModal,

@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render} from '@testing-library/react-native';
+import {render} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
@@ -118,50 +118,6 @@ describe('OwnerRentalStatusScreen Page', () => {
     expect(getByText('Qty: 2')).toBeTruthy();
     expect(getByText('Order placed')).toBeTruthy();
   });
-  // it('calls onLoad when image loads successfully', () => {
-  //   const Stack = createNativeStackNavigator();
-
-  //   const {getByTestId} = render(
-  //     <Provider store={store}>
-  //       <NavigationContainer>
-  //         <Stack.Navigator>
-  //           <Stack.Screen
-  //             name="OwnerRentalScreen"
-  //             component={OwnerRentalScreen}
-  //           />
-  //         </Stack.Navigator>
-  //       </NavigationContainer>
-  //     </Provider>,
-  //   );
-  //   const image = getByTestId('owner-rental-image'); // Make sure to set a testID on your Image component
-
-  //   fireEvent(image, 'onLoad');
-  //   expect(image.props.setImageLoaded).toBe(true);
-  // });
-
-  // it('calls onError when image fails to load', () => {
-  //   const Stack = createNativeStackNavigator();
-
-  //   const {getByTestId} = render(
-  //     <Provider store={store}>
-  //       <NavigationContainer>
-  //         <Stack.Navigator>
-  //           <Stack.Screen
-  //             name="OwnerRentalScreen"
-  //             component={OwnerRentalScreen}
-  //           />
-  //         </Stack.Navigator>
-  //       </NavigationContainer>
-  //     </Provider>,
-  //   );
-  //   const image = getByTestId('owner-rental-image'); // Make sure to set a testID on your Image component
-
-  //   // Simulate onError event
-  //   fireEvent(image, 'onError');
-  //   expect(image.props.setImageLoaded).toBe(false);
-  //   // Add your assertions based on what should happen when onError is called
-  //   // For example, you can expect certain elements or state changes
-  // });
   it('renders the image', () => {
     const Stack = createNativeStackNavigator();
 

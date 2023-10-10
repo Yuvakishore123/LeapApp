@@ -31,7 +31,6 @@ type Props = {
 };
 const Homescreen = ({navigation}: Props) => {
   const dispatch = useDispatch();
-  const UserProducts = useHome();
   const {
     wishlistremove,
     searchQuery,
@@ -56,29 +55,6 @@ const Homescreen = ({navigation}: Props) => {
     getPlaceholderTextColor,
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
-  if (!UserProducts) {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-        }}>
-        <Lottie
-          source={require('../../../assets/loading.json')}
-          autoPlay
-          style={{
-            height: 200,
-            width: 200,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        />
-        <Text>The Items are Loading...</Text>
-      </View>
-    );
-  }
-
   const loadingComponent = () => {
     return (
       <View>
@@ -102,7 +78,7 @@ const Homescreen = ({navigation}: Props) => {
         <SkeletonPlaceholder
           highlightColor="#e0e0e0"
           backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
-          <View>
+          <View testID="loadingtest">
             <Text
               style={[
                 {
@@ -197,7 +173,7 @@ const Homescreen = ({navigation}: Props) => {
                 },
                 getTextColor(),
               ]}>
-              Welcome {name.firstName}
+              Welcome {name?.firstName}
             </Animatable.Text>
             <Lottie
               source={require('../../../assets/celebration.json')}
@@ -221,6 +197,7 @@ const Homescreen = ({navigation}: Props) => {
               }}
             />
             <TextInput
+              testID="searchId"
               placeholder={placeholderText}
               placeholderTextColor={placeholderTextColor}
               style={[
@@ -247,6 +224,7 @@ const Homescreen = ({navigation}: Props) => {
               Categories for you
             </Text>
             <TouchableOpacity
+              testID="seeallId"
               onPress={() => navigation.navigate('CategoryScreen')}>
               <Text style={style.Seetext}> See all</Text>
             </TouchableOpacity>
@@ -259,6 +237,7 @@ const Homescreen = ({navigation}: Props) => {
             <View style={{marginLeft: 5, height: '100%'}}>
               <FlatList
                 data={allProducts}
+                testID="flatlist"
                 nestedScrollEnabled={true} //changes
                 keyExtractor={(item: unknown) => (item as {id: string}).id}
                 style={{height: '100%', width: '100%'}}
@@ -275,6 +254,7 @@ const Homescreen = ({navigation}: Props) => {
                         duration={1500}
                         style={[style.container, getTextInputStyle()]}>
                         <TouchableOpacity
+                          testID={`productsDetails-${item.id}`}
                           key={item.id}
                           onPress={() =>
                             navigation.navigate('UProductDetails', {
@@ -298,6 +278,7 @@ const Homescreen = ({navigation}: Props) => {
                               onError={() => setImageLoaded(false)}
                             />
                             <TouchableOpacity
+                              testID={`wishlistremove-${item.id}`}
                               style={style.wishlistButton}
                               onPress={() => {
                                 if (wishlistList.includes(item.id)) {
@@ -312,6 +293,7 @@ const Homescreen = ({navigation}: Props) => {
                               }}>
                               {wishlistList.includes(item.id) ? (
                                 <Animatable.View
+                                  testID={`wishlistheart-${item.id}`}
                                   animation={'bounceIn'}
                                   duration={1000}>
                                   <MaterialIcons
