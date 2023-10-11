@@ -24,11 +24,11 @@ import Lottie from 'lottie-react-native';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
 
 import styles from '../OwnerHomepage/OwnerHomestyle';
 import DropdownComponent from '../../components/atoms/DropDownComponent/DropDown';
 import useAdditems from '../Additems/useAdditems';
+import ImageComponent from 'components/atoms/ImageComponent';
 
 const App = () => {
   const {
@@ -45,8 +45,6 @@ const App = () => {
     RemoveProducts,
     closeModal,
     showModal,
-    imageLoaded,
-    setImageLoaded,
     handleremove,
     name,
     pickImg,
@@ -102,7 +100,7 @@ const App = () => {
     }
   }, [isModalVisible]);
 
-  const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 
   return (
@@ -114,7 +112,9 @@ const App = () => {
         <SafeAreaView>
           <ScrollView
             style={[{width: '100%', height: '100%'}, getContainerStyle()]}>
-            <TouchableOpacity onPressIn={() => setViisble(!visible)}>
+            <TouchableOpacity
+              testID="close"
+              onPress={() => setViisble(!visible)}>
               <Text style={OwnerEditItemstyles.closetxt}>Close</Text>
             </TouchableOpacity>
             <View style={[getContainerStyle()]}>
@@ -139,10 +139,8 @@ const App = () => {
                     style={[
                       Ownerstyles.Descriptionfield,
                       {paddingLeft: 22},
-                      colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-                      colorScheme === 'dark'
-                        ? Styles.whitetext
-                        : Styles.blackText,
+                      getTextInputStyle(),
+                      getTextColor(),
                     ]}
                     onChangeText={setDescription}
                     value={description}
@@ -217,9 +215,7 @@ const App = () => {
                         <View
                           style={[
                             OwnerEditItemstyles.Addimage,
-                            colorScheme === 'dark'
-                              ? Styles.cardColor
-                              : Styles.main,
+                            getTextInputStyle(),
                           ]}
                           key="addImage" // Add a unique key for the View component
                         >
@@ -227,9 +223,7 @@ const App = () => {
                             onPress={pickImg}
                             style={[
                               OwnerEditItemstyles.imagesText,
-                              colorScheme === 'dark'
-                                ? Styles.whitetext
-                                : Styles.blackText,
+                              getTextColor(),
                             ]}>
                             Add Image
                           </Text>
@@ -279,10 +273,7 @@ const App = () => {
         </SafeAreaView>
       </Modal>
       <ScrollView
-        style={[
-          {width: '100%', height: '100%'},
-          colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-        ]}
+        style={[{width: '100%', height: '100%'}, getContainerStyle()]}
         refreshControl={
           <RefreshControl
             refreshing={refreshData}
@@ -294,7 +285,7 @@ const App = () => {
           <HeadingText message="My Products" />
         </View>
         {isLoading ? (
-          <View style={{height: 200, width: 400}}>
+          <View style={{height: 200, width: 400}} testID="loading-state">
             <Lottie
               source={require('../../../assets/EditProducts.json')}
               autoPlay
@@ -314,49 +305,22 @@ const App = () => {
             ) => (
               <>
                 <View
-                  style={[
-                    Style.mainContainer,
-                    colorScheme === 'dark'
-                      ? Styles.blacktheme
-                      : Styles.whiteTheme,
-                  ]}
+                  style={[Style.mainContainer, getContainerStyle()]}
                   // key={`${item.id.toString()}-${index}`}>
                   key={item.id.toString()}>
                   <View style={[Style.item_course]}>
                     <View style={[OwnerEditItemstyles.imagePriceContainer]}>
                       <View style={[OwnerEditItemstyles.cardImageContainer]}>
-                        {!imageLoaded && (
-                          <Image
-                            source={require('../../../assets/imageload1.png')}
-                            style={OwnerEditItemstyles.cardImage}
-                          />
-                        )}
-                        <Image
-                          style={[
-                            OwnerEditItemstyles.cardImage,
-                            {display: imageLoaded ? 'flex' : 'none'},
-                          ]}
-                          source={{uri: item.image}}
-                          onLoad={() => setImageLoaded(true)}
-                          onError={() => setImageLoaded(false)}
-                        />
+                        <ImageComponent imageUrl={item.image} />
                       </View>
                       <View
                         style={[
                           OwnerEditItemstyles.priceContainer,
-                          colorScheme === 'dark'
-                            ? Styles.cardColor
-                            : Styles.main,
+                          getTextInputStyle(),
                         ]}>
                         <View>
                           <View>
-                            <Text
-                              style={[
-                                Style.txt_name,
-                                colorScheme === 'dark'
-                                  ? Styles.whitetext
-                                  : Styles.blackText,
-                              ]}>
+                            <Text style={[Style.txt_name, getTextColor()]}>
                               {item.name}
                             </Text>
                           </View>
@@ -485,6 +449,7 @@ const App = () => {
                           {updatedQuantity}
                         </Text>
                         <TouchableOpacity
+                          testID="incrementQuantity"
                           onPress={() => incrementQuantity()}
                           style={styles.quantityButton}>
                           <Text style={styles.quantityButtonText}>+</Text>

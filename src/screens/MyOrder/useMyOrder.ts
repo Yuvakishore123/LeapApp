@@ -146,6 +146,7 @@ const useMyOrder = () => {
     isModalOpen,
     isLoading,
     onRefresh,
+    setRefreshing,
     openModal,
     closeModal,
     setShowModal,

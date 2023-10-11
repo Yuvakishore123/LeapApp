@@ -21,7 +21,6 @@ const useChectout = () => {
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [isChecked, setIschecked] = useState(true);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(-1);
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>([]);
@@ -30,7 +29,6 @@ const useChectout = () => {
   const data = useSelector(
     (state: {listAddress: {data: any}}) => state.listAddress.data,
   );
-
   useEffect(() => {
     setRefreshing(true);
     dispatch(ListAddress() as any);
@@ -143,11 +141,10 @@ const useChectout = () => {
     setRentalStartDate,
     setRentalEndDate,
     handleCheckboxChange,
-    imageLoaded,
-    setImageLoaded,
     selectedAddressIndex,
     isCheckedArray,
     isChecked,
+    cartData,
     setIsCheckedArray,
   };
 };

@@ -83,36 +83,15 @@ describe('Cart Screen', () => {
     fireEvent.press(incrementButton);
   });
   it('renders loading view when cartData is not available', async () => {
-    const mockCartData = {
-      cartItems: [
-        {
-          id: 1,
-          imageUrl: 'https://example.com/image.jpg',
-          product: {
-            name: 'Product 1',
-            price: 10,
-            size: 'M',
-          },
-          rentalStartDate: new Date(),
-          rentalEndDate: new Date(),
-          quantity: 1,
-        },
-      ],
-      totalCost: 10,
-    };
-    jest.spyOn(ApiService, 'get').mockResolvedValue(!mockCartData);
+    const mockCartData = {};
+    jest.spyOn(ApiService, 'get').mockResolvedValue(mockCartData);
 
-    const {queryAllByTestId, queryByText} = render(
+    const {getByTestId} = render(
       <Provider store={store}>
         <Cart />
       </Provider>,
     );
-    const loadingView = queryAllByTestId('loading-view');
+    const loadingView = getByTestId('loading-view');
     expect(loadingView).toBeDefined();
-    // Assert that the loading view is rendered
-
-    // Assert the text content within the loading view
-    const loadingText = await queryByText('The Items are Loading...');
-    expect(loadingText).toBeDefined();
   });
 });

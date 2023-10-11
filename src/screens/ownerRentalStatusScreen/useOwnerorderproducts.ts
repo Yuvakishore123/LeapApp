@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import {useEffect, useState} from 'react';
+import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
 import {ownerorderproducts} from '../../redux/slice/OwnerorderproductSlice';
 import {useThunkDispatch} from '../../helpers/helper';
@@ -10,7 +10,6 @@ const useOwnerorderproducts = () => {
     (state: {OwnerRentalproducts: {data: any}}) =>
       state.OwnerRentalproducts.data,
   );
-  const [imageLoaded, setImageLoaded] = useState(false);
   const isLoading = useSelector(
     (state: {OwnerRentalproducts: {isLoader: boolean}}) =>
       state.OwnerRentalproducts.isLoader,
@@ -22,8 +21,6 @@ const useOwnerorderproducts = () => {
   return {
     ownerrentalproducts,
     isLoading,
-    imageLoaded,
-    setImageLoaded,
   };
 };
 export default useOwnerorderproducts;

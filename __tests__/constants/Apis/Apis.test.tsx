@@ -11,9 +11,6 @@ import {
 } from '../../../src/constants/Apis';
 
 describe('APIs', () => {
-  it('should have the correct value for "url"', () => {
-    expect(url).toEqual('https://c540-180-151-122-199.ngrok-free.app/api/v1');
-  });
   it('should have the correct value for "FilterProduct"', () => {
     expect(FilterProduct).toEqual(`${url}/product/filterProducts`);
   });

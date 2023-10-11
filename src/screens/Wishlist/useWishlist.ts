@@ -12,7 +12,6 @@ const useWishlist = () => {
   const navigation = useNavigation();
   const {colorScheme} = useContext(ColorSchemeContext);
   const [refreshing, setRefreshing] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const {dispatch} = useThunkDispatch();
   const openModal = () => {
@@ -73,10 +72,8 @@ const useWishlist = () => {
     refreshing,
     setRefreshing,
     onRefresh,
-    imageLoaded,
     allWishlistProducts,
     isLoading,
-    setImageLoaded,
     closeModal,
     showModal,
     openModal,

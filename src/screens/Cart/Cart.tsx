@@ -21,18 +21,17 @@ import DatePickerComponent from '../../components/atoms/DatePickerComponent/Date
 
 import style from './CartItemStyles';
 import Colors from '../../constants/colors';
+import ImageComponent from 'components/atoms/ImageComponent';
 
 const Cart = () => {
   const {
-    handleCheckout,
     handleRemove,
     setRentalStartDate,
     setRentalEndDate,
     closeModal,
     showModal,
-    imageLoaded,
-    setImageLoaded,
     handleDecrement,
+    handleCheckout,
     handleIncrement,
     isplusDisable,
     isLoading,
@@ -93,12 +92,12 @@ const Cart = () => {
         <Text style={[style.MainTitleText, getTextColor()]}>Cart</Text>
         <View style={[style.titleContainer, getContainerStyle()]}>
           <Text style={[style.titleText, getTextColor()]}>
-            Cart products ({cartData.cartItems.length}){' '}
+            Cart products ({cartData.cartItems?.length}){' '}
           </Text>
         </View>
         <View>
           <ScrollView style={style.ScrollContainer}>
-            {cartData?.cartItems.length === 0 ? (
+            {cartData?.cartItems?.length === 0 ? (
               <View style={style.noAddressContainer1}>
                 <View style={style.titleTextContainer1}>
                   <Lottie
@@ -120,21 +119,7 @@ const Cart = () => {
                     key={item.id}
                     style={[style.cardContainer, getTextInputStyle()]}>
                     <View style={style.imageContainer}>
-                      {!imageLoaded && (
-                        <Image
-                          source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                          style={style.image}
-                        />
-                      )}
-                      <Image
-                        source={{uri: item.imageUrl}}
-                        style={[
-                          style.image,
-                          {display: imageLoaded ? 'flex' : 'none'},
-                        ]}
-                        onLoad={() => setImageLoaded(true)}
-                        onError={() => setImageLoaded(false)}
-                      />
+                      <ImageComponent imageUrl={item.imageUrl} />
                     </View>
                     <View style={style.subContainer}>
                       <View style={style.cardTextContainer}>
@@ -225,7 +210,7 @@ const Cart = () => {
           </View>
         </View>
         <View>
-          {cartData.cartItems.length === 0 ? (
+          {cartData?.cartItems?.length === 0 ? (
             <TouchableOpacity
               style={[style.PaymentButton, style.disabled]}
               disabled={true}>

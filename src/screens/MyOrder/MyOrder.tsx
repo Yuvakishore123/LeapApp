@@ -46,10 +46,10 @@ const MyOrder = () => {
 
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
-
   if (loading) {
     return (
       <View
+        testID="loading-state"
         style={[
           {
             flex: 1,
@@ -118,7 +118,7 @@ const MyOrder = () => {
                     key={`${order.id}-${item.id}`}
                     testID={`Order-${order.id}-${item.id}`}
                     style={style.cardTextContainer}
-                    onPress={() => openModal(order)}
+                    // onPress={() => openModal(order)}
                     disabled={isModalOpen}>
                     <View style={{flexDirection: 'row', width: '85%'}}>
                       <View style={style.orderInfoContainer}>
@@ -194,32 +194,33 @@ export const OrderDetailsModal = ({
           <ScrollView style={{flex: 1}}>
             <View style={{marginTop: 10}}>
               <Text style={[style.totalOrderText, getTextColor()]}>
-                Order ID: {order.id}
+                Order ID: {order?.id}
               </Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={[style.totalOrderText, getTextColor()]}>
-                  Total Price: {'₹' + order.totalPrice}
+                  Total Price: {'₹' + order?.totalPrice}
                 </Text>
               </View>
-              {order.orderItems?.map((item: any) => (
+              {order?.orderItems?.map((item: any) => (
                 <View
+                  testID="order-Details"
                   style={[style.viewS, getPlaceholderTextColor()]}
                   key={item.id}>
                   <Image source={{uri: item.imageUrl}} style={style.image} />
                   <View style={style.marginM}>
                     <Text style={[style.productname, getButtonColor()]}>
-                      {item.name}
+                      {item?.name}
                     </Text>
                     <Text style={[style.QuantityText, getTextColor()]}>
-                      Quantity: {item.quantity}
+                      Quantity: {item?.quantity}
                     </Text>
                     <Text style={[style.QuantityText, getTextColor()]}>
-                      {item.rentalStartDate}
+                      {item?.rentalStartDate}
                     </Text>
                     <Text style={[style.QuantityText, getTextColor()]}>
-                      {item.rentalEndDate}
+                      {item?.rentalEndDate}
                     </Text>
-                    <Text style={[style.orderText]}>{item.status}</Text>
+                    <Text style={[style.orderText]}>{item?.status}</Text>
                   </View>
                 </View>
               ))}

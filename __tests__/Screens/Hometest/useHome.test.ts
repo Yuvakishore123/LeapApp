@@ -70,7 +70,7 @@ const mockData = [
 ];
 describe('useAdditems', () => {
   beforeEach(() => {
-    useSelector.mockImplementation(
+    (useSelector as jest.Mock).mockImplementation(
       (
         selector: (arg1: {
           UserProducts: {data: {}};

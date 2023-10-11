@@ -1,6 +1,5 @@
-/* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import {View, Text, TouchableOpacity, Image, ScrollView} from 'react-native';
+import {View, Text, TouchableOpacity, ScrollView} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -10,6 +9,7 @@ import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import style from './categoryStyles';
+import ImageComponent from 'components/atoms/ImageComponent';
 
 type RootStackParamList = {
   CategoryProducts: {subcategoryId: number};
@@ -20,14 +20,8 @@ type RootStackParamList = {
 const CategoryProducts = ({route}: any) => {
   const {subcategoryId} = route.params;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const {
-    subcategories,
-    wishlistList,
-    toggleWishlist,
-    imageLoaded,
-    setImageLoaded,
-    getContainerStyle,
-  } = useCategoryProducts(subcategoryId);
+  const {subcategories, wishlistList, toggleWishlist, getContainerStyle} =
+    useCategoryProducts(subcategoryId);
   const {getTextColor, getTextInputStyle} = useContext(ColorSchemeContext);
   return (
     <ScrollView style={[style.maincontainer, getContainerStyle()]}>
@@ -75,22 +69,7 @@ const CategoryProducts = ({route}: any) => {
                           })
                         }>
                         <View style={style.imageContainer}>
-                          {!imageLoaded && (
-                            <Image
-                              source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                              style={style.image}
-                            />
-                          )}
-                          <Image
-                            source={{uri: item.imageUrl[0]}}
-                            testID="productimage"
-                            style={[
-                              style.image,
-                              {display: imageLoaded ? 'flex' : 'none'},
-                            ]}
-                            onLoad={() => setImageLoaded(true)}
-                            onError={() => setImageLoaded(false)}
-                          />
+                          <ImageComponent imageUrl={item.imageUrl[0]} />
                         </View>
                       </TouchableOpacity>
                       <View style={style.cardTextContainer}>

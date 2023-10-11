@@ -7,11 +7,10 @@ import OwnerRentalSwitch from 'components/atoms/OwnerRentalSwitch';
 import useOwnerorderproducts from './useOwnerorderproducts';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import {Image} from 'react-native-elements';
+import ImageComponent from 'components/atoms/ImageComponent';
 const OwnerRentalScreen = () => {
   const {getTextColor} = useContext(ColorSchemeContext);
-  const {ownerrentalproducts, imageLoaded, setImageLoaded} =
-    useOwnerorderproducts();
+  const {ownerrentalproducts} = useOwnerorderproducts();
 
   const renderownerrentalItem = ({item}: {item: any; index: number}) => {
     const statusStyle =
@@ -21,23 +20,7 @@ const OwnerRentalScreen = () => {
     return (
       <TouchableOpacity style={OwnerRentalstyles.card} testID="Rentalitemcard">
         <View>
-          {!imageLoaded && (
-            <Image
-              testID="image-loaded"
-              source={require('../../../assets/imageload1.png')}
-              style={OwnerRentalstyles.Productimage}
-            />
-          )}
-          <Image
-            source={{uri: item.imageUrl}}
-            testID="owner-rental-image"
-            style={[
-              OwnerRentalstyles.Productimage,
-              {display: imageLoaded ? 'flex' : 'none'},
-            ]}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(false)}
-          />
+          <ImageComponent imageUrl={item.imageUrl} />
         </View>
         <View
           style={{

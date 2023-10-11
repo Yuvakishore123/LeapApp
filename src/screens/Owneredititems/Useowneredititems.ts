@@ -58,7 +58,6 @@ const Useowneredititems = () => {
   const [productQuantity, setProductQuantity] = useState(0);
   const [isModalVisible, setIsModalVisible] = useState(false);
   const [refreshData, setRefreshData] = useState(false);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const openModal = () => {
     setShowModal(true);
@@ -441,8 +440,6 @@ const Useowneredititems = () => {
     handleremove,
     pickImg,
     imageUris,
-    imageLoaded,
-    setImageLoaded,
     handleGenderChange,
     handleEventTypeChange,
     handleOutfitChange,

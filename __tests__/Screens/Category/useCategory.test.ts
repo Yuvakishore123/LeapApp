@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {renderHook} from '@testing-library/react-native';
 import {useDispatch, useSelector} from 'react-redux';
-import {useCategory} from 'screens/Category/useCategory';
+import useCategory from 'screens/Category/useCategory';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

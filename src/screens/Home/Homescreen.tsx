@@ -5,7 +5,6 @@ import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
   FlatList,
-  Image,
   Text,
   TouchableOpacity,
   View,
@@ -25,6 +24,7 @@ import {postProductToAPI} from '../../redux/actions/actions';
 import useHome from 'screens/Home/useHome';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';
+import ImageComponent from 'components/atoms/ImageComponent';
 type Props = {
   route: {name: string};
   navigation: any;
@@ -47,7 +47,6 @@ const Homescreen = ({navigation}: Props) => {
   } = useHome();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
-  const [imageLoaded, setImageLoaded] = useState(false);
   const {
     colorScheme,
     getContainerStyle,
@@ -62,7 +61,7 @@ const Homescreen = ({navigation}: Props) => {
       </View>
     );
   };
-
+  console.log(loading);
   return (
     <SafeAreaView
       style={[
@@ -78,7 +77,7 @@ const Homescreen = ({navigation}: Props) => {
         <SkeletonPlaceholder
           highlightColor="#e0e0e0"
           backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
-          <View testID="loadingtest">
+          <View>
             <Text
               style={[
                 {
@@ -90,7 +89,9 @@ const Homescreen = ({navigation}: Props) => {
                 },
                 getTextColor(),
               ]}></Text>
-            <View style={[style.searchInputContainer, getTextColor()]}>
+            <View
+              testID="loadingtest"
+              style={[style.searchInputContainer, getTextColor()]}>
               <TextInput
                 placeholder="Search"
                 placeholderTextColor={
@@ -262,21 +263,7 @@ const Homescreen = ({navigation}: Props) => {
                             })
                           }>
                           <View style={style.imageContainer}>
-                            {!imageLoaded && (
-                              <Image
-                                source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                                style={style.image}
-                              />
-                            )}
-                            <Image
-                              source={{uri: item.imageUrl[0]}}
-                              style={[
-                                style.image,
-                                {display: imageLoaded ? 'flex' : 'none'},
-                              ]}
-                              onLoad={() => setImageLoaded(true)}
-                              onError={() => setImageLoaded(false)}
-                            />
+                            <ImageComponent imageUrl={item.imageUrl[0]} />
                             <TouchableOpacity
                               testID={`wishlistremove-${item.id}`}
                               style={style.wishlistButton}

@@ -13,24 +13,25 @@ import {
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Share from 'react-native-vector-icons/MaterialCommunityIcons';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
-import {Pagination} from 'react-native-snap-carousel';
+import Pagination from 'react-native-snap-carousel';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import useProductdetails from './useProductdetails';
 
 import * as Animatable from 'react-native-animatable';
-import Styles from 'constants/themeColors';
 import Colors from 'constants/colors';
 import styles from './UProductDetailsStyle';
 import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {useNavigation} from '@react-navigation/native';
 type Props = {
   route: {params: {product: any}};
-  navigation: any;
 };
-export default function UProductDetails({route, navigation}: Props) {
+export default function UProductDetails({route}: Props) {
   const {product} = route.params;
-  const {colorScheme} = useContext(ColorSchemeContext);
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
+    useContext(ColorSchemeContext);
+  const navigation = useNavigation();
   const {
     rentalStartDate,
     setRentalStartDate,
@@ -57,19 +58,12 @@ export default function UProductDetails({route, navigation}: Props) {
   } = useProductdetails(product);
   const Quantity = product?.quantity;
   return (
-    <ScrollView
-      style={{
-        width: '100%',
-        backgroundColor: colorScheme === 'dark' ? Colors.black : Colors.white,
-      }}>
-      <View
-        style={[
-          styles.container,
-          colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-        ]}>
+    <ScrollView style={[{width: '100%'}, getContainerStyle()]}>
+      <View style={[styles.container, getContainerStyle()]}>
         <StatusBar translucent backgroundColor={'rgba(0,0,0,0)'} />
         <View style={styles.dheader}>
           <Icon
+            testID="backbutton"
             name="arrow-back-ios"
             size={28}
             color="black"
@@ -81,6 +75,7 @@ export default function UProductDetails({route, navigation}: Props) {
         </View>
         <View style={{height: 500, width: 405, backgroundColor: Colors.gray}}>
           <ScrollView
+            testID="scrollViewId"
             nestedScrollEnabled
             ref={scrollViewRef}
             horizontal
@@ -94,7 +89,7 @@ export default function UProductDetails({route, navigation}: Props) {
               startScrollTimer();
             }}
             onScroll={handleScroll}>
-            {product?.imageUrl.map((item: any) => (
+            {product?.imageUrl?.map((item: any) => (
               <ImageBackground
                 key={item}
                 style={{
@@ -122,7 +117,7 @@ export default function UProductDetails({route, navigation}: Props) {
             {product?.name}
           </Animatable.Text>
           <Pagination
-            dotsLength={product?.imageUrl.length}
+            dotsLength={product?.imageUrl?.length}
             activeDotIndex={activeIndex}
             containerStyle={styles.paginationContainer}
             dotStyle={styles.pagingActiveText}
@@ -131,26 +126,13 @@ export default function UProductDetails({route, navigation}: Props) {
             inactiveDotScale={0.6}
           />
         </View>
-        <View
-          style={[
-            styles.detailsContainer,
-            colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-          ]}>
+        <View style={[styles.detailsContainer, getContainerStyle()]}>
           <Text style={[styles.detailsPrice]}>₹{product?.price}</Text>
-          <Text
-            style={[
-              styles.detailsdescription,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[styles.detailsdescription, getTextColor()]}>
             {product?.description}
           </Text>
           <View style={{marginTop: 10, marginBottom: 20, flexDirection: 'row'}}>
-            <Text
-              style={[
-                styles.headingtext,
-                {marginTop: 10},
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
+            <Text style={[styles.headingtext, {marginTop: 10}, getTextColor()]}>
               Rent
             </Text>
             <DatePickerComponent
@@ -162,43 +144,20 @@ export default function UProductDetails({route, navigation}: Props) {
               buttonTextColor={styles.datepickerTextcolor}
             />
           </View>
-          <View
-            style={[
-              styles.size,
-              colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-            ]}>
-            <Text
-              style={[
-                styles.sizelabel,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
-              Size
-            </Text>
+          <View style={[styles.size, getTextInputStyle()]}>
+            <Text style={[styles.sizelabel, getTextColor()]}>Size</Text>
             <View style={styles.descriptionContainer}>
-              <Text
-                style={[
-                  styles.detailsSize,
-                  colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-                ]}>
+              <Text style={[styles.detailsSize, getTextColor()]}>
                 {product?.size}
               </Text>
             </View>
           </View>
-          <View
-            style={[
-              styles.quantityContainer,
-              colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-            ]}>
+          <View style={[styles.quantityContainer, getTextInputStyle()]}>
             <View>
-              <Text
-                style={[
-                  styles.Quatitytext,
-                  colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-                ]}>
-                Quantity
-              </Text>
+              <Text style={[styles.Quatitytext, getTextColor()]}>Quantity</Text>
             </View>
             <TouchableOpacity
+              testID="disablebutton"
               style={[
                 styles.quantityButton,
                 isMinusDisabled && styles.disabledButton,
@@ -207,14 +166,11 @@ export default function UProductDetails({route, navigation}: Props) {
               disabled={quantity === 1 || isMinusDisabled}>
               <Text style={styles.quantityButtonText}>-</Text>
             </TouchableOpacity>
-            <Text
-              style={[
-                styles.quantityText,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
+            <Text style={[styles.quantityText, getTextColor()]}>
               {quantity}
             </Text>
             <TouchableOpacity
+              testID="plusbutton"
               style={[
                 styles.plusquantityButton,
                 isPlusDisabled && styles.disabledButton,

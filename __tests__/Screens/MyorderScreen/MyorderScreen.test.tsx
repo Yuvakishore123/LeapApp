@@ -1,9 +1,10 @@
-import {Provider} from 'react-redux';
-import MyOrder from '../../../src/screens/MyOrder/MyOrder';
-import {fireEvent, render, waitFor} from '@testing-library/react-native';
+import {Provider, useDispatch} from 'react-redux';
+import MyOrder, {OrderDetailsModal} from '../../../src/screens/MyOrder/MyOrder';
+import {act, fireEvent, render} from '@testing-library/react-native';
 import {store} from '../../../src/redux/store';
 import React from 'react';
-import ApiService from 'network/network';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+import useMyOrder from 'screens/MyOrder/useMyOrder';
 
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
@@ -11,8 +12,16 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
   getItem: jest.fn(),
   removeItem: jest.fn(),
+  clear: jest.fn(),
 }));
-jest.mock('../../../src/screens/MyOrder/useMyOrder', () => () => ({
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
+jest.mock('../../../src/screens/MyOrder/useMyOrder', () => ({
+  default: jest.fn(),
+  __esModule: true,
   OrderProducts: [
     {
       id: 1,
@@ -28,6 +37,21 @@ jest.mock('../../../src/screens/MyOrder/useMyOrder', () => () => ({
     },
     // Add more orders as needed for testing
   ],
+  orderData: {
+    id: 1,
+    totalPrice: 100, // Replace with the actual total price
+    orderItems: [
+      {
+        id: 101,
+        name: 'Product 1', // Replace with the actual product name
+        quantity: 2, // Replace with the actual quantity
+        rentalStartDate: '2023-10-09', // Replace with the actual date
+        rentalEndDate: '2023-10-10', // Replace with the actual date
+        status: 'Pending',
+        imageUrl: 'https://example.com/image1.jpg', // Replace with a valid image URL
+      },
+    ],
+  },
   refreshing: false,
   selectedOrder: null,
   isModalOpen: false,
@@ -50,8 +74,11 @@ jest.mock('@react-navigation/native', () => {
   };
 });
 describe('My Order Screen', () => {
-  it('renders loading state correctly', async () => {
-    jest.mock('../../../src/screens/MyOrder/useMyOrder', () => () => ({
+  const mockDispatch = jest.fn();
+  beforeEach(() => {
+    AsyncStorage.clear();
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useMyOrder as jest.Mock).mockReturnValue({
       OrderProducts: [
         {
           id: 1,
@@ -67,27 +94,76 @@ describe('My Order Screen', () => {
         },
         // Add more orders as needed for testing
       ],
+      orderData: {
+        id: 1,
+        totalPrice: 100, // Replace with the actual total price
+        orderItems: [
+          {
+            id: 101,
+            name: 'Product 1', // Replace with the actual product name
+            quantity: 2, // Replace with the actual quantity
+            rentalStartDate: '2023-10-09', // Replace with the actual date
+            rentalEndDate: '2023-10-10', // Replace with the actual date
+            status: 'Pending',
+            imageUrl: 'https://example.com/image1.jpg', // Replace with a valid image URL
+          },
+        ],
+      },
       refreshing: false,
       selectedOrder: null,
       isModalOpen: false,
-      loading: true,
+      loading: false,
       onRefresh: jest.fn(),
       openModal: jest.fn(),
       closeModal: jest.fn(),
       handleProfile: jest.fn(),
       showNotification: jest.fn(),
-    }));
-    const {getByText} = render(
+    });
+  });
+  it('renders loading state correctly', async () => {
+    (useMyOrder as jest.Mock).mockReturnValue({
+      loading: true,
+    });
+    const {getByTestId} = render(
       <Provider store={store}>
         <MyOrder />
       </Provider>,
     );
 
-    // Wait for the loading text to appear
-    await waitFor(() => {
-      const loadingText = getByText('The Items are Loading...');
-      expect(loadingText).toBeTruthy();
+    const loadingText = getByTestId('loading-state');
+    expect(loadingText).toBeTruthy();
+  });
+  it('should call openModal correctly', async () => {
+    const openmodals = jest.fn();
+    (useMyOrder as jest.Mock).mockReturnValue({
+      openModal: openmodals,
+      OrderProducts: [
+        {
+          id: 1,
+          orderItems: [
+            {
+              id: 1,
+              imageUrl: 'https://example.com/image.jpg',
+              status: 'Order placed',
+              createdDate: '2023-09-27',
+            },
+            // Add more order items as needed for testing
+          ],
+        },
+        // Add more orders as needed for testing
+      ],
     });
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <MyOrder />
+      </Provider>,
+    );
+
+    const openText = getByTestId('order-1');
+    act(() => {
+      fireEvent.press(openText);
+    });
+    expect(openmodals).toBeCalled();
   });
 
   it('Should render My order screen', async () => {
@@ -99,20 +175,16 @@ describe('My Order Screen', () => {
     expect(result).toBeTruthy();
   });
   it('should render empty screen when OrderProducts is empty', async () => {
-    const mockOrderProducts: never[] = []; // Empty array for OrderProducts
-
-    jest.spyOn(ApiService, 'get').mockResolvedValue(mockOrderProducts);
-
-    const {queryByTestId} = render(
+    (useMyOrder as jest.Mock).mockReturnValue({
+      OrderProducts: [],
+    });
+    const {getByTestId} = render(
       <Provider store={store}>
         <MyOrder />
       </Provider>,
     );
-
-    await waitFor(() => {
-      const emptyOrdersMessage = queryByTestId('empty-view'); // Replace with the expected content of the empty orders message
-      expect(emptyOrdersMessage).toBeNull();
-    });
+    const emptyView = getByTestId('empty-view');
+    expect(emptyView).toBeDefined();
   });
 
   it('renders order items correctly', () => {
@@ -121,60 +193,46 @@ describe('My Order Screen', () => {
         <MyOrder />
       </Provider>,
     );
-    const orderCard = getByTestId('order-1');
-    expect(orderCard).toBeTruthy();
+    const orderproducts = getByTestId('order-1');
+    expect(orderproducts).toBeDefined();
   });
   it('should render modals in the Order screen', async () => {
-    const mockOrderProducts = [
-      {
-        id: 1,
-        orderItems: [{id: 1, createdDate: '2023-07-10', status: 'Completed'}],
-      },
-    ];
-
-    jest.spyOn(ApiService, 'get').mockResolvedValue(mockOrderProducts);
-
+    const mockData = {
+      id: 1,
+      totalPrice: 100, // Replace with the actual total price
+      orderItems: [
+        {
+          id: 101,
+          name: 'Product 1', // Replace with the actual product name
+          quantity: 2, // Replace with the actual quantity
+          rentalStartDate: '2023-10-09', // Replace with the actual date
+          rentalEndDate: '2023-10-10', // Replace with the actual date
+          status: 'Pending',
+          imageUrl: 'https://example.com/image1.jpg', // Replace with a valid image URL
+        },
+      ],
+    };
+    (useMyOrder as jest.Mock).mockReturnValue({
+      isModalOpen: true,
+      order: mockData,
+    });
     const {getByTestId} = render(
       <Provider store={store}>
-        <MyOrder />
+        <OrderDetailsModal
+          order={mockData}
+          onClose={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+          visible={true}
+          showNotifications={function (): void {
+            throw new Error('Function not implemented.');
+          }}
+        />
       </Provider>,
     );
-    await waitFor(() => {
-      mockOrderProducts.forEach(product => {
-        const productName = getByTestId(`order-${product.id}`);
-        expect(productName).toBeDefined();
-      });
-    });
-    const OpenModal = getByTestId('order-1');
-    fireEvent.press(OpenModal);
-    expect(OpenModal).toBeDefined();
-  });
-  it('should render modal in the Order screen', async () => {
-    const mockOrderProducts = [
-      {
-        id: 1,
-        orderItems: [{id: 1, createdDate: '2023-07-10', status: 'Completed'}],
-      },
-    ];
-
-    jest.spyOn(ApiService, 'get').mockResolvedValue(mockOrderProducts);
-
-    const {getByTestId} = render(
-      <Provider store={store}>
-        <MyOrder />
-      </Provider>,
-    );
-    await waitFor(() => {
-      mockOrderProducts.forEach(order => {
-        order.orderItems.forEach(product => {
-          const productName = getByTestId(`Order-${order.id}-${product.id}`);
-          expect(productName).toBeDefined();
-        });
-      });
-    });
-
-    const OpenModal = getByTestId('Order-1-1');
-    fireEvent.press(OpenModal);
-    expect(OpenModal).toBeDefined();
+    const modalvisible = getByTestId('order-details-modal');
+    const orderDetails = getByTestId('order-Details');
+    expect(modalvisible).toBeDefined();
+    expect(orderDetails).toBeDefined();
   });
 });

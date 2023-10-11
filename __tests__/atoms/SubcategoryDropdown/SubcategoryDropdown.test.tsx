@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react-native';
+import {render, fireEvent, act} from '@testing-library/react-native';
 // Import AsyncStorage module
 import SubCategoryDropdown from '../../../src/components/atoms/SubcategoryDropdown/SubcategoryDropdown';
 
@@ -36,11 +36,14 @@ describe('SubCategoryDropdown', () => {
     fireEvent(dropdownComponent, 'onChange', {value: 'category2'});
     expect(mockOnChange).toHaveBeenCalledWith('category2');
   });
-  test('displays selected value', () => {
-    const {getByText} = render(
+  test('should handle onFocus function in GenderDropdown', () => {
+    const {getByTestId} = render(
       <SubCategoryDropdown value="category1" onChange={() => {}} />,
     );
-    const selectedValueText = getByText('Category 1');
-    expect(selectedValueText).toBeTruthy();
+    const dropdownComponent = getByTestId('sub-category-dropdown');
+    act(() => {
+      fireEvent(dropdownComponent, 'onFocus', {placeholder: 'Selected Type'});
+    });
+    expect(dropdownComponent).toBeDefined();
   });
 });

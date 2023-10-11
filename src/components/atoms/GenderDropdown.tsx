@@ -7,7 +7,6 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Ownerstyles from '../../screens/Additems/Additemsstyle';
 import Useadditems from '../../screens/Additems/useAdditems';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
 import Colors from '../../constants/colors';
 
 // Defining the prop types for the GenderDropdown component
@@ -23,37 +22,26 @@ const DropdownComponent: React.FC<GenderDropdownProps> = ({
   // Getting categories data and managing focus state using hooks
   const {categoriesData} = Useadditems();
   const [isFocus, setIsFocus] = useState(false);
-  const {colorScheme} = useContext(ColorSchemeContext);
+  const {getplaceholdercolor, getTextInputStyle} =
+    useContext(ColorSchemeContext);
 
   return (
     <View style={Ownerstyles.scrollView}>
-      <View
-        style={[
-          styles.dropdownContainer,
-          colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-        ]}>
+      <View style={[styles.dropdownContainer, getTextInputStyle()]}>
         {/* Dropdown component with various styles and configurations */}
         <Dropdown
+          testID="GenderDropdown"
           style={[styles.dropdown]}
           placeholderStyle={[styles.placeholderStyle]}
-          selectedTextStyle={[
-            styles.selectedTextStyle,
-            colorScheme === 'dark' ? Styles.InputText : Styles.blackText,
-          ]}
-          inputSearchStyle={[
-            styles.inputSearchStyle,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}
+          selectedTextStyle={[styles.selectedTextStyle, getplaceholdercolor()]}
+          inputSearchStyle={[styles.inputSearchStyle, getTextInputStyle()]}
           iconStyle={styles.iconStyle}
           itemTextStyle={styles.itemTextStyle}
           selectedItemTextStyle={styles.selectedItemTextStyle}
-          itemContainerStyle={[
-            styles.itemContainerStyle,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}
+          itemContainerStyle={[styles.itemContainerStyle, getTextInputStyle()]}
           selectedItemContainerStyle={[
             styles.selectedItemContainerStyle,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
+            getTextInputStyle(),
           ]}
           data={categoriesData}
           search

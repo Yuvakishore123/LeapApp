@@ -85,7 +85,9 @@ const Additems = () => {
                 onBlur={() => handleBlur('name')}
               />
               {formik.touched.name && formik.errors.name && (
-                <Text style={Styles.errorText}>{formik.errors.name}</Text>
+                <Text style={Styles.errorText} testID="errorname">
+                  {formik.errors.name}
+                </Text>
               )}
               <TextInput
                 placeholderTextColor={Colors.gray}

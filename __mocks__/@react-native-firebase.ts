@@ -10,8 +10,6 @@ const messaging = jest.fn(() => ({
   // Add other mock methods if needed
 }));
 const InAppMessaging = {
-  // Define mock methods here
-  inAppMessaging: jest.fn(),
   onTokenRefresh: jest.fn(),
   setMessagesDisplaySuppressed: jest.fn(),
   // ...

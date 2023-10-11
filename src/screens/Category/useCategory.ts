@@ -8,7 +8,7 @@ import {getsubcategoryData} from '../../redux/slice/subcategorySlice';
 type RootStackParamList = {
   Subcategory: {categoryId: string};
 };
-export const useCategory = () => {
+const useCategory = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const data = useSelector(
     (state: {category: {data: any}}) => state.category.data,
@@ -32,3 +32,4 @@ export const useCategory = () => {
     handleCategoryData,
   };
 };
+export default useCategory;

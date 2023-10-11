@@ -17,6 +17,7 @@ import Styles from '../../constants/themeColors';
 import style from './wishlistStyles';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import Toast from 'react-native-toast-message';
+import ImageComponent from 'components/atoms/ImageComponent';
 
 type Props = {
   route: {name: string};
@@ -34,7 +35,7 @@ const Wishlist = ({navigation}: Props) => {
     colorScheme,
   } = useWishlist();
 
-  const {refreshing, onRefresh, imageLoaded, setImageLoaded} = useWishlist();
+  const {refreshing, onRefresh} = useWishlist();
 
   if (isLoading || !WishlistProducts) {
     return (
@@ -128,21 +129,7 @@ const Wishlist = ({navigation}: Props) => {
                           <View
                             style={style.imageContainer}
                             testID="wishlist-image">
-                            {!imageLoaded && (
-                              <Image
-                                source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                                style={style.image}
-                              />
-                            )}
-                            <Image
-                              source={{uri: item.imageUrl[0]}}
-                              style={[
-                                style.image,
-                                {display: imageLoaded ? 'flex' : 'none'},
-                              ]}
-                              onLoad={() => setImageLoaded(true)}
-                              onError={() => setImageLoaded(false)}
-                            />
+                            <ImageComponent imageUrl={item.imageUrl[0]} />
                           </View>
                         </TouchableOpacity>
                         <View style={style.cardTextContainer}>

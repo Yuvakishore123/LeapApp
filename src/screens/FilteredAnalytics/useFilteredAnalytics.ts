@@ -51,7 +51,6 @@ const useFilteredAnalytics = () => {
           ),
         }),
       );
-
       setChartData(chartData);
     }
   };
@@ -66,6 +65,10 @@ const useFilteredAnalytics = () => {
   const generateKey = () => {
     return Math.random().toString(36);
   };
+  const handleEndDateChange = (date: any) => {
+    setEndDate(date);
+    fetchData();
+  };
 
   return {
     chartData,
@@ -76,9 +79,11 @@ const useFilteredAnalytics = () => {
     startDate,
     endDate,
     setStartDate,
+    setChartData,
     setEndDate,
     navigation,
     response,
+    handleEndDateChange,
   };
 };
 

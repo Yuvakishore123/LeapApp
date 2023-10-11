@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import * as Yup from 'yup';
-import {SetStateAction, useEffect, useState} from 'react';
+import {SetStateAction, useState} from 'react';
 import {useFormik} from 'formik';
 
 import {addsize} from '../../redux/actions/actions';
@@ -23,7 +23,6 @@ const useAddImages = () => {
   const [selectedsize, setSelectedsize] = useState('');
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [_url, setUrl] = useState<string | null>(null);
 
   const [selectedImage, setSelectedImage] = useState('');
 
@@ -55,15 +54,6 @@ const useAddImages = () => {
     (state: {ItemsReducer: {subcategoryIds: []}}) =>
       state.ItemsReducer.subcategoryIds,
   );
-
-  const getImageUrl = async () => {
-    const url = await asyncStorageWrapper.getItem('url');
-    setUrl(url);
-    logMessage.error('Retrieved URL:', url);
-  };
-  useEffect(() => {
-    getImageUrl();
-  }, []);
   const AdditemsvalidationSchema = Yup.object().shape({
     size: Yup.string().required('Size is required'),
     price: Yup.number()
@@ -126,19 +116,6 @@ const useAddImages = () => {
     setImageUrls(prevUrls => prevUrls.filter((url, i) => i !== index));
     setIsLoading(false);
   };
-
-  useEffect(() => {
-    const getImageUrls = async () => {
-      const url = await asyncStorageWrapper.getItem('url');
-      if (url) {
-        const imageUrls = Array.from({length: 10}, (_, index) => {
-          return `${url}/file${index + 1}`;
-        });
-        imageUrls(imageUris);
-      }
-    };
-    getImageUrls();
-  }, [imageUris]);
   const pickImages = () => {
     launchImageLibrary(
       {

@@ -1,12 +1,12 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useRef, useState} from 'react';
 import ApiService from '../../network/network';
-import {useSelector} from 'react-redux';
+import {useDispatch, useSelector} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {logMessage} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
@@ -29,7 +29,7 @@ const useProductdetails = (product: {
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [_shareData, setshareData] = useState({});
-  const {dispatch} = useThunkDispatch();
+  const dispatch = useDispatch();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
   const handleDecrement = () => {
@@ -56,7 +56,7 @@ const useProductdetails = (product: {
         rentalEndDate: rentalEndDate.toISOString(),
         rentalStartDate: rentalStartDate.toISOString(),
       };
-      dispatch(CartAdd(Item));
+      dispatch(CartAdd(Item) as any);
       if (isData.status === HTTP_STATUS_CODES.BAD_REQUEST) {
         opennModal();
       } else {
@@ -75,7 +75,7 @@ const useProductdetails = (product: {
 
   const closeModal = () => {
     setShowModal(false);
-    dispatch(fetchCartProducts());
+    dispatch(fetchCartProducts() as any);
     productsData();
   };
 
@@ -188,7 +188,11 @@ const useProductdetails = (product: {
     handleSubmit,
     closeModal,
     closeeModal,
+    CartAdd,
+    openModal,
+    opennModal,
     scrollTimerRef,
+    generateLink,
     scrollToNextImage,
     scrollViewRef,
     shareProduct,

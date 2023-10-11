@@ -198,28 +198,23 @@ describe('SearchResultScreen', () => {
       product: mockData,
     });
   });
-  // test('Close Modal when TouchableOpacity is pressed', () => {
-  //   const searchResults = [
-  //     {
-  //       id: 1,
-  //       name: 'Product 1',
-  //       price: 10,
-  //       imageUrl: ['https://example.com/image1.jpg'],
-  //     },
-  //   ];
-  //   const {getByTestId} = render(
-  //     <SearchResultsScreen route={{params: {searchResults: searchResults}}} />,
-  //   );
-  //   const touchableOpacity = getByTestId('filter-apply-button');
-  //   act(() => {
-  //     fireEvent.press(touchableOpacity);
-  //   });
-  //   const closebutton = getByTestId('closeButton');
-  //   const modal = getByTestId('modal');
-
-  //   act(() => {
-  //     fireEvent.press(closebutton);
-  //   });
-  //   expect(modal).not.toBeDefined();
-  // });
+  test('Close Modal when TouchableOpacity is pressed', () => {
+    const searchResults = [
+      {
+        id: 1,
+        name: 'Product 1',
+        price: 10,
+        imageUrl: ['https://example.com/image1.jpg'],
+      },
+    ];
+    const {getByTestId} = render(
+      <SearchResultsScreen route={{params: {searchResults: searchResults}}} />,
+    );
+    const touchableOpacity = getByTestId('filter-apply-button');
+    act(() => {
+      fireEvent.press(touchableOpacity);
+    });
+    const modal = getByTestId('modal');
+    expect(modal).toBeDefined();
+  });
 });

@@ -1,9 +1,8 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {
   FlatList,
-  Image,
   RefreshControl,
   TouchableOpacity,
   View,
@@ -17,9 +16,9 @@ import styles from './OwnerHomestyle';
 import Donut from '../../components/atoms/DonutChart';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import useOwnerHome from './useOwnerHome';
-import Styles from '../../constants/themeColors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from '../../constants/colors';
+import ImageComponent from 'components/atoms/ImageComponent';
 
 type Props = {
   route: {name: string};
@@ -47,8 +46,8 @@ const OwnerHome = ({navigation}: Props) => {
     totalEarningsPercentage,
   } = useOwnerHome();
   const {handleOrders, CategoriePieData, Dashboardyeardata} = useAnalytics();
-  const {colorScheme} = useContext(ColorSchemeContext);
-  const [imageLoaded, setImageLoaded] = useState(false);
+  const {colorScheme, getTextInputStyle, getTextColor, getContainerStyle} =
+    useContext(ColorSchemeContext);
 
   const renderRecentlyAddedItem = ({item}: {item: Product}) => {
     return (
@@ -57,40 +56,12 @@ const OwnerHome = ({navigation}: Props) => {
         key={item.id}
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
-        <View
-          style={[
-            styles.cardContainer,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}>
-          {!imageLoaded && (
-            <Image
-              source={require('../../../assets/imageload1.png')}
-              style={styles.recentlyaddedimage}
-            />
-          )}
-          <Image
-            source={{uri: item.imageUrl[0]}}
-            style={[
-              styles.recentlyaddedimage,
-              {display: imageLoaded ? 'flex' : 'none'},
-            ]}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(false)}
-          />
+        <View style={[styles.cardContainer, getTextInputStyle()]}>
+          <ImageComponent imageUrl={item.imageUrl[0]} />
         </View>
-        <View
-          style={[
-            styles.cardTextContainer,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}>
+        <View style={[styles.cardTextContainer, getTextInputStyle()]}>
           <View style={styles.textViewS}>
-            <Text
-              style={[
-                styles.cardText,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
-              {item.name}
-            </Text>
+            <Text style={[styles.cardText, getTextColor()]}>{item.name}</Text>
           </View>
           <View style={styles.cardS}>
             <Text style={styles.cardTextPrice}>₹ {item.price}</Text>
@@ -165,35 +136,10 @@ const OwnerHome = ({navigation}: Props) => {
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
         <View style={styles.cardContainer}>
-          {!imageLoaded && (
-            <Image
-              source={require('../../../assets/imageload1.png')}
-              style={styles.recentlyaddedimage}
-            />
-          )}
-          <Image
-            source={{uri: item.imageUrl[0]}}
-            testID="avatar-image"
-            style={[
-              styles.recentlyaddedimage,
-              {display: imageLoaded ? 'flex' : 'none'},
-            ]}
-            onLoad={() => setImageLoaded(true)}
-            onError={() => setImageLoaded(false)}
-          />
+          <ImageComponent imageUrl={item.imageUrl[0]} />
         </View>
-        <View
-          style={[
-            styles.cardTextContainer,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}>
-          <Text
-            style={[
-              styles.cardText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
-            {item.name}
-          </Text>
+        <View style={[styles.cardTextContainer, getTextInputStyle()]}>
+          <Text style={[styles.cardText, getTextColor()]}>{item.name}</Text>
           <Text style={styles.cardTextPrice}>₹ {item.price}</Text>
         </View>
       </TouchableOpacity>
@@ -212,7 +158,7 @@ const OwnerHome = ({navigation}: Props) => {
         <View
           style={[
             {flex: 1, backgroundColor: Colors.main, flexWrap: 'wrap'},
-            colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
+            getContainerStyle(),
           ]}>
           <View style={styles.viewS}>
             {products?.map((item: Product, index: number) =>
@@ -226,19 +172,12 @@ const OwnerHome = ({navigation}: Props) => {
 
   return (
     <ScrollView
-      style={[
-        styles.mainContainer,
-        colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-      ]}
+      style={[styles.mainContainer, getContainerStyle()]}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View>
-        <Text
-          style={[
-            styles.headertxt,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
+        <Text style={[styles.headertxt, getTextColor()]}>
           Welcome {name.firstName}
         </Text>
       </View>
@@ -289,13 +228,7 @@ const OwnerHome = ({navigation}: Props) => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text
-          style={[
-            styles.headertxt,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
-          Recently Added
-        </Text>
+        <Text style={[styles.headertxt, getTextColor()]}>Recently Added</Text>
       </View>
       {isLoading ? (
         renderRecentlyAdded()
@@ -303,11 +236,7 @@ const OwnerHome = ({navigation}: Props) => {
         <>
           {renderRecentlyAdded()}
           <View>
-            <Text
-              style={[
-                styles.headertxt,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
+            <Text style={[styles.headertxt, getTextColor()]}>
               Rental History
             </Text>
           </View>

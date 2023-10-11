@@ -70,6 +70,9 @@ jest.mock('screens/Home/useHome', () => ({
 }));
 
 describe('Home Page', () => {
+  const mockNavigation = {
+    navigate: jest.fn(),
+  };
   const mockDispatch = jest.fn();
   beforeEach(() => {
     AsyncStorage.clear();
@@ -129,7 +132,7 @@ describe('Home Page', () => {
 
     expect(result).toBeTruthy();
   });
-  test('should navigate to CategoryScreen correctly', () => {
+  test('should render flatlist correctly', () => {
     const Stack = createNativeStackNavigator();
     const {getByTestId} = render(
       <Provider store={store}>
@@ -144,7 +147,7 @@ describe('Home Page', () => {
 
     expect(flatlist).toBeDefined();
   });
-  test('should render loading correctly', () => {
+  test('should render searchBar correctly', () => {
     (useHome as jest.Mock).mockReturnValue({
       onRefresh: jest.fn(),
       refreshing: false,
@@ -197,6 +200,7 @@ describe('Home Page', () => {
     const loading = getByTestId('searchId');
     expect(loading).toBeDefined();
   });
+
   test('calls wishlistremove when the button is pressed', () => {
     const Stack = createNativeStackNavigator();
     const mockModal = jest.fn();

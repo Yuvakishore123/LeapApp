@@ -360,7 +360,7 @@ describe('OwnerEditItems Screen', () => {
     });
     expect(RemoveProduct).toBeCalled();
   });
-  it('handle Modal when edit button is pressed', () => {
+  it('handle Modal when Manage button is pressed', () => {
     const DisableProduct = jest.fn();
     const visible = jest.fn();
     const modalVisible = jest.fn();
@@ -481,5 +481,152 @@ describe('OwnerEditItems Screen', () => {
       fireEvent.press(image);
     });
     expect(enablebutton).toBeCalled();
+  });
+  it('handle loading state of screen', () => {
+    const Stack = createNativeStackNavigator();
+    (Useowneredititems as jest.Mock).mockReturnValue({
+      data: [],
+      isLoading: true,
+      setRefreshData: jest.fn(),
+    });
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Owneredititems" component={Owneredititems} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const loading = getByTestId('loading-state');
+    expect(loading).toBeDefined();
+  });
+  it('handle decrementQuantity when minus pressed', () => {
+    const visible = jest.fn();
+    const modalVisible = jest.fn();
+    const decrement = jest.fn();
+    const Stack = createNativeStackNavigator();
+    (Useowneredititems as jest.Mock).mockReturnValue({
+      data: [
+        {
+          id: 1,
+          imageUrl: ['image1.jpg'],
+          name: 'Product 1',
+          price: 10,
+          totalQuantity: 10,
+        },
+      ],
+      imageUrls: ['image1.png'],
+      setRefreshData: jest.fn(),
+      selectedImage: 'image.png',
+      setViisble: visible,
+      isModalVisible: true,
+      setIsModalVisible: modalVisible,
+      decrementQuantity: decrement,
+    });
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Owneredititems" component={Owneredititems} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const decrementquantity = getByTestId('decerementQuantity');
+    act(() => {
+      fireEvent.press(decrementquantity);
+    });
+    expect(decrement).toHaveBeenCalled();
+  });
+  it('handle IncrementQuantity when plus pressed', () => {
+    const visible = jest.fn();
+    const modalVisible = jest.fn();
+    const increment = jest.fn();
+    const Stack = createNativeStackNavigator();
+    (Useowneredititems as jest.Mock).mockReturnValue({
+      data: [
+        {
+          id: 1,
+          imageUrl: ['image1.jpg'],
+          name: 'Product 1',
+          price: 10,
+          totalQuantity: 10,
+        },
+      ],
+      imageUrls: ['image1.png'],
+      setRefreshData: jest.fn(),
+      selectedImage: 'image.png',
+      setViisble: visible,
+      isModalVisible: true,
+      setIsModalVisible: modalVisible,
+      incrementQuantity: increment,
+    });
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Owneredititems" component={Owneredititems} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const incrementQuantity = getByTestId('incrementQuantity');
+    act(() => {
+      fireEvent.press(incrementQuantity);
+    });
+    expect(increment).toHaveBeenCalled();
+  });
+  it('handle Modal when edit button is pressed', () => {
+    const DisableProduct = jest.fn();
+    const visible = jest.fn();
+    const modalVisible = jest.fn();
+    const mockFetchData = jest.fn();
+    const mockEditProductid = jest.fn();
+    const SelectedProductId = jest.fn();
+    const Stack = createNativeStackNavigator();
+    (Useowneredititems as jest.Mock).mockReturnValue({
+      data: [
+        {
+          id: 1,
+          imageUrl: ['image1.jpg'],
+          name: 'Product 1',
+          price: 10,
+        },
+      ],
+      imageUrls: ['image1.png'],
+      setRefreshData: jest.fn(),
+      selectedImage: 'image.png',
+      setViisble: visible,
+      visible: true,
+      FetchData: mockFetchData,
+      setEditProductId: mockEditProductid,
+      isModalVisible: true,
+      setIsModalVisible: modalVisible,
+      setSelectedProductId: SelectedProductId,
+      handleDisableProduct: DisableProduct,
+    });
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Owneredititems" component={Owneredititems} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const image = getByTestId('editButton');
+    act(() => {
+      fireEvent.press(image);
+    });
+    const closebutton = getByTestId('close');
+    act(() => {
+      fireEvent.press(closebutton);
+    });
+    expect(visible).toBeCalledWith(false);
   });
 });

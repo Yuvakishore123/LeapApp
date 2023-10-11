@@ -1,7 +1,8 @@
-import {act, renderHook} from '@testing-library/react-native';
+import {act, renderHook, waitFor} from '@testing-library/react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import useWishlist from '../../../src/screens/Wishlist/useWishlist';
+import {wishListRemove} from '../../../src/redux/slice/wishlistRemoveSlice';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -31,7 +32,7 @@ jest.mock('@react-navigation/native', () => {
 });
 describe('useWislist', () => {
   beforeEach(() => {
-    useSelector.mockImplementation(
+    (useSelector as jest.Mock).mockImplementation(
       (selector: (arg0: {WishlistProducts: {data: {}}}) => any) =>
         selector({
           WishlistProducts: {data: {}},
@@ -87,5 +88,17 @@ describe('useWislist', () => {
 
     // After opening the modal, showModal should be true
     expect(result.current.showModal).toBe(false);
+  });
+  it('This handle wishlistremove', () => {
+    const {result} = renderHook(() => useWishlist());
+    const mockId = '1';
+    // Open the modal
+    act(() => {
+      result.current.wishlistremove(mockId);
+    });
+
+    waitFor(() => {
+      expect(wishListRemove(mockId)).toBeCalled();
+    });
   });
 });
