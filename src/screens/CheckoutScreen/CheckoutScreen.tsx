@@ -7,24 +7,19 @@ import {
   TouchableOpacity,
   View,
 } from 'react-native';
-import React, {ReactNode} from 'react';
+import React, {ReactNode, useContext} from 'react';
 import {CheckBox} from 'react-native-elements';
 import {useSelector} from 'react-redux';
 
 import useCheckout from './useCheckout';
-import useCart from '../Cart/useCart';
 
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import Colors from '../../constants/colors';
-import Styles from '../../constants/themeColors';
+
 import style from './CheckoutScreenStyle';
+import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
-type Props = {
-  route: {name: string};
-  navigation: any;
-};
-
-const CheckoutScreen = ({navigation}: Props) => {
+const CheckoutScreen = () => {
   const {
     selectedAddressIndex,
     handlePayment,
@@ -34,32 +29,34 @@ const CheckoutScreen = ({navigation}: Props) => {
 
     isChecked,
     data,
+    handleAddAddress,
+    isLoading,
   } = useCheckout();
-  const {colorScheme} = useCart();
+  const {getTextInputStyle, getContainerStyle, getTextColor} =
+    useContext(ColorSchemeContext);
   const cartData = useSelector(
     (state: {CartProducts: {data: any}}) => state.CartProducts.data,
   ) || {
     cartItems: [],
   };
-
-  if (!cartData) {
+  console.log(!cartData);
+  if (isLoading) {
     return (
       <View style={style.checkoutcontainer}>
         <Image
+          testID="Loading-Image"
           source={require('../../../assets/LoginImage.png')}
           style={style.checkoutimage}
         />
-        <Text style={{color: Colors.iconscolor}}>The Items are Loading...</Text>
+        <Text testID="Loading-Text" style={{color: Colors.iconscolor}}>
+          The Items are Loading...
+        </Text>
       </View>
     );
   }
   return (
     <>
-      <View
-        style={[
-          style.Fullcontainer,
-          colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-        ]}>
+      <View style={[style.Fullcontainer, getContainerStyle()]}>
         <HeadingText message="Checkout" navigation={undefined} />
 
         <ScrollView>
@@ -77,38 +74,16 @@ const CheckoutScreen = ({navigation}: Props) => {
                   imageUrl: string;
                   quantity: number;
                   product: {
-                    name:
-                      | string
-                      | number
-                      | boolean
-                      | React.ReactElement<
-                          any,
-                          string | React.JSXElementConstructor<any>
-                        >
-                      | React.ReactPortal
-                      | null
-                      | undefined;
+                    name: string;
                     id: any;
-                    size:
-                      | string
-                      | number
-                      | boolean
-                      | React.ReactElement<
-                          any,
-                          string | React.JSXElementConstructor<any>
-                        >
-                      | React.ReactPortal
-                      | null
-                      | undefined;
+                    size: string;
                     price: string;
                   };
                 }) => (
                   <View
                     key={item.id}
-                    style={[
-                      style.cardContainer,
-                      colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-                    ]}>
+                    testID={`cardContainer-${item.id}`}
+                    style={[style.cardContainer, getTextInputStyle()]}>
                     <View
                       style={{
                         flexDirection: 'row',
@@ -123,12 +98,8 @@ const CheckoutScreen = ({navigation}: Props) => {
                       <View style={style.cardTextContainer}>
                         <View style={style.productContainer}>
                           <Text
-                            style={[
-                              style.productname,
-                              colorScheme === 'dark'
-                                ? Styles.whitetext
-                                : Styles.blackText,
-                            ]}>
+                            testID={`ProductName-${item.id}`}
+                            style={[style.productname, getTextColor()]}>
                             {item.product.name}
                           </Text>
                           <Text style={style.priceText}>
@@ -136,44 +107,20 @@ const CheckoutScreen = ({navigation}: Props) => {
                           </Text>
                         </View>
                         <View style={style.sizeContainer}>
-                          <Text
-                            style={[
-                              style.sizeText,
-                              colorScheme === 'dark'
-                                ? Styles.whitetext
-                                : Styles.blackText,
-                            ]}>
+                          <Text style={[style.sizeText, getTextColor()]}>
                             {' '}
                             Size-{item.product.size}
                           </Text>
-                          <Text
-                            style={[
-                              style.name,
-                              colorScheme === 'dark'
-                                ? Styles.whitetext
-                                : Styles.blackText,
-                            ]}>
+                          <Text style={[style.name, getTextColor()]}>
                             Rent From
                           </Text>
                         </View>
                         <View style={style.SizeandDate}>
                           <View style={style.quantityContainer}>
-                            <Text
-                              style={[
-                                style.quantityText,
-                                colorScheme === 'dark'
-                                  ? Styles.whitetext
-                                  : Styles.blackText,
-                              ]}>
+                            <Text style={[style.quantityText, getTextColor()]}>
                               Quantity :
                             </Text>
-                            <Text
-                              style={[
-                                style.quantityText,
-                                colorScheme === 'dark'
-                                  ? Styles.whitetext
-                                  : Styles.blackText,
-                              ]}>
+                            <Text style={[style.quantityText, getTextColor()]}>
                               {item.quantity}
                             </Text>
                           </View>
@@ -197,22 +144,15 @@ const CheckoutScreen = ({navigation}: Props) => {
               )}
             </ScrollView>
             <View style={[style.addresscard]}>
-              <Text
-                style={[
-                  style.addressText,
-                  colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-                ]}>
+              <Text style={[style.addressText, getTextColor()]}>
                 Select Address
               </Text>
-              <View style={[style.addressButton]}>
-                <Text
-                  style={[style.addresschangeText]}
-                  onPress={() => {
-                    navigation.navigate('Owneraddresspage');
-                  }}>
-                  Add Address
-                </Text>
-              </View>
+              <TouchableOpacity
+                testID="AddAddress-Button"
+                onPress={handleAddAddress}
+                style={[style.addressButton]}>
+                <Text style={[style.addresschangeText]}>Add Address</Text>
+              </TouchableOpacity>
             </View>
             {data?.map(
               (
@@ -228,45 +168,28 @@ const CheckoutScreen = ({navigation}: Props) => {
               ) => (
                 <View
                   key={item.id}
-                  style={[
-                    style.card,
-                    colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-                  ]}>
+                  testID={`AddressContainer-${item.id}`}
+                  style={[style.card, getTextInputStyle()]}>
                   <View style={[style.addressContainer]}>
                     <View>
-                      <Text
-                        style={[
-                          style.addresstext,
-                          colorScheme === 'dark'
-                            ? Styles.whitetext
-                            : Styles.blackText,
-                        ]}>
+                      <Text style={[style.addresstext, getTextColor()]}>
                         Address:
                       </Text>
-                      <Text
-                        style={[
-                          style.city,
-                          colorScheme === 'dark'
-                            ? Styles.whitetext
-                            : Styles.blackText,
-                        ]}>
-                        <Text>{item.addressLine1},</Text>
+                      <Text style={[style.city, getTextColor()]}>
+                        <Text testID={`addressText-${item.id}`}>
+                          {item.addressLine1},
+                        </Text>
                         {item.addressLine2},{item.postalCode},{item.city},
                         {item.country},
                       </Text>
                     </View>
                     <View style={style.containerCheckbox}>
-                      <Text
-                        style={[
-                          style.textCheckbox,
-                          colorScheme === 'dark'
-                            ? Styles.whitetext
-                            : Styles.blackText,
-                        ]}>
+                      <Text style={[style.textCheckbox, getTextColor()]}>
                         Delivery Address
                       </Text>
 
                       <CheckBox
+                        testID={`SelectAddress-${item.id}`}
                         checked={selectedAddressIndex === index}
                         onPress={() => handleCheckboxChange(index)}
                         checkedColor={Colors.buttonColor}
@@ -281,75 +204,42 @@ const CheckoutScreen = ({navigation}: Props) => {
           </View>
         </ScrollView>
         <View style={[style.GrandtotalContainer]}>
-          <Text
-            style={[
-              style.GrandtotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.GrandtotalText, getTextColor()]}>
             Shipping Cost
           </Text>
-          <Text
-            style={[
-              style.priceTotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.priceTotalText, getTextColor()]}>
             {' '}
             ₹ {cartData.shippingCost}
           </Text>
         </View>
         <View style={style.shippingContainer}>
-          <Text
-            style={[
-              style.GrandtotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
-            Tax
-          </Text>
-          <Text
-            style={[
-              style.priceTotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.GrandtotalText, getTextColor()]}>Tax</Text>
+          <Text style={[style.priceTotalText, getTextColor()]}>
             {' '}
             ₹ {cartData.tax}
           </Text>
         </View>
         <View style={[style.shippingContainer]}>
-          <Text
-            style={[
-              style.GrandtotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.GrandtotalText, getTextColor()]}>
             Grand Total
           </Text>
-          <Text
-            style={[
-              style.priceTotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.priceTotalText, getTextColor()]}>
             {' '}
             ₹ {cartData.totalCost}
           </Text>
         </View>
         <View style={style.shippingContainer}>
-          <Text
-            style={[
-              style.GrandtotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.GrandtotalText, getTextColor()]}>
             final Price
           </Text>
-          <Text
-            style={[
-              style.priceTotalText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+          <Text style={[style.priceTotalText, getTextColor()]}>
             {' '}
             ₹ {cartData.finalPrice}
           </Text>
         </View>
         <View style={{alignItems: 'center'}}>
           <TouchableOpacity
+            testID={'Place-Order'}
             style={[style.PaymentButton, isChecked && {opacity: 0.5}]}
             onPress={isChecked ? undefined : handlePayment}
             disabled={isChecked}>

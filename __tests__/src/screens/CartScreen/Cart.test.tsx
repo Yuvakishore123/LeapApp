@@ -1,4 +1,4 @@
-import {fireEvent, render, waitFor} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -8,7 +8,7 @@ import Cart from 'screens/Cart/Cart';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import useCart from 'screens/Cart/useCart';
-import {createListenerMiddleware} from '@reduxjs/toolkit';
+
 jest.mock('screens/Cart/useCart', () => ({
   handleCheckout: jest.fn(),
   handleRemove: jest.fn(),
@@ -170,6 +170,7 @@ describe('Cart Screen', () => {
         </Stack.Navigator>
       </NavigationContainer>,
     );
+    jest.useFakeTimers();
     const productName = getByTestId('product-name-1');
     expect(productName).toBeDefined();
   });
@@ -180,6 +181,7 @@ describe('Cart Screen', () => {
       CartProducts: mockCartData,
       handleDecrement: mockDecrement,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <NavigationContainer>
         <Stack.Navigator>
@@ -207,6 +209,7 @@ describe('Cart Screen', () => {
         </Stack.Navigator>
       </NavigationContainer>,
     );
+    jest.useFakeTimers();
     const incrementButton = getByTestId('increment-button-1');
     expect(incrementButton).toBeDefined();
     fireEvent.press(incrementButton);
@@ -220,6 +223,7 @@ describe('Cart Screen', () => {
       CartProducts: mockCartData,
       handleRemove: mockremove,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <NavigationContainer>
         <Stack.Navigator>
@@ -245,6 +249,7 @@ describe('Cart Screen', () => {
       CartProducts: mockCart,
       handleRemove: mockremove,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <NavigationContainer>
         <Stack.Navigator>
@@ -267,6 +272,7 @@ describe('Cart Screen', () => {
       cartProductId: 101,
       handleIncrement: mockIncrement,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <NavigationContainer>
         <Stack.Navigator>

@@ -60,7 +60,7 @@ describe('FilteredAnalytics Screen', () => {
   it('should render the FilteredAnalytics Screen', () => {
     // Define a mock route with the necessary params
 
-    const categoryProducts = render(
+    const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
@@ -73,6 +73,6 @@ describe('FilteredAnalytics Screen', () => {
       </Provider>,
     );
 
-    expect(categoryProducts).toBeDefined();
+    expect(result).toBeDefined();
   });
 });

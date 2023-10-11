@@ -22,7 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 
 describe('UserProducts slice', () => {
   const pageSize = 1;
-  const mockSubCategoryData = {
+  const productsData = {
     description: 'Sample description',
     id: '1', // Assuming id is a string
     imageUrl: 'sample-image-url.jpg',
@@ -54,7 +54,7 @@ describe('UserProducts slice', () => {
   });
 
   it('should handle the `getsubcategoryData.fulfilled` actions correctly', async () => {
-    jest.spyOn(ApiService, 'get').mockResolvedValue(mockSubCategoryData);
+    jest.spyOn(ApiService, 'get').mockResolvedValue(productsData);
 
     const state = store.getState().userProducts as UserProductState; // Assuming AddressAddState is the correct type
     await store.dispatch(fetchUserProducts({pageSize}));

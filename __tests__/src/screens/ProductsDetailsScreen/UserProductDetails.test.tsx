@@ -1,18 +1,20 @@
-import {render} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
-import {Provider} from 'react-redux';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import {store} from '../../../../src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
+import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import UDetailScreen from 'screens/UProductDetails/UProductDetails';
+import useProductdetails from 'screens/UProductDetails/useProductdetails';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
+jest.mock('network/network');
+const mockGoback = jest.fn();
 jest.mock('react-native-skeleton-placeholder', () => {
   const mockSkeletonPlaceholder = jest.fn();
   return mockSkeletonPlaceholder;
@@ -37,7 +39,37 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
+jest.mock('screens/UProductDetails/useProductdetails', () => ({
+  rentalStartDate: new Date(), // Mock rental start date
+  setRentalStartDate: jest.fn(), // Mock setRentalStartDate function
+  rentalEndDate: new Date(), // Mock rental end date
+  setRentalEndDate: jest.fn(), // Mock setRentalEndDate function
+  quantity: 0, // Mock quantity
+  showModal: false, // Mock showModal state
+  showwModal: jest.fn(), // Mock showwModal function
+  isMinusDisabled: false, // Mock isMinusDisabled state
+  isPlusDisabled: false, // Mock isPlusDisabled state
+  handleDecrement: jest.fn(), // Mock handleDecrement function
+  handleIncrement: jest.fn(), // Mock handleIncrement function
+  imageLoaded: false, // Mock imageLoaded state
+  setImageLoaded: jest.fn(), // Mock setImageLoaded function
+  handleSubmit: jest.fn(), // Mock handleSubmit function
+  closeModal: jest.fn(), // Mock closeModal function
+  closeeModal: jest.fn(), // Mock closeeModal function
+  scrollViewRef: null, // Mock scrollViewRef
+  setActiveIndex: jest.fn(), // Mock setActiveIndex function
+  shareProduct: jest.fn(), // Mock shareProduct function
+  activeIndex: 0, // Mock activeIndex
+  startScrollTimer: jest.fn(), // Mock startScrollTimer function
+  handleScroll: jest.fn(),
+  default: jest.fn(),
+  __esModule: true,
+}));
 const Stack = createNativeStackNavigator();
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
@@ -46,7 +78,9 @@ jest.mock('@react-navigation/native', () => {
     ...actualNav,
     useNavigation: () => ({
       navigate: mockNav,
+      goBack: mockGoback,
     }),
+    useRoute: jest.fn(),
   };
 });
 jest.mock('@react-native-firebase/messaging', () => {
@@ -60,28 +94,206 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('useProductdetails Screen', () => {
+  const mockDispatch = jest.fn();
+  const useSelector = useSelectorOriginal as jest.Mock;
+  beforeEach(() => {
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useProductdetails as jest.Mock).mockReturnValue({
+      useProductdetails: jest.fn(() => ({
+        rentalStartDate: new Date(), // Mock rental start date
+        setRentalStartDate: jest.fn(), // Mock setRentalStartDate function
+        rentalEndDate: new Date(), // Mock rental end date
+        setRentalEndDate: jest.fn(), // Mock setRentalEndDate function
+        quantity: 0, // Mock quantity
+        showModal: false, // Mock showModal state
+        showwModal: jest.fn(), // Mock showwModal function
+        isMinusDisabled: false, // Mock isMinusDisabled state
+        isPlusDisabled: false, // Mock isPlusDisabled state
+        handleDecrement: jest.fn(), // Mock handleDecrement function
+        handleIncrement: jest.fn(), // Mock handleIncrement function
+        imageLoaded: false, // Mock imageLoaded state
+        setImageLoaded: jest.fn(), // Mock setImageLoaded function
+        handleSubmit: jest.fn(), // Mock handleSubmit function
+        closeModal: jest.fn(), // Mock closeModal function
+        closeeModal: jest.fn(), // Mock closeeModal function
+        scrollViewRef: null, // Mock scrollViewRef
+        setActiveIndex: jest.fn(), // Mock setActiveIndex function
+        shareProduct: jest.fn(), // Mock shareProduct function
+        activeIndex: 0, // Mock activeIndex
+        startScrollTimer: jest.fn(), // Mock startScrollTimer function
+        handleScroll: jest.fn(),
+      })),
+    });
+    useSelector.mockImplementation(selector =>
+      selector({
+        cartAdd: {data: []},
+      }),
+    );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('should render the useProductdetails Screen', () => {
     // Define a mock route with the necessary params
     const route = {
       params: {
-        subcategoryId: '123', // Provide a valid subcategoryId here
+        product: {}, // Provide a valid subcategoryId here
       },
     };
 
     const result = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="useProductdetails"
-              component={UDetailScreen}
-              initialParams={route}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
     );
 
     expect(result).toBeDefined();
+  });
+  it('should navigate back to hone screen', () => {
+    const mockNavigation = jest.fn();
+    (useProductdetails as jest.Mock).mockReturnValue({
+      handleGoBack: mockNavigation,
+    });
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        product: {}, // Provide a valid subcategoryId here
+      },
+    };
+
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+    const backButton = getByTestId('Back-Button');
+    expect(backButton).toBeDefined();
+    fireEvent.press(backButton);
+    expect(mockNavigation).toHaveBeenCalled();
+  });
+  it('should render the Card Component ', () => {
+    const mockSetActiveIndex = jest.fn();
+    const mockStartScrollTimer = jest.fn();
+    const mockHandleScroll = jest.fn();
+    (useProductdetails as jest.Mock).mockReturnValue({
+      setActiveIndex: mockSetActiveIndex,
+      startScrollTimer: mockStartScrollTimer,
+      handleScroll: mockHandleScroll,
+    });
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        product: {
+          imageUrl: ['url1', 'url2', 'url3'],
+        }, // Provide a valid subcategoryId here
+      },
+    };
+
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route}
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+    const cardComponent = getByTestId('Card-Component');
+    expect(cardComponent).toBeDefined();
+    fireEvent.scroll(cardComponent);
+    expect(mockHandleScroll).toBeCalled();
+  });
+  it('should display the Products ', () => {
+    const mockNavigation = jest.fn();
+    (useProductdetails as jest.Mock).mockReturnValue({
+      handleGoBack: mockNavigation,
+      imageLoaded: true,
+    });
+
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        product: {
+          id: 1,
+          imageUrl: ['url1', 'url2', 'url3'],
+          name: 'Mock Product Name',
+          price: 100,
+          description: 'Mock Product Description',
+          size: 'Mock Product Size',
+        }, // Provide a valid subcategoryId here
+      },
+    };
+
+    const {getByTestId, getByText} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route.params} // Pass route.params as initialParams
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+
+    const NameComponent = getByTestId('Product-Name');
+    const name = getByText('Mock Product Name');
+    const ImageComponent = getByTestId('Image-url1');
+    expect(NameComponent).toBeDefined();
+    expect(ImageComponent).toBeDefined();
+    expect(name).toBeTruthy();
+  });
+  it('should decrement the Products quantity ', () => {
+    const mockDecrement = jest.fn();
+    (useProductdetails as jest.Mock).mockReturnValue({
+      imageLoaded: true,
+      handleDecrement: mockDecrement,
+      isMinusDisabled: false,
+    });
+
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        product: {
+          id: 1,
+          imageUrl: ['url1', 'url2', 'url3'],
+          name: 'Mock Product Name',
+          price: 100,
+          description: 'Mock Product Description',
+          size: 'Mock Product Size',
+        }, // Provide a valid subcategoryId here
+      },
+    };
+
+    const {getByTestId, getByText} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route.params} // Pass route.params as initialParams
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+
+    const decrementButton = getByTestId('Decrement-Button');
+    expect(decrementButton).toBeTruthy();
+    fireEvent.press(decrementButton);
+    expect(mockDecrement).toBeCalled();
   });
 });

@@ -1,12 +1,11 @@
 import {render} from '@testing-library/react-native';
 import React from 'react';
-import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
 import Additems from 'screens/Additems/Additems';
+import useAdditems from 'screens/Additems/useAdditems';
 jest.mock('react-native-skeleton-placeholder', () => {
   const mockSkeletonPlaceholder = jest.fn();
   return mockSkeletonPlaceholder;
@@ -23,6 +22,11 @@ jest.mock('@react-native-firebase/messaging', () =>
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('react-native-firebase-mock'),
 );
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -53,16 +57,27 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('AddItems Screen', () => {
-  it('should render the Login Screen', () => {
-    const login = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Additems" component={Additems} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
+  const dispatchMock = jest.fn(); // Create a mock function
+  const useSelector = useSelectorOriginal as jest.Mock;
+  beforeEach(() => {
+    (useDispatch as jest.Mock).mockReturnValue(dispatchMock);
+    useSelector.mockImplementation(selector =>
+      selector({
+        category: {data: {}},
+        GenderReducer: {data: {}},
+      }),
     );
-    expect(login).toBeDefined();
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should render the AddItems Screen', () => {
+    const result = render(<Additems />);
+    expect(result).toBeDefined();
+  });
+  it('should get the Name Input', () => {
+    const {getByTestId} = render(<Additems />);
+    const NameInput = getByTestId('Name-Input');
+    expect(NameInput).toBeDefined();
   });
 });

@@ -55,7 +55,6 @@ const OwnerHomestack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="OwnerHome">
-      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="OwnerHome" component={OwnerHome} />
 
       <Stack.Screen name="Additems" component={Additems} />
@@ -127,6 +126,7 @@ const Ownerstack = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
+
         tabBarStyle: {
           backgroundColor: Colors.main,
 
@@ -142,6 +142,7 @@ const Ownerstack = () => {
         name="Home"
         component={OwnerHomestack}
         options={({route}) => ({
+          tabBarTestID: 'Home',
           tabBarStyle: {
             display: getRouteName(route),
             backgroundColor: tabBarBackgroundColor,
@@ -150,74 +151,37 @@ const Ownerstack = () => {
           tabBarIcon: ({focused, color}) => {
             if (!isFocused) return null;
 
-            let iconComponent;
+            let iconComponent = null;
 
-            switch (route.name as string) {
-              case 'Home':
-                iconComponent = (
-                  <View
-                    style={[
-                      {
-                        backgroundColor: focused
-                          ? Colors.buttonColor
-                          : '#F0F0F0',
-                        borderRadius: 20,
-                        height: 40,
-                        width: 40,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      },
-                      {
-                        backgroundColor: focused
-                          ? Colors.buttonColor
-                          : tabBarBackgroundColor,
-                      },
-                    ]}>
-                    <MaterialIcon
-                      name="home"
-                      style={{
-                        color:
-                          colorScheme === 'dark' ? Colors.white : Colors.black,
-                      }}
-                      color={color}
-                      size={30}
-                    />
-                  </View>
-                );
-                break;
-
-              case 'Additem':
-                iconComponent = (
-                  <MaterialCommunityIcons
-                    name="plus-box"
+            if (route.name === 'Home') {
+              iconComponent = (
+                <View
+                  style={[
+                    {
+                      backgroundColor: focused ? Colors.buttonColor : '#F0F0F0',
+                      borderRadius: 20,
+                      height: 40,
+                      width: 40,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    },
+                    {
+                      backgroundColor: focused
+                        ? Colors.buttonColor
+                        : tabBarBackgroundColor,
+                    },
+                  ]}>
+                  <MaterialIcon
+                    name="home"
+                    style={{
+                      color:
+                        colorScheme === 'dark' ? Colors.white : Colors.black,
+                    }}
                     color={color}
-                    size={42}
+                    size={30}
                   />
-                );
-                break;
-
-              case 'RentalStatus':
-                iconComponent = (
-                  <MaterialCommunityIcons
-                    name="truck-delivery"
-                    color={color}
-                    size={42}
-                  />
-                );
-                break;
-
-              case 'ProfileScreen':
-                iconComponent = (
-                  <MaterialCommunityIcons
-                    name="account"
-                    color={color}
-                    size={42}
-                  />
-                );
-                break;
-
-              default:
-                break;
+                </View>
+              );
             }
 
             return iconComponent;
@@ -300,71 +264,34 @@ const Ownerstack = () => {
           tabBarIcon: ({focused, color}) => {
             if (!isFocused) return null;
 
-            let iconComponent;
+            let iconComponent = null;
 
-            switch (route.name as string) {
-              case 'RentalStatus':
-                iconComponent = (
-                  <View
-                    style={[
-                      {
-                        backgroundColor: focused
-                          ? Colors.buttonColor
-                          : '#F0F0F0',
-                        borderRadius: 20,
-                        height: 40,
-                        width: 40,
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      },
-                      {
-                        backgroundColor: focused
-                          ? Colors.buttonColor
-                          : tabBarBackgroundColor,
-                      },
-                    ]}>
-                    <MaterialCommunityIcons
-                      name="truck-delivery"
-                      color={color}
-                      style={tabColor()}
-                      size={35}
-                    />
-                  </View>
-                );
-                break;
-
-              case 'Home':
-                iconComponent = (
-                  <MaterialIcon name="home" color={color} size={30} />
-                );
-                break;
-
-              case 'Additem':
-                iconComponent = (
+            if (route.name === 'RentalStatus') {
+              iconComponent = (
+                <View
+                  style={[
+                    {
+                      backgroundColor: focused ? Colors.buttonColor : '#F0F0F0',
+                      borderRadius: 20,
+                      height: 40,
+                      width: 40,
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                    },
+                    {
+                      backgroundColor: focused
+                        ? Colors.buttonColor
+                        : tabBarBackgroundColor,
+                    },
+                  ]}>
                   <MaterialCommunityIcons
-                    name="plus-box"
+                    name="truck-delivery"
                     color={color}
-                    size={42}
+                    style={tabColor()}
+                    size={35}
                   />
-                );
-                break;
-
-              case 'ProfileScreen':
-                iconComponent = (
-                  <MaterialCommunityIcons
-                    name="account"
-                    color={color}
-                    size={42}
-                    style={{
-                      color:
-                        colorScheme === 'dark' ? Colors.white : Colors.black,
-                    }}
-                  />
-                );
-                break;
-
-              default:
-                break;
+                </View>
+              );
             }
 
             return iconComponent;
@@ -376,6 +303,7 @@ const Ownerstack = () => {
         name="ProfileScreen"
         component={OwnerProfilestack}
         options={({route}) => ({
+          tabBarTestID: 'Profile',
           tabBarStyle: {
             display: getRouteName(route),
             backgroundColor: tabBarBackgroundColor,

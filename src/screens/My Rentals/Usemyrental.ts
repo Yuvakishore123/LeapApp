@@ -2,7 +2,7 @@
 import {useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchProducts} from '../../redux/slice/productSlice';
-function Usemyrental() {
+const Usemyrental = () => {
   useEffect(() => {
     dispatch(fetchProducts() as any);
   }, []);
@@ -13,5 +13,5 @@ function Usemyrental() {
   );
 
   return {products};
-}
+};
 export default Usemyrental;

@@ -9,7 +9,7 @@ import {
 import LottieAnimation from '../../components/molecules/LottieAnimation/LottieAnimation';
 import Styles from '../../screens/OtpScreen/otpStyles';
 import Useotp from './useOtp';
-import useCart from '../Cart/useCart';
+
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import Colors from '../../constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
@@ -25,8 +25,8 @@ const OTPScreen = (): React.JSX.Element => {
     closeModal,
     showModal,
   } = Useotp();
-  const {colorScheme} = useCart();
-  const {getContainerStyle, getTextColor, getTextInputStyle} =
+
+  const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
   return (
     <ScrollView style={[Styles.mainContainer, getContainerStyle()]}>

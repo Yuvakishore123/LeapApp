@@ -5,11 +5,11 @@ import styles from '../OwnerHomepage/OwnerHomestyle';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Usemyrental from './Usemyrental';
-type Props = {
-  navigation: any;
-};
-export default function OwnerHome({navigation}: Props) {
+import {useNavigation} from '@react-navigation/native';
+
+export default function OwnerHome() {
   const {products} = Usemyrental();
+  const navigation = useNavigation();
   if (!products) {
     return (
       <View
@@ -38,6 +38,7 @@ export default function OwnerHome({navigation}: Props) {
           <Icon
             style={{marginLeft: 20, marginTop: 41}}
             name="arrow-back-ios"
+            testID="Back-Button"
             size={23}
             color="#3E54AC"
             onPress={() => navigation.goBack()}
@@ -58,6 +59,7 @@ export default function OwnerHome({navigation}: Props) {
               {products?.map(item => (
                 <TouchableOpacity
                   key={item.id}
+                  testID={`Cart-container-${item.id}`}
                   style={styles.recentlyaddedcard}
                   onPress={() =>
                     navigation.navigate('OproductDetails', {product: item})

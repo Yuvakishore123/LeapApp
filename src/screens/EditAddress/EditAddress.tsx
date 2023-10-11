@@ -26,7 +26,7 @@ export const SkeletonLoader = () => {
     <SkeletonPlaceholder
       highlightColor="#e0e0e0"
       backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
-      <View style={style.subContainer}>
+      <View testID="Loading-Container" style={style.subContainer}>
         <View>
           <TextInput style={style.inputAddress} />
           <TextInput style={style.inputAddress} />
@@ -55,14 +55,13 @@ const EditAddress = () => {
     closeModal,
     showModal,
     setStateName,
-    // isLoading,
+
     city,
     addressLine1,
     addressLine2,
     postalCode,
     state,
     setCity,
-    PlaceholderColor,
   } = useEditaddress();
 
   const {
@@ -120,7 +119,6 @@ const EditAddress = () => {
                   getPlaceholderTextColor(),
                 ]}
                 onChangeText={text => setStateName(text)}
-                placeholderTextColor={PlaceholderColor()}
               />
               <View style={style.textContainer}>
                 <Text style={[styles.textField, getTextColor()]}>City</Text>
@@ -132,7 +130,6 @@ const EditAddress = () => {
                 <TextInput
                   value={city}
                   testID="City"
-                  placeholderTextColor={PlaceholderColor()}
                   style={[
                     styles.smalltextInputs,
                     getTextInputStyle(),
@@ -149,7 +146,6 @@ const EditAddress = () => {
                     getPlaceholderTextColor(),
                   ]}
                   testID="Pincode"
-                  placeholderTextColor={PlaceholderColor()}
                   value={postalCode}
                   onChangeText={setPostalCode}
                 />

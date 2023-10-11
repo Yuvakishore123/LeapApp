@@ -9,6 +9,7 @@ import {CartAdd} from '../../redux/slice/CartAddSlice';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import {useNavigation} from '@react-navigation/native';
 
 const useProductdetails = (product: {
   id: string;
@@ -41,7 +42,7 @@ const useProductdetails = (product: {
       setIsPlusDisabled(false);
     }
   };
-
+  const navigation = useNavigation();
   const handleIncrement = () => {
     if (product.availableQuantities === quantity) {
       setIsPlusDisabled(true);
@@ -167,6 +168,9 @@ const useProductdetails = (product: {
   const handleScroll = () => {
     startScrollTimer();
   };
+  const handleGoBack = () => {
+    navigation.goBack();
+  };
 
   return {
     rentalStartDate,
@@ -207,6 +211,7 @@ const useProductdetails = (product: {
     showToast,
     generateLink,
     errorToast,
+    handleGoBack,
   };
 };
 

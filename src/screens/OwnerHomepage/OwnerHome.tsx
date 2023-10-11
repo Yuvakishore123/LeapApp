@@ -17,14 +17,11 @@ import styles from './OwnerHomestyle';
 import Donut from '../../components/atoms/DonutChart';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import useOwnerHome from './useOwnerHome';
-import Styles from '../../constants/themeColors';
+
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from '../../constants/colors';
-
-type Props = {
-  route: {name: string};
-  navigation: any;
-};
+import {StackNavigationProp} from '@react-navigation/stack';
+import {useNavigation} from '@react-navigation/native';
 
 interface Product {
   id: number;
@@ -32,8 +29,11 @@ interface Product {
   name: string;
   price: number;
 }
+type RootStackParamList = {
+  OproductDetails: {product: any};
+};
 
-const OwnerHome = ({navigation}: Props) => {
+const OwnerHome = () => {
   const {
     products,
     name,
@@ -45,39 +45,29 @@ const OwnerHome = ({navigation}: Props) => {
     refreshTrigger,
     rentedItemsPercentage,
     totalEarningsPercentage,
+    isloading,
   } = useOwnerHome();
   const {handleOrders, CategoriePieData, Dashboardyeardata} = useAnalytics();
-  const {colorScheme} = useContext(ColorSchemeContext);
-
+  const {colorScheme, getTextColor, getContainerStyle, getTextInputStyle} =
+    useContext(ColorSchemeContext);
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+  console.log(isloading);
   const renderRecentlyAddedItem = ({item}: {item: Product}) => {
     return (
       <TouchableOpacity
         key={item.id}
+        testID={`RecentlyAdded-${item.id}`}
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
-        <View
-          style={[
-            styles.cardContainer,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}>
+        <View style={[styles.cardContainer, getTextInputStyle()]}>
           <Image
             source={{uri: item.imageUrl[0]}}
             style={styles.recentlyaddedimage}
           />
         </View>
-        <View
-          style={[
-            styles.cardTextContainer,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}>
+        <View style={[styles.cardTextContainer, getTextInputStyle()]}>
           <View style={styles.textViewS}>
-            <Text
-              style={[
-                styles.cardText,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
-              {item.name}
-            </Text>
+            <Text style={[styles.cardText, getTextColor()]}>{item.name}</Text>
           </View>
           <View style={styles.cardS}>
             <Text style={styles.cardTextPrice}>₹ {item.price}</Text>
@@ -89,7 +79,9 @@ const OwnerHome = ({navigation}: Props) => {
 
   const renderTouchableOpacity = () => {
     return (
-      <TouchableOpacity style={styles.recentlyaddedcard}>
+      <TouchableOpacity
+        testID={'loading-container'}
+        style={styles.recentlyaddedcard}>
         <View style={styles.cardContainer}>
           <Text style={styles.recentlyaddedimage}></Text>
         </View>
@@ -102,7 +94,7 @@ const OwnerHome = ({navigation}: Props) => {
   };
 
   const renderRecentlyAdded = () => {
-    if (isLoading) {
+    if (isloading) {
       return (
         <SkeletonPlaceholder
           backgroundColor={colorScheme === 'dark' ? '#373737' : Colors.white}>
@@ -146,6 +138,7 @@ const OwnerHome = ({navigation}: Props) => {
     return (
       <TouchableOpacity
         key={`${item.id.toString()}-${index}`}
+        testID={`Rental-History-${item.id}`}
         style={styles.recentlyaddedcard}
         onPress={() => navigation.navigate('OproductDetails', {product: item})}>
         <View style={styles.cardContainer}>
@@ -154,16 +147,10 @@ const OwnerHome = ({navigation}: Props) => {
             style={styles.recentlyaddedimage}
           />
         </View>
-        <View
-          style={[
-            styles.cardTextContainer,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}>
+        <View style={[styles.cardTextContainer, getTextInputStyle()]}>
           <Text
-            style={[
-              styles.cardText,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
+            testID={`Item-${item.id}`}
+            style={[styles.cardText, getTextColor()]}>
             {item.name}
           </Text>
           <Text style={styles.cardTextPrice}>₹ {item.price}</Text>
@@ -184,7 +171,7 @@ const OwnerHome = ({navigation}: Props) => {
         <View
           style={[
             {flex: 1, backgroundColor: Colors.main, flexWrap: 'wrap'},
-            colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
+            getContainerStyle(),
           ]}>
           <View style={styles.viewS}>
             {products?.map((item: Product, index: number) =>
@@ -198,20 +185,13 @@ const OwnerHome = ({navigation}: Props) => {
 
   return (
     <ScrollView
-      style={[
-        styles.mainContainer,
-        colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-      ]}
+      style={[styles.mainContainer, getContainerStyle()]}
       refreshControl={
         <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
       }>
       <View>
-        <Text
-          style={[
-            styles.headertxt,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
-          Welcome {name.firstName}
+        <Text style={[styles.headertxt, getTextColor()]}>
+          Welcome {name?.firstName}
         </Text>
       </View>
       <View style={styles.card}>
@@ -243,6 +223,7 @@ const OwnerHome = ({navigation}: Props) => {
           </View>
         </View>
         <TouchableOpacity
+          testID={'View-More'}
           onPress={() => {
             handleAnalatyics();
             handleOrders();
@@ -260,13 +241,7 @@ const OwnerHome = ({navigation}: Props) => {
         </TouchableOpacity>
       </View>
       <View>
-        <Text
-          style={[
-            styles.headertxt,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
-          Recently Added
-        </Text>
+        <Text style={[styles.headertxt, getTextColor()]}>Recently Added</Text>
       </View>
       {isLoading ? (
         renderRecentlyAdded()
@@ -275,10 +250,8 @@ const OwnerHome = ({navigation}: Props) => {
           {renderRecentlyAdded()}
           <View>
             <Text
-              style={[
-                styles.headertxt,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
+              testID="Rental-History"
+              style={[styles.headertxt, getTextColor()]}>
               Rental History
             </Text>
           </View>

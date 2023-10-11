@@ -1,4 +1,4 @@
-import {useState, SetStateAction} from 'react';
+import {useState, SetStateAction, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
@@ -114,6 +114,13 @@ const useAddAddress = () => {
   const handleBlur = (field: string) => {
     formik.setFieldTouched(field);
   };
+  useEffect(() => {
+    if (postalCode !== '') {
+      FetchAddress();
+    } else {
+      log.error();
+    }
+  }, [postalCode, log]);
 
   return {
     city,

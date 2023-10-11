@@ -22,6 +22,7 @@ const useOwnerHome = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
 
   const [isLoading, setIsLoading] = useState(true);
+  const [isloading, setisLoading] = useState(true);
   const [totalEarnings, setTotalEarnings] = useState(0);
   const [rentedItems, setRentedItems] = useState(0);
   const [recentyAdded, setRecentlyAdded] = useState([]);
@@ -65,30 +66,19 @@ const useOwnerHome = () => {
   };
   const {HandlePiechart} = useAnalytics();
   const name = useSelector(state => state.profileData.data);
+  const fetchDashboardData = async () => {
+    try {
+      const response = await ApiService.get(`${url}/dashboard/owner-view`);
+
+      setTotalEarnings(response.totalEarnings);
+      setRentedItems(response.totalNumberOfItems);
+    } catch (error) {
+      log.error('Failed to fetch Dashboard Data');
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      const token = await AsyncStorageWrapper.getItem('token');
-      try {
-        const response = await fetch(`${url}/dashboard/owner-view`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok) {
-          const dashboardData = await response.json();
-          setTotalEarnings(dashboardData.totalEarnings);
-          setRentedItems(dashboardData.totalNumberOfItems);
-        } else {
-          throw new Error('Failed to fetch Dashboard Data');
-        }
-      } catch (error) {
-        log.error('Failed to fetch Dashboard Data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchDashboardData();
   }, []);
 
@@ -116,6 +106,7 @@ const useOwnerHome = () => {
   const fetchRecentlyAdded = async () => {
     const result = await ApiService.get(recentyAddedUrl);
     setRecentlyAdded(result);
+    setisLoading(false);
   };
   useEffect(() => {
     fetchRecentlyAdded();
@@ -150,6 +141,8 @@ const useOwnerHome = () => {
     rentedItemsPercentage,
     totalEarningsPercentage,
     Name,
+    isloading,
+    fetchRecentlyAdded,
   };
 };
 export default useOwnerHome;

@@ -23,6 +23,7 @@ const OwnerRentalScreen = () => {
           <Image
             source={{uri: item.imageUrl}}
             style={OwnerRentalstyles.Productimage}
+            testID={`image-${item.id}`}
           />
         </View>
         <View
@@ -33,13 +34,20 @@ const OwnerRentalScreen = () => {
             marginLeft: 5,
             marginTop: 34,
           }}>
-          <Text style={[OwnerRentalstyles.productName, getTextColor()]}>
+          <Text
+            testID={`OrderId-${item.id}`}
+            style={[OwnerRentalstyles.productName, getTextColor()]}>
             Order Id: {item.id}
           </Text>
-          <Text style={[OwnerRentalstyles.price, getTextColor()]}>
-            Price: ₹ {item.totalPrice}/-
+          <Text
+            testID={`Price-${item.id}`}
+            style={[OwnerRentalstyles.price, getTextColor()]}>
+            Price: ₹{item.totalPrice}/-
           </Text>
-          <Text style={[OwnerRentalstyles.Name, getTextColor()]}>
+
+          <Text
+            testID={`Name-${item.id}`}
+            style={[OwnerRentalstyles.Name, getTextColor()]}>
             Name: {item.name}
           </Text>
           <Text style={[OwnerRentalstyles.Qty, getTextColor()]}>
@@ -68,6 +76,7 @@ const OwnerRentalScreen = () => {
       <OwnerRentalSwitch />
       <View style={OwnerRentalstyles.ScrollContainer}>
         <FlatList
+          testID="Rental-data"
           data={ownerrentalproducts}
           renderItem={renderownerrentalItem}
           keyExtractor={item => item.id.toString()} // Assuming id is a unique identifier

@@ -49,7 +49,7 @@ jest.mock('@react-native-firebase/messaging', () => {
 });
 describe('Login Screen', () => {
   it('should render the Login Screen', () => {
-    const login = render(
+    const result = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
@@ -58,6 +58,6 @@ describe('Login Screen', () => {
         </NavigationContainer>
       </Provider>,
     );
-    expect(login).toBeDefined();
+    expect(result).toBeDefined();
   });
 });

@@ -25,13 +25,12 @@ import useHome from 'screens/Home/useHome';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';
 import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
-type Props = {
-  route: {name: string};
-  navigation: any;
-};
-const Homescreen = ({navigation}: Props) => {
+
+import {useNavigationProp} from 'helpers/helper';
+
+const Homescreen = () => {
   const dispatch = useDispatch();
-  const UserProducts = useHome();
+
   const {
     wishlistremove,
     searchQuery,
@@ -46,6 +45,7 @@ const Homescreen = ({navigation}: Props) => {
     handleEndReached,
     allProducts,
   } = useHome();
+  const {navigation} = useNavigationProp();
 
   const [wishlistList, setWishlistList] = useState<string[]>([]);
   const {
@@ -56,7 +56,7 @@ const Homescreen = ({navigation}: Props) => {
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
 
-  if (!UserProducts) {
+  if (!allProducts) {
     return (
       <View
         style={{
@@ -65,6 +65,7 @@ const Homescreen = ({navigation}: Props) => {
           height: '100%',
         }}>
         <Lottie
+          testID="EmptyState"
           source={require('../../../assets/loading.json')}
           autoPlay
           style={{
@@ -117,9 +118,7 @@ const Homescreen = ({navigation}: Props) => {
             <View style={[style.searchInputContainer, getTextColor()]}>
               <TextInput
                 placeholder="Search"
-                placeholderTextColor={
-                  colorScheme === 'dark' ? Colors.white : Colors.black
-                }
+                placeholderTextColor={placeholderTextColor}
                 style={{
                   borderRadius: 40,
                   fontFamily: 'Poppins-Regular',
@@ -187,6 +186,7 @@ const Homescreen = ({navigation}: Props) => {
             <Animatable.Text
               animation={'slideInDown'}
               duration={1000}
+              testID={'First-Name'}
               style={[
                 {
                   marginLeft: 26,
@@ -197,7 +197,7 @@ const Homescreen = ({navigation}: Props) => {
                 },
                 getTextColor(),
               ]}>
-              Welcome {name.firstName}
+              Welcome {name?.firstName}
             </Animatable.Text>
             <Lottie
               source={require('../../../assets/celebration.json')}
@@ -222,6 +222,7 @@ const Homescreen = ({navigation}: Props) => {
             />
             <TextInput
               placeholder={placeholderText}
+              testID="Search-text"
               placeholderTextColor={placeholderTextColor}
               style={[
                 {
@@ -247,6 +248,7 @@ const Homescreen = ({navigation}: Props) => {
               Categories for you
             </Text>
             <TouchableOpacity
+              testID="Categories-Button"
               onPress={() => navigation.navigate('CategoryScreen')}>
               <Text style={style.Seetext}> See all</Text>
             </TouchableOpacity>
@@ -259,6 +261,7 @@ const Homescreen = ({navigation}: Props) => {
             <View style={{marginLeft: 5, height: '100%'}}>
               <FlatList
                 data={allProducts}
+                testID="FlatList"
                 nestedScrollEnabled={true} //changes
                 keyExtractor={(item: unknown) => (item as {id: string}).id}
                 style={{height: '100%', width: '100%'}}
@@ -276,6 +279,7 @@ const Homescreen = ({navigation}: Props) => {
                         style={[style.container, getTextInputStyle()]}>
                         <TouchableOpacity
                           key={item.id}
+                          testID={`cardContainer-${item.id}`}
                           onPress={() =>
                             navigation.navigate('UProductDetails', {
                               product: item,
@@ -284,6 +288,7 @@ const Homescreen = ({navigation}: Props) => {
                           <View style={style.imageContainer}>
                             <ImageComponent imageUrl={item.imageUrl[0]} />
                             <TouchableOpacity
+                              testID={`wishlist-Button-${item.id}`}
                               style={style.wishlistButton}
                               onPress={() => {
                                 if (wishlistList.includes(item.id)) {

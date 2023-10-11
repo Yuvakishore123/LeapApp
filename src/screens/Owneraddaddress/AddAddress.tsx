@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {
   View,
   Text,
@@ -19,13 +19,13 @@ import colors from 'constants/colors';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
-import {logMessage} from 'helpers/helper';
+
 const AddAddress = () => {
   const {
     setStateName,
     setCity,
     addressLine2,
-    FetchAddress,
+
     addressLine1,
     handleSaveAddress,
     handleCheckboxChange,
@@ -39,25 +39,22 @@ const AddAddress = () => {
     country,
     setCountry,
     isLoading,
-    formik,
+
     handleAddressLine1,
     handleAddressLine2,
     handleBlur,
     showModal,
     closeModal,
   } = useAddAddress();
-  const {log} = logMessage();
 
-  const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
-    useContext(ColorSchemeContext);
-
-  useEffect(() => {
-    if (postalCode !== '') {
-      FetchAddress();
-    } else {
-      log.error();
-    }
-  }, [FetchAddress, postalCode, log]);
+  const {
+    colorScheme,
+    getContainerStyle,
+    getTextColor,
+    getTextInputStyle,
+    getPlaceHolderTextStyle,
+    RadioButtonColor,
+  } = useContext(ColorSchemeContext);
 
   return (
     <ScrollView
@@ -74,10 +71,9 @@ const AddAddress = () => {
       <View style={style.outerContainer}>
         <View style={style.innerContainer}>
           <TextInput
+            testID={'Flat-No'}
             placeholder="Flat no / Building"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
+            // placeholderTextColor={getPlaceHolderTextStyle()}
             value={addressLine1}
             onChangeText={handleAddressLine1}
             onBlur={() => handleBlur('addressLine1')}
@@ -88,31 +84,26 @@ const AddAddress = () => {
               {fontWeight: '400'},
             ]}
           />
-          {formik.touched.addressLine1 && formik.errors.addressLine1 && (
-            <Text style={style.errorText}>{formik.errors.addressLine1}</Text>
-          )}
         </View>
         <View style={style.innerContainer}>
           <TextInput
             placeholder="Street name"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
+            testID={'Street-name'}
+            // placeholderTextColor={
+            //   colorScheme === 'dark' ? colors.Textinput : colors.black
+            // }
             value={addressLine2}
             onChangeText={handleAddressLine2}
             onBlur={() => handleBlur('addressLine2')}
             style={[style.StreetInput, getTextInputStyle(), getTextColor()]}
           />
-          {formik.touched.addressLine2 && formik.errors.addressLine2 && (
-            <Text style={style.errorText}>{formik.errors.addressLine2}</Text>
-          )}
         </View>
         <View style={style.cityContainer}>
           <TextInput
             placeholder="Pincode"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
+            // placeholderTextColor={
+            //   colorScheme === 'dark' ? colors.Textinput : colors.black
+            // }
             style={[style.smalltextInput, getTextInputStyle(), getTextColor()]}
             value={postalCode}
             onChangeText={handlePostalCodeChange}
@@ -121,38 +112,39 @@ const AddAddress = () => {
 
           <TextInput
             placeholder="City"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
+            testID="City"
+            // placeholderTextColor={
+            //   colorScheme === 'dark' ? colors.Textinput : colors.black
+            // }
             value={city}
             editable={false}
             selectTextOnFocus={false}
             style={[style.smalltextInputs, getTextInputStyle(), getTextColor()]}
-            onChangeText={text => {
-              setCity(text);
-            }}
+            // onChangeText={text => {
+            //   setCity(text);
+            // }}
           />
         </View>
         <TextInput
-          placeholder="State "
+          placeholder="State"
           value={state}
           editable={false}
-          placeholderTextColor={
-            colorScheme === 'dark' ? colors.Textinput : colors.black
-          }
+          // placeholderTextColor={
+          //   colorScheme === 'dark' ? colors.Textinput : colors.black
+          // }
           style={[style.inputAddress, getTextInputStyle(), getTextColor()]}
-          onChangeText={text => setStateName(text)}
+          // onChangeText={text => setStateName(text)}
         />
         <TextInput
-          placeholder="Country "
-          placeholderTextColor={
-            colorScheme === 'dark' ? colors.Textinput : colors.black
-          }
+          placeholder="Country"
+          // placeholderTextColor={
+          //   colorScheme === 'dark' ? colors.Textinput : colors.black
+          // }
           value={country}
           editable={false}
           selectTextOnFocus={false}
           style={[style.inputAddress, getTextInputStyle(), getTextColor()]}
-          onChangeText={text => setCountry(text)}
+          // onChangeText={text => setCountry(text)}
         />
       </View>
       <Text style={[style.textField, getTextColor()]}>Type of address</Text>
@@ -160,6 +152,7 @@ const AddAddress = () => {
         <View style={style.optionRadio}>
           <RadioButton
             value="HOME"
+            testID="Home-Button"
             status={selectedOption === 'HOME' ? 'checked' : 'unchecked'}
             onPress={() => handleOptionChange('HOME')}
             color={colorScheme === 'dark' ? colors.white : colors.black}
@@ -169,6 +162,7 @@ const AddAddress = () => {
         <View style={style.optionRadio}>
           <RadioButton
             value="OFFICE"
+            testID="Office-Button"
             status={selectedOption === 'OFFICE' ? 'checked' : 'unchecked'}
             onPress={() => handleOptionChange('OFFICE')}
             color={colorScheme === 'dark' ? colors.white : colors.black}

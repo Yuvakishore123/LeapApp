@@ -15,6 +15,7 @@ type RootStackParamList = {
   CheckoutScreen: undefined;
   PaymentSuccessScreen: undefined;
   PaymentFailScreen: undefined;
+  Owneraddresspage: undefined;
 };
 const useChectout = () => {
   const [refreshing, setRefreshing] = useState(false);
@@ -41,6 +42,10 @@ const useChectout = () => {
   ) || {
     cartItems: [],
   };
+  const isLoading = useSelector(
+    (state: {CartProducts: {isLoader: boolean}}) => state.CartProducts.isLoader,
+  );
+
   useEffect(() => {
     dispatch(fetchCartProducts() as any);
   }, [dispatch]);
@@ -119,6 +124,9 @@ const useChectout = () => {
         navigation.navigate('PaymentFailScreen');
       });
   };
+  const handleAddAddress = () => {
+    navigation.navigate('Owneraddresspage');
+  };
   const logOrderPlacedEvent = async (
     userId: string,
     orderId: any,
@@ -151,6 +159,8 @@ const useChectout = () => {
     isCheckedArray,
     isChecked,
     setIsCheckedArray,
+    handleAddAddress,
+    isLoading,
   };
 };
 export default useChectout;

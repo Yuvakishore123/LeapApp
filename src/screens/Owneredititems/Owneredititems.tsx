@@ -24,7 +24,6 @@ import Lottie from 'lottie-react-native';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
 
 import styles from '../OwnerHomepage/OwnerHomestyle';
 import DropdownComponent from '../../components/atoms/DropDownComponent/DropDown';
@@ -95,7 +94,7 @@ const EditItem = () => {
     setHideId(null);
   };
 
-  const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 
   return (

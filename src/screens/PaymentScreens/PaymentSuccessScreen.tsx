@@ -43,6 +43,7 @@ const PaymentSuccessScreen = () => {
           Your Order Has Been Placed.{' '}
         </Text>
         <TouchableOpacity
+          testID="Home-Button"
           style={styles.btnfield}
           onPress={() =>
             navigation.navigate('UserHomescreen', {screen: 'Homescreen'})
@@ -72,7 +73,8 @@ const PaymentSuccessScreen = () => {
           style={styles.obtnfield}
           onPress={() =>
             navigation.navigate('ProfileScreen', {screen: 'MyOrder'})
-          }>
+          }
+          testID="YourOrder-Button">
           <View style={{flexDirection: 'row'}}>
             <Text style={styles.obtntext}>Your Orders </Text>
             <Icon

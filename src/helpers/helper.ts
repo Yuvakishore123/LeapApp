@@ -12,6 +12,8 @@ type RootStackParamList = {
   Login: undefined;
   Subcategory: {categoryId: number};
   SearchResultsScreen: {searchResults: null[]};
+  UProductDetails: {product: []};
+  CategoryScreen: undefined;
 };
 export const useThunkDispatch = () => {
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();

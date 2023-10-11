@@ -112,6 +112,7 @@ const useHome = () => {
     handleEndReached,
     productsData,
     Loading,
+    navigation,
   };
 };
 export default useHome;

@@ -118,18 +118,6 @@ const useAddImages = () => {
     setIsLoading(false);
   };
 
-  useEffect(() => {
-    const getImageUrls = async () => {
-      const url = await AsyncStorageWrapper.getItem('url');
-      if (url) {
-        const imageUrls = Array.from({length: 10}, (_, index) => {
-          return `${url}/file${index + 1}`;
-        });
-        imageUrls(imageUris);
-      }
-    };
-    getImageUrls();
-  }, [imageUris]);
   const pickImages = () => {
     launchImageLibrary(
       {
@@ -222,6 +210,9 @@ const useAddImages = () => {
     showModal,
     openModal,
     isLoading,
+    quantity,
+    price,
+    setImageUrls,
   };
 };
 export default useAddImages;

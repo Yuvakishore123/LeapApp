@@ -3,8 +3,6 @@ import {renderHook, act} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import useAddress from '../../../../src/screens/Owneraddaddress/useAddress';
-import {ListAddress} from '../../../../src/redux/slice/listAddressSlice';
-import {removeAddress} from '../../../../src/redux/actions/actions';
 
 jest.mock('react-native', () => ({
   Alert: {
@@ -139,7 +137,7 @@ describe('Address data', () => {
     // expect(result.current.id).toBe(mockAddressData.id);
     expect(result.current.city).toBe(mockAddressData.city);
     expect(result.current.state).toBe(mockAddressData.state);
-    // expect(result.current.country).toBe(mockAddressData.country);
+
     expect(result.current.postalCode).toBe(mockAddressData.postalCode);
     expect(result.current.addressLine1).toBe(mockAddressData.addressLine1);
     expect(result.current.addressLine2).toBe(mockAddressData.addressLine2);

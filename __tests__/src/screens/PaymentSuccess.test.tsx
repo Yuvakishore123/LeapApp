@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
@@ -74,5 +74,47 @@ describe('PaymentSuccessScreen Screen', () => {
     );
 
     expect(result).toBeDefined();
+  });
+  it('should navigate the Order Screen', () => {
+    // Define a mock route with the necessary params
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="OwnerRentalScreen"
+              component={PaymentSuccessScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const yourrderButton = getByTestId('YourOrder-Button');
+    expect(yourrderButton).toBeDefined();
+    fireEvent.press(yourrderButton);
+    expect(mockNav).toHaveBeenCalledWith('ProfileScreen', {screen: 'MyOrder'});
+  });
+  it('should navigate to the Home Screen', () => {
+    // Define a mock route with the necessary params
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="OwnerRentalScreen"
+              component={PaymentSuccessScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const yourrderButton = getByTestId('Home-Button');
+    expect(yourrderButton).toBeDefined();
+    fireEvent.press(yourrderButton);
+    expect(mockNav).toHaveBeenCalledWith('UserHomescreen', {
+      screen: 'Homescreen',
+    });
   });
 });

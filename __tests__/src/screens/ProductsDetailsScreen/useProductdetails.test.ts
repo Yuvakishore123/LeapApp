@@ -3,7 +3,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import useProductdetails from '../../../../src/screens/UProductDetails/useProductdetails';
-import {Share} from 'react-native';
+
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
