@@ -3,7 +3,6 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
 import ApiService from 'network/network';
 import axios from 'axios';
-import RNFetchBlob from 'rn-fetch-blob';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

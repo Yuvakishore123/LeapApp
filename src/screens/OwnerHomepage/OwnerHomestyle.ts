@@ -296,7 +296,7 @@ const Styles = StyleSheet.create({
     // fontWeight: '700',
   },
   cardContainer: {
-    width: '67%',
+    width: '100%',
     height: 150,
     backgroundColor: 'white',
     alignSelf: 'center',

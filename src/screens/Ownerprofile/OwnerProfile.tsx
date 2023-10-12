@@ -16,7 +16,7 @@ import {Avatar} from 'react-native-paper';
 
 import style from './ownerProfileStyle';
 import ProfileData from '../Profile/useProfile';
-import SwitchAccountButton from '../../components/atoms/SwtichAccountButton';
+import SwitchAccountButton from '../../components/atoms/switchButton/SwtichAccountButton';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
@@ -86,6 +86,7 @@ const OwnerProfile = ({navigation}: Props) => {
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            testID="removeButton"
             style={style.removeButton}
             onPress={() => {
               handleRemoveProfilePic();

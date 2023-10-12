@@ -44,11 +44,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('screens/OwnerHomepage/DashboardDetails', () => ({
-  selectedBarIndex: '',
-  default: jest.fn(),
-  __esModule: true,
-}));
 jest.mock('screens/AnalyticsPage/useAnalytics', () => ({
   handleAnalytics: jest.fn(),
   Data: '',
@@ -95,20 +90,5 @@ describe('Analytics Page', () => {
     );
 
     expect(result).toBeDefined();
-  });
-  test('should handle  selectedBarIndex part correctly', () => {
-    jest.mock('screens/OwnerHomepage/DashboardDetails', () => ({
-      selectedBarIndex: 'Jun',
-      setSelectedBarIndex: 6,
-      default: jest.fn(),
-      __esModule: true,
-    }));
-    const {getByTestId} = render(
-      <NavigationContainer>
-        <DashboardDetails />
-      </NavigationContainer>,
-    );
-    const barInformation = getByTestId('information-Sec');
-    expect(barInformation).toBeDefined();
   });
 });

@@ -8,7 +8,6 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Share from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -44,8 +43,6 @@ export default function UProductDetails({route}: Props) {
     isPlusDisabled,
     handleDecrement,
     handleIncrement,
-    imageLoaded,
-    setImageLoaded,
     handleSubmit,
     closeModal,
     closeeModal,
@@ -96,18 +93,10 @@ export default function UProductDetails({route}: Props) {
                   height: 500,
                   width: 405,
                   backgroundColor: Colors.gray,
-                  display: imageLoaded ? 'flex' : 'none',
+                  display: 'flex',
                 }}
                 source={{uri: item}}
-                onLoad={() => setImageLoaded(true)}
-                onError={() => setImageLoaded(false)}>
-                {!imageLoaded && (
-                  <Image
-                    source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                    style={{height: 500, width: 405}}
-                  />
-                )}
-              </ImageBackground>
+              />
             ))}
           </ScrollView>
           <Animatable.Text

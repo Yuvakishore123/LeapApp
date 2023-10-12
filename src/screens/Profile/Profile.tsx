@@ -18,7 +18,7 @@ import {Logout} from '../../redux/actions/actions';
 import Toast from 'react-native-toast-message';
 import useProfile from './useProfile';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import SwitchAccountButton from '../../components/atoms/SwtichAccountButton';
+import SwitchAccountButton from '../../components/atoms/switchButton/SwtichAccountButton';
 import Togglebutton from '../../components/atoms/Colorscheme/Togglebutton';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 
