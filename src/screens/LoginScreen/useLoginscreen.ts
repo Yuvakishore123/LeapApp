@@ -50,25 +50,24 @@ const useLoginscreen = () => {
     setShowModal(false);
   };
 
+  const storeFCMToken = async (Dtoken: string) => {
+    try {
+      await asyncStorageWrapper.setItem('fcmToken', Dtoken);
+    } catch (error) {
+      logMessage.error('Error storing FCM token:', error);
+    }
+  };
+  const onTokenRefresh = async (DnewToken: string) => {
+    try {
+      const storedToken = await asyncStorageWrapper.getItem('fcmToken');
+      if (storedToken !== DnewToken) {
+        await storeFCMToken(DnewToken);
+      }
+    } catch (error) {
+      logMessage.error('Error handling FCM token refresh:', error);
+    }
+  };
   useEffect(() => {
-    const storeFCMToken = async (Dtoken: string) => {
-      try {
-        await asyncStorageWrapper.setItem('fcmToken', Dtoken);
-      } catch (error) {
-        logMessage.error('Error storing FCM token:', error);
-      }
-    };
-    const onTokenRefresh = async (DnewToken: string) => {
-      try {
-        const storedToken = await asyncStorageWrapper.getItem('fcmToken');
-        if (storedToken !== DnewToken) {
-          await storeFCMToken(DnewToken);
-        }
-      } catch (error) {
-        logMessage.error('Error handling FCM token refresh:', error);
-      }
-    };
-
     const requestFCMPermission = async () => {
       try {
         await firebase.messaging().requestPermission();
@@ -148,11 +147,14 @@ const useLoginscreen = () => {
     setPasswordError,
     colorScheme,
     handleOtpScreen,
+    storeFCMToken,
+    onTokenRefresh,
     handleSignUp,
     handleLoginScreen,
     passwordVisible,
-
+    postLogin,
     setPasswordVisible,
+    handleErrorResponse,
   };
 };
 export default useLoginscreen;

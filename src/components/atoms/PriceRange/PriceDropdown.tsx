@@ -103,6 +103,7 @@ const PriceRangeDropdown = ({
         testID="dropdown-content">
         {options.map(option => (
           <TouchableOpacity
+            testID={`dropdown-button-${option.label}`}
             key={option.label}
             style={styles.option}
             onPress={() => handleSelectOption(option)}>

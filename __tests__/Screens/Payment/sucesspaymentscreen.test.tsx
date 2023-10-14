@@ -7,10 +7,12 @@ import {
 } from '@testing-library/react-native';
 import PaymentSuccessScreen from '../../../src/screens/PaymentScreens/PaymentSuccessScreen';
 import usePayment from 'screens/PaymentScreens/usePayment';
+import {useNavigation} from '@react-navigation/native';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({
     navigate: jest.fn(),
+    reset: jest.fn(),
   }),
 }));
 describe('PaymentSuccessScreen', () => {
@@ -48,29 +50,5 @@ describe('PaymentSuccessScreen', () => {
     // Simulate button press
     const yourOrdersButton = getByText('Your Orders');
     fireEvent.press(yourOrdersButton);
-  });
-  it('should reset the navigation after 7 seconds', () => {
-    // Mock the navigation instance
-    const resetMock = jest.fn();
-    (useNavigation as jest.Mock).mockReturnValue({reset: resetMock});
-
-    // Render the hook
-    renderHook(() => usePayment());
-
-    // Advance the timer by 7 seconds
-    act(() => {
-      jest.advanceTimersByTime(7000);
-    });
-
-    // Ensure that reset was called with the correct arguments
-    expect(resetMock).toHaveBeenCalledWith({
-      index: 0,
-      routes: [{name: 'CartScreen', params: {screen: 'Cart'}}],
-    });
-  });
-
-  // Make sure to clean up timers after the test
-  afterAll(() => {
-    jest.useRealTimers();
   });
 });

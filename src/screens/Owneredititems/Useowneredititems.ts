@@ -6,7 +6,7 @@ import {
   addsize,
   removeproducts,
 } from '../../redux/actions/actions';
-import {useDispatch, useSelector} from 'react-redux';
+import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../network/network';
@@ -17,7 +17,6 @@ import {
   editItemsDataUrl,
   editProductsByIdUrl,
   enableProductUrl,
-  subCategoryUrl,
 } from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
@@ -48,9 +47,6 @@ const Useowneredititems = () => {
     null,
   );
   const [categoriesData, setCategoriesData] = useState([]);
-  const [subCategoriesData, setSubCategoriesData] = useState([]);
-  const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
-  const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
   const [outofStock, setOutofstock] = useState(false);
   const [totalQuantity, settotalQuantities] = useState(0);
   const [updatedQuantity, setupdatedquantity] = useState(0);
@@ -113,72 +109,6 @@ const Useowneredititems = () => {
       logMessage.error('error in FetchData of Owneredititems :', error);
     }
   };
-  const genderData = useSelector(
-    (state: {GenderReducer: {genderData: null[]}}) =>
-      state.GenderReducer.genderData,
-  );
-
-  useEffect(() => {
-    const fetchSubCategoryData = async () => {
-      try {
-        const response = await ApiService.get(
-          `${subCategoryUrl}/${genderData}`,
-        );
-        const subCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubCategoriesData(subCategoriesArray);
-      } catch (error) {
-        logMessage.error('error in fetching subcategory', error);
-      } finally {
-        logMessage.error('finally block in fetchingsubcategory');
-      }
-    };
-    fetchSubCategoryData();
-  }, [genderData]);
-
-  useEffect(() => {
-    const fetchEventCategoryData = async () => {
-      try {
-        const response = await ApiService.get(`${subCategoryUrl}/${1}`);
-        const subEventCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubEventCategoriesData(subEventCategoriesArray);
-      } catch (error) {
-        logMessage.error('error in fetchEventcatgeory in edittitems', error);
-      } finally {
-        logMessage.error('finally block of fetcheventcatgeory');
-      }
-    };
-    fetchEventCategoryData();
-  }, []);
-
-  useEffect(() => {
-    const subOutfitCategoriesData = async () => {
-      try {
-        const response = await ApiService.get(`${subCategoryUrl}/${2}`);
-        const subOutfitCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubOutfitCategoriesData(subOutfitCategoriesArray);
-      } catch (error) {
-        logMessage.error('error in suboutfitcatgeory', error);
-      } finally {
-        logMessage.error('finally block of outfitcategory in edititems');
-      }
-    };
-    subOutfitCategoriesData();
-  }, []);
   // 2nd api call here
 
   useEffect(() => {
@@ -221,7 +151,7 @@ const Useowneredititems = () => {
         const imageUrls = Array.from({length: 10}, (_, index) => {
           return `${url}/file${index + 1}`;
         });
-        imageUrls(imageUris);
+        setImageUrls(imageUrls);
       }
     };
     getImageUrls();
@@ -448,9 +378,6 @@ const Useowneredititems = () => {
     setDescription,
     setCategoriesData,
     categoriesData,
-    subCategoriesData,
-    subEventCategoriesData,
-    subOutfitCategoriesData,
     handleSizeTypeChange,
     setSelectedsize,
     setPrice,
@@ -484,10 +411,15 @@ const Useowneredititems = () => {
     setOutofstock,
     handleEnablebutton,
     setSelectedProductId,
+    setProductQuantity,
+    setupdatedquantity,
+    setdisabledQuantity,
     totalQuantity,
     updatedQuantity,
     disabledQuantity,
     refreshData,
+    setImageUrls,
+    setSelectedImage,
     setRefreshData,
     handleRefresh,
     eventType,

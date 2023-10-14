@@ -26,10 +26,11 @@ describe('OwnerRentalSwitch', () => {
         <OwnerRentalSwitch />
       </Provider>,
     );
+    fireEvent.press(getByText('Ordered'));
 
     // Check if the component renders correctly
     expect(getByText('Ordered')).toBeTruthy();
-    expect(getByText('Returned')).toBeTruthy();
+    // expect(getByText('Returned')).toBeTruthy();
   });
 
   it('changes tab on press', () => {
@@ -41,7 +42,7 @@ describe('OwnerRentalSwitch', () => {
 
     // Click on the "Returned" tab
     fireEvent.press(getByText('Returned'));
+    expect(getByText('Returned')).toBeTruthy();
   });
-
   // Add more test cases as needed
 });

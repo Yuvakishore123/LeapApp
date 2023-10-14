@@ -1,11 +1,7 @@
-import React from 'react';
-import {renderHook} from '@testing-library/react-native';
+import {act, renderHook, waitFor} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {store} from '../../../src/redux/store';
-import {Provider, useSelector} from 'react-redux';
-import useProfile from 'screens/Profile/useProfile';
-import {profileUpload} from 'constants/Apis';
-import ApiService from 'network/network';
+import {useSelector} from 'react-redux';
+import UseOwnerprofile from 'screens/Ownerprofile/useOwnerProfile';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -52,19 +48,18 @@ describe('OwnerProfile', () => {
     jest.clearAllMocks();
   });
   it('should handle removing profile picture', async () => {
-    const {result} = renderHook(() => useProfile(), {
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+    const {result} = renderHook(() => UseOwnerprofile());
+
+    expect(result).toBeTruthy();
+  });
+  it('should handle Logout', async () => {
+    const {result} = renderHook(() => UseOwnerprofile());
+
+    act(() => {
+      result.current.handleLogout();
     });
-
-    jest.spyOn(ApiService, 'post').mockResolvedValue({ok: true});
-    result.current.setProfileImage = jest.fn(); // Mocking setProfileImage
-
-    await result.current.handleRemoveProfilePic();
-
-    expect(jest.spyOn(ApiService, 'post')).toHaveBeenCalledWith(
-      `${profileUpload}=${null}`,
-      {},
-    );
-    // Add more assertions as needed
+    waitFor(() => {
+      expect(result.current.Logout).toHaveBeenCalled();
+    });
   });
 });

@@ -89,6 +89,7 @@ const FilterSelectSize = ({
         testID="dropdown">
         {sizes?.map(size => (
           <TouchableOpacity
+            testID={`sizesId-${size}`}
             key={size}
             style={styles.option}
             onPress={() => handleSelectSize(size)}>

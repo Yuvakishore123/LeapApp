@@ -247,7 +247,7 @@ const DashboardDetails = () => {
   return (
     <View style={{flex: 1, backgroundColor: Colors.white}}>
       {loading ? (
-        <View>
+        <View testID="loadingview">
           <Lottie
             source={require('../../../assets/analyticstwo.json')}
             autoPlay
@@ -619,6 +619,7 @@ const DashboardDetails = () => {
                     Object.keys(orderData).length > 0 &&
                     orderData[selectedMonth] ? (
                       <Modal
+                        testID="modal-component"
                         visible={showModel}
                         animationType="slide"
                         transparent={true}>

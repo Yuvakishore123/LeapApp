@@ -314,9 +314,9 @@ const styles = StyleSheet.create({
   },
   imageContainer: {
     width: '30%',
-    height: '82%',
-    marginTop: 10,
-    marginLeft: 10,
+    height: '40%',
+    marginTop: 1,
+    marginLeft: 1,
   },
   priceText: {
     fontSize: 12,

@@ -102,7 +102,7 @@ describe('MyStack Component', () => {
           data: {},
         },
         products: {
-          data: {},
+          data: [],
         },
         OwnerRentalproducts: {
           data: {},
@@ -130,7 +130,7 @@ describe('MyStack Component', () => {
         <Ownerstack />
       </NavigationContainer>,
     );
-    const homescreen = getByTestId('homeTab'); // You can set a testID in your CategoryScreen component
+    const homescreen = getByTestId('Home'); // You can set a testID in your CategoryScreen component
     fireEvent.press(homescreen);
     expect(homescreen).toBeTruthy();
   });
@@ -140,7 +140,7 @@ describe('MyStack Component', () => {
         <Ownerstack />
       </NavigationContainer>,
     );
-    const AdditemTab = getByTestId('additemTab'); // You can set a testID in your CategoryScreen component
+    const AdditemTab = getByTestId('Additem'); // You can set a testID in your CategoryScreen component
     fireEvent.press(AdditemTab);
     expect(AdditemTab).toBeTruthy();
   });
@@ -150,7 +150,7 @@ describe('MyStack Component', () => {
         <Ownerstack />
       </NavigationContainer>,
     );
-    const RentalstatusTab = getByTestId('RentalstatusTab'); // You can set a testID in your CategoryScreen component
+    const RentalstatusTab = getByTestId('RentalStatus'); // You can set a testID in your CategoryScreen component
     fireEvent.press(RentalstatusTab);
     expect(RentalstatusTab).toBeTruthy();
   });
@@ -160,7 +160,7 @@ describe('MyStack Component', () => {
         <Ownerstack />
       </NavigationContainer>,
     );
-    const ownerprofileTab = getByTestId('ownerprofileTab'); // You can set a testID in your CategoryScreen component
+    const ownerprofileTab = getByTestId('ProfileScreen'); // You can set a testID in your CategoryScreen component
     fireEvent.press(ownerprofileTab);
     expect(ownerprofileTab).toBeTruthy();
   });

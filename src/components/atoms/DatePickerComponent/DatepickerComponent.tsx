@@ -80,6 +80,7 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
         <View style={{flex: 1}}>
           {/* Calendar picker component */}
           <CalendarPicker
+            testID="calendar-picker-start-date"
             startFromMonday={true}
             allowRangeSelection={true}
             selectedDayColor={Colors.buttonColor}
@@ -87,7 +88,6 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
             selectedEndDate={selectedEndDate}
             onDateChange={onDateChange}
             minDate={startDate}
-            testID="calendar-picker-start-date"
           />
           {/* Buttons for clearing and confirming dates */}
           <View style={styles.clearButtonview}>
@@ -98,6 +98,7 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
               <Text style={styles.buttonText}>Clear Dates</Text>
             </TouchableOpacity>
             <TouchableOpacity
+              testID="Done"
               style={styles.calanderButtonStyle}
               onPress={onTogglePicker}>
               <Text style={styles.buttonText}>Done</Text>

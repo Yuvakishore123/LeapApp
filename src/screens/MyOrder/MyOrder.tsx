@@ -106,19 +106,20 @@ const MyOrder = () => {
               </View>
             </View>
           ) : (
+            Array.isArray(OrderProducts) &&
             OrderProducts?.map((order: any) => (
               <TouchableOpacity
                 key={order.id}
                 testID={`order-${order.id}`}
                 style={[style.cardContainer, getTextInputStyle()]}
-                onPress={() => openModal(order)}
+                // onPress={() => openModal(order)}
                 disabled={isModalOpen}>
                 {order.orderItems?.map((item: any) => (
                   <TouchableOpacity
                     key={`${order.id}-${item.id}`}
                     testID={`Order-${order.id}-${item.id}`}
                     style={style.cardTextContainer}
-                    // onPress={() => openModal(order)}
+                    onPress={() => openModal(order)}
                     disabled={isModalOpen}>
                     <View style={{flexDirection: 'row', width: '85%'}}>
                       <View style={style.orderInfoContainer}>

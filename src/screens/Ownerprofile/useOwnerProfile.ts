@@ -19,6 +19,6 @@ const UseOwnerprofile = () => {
   const handleLogout = () => {
     dispatch(Logout() as any);
   };
-  return {handleLogout, data, loading};
+  return {handleLogout, data, loading, Logout};
 };
 export default UseOwnerprofile;

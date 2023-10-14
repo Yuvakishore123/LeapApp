@@ -219,7 +219,7 @@ export const ADDORDER = (razorpayId: string) => {
   return async (dispatch: (arg0: {type: string; payload: any}) => void) => {
     try {
       const response = await ApiService.post(
-        `${url}/order/add/?razorpayId=${razorpayId}`,
+        `${url}/order/add?razorpayId=${razorpayId}`,
         razorpayId,
       );
       logMessage.info('response of Addorder', response);

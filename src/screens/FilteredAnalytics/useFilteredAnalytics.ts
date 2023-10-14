@@ -42,7 +42,7 @@ const useFilteredAnalytics = () => {
   };
   const handleChartData = () => {
     if (response !== null) {
-      const chartData = response?.map(
+      const chartData = Object.entries(response)?.map(
         ([month, rentals]: [string, unknown]) => ({
           month,
           rentalCost: (rentals as {rentalCost: number}[]).reduce(

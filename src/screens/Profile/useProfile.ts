@@ -108,7 +108,6 @@ const useProfile = () => {
       const result = await uploadImageToServer(formData, token);
       await handleUploadResult(result);
     } catch (error) {
-      console.error(error);
       setIsloading(true);
     }
   };

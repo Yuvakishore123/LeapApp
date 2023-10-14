@@ -1,8 +1,7 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {act, renderHook} from '@testing-library/react-native';
+import {act, renderHook, waitFor} from '@testing-library/react-native';
 import {AxiosResponse} from 'axios';
-import {profileUpload} from 'constants/Apis';
+import {profileUpload, url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import ApiService from 'network/network';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -229,5 +228,55 @@ describe('Profile Screen', () => {
     await result.current.handleUploadResult(mockResult);
     expect(result.current.isloading).toBe(false);
     expect(result.current.selectedImage).toBe('mockImageUrl');
+  });
+  it('should upload an image to the server', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    const formData = new FormData();
+    const token = 'your-auth-token';
+
+    // Add a file to the form data
+    // formData.append(
+    //   'file',
+    //   new Blob(['fake image content'], {type: 'image/jpeg'}),
+    //   'test.jpg',
+    // );
+
+    // Mock the fetch function
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({success: true}),
+    });
+
+    await result.current.uploadImageToServer(formData, token);
+
+    expect(fetch).toHaveBeenCalledWith(`${url}/file/uploadProfileImage`, {
+      method: 'POST',
+      body: formData,
+      headers: {
+        'Content-Type': 'multipart/form-data',
+        Authorization: `Bearer ${token}`,
+      },
+    });
+  });
+  it('should handleValidImage function', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    const image = {
+      uri: 'file://path-to-your-image/image.png', // Replace with the actual path
+      type: 'image/png',
+      name: 'image.png',
+    };
+    // Mock the fetch function
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      status: 200,
+      json: () => Promise.resolve({success: true}),
+    });
+
+    await result.current.handleValidImage(image);
+    expect(result.current.isLoading).toBe(true);
+    expect(mockDispatch).toBeCalledTimes(4);
   });
 });

@@ -9,6 +9,7 @@ import {
 import {useDispatch} from 'react-redux';
 import ApiService from 'network/network';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {launchImageLibrary} from 'react-native-image-picker';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -16,16 +17,31 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-
+jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+}));
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(() => mockDispatch),
 }));
+jest.mock('../../../src/helpers/helper', () => ({
+  logMessage: {
+    error: jest.fn(),
+    info: jest.fn(),
+  },
+}));
 jest.mock('../../../src/network/network', () => ({
   get: jest.fn(),
   put: jest.fn(),
 }));
+jest.mock('react-native-image-picker', () => ({
+  launchImageLibrary: jest.fn(),
+}));
+
 jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -73,7 +89,7 @@ describe('useCart', () => {
     const selectedGender = 'Male';
 
     // Mock the useDispatch hook to return the dispatch function
-    useDispatch.mockReturnValue(dispatch);
+    (useDispatch as jest.Mock).mockReturnValue(dispatch);
 
     // Render the hook
     const {result} = renderHook(() => Useowneredititems());
@@ -106,7 +122,7 @@ describe('useCart', () => {
     const {result} = renderHook(() => Useowneredititems());
 
     // Mock the ApiService.get function to return a resolved Promise with mockResponse
-    ApiService.get.mockResolvedValue(mockResponse);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResponse);
 
     // Call the fetchData function
     await result.current.fetchData();
@@ -143,7 +159,7 @@ describe('useCart', () => {
     const {result} = renderHook(() => Useowneredititems());
 
     // Mock the ApiService.get function to return a resolved Promise with mockResponse
-    ApiService.get.mockResolvedValue(mockResponse);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResponse);
 
     // Call the fetchData function
     await result.current.FetchData(mockId);
@@ -252,14 +268,17 @@ describe('useCart', () => {
   });
   it('should update updatedQuantity correctly on decrementQuantity', () => {
     const {result} = renderHook(() => Useowneredititems()); // Render the hook
-    waitFor(() => {
-      expect(result.current.updatedQuantity).toBe(3);
+    expect(result.current.updatedQuantity).toBe(0);
+
+    // Simulate setting up product quantity and disabled quantity
+    act(() => {
+      result.current.setupdatedquantity(5);
     });
     act(() => {
       result.current.decrementQuantity();
     });
     waitFor(() => {
-      expect(result.current.updatedQuantity).toBe(2);
+      expect(result.current.updatedQuantity).toBe(4);
     });
   });
   it('should handle disabling button correctly', async () => {
@@ -282,7 +301,7 @@ describe('useCart', () => {
       );
     });
 
-    ApiService.get.mockResolvedValue(mockApiResponse);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockApiResponse);
 
     waitFor(() => {
       expect(result.current.outofStock).toBe(true);
@@ -316,7 +335,7 @@ describe('useCart', () => {
     });
 
     // Check if ApiService was called with correct URL
-    ApiService.get.mockResolvedValue(mockApiResponse);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockApiResponse);
 
     waitFor(() => {
       expect(result.current.outofStock).toBe(true);
@@ -355,7 +374,7 @@ describe('useCart', () => {
       result.current.handleedit();
     });
 
-    ApiService.put.mockResolvedValue(data);
+    (ApiService.put as jest.Mock).mockResolvedValue(data);
     waitFor(() => {
       expect(mockDispatch).toHaveBeenCalledWith(addsize('mockSize'));
       expect(mockNav).toHaveBeenCalledWith('OwnerProfile');
@@ -364,7 +383,7 @@ describe('useCart', () => {
   it('should dispatch the correct actions and call openModal', async () => {
     const {result} = renderHook(() => Useowneredititems()); // Render the hook
     const productId = '12';
-    asyncStorageWrapper.getItem.mockResolvedValue('mockToken');
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
 
     // Mock fetch response
     global.fetch = jest.fn(() =>
@@ -381,6 +400,127 @@ describe('useCart', () => {
       );
 
       expect(result.current.openModal).toHaveBeenCalled();
+    });
+  });
+  test('should increment quantity correctly', () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Initial state
+    expect(result.current.updatedQuantity).toBe(0);
+    expect(result.current.productQuantity).toBe(0);
+    expect(result.current.disabledQuantity).toBe(0);
+    expect(result.current.isPlusDisabled).toBe(false);
+
+    // Simulate setting up product quantity and disabled quantity
+    act(() => {
+      result.current.setupdatedquantity(2);
+      result.current.setProductQuantity(5);
+      result.current.setdisabledQuantity(3);
+    });
+
+    // Increment quantity
+    act(() => {
+      result.current.incrementQuantity();
+    });
+
+    expect(result.current.updatedQuantity).toBe(3); // Updated quantity should be incremented by 1
+    expect(result.current.isPlusDisabled).toBe(false); // isPlusDisabled should remain false
+  });
+  test('should increment quantity maxquantity to less', () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Initial state
+    expect(result.current.updatedQuantity).toBe(0);
+    expect(result.current.productQuantity).toBe(0);
+    expect(result.current.disabledQuantity).toBe(0);
+    expect(result.current.isPlusDisabled).toBe(false);
+
+    // Simulate setting up product quantity and disabled quantity
+    act(() => {
+      result.current.setupdatedquantity(10);
+      result.current.setProductQuantity(5);
+      result.current.setdisabledQuantity(3);
+    });
+
+    // Increment quantity
+    act(() => {
+      result.current.incrementQuantity();
+    });
+    expect(result.current.isPlusDisabled).toBe(true); // isPlusDisabled should remain false
+  });
+  test('should increment quantity disableQuantity more', () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Initial state
+    expect(result.current.updatedQuantity).toBe(0);
+    expect(result.current.productQuantity).toBe(0);
+    expect(result.current.disabledQuantity).toBe(0);
+    expect(result.current.isPlusDisabled).toBe(false);
+
+    // Simulate setting up product quantity and disabled quantity
+    act(() => {
+      result.current.setupdatedquantity(10);
+      result.current.setProductQuantity(15);
+      result.current.setdisabledQuantity(10);
+    });
+
+    // Increment quantity
+    act(() => {
+      result.current.incrementQuantity();
+    });
+    expect(result.current.isPlusDisabled).toBe(false); // isPlusDisabled should remain false
+  });
+  it('should upload images and set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockResolvedValue(imageResponse);
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImg();
+    });
+    // Assertions
+    // Verify that AsyncStorage.getItem was called with 'token'
+    expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
+
+    // Verify that launchImageLibrary was called with the correct options
+    expect(launchImageLibrary).toHaveBeenCalledWith({
+      mediaType: 'photo',
+      selectionLimit: 10,
+    });
+    expect(result.current.imageUrls).toEqual(['mockImageUrl']);
+    expect(result.current.selectedImage).toEqual(['mockImageUrl']);
+  });
+  it('should reject upload images and set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockResolvedValue(imageResponse);
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImg();
     });
   });
 });

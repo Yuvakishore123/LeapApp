@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react-native';
+import {render, fireEvent, act} from '@testing-library/react-native';
 import DatePickerComponent from '../../../src/components/atoms/DatePickerComponent/DatepickerComponent';
 import moment from 'moment';
 
@@ -104,5 +104,38 @@ describe('DatePickerComponent', () => {
     } else {
       expect(selectedDateText.props.children).toBe(expectedDate);
     }
+  });
+  test('handles onDate change', () => {
+    const startDate = null;
+    const endDate = new Date('2023-01-05');
+    const onStartDateChange = jest.fn();
+    const onEndDateChange = jest.fn();
+    const buttonStyle = {};
+    const buttonTextColor = {};
+
+    const {getByTestId, getByText} = render(
+      <DatePickerComponent
+        startDate={startDate}
+        endDate={endDate}
+        onStartDateChange={onStartDateChange}
+        onEndDateChange={onEndDateChange}
+        buttonStyle={buttonStyle}
+        buttonTextColor={buttonTextColor}
+      />,
+    );
+    const startbutton = getByTestId('start-date-button');
+    act(() => {
+      fireEvent.press(startbutton);
+    });
+    const selecttext = getByText('20');
+    expect(selecttext).toBeDefined();
+    const modal = getByTestId('date-picker-modal');
+    act(() => {
+      fireEvent.press(selecttext);
+      fireEvent.press(modal);
+      fireEvent.press(getByTestId('clear-dates'));
+    });
+    expect(getByTestId('Done')).toBeDefined();
+    expect(getByTestId('clear-dates')).toBeDefined();
   });
 });

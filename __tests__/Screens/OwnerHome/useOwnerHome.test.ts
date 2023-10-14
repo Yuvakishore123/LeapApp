@@ -139,4 +139,19 @@ describe('Checkout Screen', () => {
       expect(result.current.recentyAdded).toBe(mockData);
     });
   });
+  it('handles fetchDashboardData correctly', () => {
+    const data = {
+      totalEarnings: 190203,
+      totalrentedItems: 20,
+      // ... (more products)
+    };
+    const {result} = renderHook(() => useOwnerHome());
+    act(() => {
+      result.current.fetchDashboardData();
+    });
+    ApiService.get.mockResolvedValue(data);
+    waitFor(() => {
+      expect(result.current.setRentedItems).toBe(data.totalrentedItems);
+    });
+  });
 });

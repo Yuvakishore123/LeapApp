@@ -42,7 +42,7 @@ Sentry.init({
 const Stack = createSharedElementStackNavigator();
 LogBox.ignoreAllLogs();
 
-const AuthStack = () => {
+export const AuthStack = () => {
   const navigation = useNavigation();
   useEffect(() => {
     checkFirstTimeUser();
@@ -165,9 +165,9 @@ const App = () => {
       }
     };
     useEffect(() => {
-      const initialLink = dynamicLinks().getInitialLink();
+      const initialLink = dynamicLinks()?.getInitialLink();
       initialLink
-        .then(link => {
+        ?.then(link => {
           if (link) {
             Handlelink(link);
           }
@@ -176,7 +176,7 @@ const App = () => {
           logMessage.error('Error getting initial link:', error);
         });
 
-      const subscribe = dynamicLinks().onLink(() => {
+      const subscribe = dynamicLinks()?.onLink(() => {
         Handlelink(initialLink).catch(error => {
           logMessage.error('error in handlelink', error);
           // Handle any errors if Handlelink() rejects

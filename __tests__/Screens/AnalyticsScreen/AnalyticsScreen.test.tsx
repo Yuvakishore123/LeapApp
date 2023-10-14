@@ -1,5 +1,5 @@
 import React from 'react';
-import {render} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import DashboardDetails from 'screens/OwnerHomepage/DashboardDetails';
@@ -77,9 +77,14 @@ describe('Analytics Page', () => {
       CategoriePieData: jest.fn(),
       CategoriesPiechart: [],
       Dashboardyeardata: jest.fn(),
-      DashboardYearly: {},
+      DashboardYearly: {
+        2023: {
+          '2023-01': {totalEarnings: 5000, totalNumberOfItems: 50},
+          '2023-02': {totalEarnings: 6000, totalNumberOfItems: 60},
+        },
+      },
       selectedBarIndex: 'Jun',
-      setSelectedBarIndex: 6,
+      setSelectedBarIndex: 4,
     });
   });
   test('renders Analytics correctly', () => {
@@ -90,5 +95,31 @@ describe('Analytics Page', () => {
     );
 
     expect(result).toBeDefined();
+  });
+  it('should handleTotalOrdersClick and show the modal', () => {
+    const {getByText, queryByTestId} = render(
+      <NavigationContainer>
+        <DashboardDetails />
+      </NavigationContainer>,
+    );
+
+    const totalOrdersButton = getByText('Total Orders'); // Adjust the text to match your button text
+    fireEvent.press(totalOrdersButton);
+
+    const modal = queryByTestId('modal-component'); // Replace with an appropriate test ID
+    expect(modal).toBeTruthy();
+  });
+  it('should render loading state', () => {
+    (useAnalytics as jest.Mock).mockReturnValue({
+      loading: true,
+    });
+    const {getByText} = render(
+      <NavigationContainer>
+        <DashboardDetails />
+      </NavigationContainer>,
+    );
+
+    const loading = getByText('loadingview');
+    expect(loading).toBeTruthy();
   });
 });

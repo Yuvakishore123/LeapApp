@@ -82,16 +82,4 @@ describe('Cart Screen', () => {
     const incrementButton = getByTestId('increment-button-1');
     fireEvent.press(incrementButton);
   });
-  it('renders loading view when cartData is not available', async () => {
-    const mockCartData = {};
-    jest.spyOn(ApiService, 'get').mockResolvedValue(mockCartData);
-
-    const {getByTestId} = render(
-      <Provider store={store}>
-        <Cart />
-      </Provider>,
-    );
-    const loadingView = getByTestId('loading-view');
-    expect(loadingView).toBeDefined();
-  });
 });

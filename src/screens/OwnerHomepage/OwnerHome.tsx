@@ -161,9 +161,10 @@ const OwnerHome = ({navigation}: Props) => {
             getContainerStyle(),
           ]}>
           <View style={styles.viewS}>
-            {products?.map((item: Product, index: number) =>
-              renderRentalHistoryItem({item, index}),
-            )}
+            {Array.isArray(products) &&
+              products?.map((item: Product, index: number) =>
+                renderRentalHistoryItem({item, index}),
+              )}
           </View>
         </View>
       );

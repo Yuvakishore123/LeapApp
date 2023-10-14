@@ -119,6 +119,7 @@ const useHome = () => {
     showModal,
     Data,
     oldData,
+    Error,
     pageSize,
     wishlistremove,
     allProducts,

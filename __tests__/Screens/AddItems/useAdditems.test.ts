@@ -199,4 +199,15 @@ describe('useAdditems', () => {
       expect(result.current.isLoading).toHaveBeenCalledWith(true);
     });
   });
+  it('should call formik.setFieldTouched correctly when handleBlur is called', () => {
+    const mockBlur = jest.fn();
+    const {result} = renderHook(() => useAdditems());
+    const fieldToBlur = 'name';
+    act(() => {
+      result.current.handleBlur(fieldToBlur);
+    });
+    waitFor(() => {
+      expect(mockBlur).toBeCalled();
+    });
+  });
 });

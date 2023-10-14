@@ -3,6 +3,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
 import ApiService from 'network/network';
 import axios from 'axios';
+import { url } from 'constants/Apis';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -409,7 +410,7 @@ describe('useAnalytics', () => {
       expect(result.current.CategoriePieData).toBe(mockOrderItems);
     });
   });
-  it('should reject handle CategoriePieData successfully', async () => {
+  it('should  handle DashboardyearlyData successfully', async () => {
     const mockYearlyData = {
       '2023': {
         '2023-09': {
@@ -487,6 +488,89 @@ describe('useAnalytics', () => {
       expect(result.current.DashboardYearly).toBe(mockYearlyData);
     });
   });
+  it('should reject handle DashboardyearlyData successfully', async () => {
+    const mockYearlyData = {
+      '2023': {
+        '2023-09': {
+          totalEarnings: 5596,
+          totalNumberOfItems: 3,
+        },
+      },
+    };
+    ApiService.get.mockRejectedValue(mockYearlyData);
+
+    const {result} = renderHook(() => useAnalytics());
+
+    act(() => {
+      result.current.Dashboardyeardata();
+    });
+    waitFor(() => {
+      expect(result.current.DashboardYearly).not.toBe(mockYearlyData);
+    });
+  });
+  it('should reject handle CategoriePieData successfully', async () => {
+    const mockYearlyData = {
+      '2023-05': {
+        Women: {
+          orderItems: [
+            {
+              name: 'GUCCI PRINTED SHIRT',
+              quantity: 1,
+              rentalStartDate: '2023-05-29T06:30:00',
+              rentalEndDate: '2023-05-30T06:30:00',
+              rentalCost: 8999,
+              imageUrl:
+                'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
+              productId: 19,
+              borrowerId: 5,
+              borrowerName: 'Bala Pranay reddy Reddy',
+              borrowerEmail: 'p.pranayreddy699@gmail.com',
+              borrowerPhoneNumber: '9505180888',
+            },
+            {
+              name: 'SHRUNK RACER JACKET',
+              quantity: 1,
+              rentalStartDate: '2023-05-29T06:30:00',
+              rentalEndDate: '2023-05-30T06:30:00',
+              rentalCost: 11999,
+              imageUrl:
+                'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685303764085_image.png',
+              productId: 15,
+              borrowerId: 5,
+              borrowerName: 'Bala Pranay reddy Reddy',
+              borrowerEmail: 'p.pranayreddy699@gmail.com',
+              borrowerPhoneNumber: '9505180888',
+            },
+            {
+              name: 'NILOUFER SAREE',
+              quantity: 2,
+              rentalStartDate: '2023-05-29T06:30:00',
+              rentalEndDate: '2023-05-30T06:30:00',
+              rentalCost: 2598,
+              imageUrl:
+                'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335616131_image.png',
+              productId: 26,
+              borrowerId: 5,
+              borrowerName: 'Bala Pranay reddy Reddy',
+              borrowerEmail: 'p.pranayreddy699@gmail.com',
+              borrowerPhoneNumber: '9505180888',
+            },
+          ],
+          totalOrders: 4,
+        },
+      },
+    };
+    ApiService.get.mockRejectedValue(mockYearlyData);
+
+    const {result} = renderHook(() => useAnalytics());
+
+    act(() => {
+      result.current.CategoriePieData();
+    });
+    waitFor(() => {
+      expect(result.current.DashboardYearly).not.toBe(mockYearlyData);
+    });
+  });
   it('should handle exporting PDF successfully', async () => {
     const mockToken = 'undefined';
     const mockResponse = {
@@ -502,14 +586,11 @@ describe('useAnalytics', () => {
       await result.current.handleExportpdf();
     });
 
-    expect(axios.get).toHaveBeenCalledWith(
-      'https://0f54-106-51-70-135.ngrok-free.app/api/v1/pdf/export',
-      {
-        headers: {
-          Authorization: `Bearer ${mockToken}`,
-        },
-        responseType: 'blob',
+    expect(axios.get).toHaveBeenCalledWith(`${url}/pdf/export`, {
+      headers: {
+        Authorization: `Bearer ${mockToken}`,
       },
-    );
+      responseType: 'blob',
+    });
   });
 });

@@ -21,6 +21,7 @@ jest.mock('@react-navigation/native', () => {
     ...actualNav,
     useNavigation: () => ({
       navigate: mockNav,
+      addListener: jest.fn(),
     }),
   };
 });
@@ -148,6 +149,8 @@ describe('Home Page', () => {
     expect(flatlist).toBeDefined();
   });
   test('should render searchBar correctly', () => {
+    const mockQuery = jest.fn();
+    const mockSearch = jest.fn();
     (useHome as jest.Mock).mockReturnValue({
       onRefresh: jest.fn(),
       refreshing: false,
@@ -155,8 +158,8 @@ describe('Home Page', () => {
       searchQuery: '',
       searchResults: [],
       setSearchResults: jest.fn(),
-      searchProducts: jest.fn(),
-      setSearchQuery: jest.fn(),
+      searchProducts: mockSearch,
+      setSearchQuery: mockQuery,
       placeholderText: 'Search',
       placeholderTextColor: 'black',
       loading: false,
@@ -197,8 +200,11 @@ describe('Home Page', () => {
         </NavigationContainer>
       </Provider>,
     );
-    const loading = getByTestId('searchId');
-    expect(loading).toBeDefined();
+    const searchBar = getByTestId('searchId');
+    act(() => {
+      fireEvent.changeText(searchBar, 'gucci');
+    });
+    expect(mockQuery).toBeCalledWith('gucci');
   });
 
   test('calls wishlistremove when the button is pressed', () => {
@@ -234,5 +240,37 @@ describe('Home Page', () => {
     });
     const wishlist = getByTestId('wishlistheart-1');
     expect(wishlist).toBeDefined();
+  });
+  test('should navigate to CategoryScreen when seeall button pressed', () => {
+    const Stack = createNativeStackNavigator();
+    const mockModal = jest.fn();
+    const mockWishlistProducts = [
+      {
+        id: 1,
+        imageUrl: ['https://example.com/product1.jpg'],
+        name: 'Product 1',
+        price: 100,
+      },
+    ];
+    (useHome as jest.Mock).mockReturnValue({
+      openModal: mockModal,
+      isLoading: false,
+      allProducts: mockWishlistProducts,
+    });
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Homescreen" component={Homescreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+
+    const seeallbutton = getByTestId('seeallId');
+    act(() => {
+      fireEvent.press(seeallbutton);
+    });
+    expect(mockNavigation.navigate).toBeCalledWith('CategoryScreen');
   });
 });

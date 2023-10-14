@@ -102,4 +102,26 @@ describe('SearchResultScreen', () => {
       expect(result.current.modalVisible).toBe(false);
     });
   });
+  test('should handle FliterButtonPress ', async () => {
+    const mockData = {
+      id: 1,
+      name: 'Product 1',
+      price: 10,
+      imageUrl: ['https://example.com/image1.jpg'],
+    };
+    // Mock ApiService.get to throw an error
+    apiGetMock.mockResolvedValue(mockData);
+
+    const {result} = renderHook(() => useSearchresults());
+
+    // Wait for the asynchronous function to complete
+    await act(async () => {
+      await result.current.handleFilterButtonPress();
+    });
+    waitFor(() => {
+      expect(result.current.SubcategoryData).toBeCalled();
+      // Assert that the setFilteredProducts function is called with an empty array
+      expect(result.current.modalVisible).toBe(false);
+    });
+  });
 });

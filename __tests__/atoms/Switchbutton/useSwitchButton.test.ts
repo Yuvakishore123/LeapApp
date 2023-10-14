@@ -78,4 +78,27 @@ describe('useSwitchButton', () => {
       expect(result.current.accountType).toBe('BORROWER'); // Assuming 'setAccountType' updates the 'accountType' state
     });
   });
+  it('should reject the handleOptionPress', () => {
+    const mockResponse = {
+      status: 404,
+      headers: {
+        access_token: '',
+      },
+    };
+
+    require('network/network').post.mockRejectedValue(mockResponse);
+    const {result} = renderHook(() => useSwitchButton());
+    const mockOption = 'BORROWER';
+    act(() => {
+      result.current.handleOptionPress(mockOption);
+    });
+
+    expect(result.current.showOptions).toBe(false);
+    waitFor(() => {
+      expect(require('network/network').post).not.toHaveBeenCalledWith(
+        `${url}/user/switch?profile=${mockOption}`,
+        null,
+      );
+    });
+  });
 });

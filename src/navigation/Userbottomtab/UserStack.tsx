@@ -67,6 +67,8 @@ const CategoryStack = () => {
       <Stack.Screen name="Category" component={Category} />
       <Stack.Screen name="Subcategory" component={Subcategory} />
       <Stack.Screen name="CategoryProducts" component={CategoryProducts} />
+      <Stack.Screen name="UProductDetails" component={UProductDetails} />
+
     </Stack.Navigator>
   );
 };

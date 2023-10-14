@@ -46,6 +46,7 @@ const Carousal = () => {
             }) => (
               <View key={subcategory.id}>
                 <TouchableOpacity
+                  testID={`navId-${subcategory.id}`}
                   style={styles.corosalView}
                   onPress={() =>
                     navigation.navigate('Subcategory', {
@@ -53,6 +54,7 @@ const Carousal = () => {
                     })
                   }>
                   <Image
+                    testID={`subcategory-image-${subcategory.id}`}
                     source={{uri: subcategory.imageUrl}}
                     style={styles.corousalImage}
                   />

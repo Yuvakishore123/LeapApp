@@ -107,6 +107,20 @@ describe('useAdditems', () => {
       });
     });
   });
+  it('should reject dispatch for searchProducts', () => {
+    const {result} = renderHook(() => useHome());
+    const mockquery = 'gucci';
+    act(() => {
+      result.current.searchProducts(mockquery);
+    });
+    ApiService.get.mockRejectedValue(mockData);
+
+    waitFor(() => {
+      expect(result.current.Error).toBe(
+        'Something went wrong. Please try again.',
+      );
+    });
+  });
   it('This should open modal', () => {
     const wishlist = renderHook(() => useHome());
     act(() => {

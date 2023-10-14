@@ -8,7 +8,6 @@ import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/apiRoutes';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -65,55 +64,33 @@ const useOwnerHome = () => {
   const name = useSelector(
     (state: {profileData: {data: []}}) => state.profileData.data,
   );
+  const fetchDashboardData = async () => {
+    try {
+      const response = ApiService.get(`${url}/dashboard/owner-view`);
+      const dashboardData = await response;
+      setTotalEarnings(dashboardData.totalEarnings);
+      setRentedItems(dashboardData.totalNumberOfItems);
+    } catch (error) {
+      logMessage.error('error in fetching of dashboard data', error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchDashboardData = async () => {
-      const token = await asyncStorageWrapper.getItem('token');
-      try {
-        const response = await fetch(`${url}/dashboard/owner-view`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        if (response.ok) {
-          const dashboardData = await response.json();
-          setTotalEarnings(dashboardData.totalEarnings);
-          setRentedItems(dashboardData.totalNumberOfItems);
-        } else {
-          throw new Error('Failed to fetch Dashboard Data');
-        }
-      } catch (error) {
-        logMessage.error('error in fetching of dashboard data', error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchDashboardData();
   }, []);
+  const fetchProfileData = async () => {
+    try {
+      const response = ApiService.get(`${url}/user/getUser`);
+      setIsLoading(false);
+      const profileData = await response;
+      setName(profileData.firstName);
+    } catch (error) {
+      console.error(error);
+      setIsLoading(true);
+    }
+  };
   useEffect(() => {
-    const fetchProfileData = async () => {
-      const token = await asyncStorageWrapper.getItem('token');
-      try {
-        const response = await fetch(`${url}/user/getUser`, {
-          method: 'GET',
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'application/json',
-          },
-        });
-        setIsLoading(false);
-        if (response.ok) {
-          const profileData = await response.json();
-          setName(profileData.firstName);
-        } else {
-          logMessage.error('data not fetched in Ownerhomescreen');
-        }
-      } catch (error) {
-        console.error(error);
-        setIsLoading(true);
-      }
-    };
     fetchProfileData();
   }, [refresh]);
   useEffect(() => {
@@ -161,6 +138,10 @@ const useOwnerHome = () => {
     onRefresh,
     recentyAdded,
     selectedProductId,
+    fetchDashboardData,
+    setProductQuantity,
+    setSelectedProductId,
+    setRentedItems,
     outofStock,
     setOutofstock,
     refreshTrigger,

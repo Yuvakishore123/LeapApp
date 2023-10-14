@@ -72,6 +72,7 @@ const Additems = () => {
                 Add products
               </Text>
               <TextInput
+                testID="name"
                 placeholderTextColor={Colors.gray}
                 placeholder="Name"
                 style={[
@@ -90,6 +91,7 @@ const Additems = () => {
                 </Text>
               )}
               <TextInput
+                testID="description"
                 placeholderTextColor={Colors.gray}
                 placeholder="Description"
                 style={[
