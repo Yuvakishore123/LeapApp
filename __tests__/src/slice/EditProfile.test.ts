@@ -9,6 +9,7 @@ import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import ApiService from 'network/network';
+import {updateProfileUrl} from 'constants/apiRoutes';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -21,6 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('network/network');
 
 describe('Edit Profile Slice', () => {
   const mockData = {
@@ -55,7 +57,7 @@ describe('Edit Profile Slice', () => {
       error: null,
     });
   });
-  test('should handle a edit Address being added to an empty list', () => {
+  test('should handle a Edit Profile state is being added to an empty list', () => {
     const previousState: ProfileDataState = {
       data: {
         message: '',
@@ -79,18 +81,19 @@ describe('Edit Profile Slice', () => {
     });
   });
 
-  it('should handle the ` `editAddressData .fulfilled` actions correctly', async () => {
-    jest.spyOn(ApiService, 'put').mockResolvedValue(mockData);
+  it('should handle the Edit Profile state is fulfilled  actions correctly', async () => {
+    (ApiService.put as jest.Mock).mockResolvedValue(mockData);
     await store.dispatch(updateProfile(mockData));
 
     const state = store.getState().editProfile as ProfileDataState; // Assuming AddressAddState is the correct type
     expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
     expect(state.data).toEqual(mockData);
     expect(state.isError).toBe(false);
+    expect(ApiService.put).toHaveBeenCalledWith(updateProfileUrl, mockData);
   });
-  it('should handle the `editAddressData.rejected` action correctly', async () => {
+  it('should handle the Edit Profile state is rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
-    jest.spyOn(ApiService, 'put').mockRejectedValue(new Error(errorMessage));
+    (ApiService.put as jest.Mock).mockRejectedValue(errorMessage);
 
     // Dispatch the updateProfile action with mock data
     await store.dispatch(updateProfile(mockData)); // Replace with your actual mock data

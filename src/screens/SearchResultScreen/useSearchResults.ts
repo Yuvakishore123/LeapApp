@@ -8,7 +8,7 @@ const useSearchresults = () => {
   const [maximumPrice, setMaximumPrice] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [subcategoriesData, setSubcategoriesData] = useState([]);
-  const [selectedSubCategory, setSelectedSubCategory] = useState();
+  const [selectedSubCategory, setSelectedSubCategory] = useState('');
   const [imageLoaded, setImageLoaded] = useState(false);
   const [selectedSize, setSelectedSize] = useState('');
   const sizes = ['XS', 'S', 'M', 'L', 'XL', 'XXL'];
@@ -27,23 +27,22 @@ const useSearchresults = () => {
     }
   };
   useEffect(() => {
-    SubcategoryData();
+    SubCategoryData();
   }, []);
-  const SubcategoryData = async () => {
+  const SubCategoryData = async () => {
     try {
       const response = await ApiService.get(categoriesData);
-
       const subCategoriesArray = response.map((category: any) => ({
         value: category.id,
         label: category.subcategoryName,
       }));
       setSubcategoriesData(subCategoriesArray);
     } catch (error) {
-      log.error('error iduring fetching subcategory data');
+      log.error('error subcatgeory data in searchresultscreen', error);
     }
   };
   const handleFilterButtonPress = () => {
-    SubcategoryData();
+    SubCategoryData();
     setModalVisible(!modalVisible);
   };
   const handleFilterapply = () => {
@@ -66,7 +65,7 @@ const useSearchresults = () => {
     handleFilterButtonPress,
     imageLoaded,
     setImageLoaded,
-    SubcategoryData,
+    SubCategoryData,
     handleFilterapply,
     selectedSubCategory,
     setSelectedSubCategory,

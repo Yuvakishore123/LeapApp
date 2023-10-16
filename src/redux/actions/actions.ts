@@ -72,12 +72,7 @@ export const addsize = (selected: any) => ({
 export const removeAddress = (id: any) => {
   return async (dispatch: Dispatch) => {
     try {
-      const token = await AsyncStorageWrapper.getItem('token');
-      await axios.delete(`${url}/address/delete/${id}`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      });
+      await ApiService.delete(`${url}/address/delete/${id}`);
       dispatch({type: REMOVE_ADDRESS, payload: id});
       dispatch(ListAddress as any);
     } catch (error) {}

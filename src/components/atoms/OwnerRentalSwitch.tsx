@@ -57,6 +57,7 @@ const OwnerRentalSwitch = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
+          testID="switch-Button"
           onPress={() => {
             handleTabPress(0);
             setSelectedTab(0);
@@ -82,6 +83,7 @@ const OwnerRentalSwitch = () => {
             justifyContent: 'center',
             alignItems: 'center',
           }}
+          testID="Rented-Button"
           onPress={() => {
             handleTabPress(1);
             setSelectedTab(1);

@@ -8,13 +8,13 @@ import React from 'react';
 import {Provider} from 'react-redux';
 
 import LoginScreen from 'screens/LoginScreen/LoginScreen';
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
-import AsyncStorageWrapper from '../../../src/utils/asyncStorage';
-import {useDispatch, useSelector} from 'react-redux';
-jest.mock('../../../src/utils/asyncStorage');
+import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
+
+jest.mock('../../../../src/utils/asyncStorage');
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),
 );
@@ -34,11 +34,11 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('../../../src/redux/slice/loginSlice', () => ({
+jest.mock('../../../../src/redux/slice/loginSlice', () => ({
   postLogin: jest.fn(),
 }));
 
-jest.mock('../../../src/utils/asyncStorage', () => {
+jest.mock('../../../../src/utils/asyncStorage', () => {
   return {
     setItem: jest.fn(),
     getItem: jest.fn(),

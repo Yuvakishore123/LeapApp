@@ -56,29 +56,29 @@ const Homescreen = () => {
     getTextInputStyle,
   } = useContext(ColorSchemeContext);
 
-  if (!allProducts) {
-    return (
-      <View
-        style={{
-          alignItems: 'center',
-          justifyContent: 'center',
-          height: '100%',
-        }}>
-        <Lottie
-          testID="EmptyState"
-          source={require('../../../assets/loading.json')}
-          autoPlay
-          style={{
-            height: 200,
-            width: 200,
-            alignItems: 'center',
-            justifyContent: 'center',
-          }}
-        />
-        <Text>The Items are Loading...</Text>
-      </View>
-    );
-  }
+  // if (!allProducts) {
+  //   return (
+  //     <View
+  //       style={{
+  //         alignItems: 'center',
+  //         justifyContent: 'center',
+  //         height: '100%',
+  //       }}>
+  //       <Lottie
+  //         testID="EmptyState"
+  //         source={require('../../../assets/loading.json')}
+  //         autoPlay
+  //         style={{
+  //           height: 200,
+  //           width: 200,
+  //           alignItems: 'center',
+  //           justifyContent: 'center',
+  //         }}
+  //       />
+  //       <Text>The Items are Loading...</Text>
+  //     </View>
+  //   );
+  // }
 
   const loadingComponent = () => {
     return (

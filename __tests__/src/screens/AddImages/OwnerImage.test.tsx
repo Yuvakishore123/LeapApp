@@ -99,7 +99,7 @@ describe('AddImages Screen', () => {
 
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
-    useAddImages.mockReturnValue({
+    (useAddImages as jest.Mock).mockReturnValue({
       postData: jest.fn(),
       handleRemoveImage: jest.fn(),
       handleSizeTypeChange: jest.fn(),
@@ -193,7 +193,7 @@ describe('AddImages Screen', () => {
   });
   it('should render loading indicator when isLoading is true', async () => {
     // Mock isLoading as true to simulate loading state
-    useAddImages.mockReturnValue({
+    (useAddImages as jest.Mock).mockReturnValue({
       formik: {
         touched: {price: true, quantity: true, size: true}, // Update with your desired values
         errors: {
@@ -226,7 +226,7 @@ describe('AddImages Screen', () => {
   });
   it('should renderdata when isLoading is false', async () => {
     // Mock isLoading as true to simulate loading state
-    useAddImages.mockReturnValue({
+    (useAddImages as jest.Mock).mockReturnValue({
       formik: {
         touched: {price: true, quantity: true, size: true}, // Update with your desired values
         errors: {
@@ -242,7 +242,7 @@ describe('AddImages Screen', () => {
     });
 
     // Render the component
-    const {getByTestId, getByText} = render(<AddImages />);
+    const {getByTestId} = render(<AddImages />);
 
     // Ensure that the loading indicator is displayed
     const addImages = getByTestId('AddImages-Button');

@@ -8,7 +8,7 @@ import {
 } from '@react-navigation/native';
 
 import {LogBox, StatusBar, View} from 'react-native';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
+
 import LoginScreen from 'screens/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from './src/redux/store';
@@ -32,7 +32,8 @@ import {logMessage} from 'helpers/helper';
 import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
 import {setNavigationReference} from '../LeapApp/src/network/network';
 import AsyncStorageWrapper from '../LeapApp/src/utils/asyncStorage';
-const Stack = createSharedElementStackNavigator();
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
+const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
 Sentry.init({
   dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
@@ -43,7 +44,7 @@ Sentry.init({
     profilesSampleRate: 1.0,
   },
 });
-const AuthStack = () => {
+export const AuthStack = () => {
   const navigation = useNavigation();
 
   useEffect(() => {
@@ -153,9 +154,9 @@ const App = () => {
       } catch (error) {}
     };
     useEffect(() => {
-      const initialLink = dynamicLinks().getInitialLink();
+      const initialLink = dynamicLinks()?.getInitialLink();
       initialLink
-        .then(link => {
+        ?.then(link => {
           if (link) {
             Handlelink(link);
           }
@@ -164,8 +165,8 @@ const App = () => {
           log.error('Error getting initial link:', error);
         });
 
-      const subscribe = dynamicLinks().onLink(() => {
-        Handlelink(initialLink).catch(error => {
+      const subscribe = dynamicLinks()?.onLink(() => {
+        Handlelink(initialLink)?.catch(error => {
           log.errror('error ', error);
           // Handle any errors if Handlelink() rejects
         });

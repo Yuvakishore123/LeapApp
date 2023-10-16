@@ -11,6 +11,7 @@ type DropdownComponentProps = {
   value: any;
   placeholder: string;
   data: any[];
+  testId: string;
 };
 
 const DropdownComponent: React.FC<DropdownComponentProps> = ({
@@ -18,6 +19,7 @@ const DropdownComponent: React.FC<DropdownComponentProps> = ({
   value,
   placeholder,
   data,
+  testId,
 }) => {
   const {getTextInputStyle, getPlaceholderTextColor} =
     useContext(ColorSchemeContext);
@@ -27,7 +29,7 @@ const DropdownComponent: React.FC<DropdownComponentProps> = ({
     <View style={Ownerstyles.scrollView}>
       <View style={[styles.dropdownContainer, getTextInputStyle()]}>
         <Dropdown
-          testID="dropdown-component"
+          testID={`${testId}`}
           style={styles.dropdown}
           placeholderStyle={[
             styles.placeholderStyle,

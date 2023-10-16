@@ -28,8 +28,6 @@ import DashboardDetails from '../../screens/OwnerHomepage/DashboardDetails';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
 import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRentalScreen';
-import OwnerRentalDetailsScreen from '../../screens/ownerRentaldetailsScreen/ownerRentaldetailsScreen';
-import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,10 +102,6 @@ const OwnerRentalStatusScreen = () => {
       screenOptions={{headerShown: false}}
       initialRouteName="OwnerRentalScreen">
       <Stack.Screen name="OwnerRentalScreen" component={OwnerRentalScreen} />
-      <Stack.Screen
-        name="OwnerRentalDetailsScreen"
-        component={OwnerRentalDetailsScreen}
-      />
     </Stack.Navigator>
   );
 };

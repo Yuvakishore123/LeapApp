@@ -27,7 +27,8 @@ import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import AnalyticsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ForwardIcon from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/core';
+
+import {useNavigationProp} from 'helpers/helper';
 
 const monthNames = [
   'Jan',
@@ -55,9 +56,13 @@ const DashboardDetails = () => {
     handleExportpdf,
     DashboardYearly,
     Dashboardyeardata,
+    showModel,
+    setShowModel,
+    selectedYear,
+    setSelectedYear,
   } = useAnalytics();
-  const navigation = useNavigation();
-  const [showModel, setShowModel] = useState(false);
+  const {navigation} = useNavigationProp();
+
   const [selectedBarIndex, setSelectedBarIndex] = useState(null);
   const [selectedMonth, setSelectedMonth] = useState(
     `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
@@ -70,7 +75,7 @@ const DashboardDetails = () => {
   const [monthtitle, setmonthtitle] = useState(
     monthNames[new Date().getMonth()],
   );
-  const [selectedYear, setSelectedYear] = useState('');
+
   const years = Object.keys(DashboardYearly);
 
   const handleVisibleModal = () => {
@@ -81,7 +86,7 @@ const DashboardDetails = () => {
   const handleTotalOrdersClick = () => {
     setTimeout(() => {
       setShowModel(true);
-    }, 800);
+    }, 100);
   };
   const filterOrderData = () => {
     const filteredOrderData = {};
@@ -176,8 +181,6 @@ const DashboardDetails = () => {
     return '#eadaff'; // Color for other bars
   };
 
-  const pieChartData = piechart?.[selectedMonth] ?? {};
-
   const chartColors = [
     '#594AB5',
     '#E28B5E',
@@ -190,6 +193,7 @@ const DashboardDetails = () => {
     '#E8DAEF',
     '#D2B4DE',
   ];
+  const pieChartData = piechart?.[selectedMonth] ?? {};
   const transformedData = Object.entries(pieChartData).map(
     ([subcategory, {totalOrders}], index) => ({
       name: subcategory,
@@ -200,46 +204,15 @@ const DashboardDetails = () => {
   type OrderItem = {
     id: {toString: () => any};
     imageUrl: any;
-    borrowerId:
-      | string
-      | number
-      | boolean
-      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-      | React.ReactPortal
-      | null
-      | undefined;
-    borrowerName:
-      | string
-      | number
-      | boolean
-      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-      | React.ReactPortal
-      | null
-      | undefined;
-    rentalCost:
-      | string
-      | number
-      | boolean
-      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-      | React.ReactPortal
-      | null
-      | undefined;
-    name:
-      | string
-      | number
-      | boolean
-      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-      | React.ReactPortal
-      | null
-      | undefined;
-    borrowerPhoneNumber:
-      | string
-      | number
-      | boolean
-      | React.ReactElement<any, string | React.JSXElementConstructor<any>>
-      | React.ReactPortal
-      | null
-      | undefined;
+    borrowerId: string;
+
+    borrowerName: string;
+
+    rentalCost: string;
+
+    name: string;
+
+    borrowerPhoneNumber: string;
   };
   const generateKey = () => {
     return Math.random().toString(36);
@@ -249,6 +222,7 @@ const DashboardDetails = () => {
       {loading ? (
         <View>
           <Lottie
+            testID="Loading-Container"
             source={require('../../../assets/analyticstwo.json')}
             autoPlay
             style={{
@@ -282,6 +256,7 @@ const DashboardDetails = () => {
             {selectedBarIndex !== null ? (
               <View style={{flexDirection: 'row', marginLeft: 8}}>
                 <TouchableOpacity
+                  testID="Total-Earnings"
                   onPress={() => navigation.navigate('FilteredAnalytics')}
                   style={{
                     width: 131,
@@ -324,6 +299,7 @@ const DashboardDetails = () => {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  testID="Total-Orders"
                   onPress={handleTotalOrdersClick}
                   style={{
                     width: 131,
@@ -367,7 +343,7 @@ const DashboardDetails = () => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <Text>admflkadsk</Text>
+              <Text>NO Data Available</Text>
             )}
             <View
               style={{
@@ -383,6 +359,7 @@ const DashboardDetails = () => {
                   justifyContent: 'space-between',
                 }}>
                 <Text
+                  testID="Month-Text"
                   style={{
                     color: Colors.buttonColor,
                     fontFamily: 'Poppins-SemiBold',
@@ -403,6 +380,7 @@ const DashboardDetails = () => {
                       paddingHorizontal: 10,
                       paddingVertical: 5,
                     }}
+                    testID="Selected-Month"
                     selectedValue={selectedYear}
                     onValueChange={year => setSelectedYear(year)}
                     itemStyle={{
@@ -444,20 +422,6 @@ const DashboardDetails = () => {
                   <VictoryAxis
                     tickValues={rentalData.map(data => data.monthIndex - 1)}
                     tickFormat={monthIndex => {
-                      const monthNames = [
-                        'Jan',
-                        'Feb',
-                        'Mar',
-                        'Apr',
-                        'May',
-                        'Jun',
-                        'Jul',
-                        'Aug',
-                        'Sep',
-                        'Oct',
-                        'Nov',
-                        'Dec',
-                      ];
                       return monthNames[monthIndex % 12];
                     }}
                     style={{
@@ -468,6 +432,7 @@ const DashboardDetails = () => {
                         fill: Colors.buttonColor,
                       },
                     }}
+                    label={'Orders'}
                   />
                   <VictoryAxis
                     dependentAxis

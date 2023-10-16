@@ -59,6 +59,7 @@ const AnalyticsDatePicker = ({
   return (
     <View style={styles.outerVieww}>
       <TouchableOpacity
+        testID="start-date-button"
         style={styles.touchStyle}
         onPress={() => onTogglePicker('START_DATE')}>
         <Text
@@ -116,7 +117,10 @@ const AnalyticsDatePicker = ({
         </View>
       </Modal>
 
-      <Modal visible={showPickerClone} animationType="slide">
+      <Modal
+        testID="date-picker-modal"
+        visible={showPickerClone}
+        animationType="slide">
         <View style={{flex: 1}}>
           <CalendarPicker
             startFromMonday={true}
@@ -128,7 +132,10 @@ const AnalyticsDatePicker = ({
             minDate={initialDate}
           />
           <View style={styles.outerView}>
-            <TouchableOpacity style={styles.btnStyle} onPress={onClearDates}>
+            <TouchableOpacity
+              testID="clear-dates"
+              style={styles.btnStyle}
+              onPress={onClearDates}>
               <Text style={styles.textStyle}>Clear Dates</Text>
             </TouchableOpacity>
 

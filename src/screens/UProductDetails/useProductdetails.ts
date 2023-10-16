@@ -6,13 +6,12 @@ import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
-import {useNavigation} from '@react-navigation/native';
 
 const useProductdetails = (product: {
-  id: string;
+  id: any;
   imageUrl: string | any[];
   availableQuantities: number;
 }) => {
@@ -29,9 +28,7 @@ const useProductdetails = (product: {
   const [isPlusDisabled, setIsPlusDisabled] = useState(false);
   const [activeIndex, setActiveIndex] = useState(0);
   const [_shareData, setshareData] = useState({});
-
   const {dispatch} = useThunkDispatch();
-  const {log} = logMessage();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
   const handleDecrement = () => {
@@ -42,7 +39,7 @@ const useProductdetails = (product: {
       setIsPlusDisabled(false);
     }
   };
-  const navigation = useNavigation();
+
   const handleIncrement = () => {
     if (product.availableQuantities === quantity) {
       setIsPlusDisabled(true);
@@ -65,7 +62,7 @@ const useProductdetails = (product: {
         openModal();
       }
     } catch (error) {
-      log.error('failed to add item to cart', error);
+      console.log(error);
     }
   };
   const openModal = () => {
@@ -90,7 +87,8 @@ const useProductdetails = (product: {
   }, []);
 
   const productsData = async () => {
-    const result = await ApiService.get(`${listProductsById}/${product?.id}`);
+    const result = await ApiService.get(`${listProductsById}/${product.id}`);
+    console.log('result is :', result);
     setshareData(result);
   };
   const generateLink = async () => {
@@ -105,10 +103,10 @@ const useProductdetails = (product: {
         },
         dynamicLinks.ShortLinkType.DEFAULT,
       );
-
+      console.log('Link: ', link);
       return link;
     } catch (error) {
-      log.error('error in sharing link');
+      console.log('error', error);
     }
   };
   const shareProduct = async () => {
@@ -122,6 +120,7 @@ const useProductdetails = (product: {
         showToast();
       }
     } catch (error) {
+      console.log(error);
       errorToast();
     }
   };
@@ -132,19 +131,19 @@ const useProductdetails = (product: {
       scrollViewRef.current.scrollTo({x: nextIndex * 405, animated: true});
       setActiveIndex(nextIndex);
     }
-  }, [activeIndex, product?.imageUrl]);
+  }, [activeIndex, product.imageUrl]);
 
   const startScrollTimer = useCallback(() => {
     stopScrollTimer();
     scrollTimerRef.current = setInterval(scrollToNextImage, 2000);
   }, [scrollToNextImage]);
 
-  useEffect(() => {
-    startScrollTimer();
-    return () => {
-      stopScrollTimer();
-    };
-  }, [activeIndex, startScrollTimer]);
+  // useEffect(() => {
+  //   startScrollTimer();
+  //   return () => {
+  //     stopScrollTimer();
+  //   };
+  // }, [activeIndex, startScrollTimer]);
 
   const stopScrollTimer = () => {
     if (scrollTimerRef.current) {
@@ -167,9 +166,6 @@ const useProductdetails = (product: {
 
   const handleScroll = () => {
     startScrollTimer();
-  };
-  const handleGoBack = () => {
-    navigation.goBack();
   };
 
   return {
@@ -203,15 +199,6 @@ const useProductdetails = (product: {
     startScrollTimer,
     stopScrollTimer,
     handleScroll,
-    dispatch,
-    isData,
-    openModal,
-    opennModal,
-    productsData,
-    showToast,
-    generateLink,
-    errorToast,
-    handleGoBack,
   };
 };
 

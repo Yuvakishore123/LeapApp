@@ -94,6 +94,7 @@ const SwitchAccountButton = () => {
                   : styles.buttonUnselected
               }>
               <Text
+                testID="Account-type"
                 style={
                   accountType === 'BORROWER'
                     ? styles.optionSelected

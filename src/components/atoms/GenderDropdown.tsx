@@ -5,7 +5,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Ownerstyles from '../../screens/Additems/Additemsstyle';
 import Useadditems from '../../screens/Additems/useAdditems';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
+
 import Colors from '../../constants/colors';
 
 type GenderDropdownProps = {
@@ -19,36 +19,27 @@ const DropdownComponent: React.FC<GenderDropdownProps> = ({
 }) => {
   const {categoriesData} = Useadditems();
   const [isFocus, setIsFocus] = useState(false);
-  const {colorScheme} = useContext(ColorSchemeContext);
+  const {getTextInputStyle, getPlaceHolderTextStyle} =
+    useContext(ColorSchemeContext);
 
   return (
     <View style={Ownerstyles.scrollView}>
-      <View
-        style={[
-          styles.dropdownContainer,
-          colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-        ]}>
+      <View style={[styles.dropdownContainer, getTextInputStyle()]}>
         <Dropdown
           style={[styles.dropdown]}
           placeholderStyle={[styles.placeholderStyle]}
           selectedTextStyle={[
             styles.selectedTextStyle,
-            colorScheme === 'dark' ? Styles.InputText : Styles.blackText,
+            getPlaceHolderTextStyle(),
           ]}
-          inputSearchStyle={[
-            styles.inputSearchStyle,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}
+          inputSearchStyle={[styles.inputSearchStyle, getTextInputStyle()]}
           iconStyle={styles.iconStyle}
           itemTextStyle={styles.itemTextStyle}
           selectedItemTextStyle={styles.selectedItemTextStyle}
-          itemContainerStyle={[
-            styles.itemContainerStyle,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-          ]}
+          itemContainerStyle={[styles.itemContainerStyle, getTextInputStyle()]}
           selectedItemContainerStyle={[
             styles.selectedItemContainerStyle,
-            colorScheme === 'dark' ? Styles.cardColor : Styles.main,
+            getTextInputStyle(),
           ]}
           data={categoriesData}
           search

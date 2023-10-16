@@ -8,6 +8,8 @@ import reducer, {
 import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
+import ApiService from 'network/network';
+import {addressaddUrl} from 'constants/apiRoutes';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -20,6 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('network/network');
 
 describe('AddAddress Slice', () => {
   let store: ToolkitStore<
@@ -121,15 +124,19 @@ describe('AddAddress Slice', () => {
       state: 'State',
       defaultType: true,
     };
+    (ApiService.post as jest.Mock).mockResolvedValue(addressData);
     await store.dispatch(AddressAdd(addressData));
 
     const state = store.getState().addressAdd as AddressAddState; // Assuming AddressAddState is the correct type
 
     expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
-    expect(state.isError).toBe(true);
+    expect(state.isError).toBe(false);
+    expect(state.data).toEqual(addressData);
+    expect(ApiService.post).toHaveBeenCalledWith(addressaddUrl, addressData);
   });
   it('should handle the `AddressAdd.rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
+    (ApiService.post as jest.Mock).mockRejectedValue(errorMessage);
     const addressData = {
       addressLine1: '123 Main St',
       addressLine2: '',

@@ -2,12 +2,12 @@ import {act, fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import SignUpScreen from 'screens/SignUp/SignupScreen';
 import {configureStore} from '@reduxjs/toolkit';
-import signupSlice, {postSignup} from '../../../src/redux/slice/signupSlice';
+import signupSlice, {postSignup} from '../../../../src/redux/slice/signupSlice';
 import thunk from 'redux-thunk';
 
 jest.mock('@react-native-community/netinfo', () =>

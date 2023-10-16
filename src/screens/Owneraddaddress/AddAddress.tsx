@@ -47,14 +47,8 @@ const AddAddress = () => {
     closeModal,
   } = useAddAddress();
 
-  const {
-    colorScheme,
-    getContainerStyle,
-    getTextColor,
-    getTextInputStyle,
-    getPlaceHolderTextStyle,
-    RadioButtonColor,
-  } = useContext(ColorSchemeContext);
+  const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
+    useContext(ColorSchemeContext);
 
   return (
     <ScrollView

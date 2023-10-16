@@ -8,6 +8,8 @@ import reducer, {
 import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
+import ApiService from 'network/network';
+import {cartupdateUrl} from 'constants/apiRoutes';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -20,6 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('network/network');
 
 describe('Cart Update Slice', () => {
   const mockData = {
@@ -104,28 +107,26 @@ describe('Cart Update Slice', () => {
 
   it('should add cart Update  to the state when `setCart data` action is dispatched', async () => {
     const testData = {
-      message: 'Product added successfully',
+      message: 'Product updated successfully',
       status: 'success',
     };
+    (ApiService.put as jest.Mock).mockResolvedValue(testData);
 
-    store.dispatch(setData(testData));
+    await store.dispatch(updateCart({productId: '123', quantity: 2}));
 
     const state = store.getState().cartUpdate as CartDataState; // Assuming AddressAddState is the correct type
     expect(state.data).toEqual(testData);
     expect(state.isError).toBe(false);
     expect(state.error).toBe(null);
+    expect(ApiService.put).toHaveBeenCalledWith(cartupdateUrl, {
+      productId: '123',
+      quantity: 2,
+    });
   });
-  // it('should handle the  updateCart.fulfilled` actions correctly', async () => {
-  //   await store.dispatch(updateCart(mockData));
-
-  //   const state = store.getState().cartUpdate as CartDataState;
-
-  //   expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
-  //   expect(state.isError).toBe(false);
-  // });
-  it('should handle the `updateCart.rejected` action correctly', async () => {
+  it('should handle the updateCart.rejected action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
     // Replace with your desired product ID
+    (ApiService.put as jest.Mock).mockRejectedValue(errorMessage);
 
     // Simulate a rejected API call by providing a rejected promise
     store.dispatch(updateCart(mockData)).catch(() => {

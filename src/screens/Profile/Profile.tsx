@@ -9,6 +9,7 @@ import {
   TextInput,
 } from 'react-native';
 import React, {useContext} from 'react';
+
 import Icons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
@@ -59,7 +60,7 @@ const Profile = () => {
           <ActivityIndicator size="large" color="gray" />
         </View>
       );
-    } else if (data.profileImageUrl != null) {
+    } else if (data?.profileImageUrl != null) {
       return (
         <View testID="avatar-container">
           <Avatar.Image
@@ -114,6 +115,7 @@ const Profile = () => {
             <Text style={style.uploadText}>Upload</Text>
           </TouchableOpacity>
           <TouchableOpacity
+            testID="Remove-Button"
             style={style.removeButton}
             onPress={() => {
               handleRemoveProfilePic();
@@ -132,13 +134,13 @@ const Profile = () => {
         ) : (
           <View style={[style.card, getTextInputStyle()]}>
             <Text style={[style.profileText, getPlaceholderTextColor()]}>
-              {data.firstName}
+              {data?.firstName}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.email}
+              {data?.email}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.phoneNumber}
+              {data?.phoneNumber}
             </Text>
           </View>
         )}
@@ -198,7 +200,7 @@ const Profile = () => {
           </TouchableOpacity>
         </View>
         <View>
-          <TouchableOpacity onPress={handleLogout}>
+          <TouchableOpacity testID="SignOut-Button" onPress={handleLogout}>
             <Text style={style.btntext}>Sign out </Text>
           </TouchableOpacity>
         </View>

@@ -133,4 +133,62 @@ describe('DatePickerComponent', () => {
     expect(datePickerModal).toBeTruthy();
     fireEvent.press(datePickerModal);
   });
+  test('should select the start data Button', () => {
+    const startDate = new Date('2023-01-01');
+    const endDate = new Date('2023-01-05');
+    const onStartDateChange = jest.fn();
+    const onEndDateChange = jest.fn();
+    const buttonStyle = {};
+    const buttonTextColor = {};
+
+    const {getByTestId, getByText} = render(
+      <DatePickerComponent
+        startDate={startDate}
+        endDate={endDate}
+        onStartDateChange={onStartDateChange}
+        onEndDateChange={onEndDateChange}
+        buttonStyle={buttonStyle}
+        buttonTextColor={buttonTextColor}
+      />,
+    );
+    const startdate = getByTestId('start-date-button');
+    expect(startdate).toBeDefined();
+    const startdateText = getByText('Jan 1, 2023');
+    expect(startdateText).toBeDefined();
+    const ModalButton = getByTestId('date-picker-modal');
+    fireEvent.press(ModalButton);
+  });
+  test('should select the selectDate', () => {
+    const startDate = null;
+    const selectedDate = 20;
+    const endDate = new Date('2023-01-05');
+    const onStartDateChange = jest.fn();
+    const onEndDateChange = jest.fn();
+    const buttonStyle = {};
+    const buttonTextColor = {};
+
+    const {getByTestId, getByText} = render(
+      <DatePickerComponent
+        startDate={startDate}
+        endDate={endDate}
+        onStartDateChange={onStartDateChange}
+        onEndDateChange={onEndDateChange}
+        buttonStyle={buttonStyle}
+        buttonTextColor={buttonTextColor}
+      />,
+    );
+    const startdate = getByTestId('start-date-button');
+    fireEvent.press(startdate);
+    const updatedText = getByText('1');
+    expect(updatedText).toBeDefined();
+    expect(startdate).toBeDefined();
+    const ModalButton = getByTestId('date-picker-modal');
+    fireEvent.press(ModalButton);
+    const startDateText = getByText('20');
+
+    fireEvent.press(startDateText);
+
+    const clearDates = getByTestId('clear-dates');
+    fireEvent.press(clearDates);
+  });
 });

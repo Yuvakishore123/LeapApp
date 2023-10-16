@@ -85,12 +85,13 @@ const Additems = () => {
                 onChangeText={handleNameChange}
                 onBlur={() => handleBlur('name')}
               />
-              {formik?.touched.name && formik?.errors.name && (
+              {formik?.touched?.name && formik?.errors.name && (
                 <Text style={Styles.errorText}>{formik.errors.name}</Text>
               )}
               <TextInput
                 placeholderTextColor={Colors.gray}
                 placeholder="Description"
+                testID="description-Input"
                 style={[
                   Ownerstyles.Descriptionfield,
                   {paddingLeft: 22},
@@ -102,7 +103,7 @@ const Additems = () => {
                 onBlur={() => handleBlur('description')}
                 value={description}
               />
-              {formik?.touched.description && formik?.errors.description && (
+              {formik?.touched?.description && formik?.errors.description && (
                 <Text style={Styles.errorText}>
                   {formik.errors.description}
                 </Text>
@@ -112,7 +113,7 @@ const Additems = () => {
                 onChange={handleGenderChange}
                 value={gender}
               />
-              {formik?.touched.gender && formik?.errors.gender && (
+              {formik?.touched?.gender && formik?.errors.gender && (
                 <Text style={Styles.errorText}>{formik.errors.gender}</Text>
               )}
 
@@ -123,6 +124,7 @@ const Additems = () => {
                   value={itemType}
                   placeholder="Select Type"
                   data={subCategoriesData}
+                  testId={'string'}
                 />
               </View>
               <View style={{flexDirection: 'column', marginTop: -29}}>
@@ -132,8 +134,9 @@ const Additems = () => {
                   value={eventType}
                   placeholder="Select Event"
                   data={subEventCategoriesData}
+                  testId="Event-dropdown"
                 />
-                {formik?.touched.eventType && formik?.errors.eventType && (
+                {formik?.touched?.eventType && formik?.errors.eventType && (
                   <Text style={Styles.errorText}>
                     {formik?.errors.eventType}
                   </Text>
@@ -146,6 +149,7 @@ const Additems = () => {
                   value={outfitType}
                   placeholder="Select Outfit"
                   data={subOutfitCategoriesData}
+                  testId={'string'}
                 />
               </View>
               <View style={Ownerstyles.mainButton}>

@@ -14,8 +14,7 @@ export const ColorSchemeContext = React.createContext({
   getButtonColor: () => ({}),
   tabColor: () => ({}),
   PlaceholderColor: () => {},
-  getPlaceHolderTextStyle: () => {},
-  RadioButtonColor: () => ({}),
+  getPlaceHolderTextStyle: () => ({}),
 });
 
 export const ColorSchemeProvider = ({children}) => {
@@ -50,12 +49,6 @@ export const ColorSchemeProvider = ({children}) => {
   const tabColor = () => {
     return colorScheme === 'dark' ? {color: 'white'} : {color: 'black'};
   };
-  const PlaceholderColor = () => {
-    return colorScheme === 'dark' ? Colors.Inputtext : Colors.black;
-  };
-  const RadioButtonColor = () => {
-    return colorScheme === 'dark' ? Colors.white : Colors.black;
-  };
 
   const getPlaceholderTextColor = () => {
     return colorScheme === 'dark'
@@ -82,11 +75,10 @@ export const ColorSchemeProvider = ({children}) => {
       getTextColor,
       getPlaceholderTextColor,
       tabColor,
-      PlaceholderColor,
+
       getplaceholdercolor,
       getButtonColor,
       getPlaceHolderTextStyle,
-      RadioButtonColor,
     };
   }, [colorScheme]);
 

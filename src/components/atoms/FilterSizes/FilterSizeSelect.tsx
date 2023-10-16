@@ -73,8 +73,9 @@ const FilterSelectSize = ({
           {height: dropdownHeight, zIndex: open ? 9999 : -1}, // Set a higher zIndex when open
         ]}
         testID="dropdown">
-        {sizes.map(size => (
+        {sizes?.map(size => (
           <TouchableOpacity
+            testID={`select-${size}`}
             key={size}
             style={styles.option}
             onPress={() => handleSelectSize(size)}>

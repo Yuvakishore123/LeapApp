@@ -47,7 +47,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
   const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
   const productsToShow =
-    filteredProducts.length > 0 ? filteredProducts : searchResults;
+    filteredProducts?.length > 0 ? filteredProducts : searchResults;
   return (
     <View style={[getContainerStyle(), style.outerStyle]}>
       <View style={style.addAddressHeader}>
@@ -109,6 +109,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
             />
             <View style={style.btnStyle}>
               <TouchableOpacity
+                testID="Close"
                 style={style.closetouchablecontainer}
                 onPress={() => setModalVisible(false)}>
                 <Text style={style.closeText}>close</Text>
@@ -134,7 +135,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
                 <View style={style.innerCard}>
                   <View style={[style.container, getTextInputStyle()]}>
                     <TouchableOpacity
-                      testID="item-touchable"
+                      testID={`item-touchable-${item.id}`}
                       key={item.id}
                       style={{width: '100%'}}
                       onPress={() =>

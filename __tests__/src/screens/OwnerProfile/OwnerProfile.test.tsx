@@ -1,14 +1,23 @@
 import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
-import {store} from '../../../src/redux/store';
+
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import OTPScreen from 'screens/OtpScreen/OtpScreen';
 
-jest.mock('@react-native-community/netinfo', () =>
-  require('react-native-netinfo'),
-);
+import OwnerProfile from 'screens/Ownerprofile/OwnerProfile';
+
+jest.mock('@react-native-community/netinfo', () => ({
+  addEventListener: jest.fn(),
+  removeEventListener: jest.fn(),
+  fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
+}));
+jest.mock('react-native-skeleton-placeholder', () => {
+  const mockSkeletonPlaceholder = jest.fn();
+  return mockSkeletonPlaceholder;
+});
+jest.mock('react-native-razorpay', () => require('razorpay-mock'));
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
@@ -47,17 +56,20 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('Login Screen', () => {
-  it('should render the Login Screen', () => {
-    const result = render(
+describe('OwnerProfile Screen', () => {
+  it('should render the OwnerProfile Screen', () => {
+    // Define a mock route with the necessary params
+
+    const ownerProfile = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
-            <Stack.Screen name="OtpScreen" component={OTPScreen} />
+            <Stack.Screen name="OwnerProfile" component={OwnerProfile} />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
-    expect(result).toBeDefined();
+
+    expect(ownerProfile).toBeDefined();
   });
 });

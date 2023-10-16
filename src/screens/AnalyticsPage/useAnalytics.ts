@@ -18,6 +18,8 @@ import {logMessage} from 'helpers/helper';
 import AsyncStorageWrapper from '../..//utils/asyncStorage';
 
 const useAnalytics = () => {
+  const [showModel, setShowModel] = useState(false);
+  const [selectedYear, setSelectedYear] = useState('');
   const [Data, setData] = useState('');
   const [orderData, setOrderdata] = useState([]);
   const [piechart, setPiechart] = useState([]);
@@ -131,6 +133,10 @@ const useAnalytics = () => {
     DashboardYearly,
     HandleNotification,
     log,
+    setShowModel,
+    showModel,
+    selectedYear,
+    setSelectedYear,
   };
 };
 

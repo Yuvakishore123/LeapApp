@@ -2,11 +2,11 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import {store} from '../../../src/redux/store';
+import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import FilteredAnalytics from 'screens/FilteredAnalytics/FilteredAnalytics';
+import OwnerEditProfile from 'screens/Ownereditprofile/OwnerEditProfile';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -56,23 +56,23 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-describe('FilteredAnalytics Screen', () => {
-  it('should render the FilteredAnalytics Screen', () => {
+describe('OwnerEditProfile Screen', () => {
+  it('should render the OwnerEditProfile Screen', () => {
     // Define a mock route with the necessary params
 
-    const result = render(
+    const categoryProducts = render(
       <Provider store={store}>
         <NavigationContainer>
           <Stack.Navigator>
             <Stack.Screen
-              name="FilteredAnalytics"
-              component={FilteredAnalytics}
+              name="OwnerEditProfile"
+              component={OwnerEditProfile}
             />
           </Stack.Navigator>
         </NavigationContainer>
       </Provider>,
     );
 
-    expect(result).toBeDefined();
+    expect(categoryProducts).toBeDefined();
   });
 });

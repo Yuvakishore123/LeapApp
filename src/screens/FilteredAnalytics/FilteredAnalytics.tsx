@@ -80,7 +80,9 @@ const FilteredAnalytics = () => {
         </View>
 
         <View style={style.xAxisS}>
-          <Text style={style.axisLabel}>Month</Text>
+          <Text testID="Month-Text" style={style.axisLabel}>
+            Month
+          </Text>
         </View>
       </>
     );
@@ -136,6 +138,7 @@ const FilteredAnalytics = () => {
                       <View style={style.dashcard}>
                         <View style={style.dashcardContainer}>
                           <Image
+                            testID={`Image-${item.imageUrl}`}
                             source={{uri: item.imageUrl}}
                             style={style.dashboardimage}
                           />

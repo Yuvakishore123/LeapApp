@@ -8,6 +8,7 @@ import reducer, {
 import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
+import ApiService from 'network/network';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -20,6 +21,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('network/network');
 
 describe('Edit Address Slice', () => {
   const mockData = {
@@ -33,7 +35,7 @@ describe('Edit Address Slice', () => {
       state: 'NY',
       defaultType: true,
     },
-    addressid: 'address123',
+    addressid: 3,
   };
 
   let store: ToolkitStore<
@@ -84,6 +86,19 @@ describe('Edit Address Slice', () => {
       error: null,
     });
   });
+  it('should handle the Edit Profile state is fulfilled  actions correctly', async () => {
+    (ApiService.put as jest.Mock).mockResolvedValue(mockData);
+    await store.dispatch(editAddressData(mockData));
+
+    const state = store.getState().editAddress as EditAddressState; // Assuming AddressAddState is the correct type
+    expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
+    expect(state.data).toEqual(mockData);
+    expect(state.isError).toBe(false);
+    expect(ApiService.put).toHaveBeenCalledWith(
+      `/address/update/${mockData.addressid}`,
+      mockData.updateaddress,
+    );
+  });
 
   it('should handle the `editAddressData.rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
@@ -100,6 +115,7 @@ describe('Edit Address Slice', () => {
   });
   it('should set an error in the state when `setError` action is dispatched', () => {
     const error = 'An error occurred while adding the address';
+    (ApiService.put as jest.Mock).mockRejectedValue(error);
     store.dispatch(setError(error));
 
     store.dispatch(editAddressData(mockData)).catch(() => {

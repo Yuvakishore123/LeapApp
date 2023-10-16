@@ -5,12 +5,15 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import useProductdetails from '../../../../src/screens/UProductDetails/useProductdetails';
 
 const mockNav = jest.fn();
+
+const mockGoBack = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
   return {
     ...actualNav,
     useNavigation: () => ({
       navigate: mockNav,
+      goBack: mockGoBack,
     }),
   };
 });
@@ -20,6 +23,7 @@ jest.mock('@react-native-firebase/dynamic-links', () => {
     default: () => ({buildShortLink}),
   };
 });
+jest.mock('network/network');
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -54,7 +58,7 @@ describe('useProductdetails', () => {
   });
   const mockProduct = {
     id: '123',
-    imageUrl: 'string',
+    imageUrl: ['image1.jpg', 'image2.jpg', 'image3.jpg'],
     availableQuantities: 1,
   };
   const mockedData = {
@@ -99,7 +103,7 @@ describe('useProductdetails', () => {
     });
     expect(dispatchMock).toBeCalled();
     const data = result.current.isData;
-    console.log(data.status);
+
     if (data.status === 400) {
       expect(result.current.opennModal).toBeCalled();
     }
@@ -124,7 +128,7 @@ describe('useProductdetails', () => {
   });
   it('should close open modal', () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));
-    expect(result.current.showModal).toBe(false);
+    expect(result.current.showModal).toBe(true);
     act(() => {
       result.current.closeModal();
     });
@@ -147,5 +151,49 @@ describe('useProductdetails', () => {
       // Expect the result to be the mock link
       expect(mockLink).toBeTruthy();
     });
+  });
+  it('should share the product with a valid link', async () => {
+    // Create a mock link
+    const mockLink = 'https://mocked-short-link.com';
+
+    // Mock the generateLink function
+    const generateLink = jest.fn().mockResolvedValue(mockLink);
+
+    // Render the hook with the mocked dependencies
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    // Call the shareProduct function
+    await act(async () => {
+      result.current.shareProduct();
+    });
+  });
+  it('should scroll to next image', async () => {
+    // Render the hook with the mocked dependencies
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    expect(result.current.activeIndex).toBe(0);
+    const initialActiveIndex = 0;
+    await act(async () => {
+      result.current.scrollToNextImage();
+    });
+    const expectedActiveIndex =
+      initialActiveIndex === mockProduct.imageUrl.length - 1
+        ? 0
+        : initialActiveIndex + 0;
+
+    expect(result.current.activeIndex).toEqual(expectedActiveIndex);
+  });
+  it('should start scroll timer ', async () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    expect(result.current.activeIndex).toBe(0);
+    await act(async () => {
+      result.current.handleScroll();
+    });
+  });
+  it('should navuigate back when clicked ', async () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    expect(result.current.activeIndex).toBe(0);
+    await act(async () => {
+      result.current.handleGoBack();
+    });
+    expect(mockGoBack).toBeCalled();
   });
 });

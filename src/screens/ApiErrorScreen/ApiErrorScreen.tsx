@@ -31,6 +31,7 @@ const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
       break;
     case StatusCodes.FORBIDDEN:
       AsyncStorageWrapper.removeItem('token');
+      errorMessage = 'Login Expiry';
       break;
     default:
       errorMessage = 'An unknown error occurred.';
@@ -45,7 +46,9 @@ const ApiErrorScreen: React.FC<ApiErrorScreenProps> = ({route}) => {
           style={styles.LottieStyle}
         />
       </View>
-      <Text style={styles.errorText}>{errorMessage}</Text>
+      <Text testID="ErrorMessage" style={styles.errorText}>
+        {errorMessage}
+      </Text>
     </View>
   );
 };

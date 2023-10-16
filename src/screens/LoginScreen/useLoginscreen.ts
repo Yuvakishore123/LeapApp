@@ -120,9 +120,6 @@ const useLoginscreen = () => {
     await AsyncStorageWrapper.setItem('device_token', Fcm_token);
 
     try {
-      const customError = new Error('This is a custom error for testing.');
-      console.log(customError);
-      crashlytics().recordError(customError);
       const token = await AsyncStorageWrapper.getItem('fcmToken');
       const credentials = {
         email: formik.values.email,
@@ -155,7 +152,7 @@ const useLoginscreen = () => {
     onSubmit: handleLoginScreen,
   });
   const loginEvent = async () => {
-    await analytics().logEvent('loged_users');
+    await analytics()?.logEvent('loged_users');
     log.info('login event is triggered');
   };
   return {
@@ -175,6 +172,11 @@ const useLoginscreen = () => {
     passwordVisible,
 
     setPasswordVisible,
+
+    onTokenRefresh,
+    storeFCMToken,
+    loginEvent,
+    handleErrorResponse,
   };
 };
 export default useLoginscreen;

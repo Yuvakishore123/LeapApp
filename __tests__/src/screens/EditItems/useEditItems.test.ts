@@ -404,7 +404,7 @@ describe('editItems', () => {
     const mockResponse = {
       message: 'successfully enabled',
     };
-    ApiService.get.mockResolvedValue(mockResponse);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResponse);
     const disbleProduct = result.current.productQuantity;
     console.log(disbleProduct);
     waitFor(() => {

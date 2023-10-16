@@ -82,6 +82,7 @@ const Donut = ({
           <Circle
             cx="50%"
             cy="50%"
+            testID="Circle"
             stroke={color}
             strokeWidth={strokeWidth}
             r={radius}
@@ -92,6 +93,7 @@ const Donut = ({
             ref={circleRef}
             cx="50%"
             cy="50%"
+            testID={'Circle-Ref'}
             stroke={color}
             strokeWidth={strokeWidth}
             r={radius}
@@ -107,6 +109,7 @@ const Donut = ({
         underlineColorAndroid="transparent"
         editable={false}
         defaultValue="0"
+        testID={'Animated-Circle'}
         style={[
           StyleSheet.absoluteFillObject,
           {fontSize: radius / 3, color: textcolor ?? color},

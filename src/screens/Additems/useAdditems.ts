@@ -72,86 +72,77 @@ const useAdditems = () => {
   const handleOutfitChange = (selectedOutfit: React.SetStateAction<string>) => {
     setOutfitType(selectedOutfit);
   };
-  useEffect(() => {
-    const fetchSubCategoryData = async () => {
-      try {
-        const response = await ApiService.get(
-          `${subCategoryUrl}/${genderData}`,
-        );
-        const subCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubCategoriesData(subCategoriesArray);
-      } catch (error) {
-        setIsLoading(true);
-      } finally {
-        setIsLoading(false);
-      }
-    };
+  const fetchSubCategoryData = async () => {
+    try {
+      const response = await ApiService.get(`${subCategoryUrl}/${genderData}`);
+      const subCategoriesArray = response.map(
+        (category: {id: any; subcategoryName: any}) => ({
+          value: category.id,
+          label: category.subcategoryName,
+        }),
+      );
+      setSubCategoriesData(subCategoriesArray);
+    } catch (error) {
+      setIsLoading(false);
+    }
+  };
 
+  useEffect(() => {
     fetchSubCategoryData();
-  }, [gender, genderData]);
+  }, [gender, genderData, subCategoriesData, isLoading]);
+  const fetchEventCategoryData = async () => {
+    try {
+      const response = await ApiService.get(`${subCategoryUrl}/${3}`);
 
+      const subEventCategoriesArray = response.map(
+        (category: {id: any; subcategoryName: any}) => ({
+          value: category.id,
+          label: category.subcategoryName,
+        }),
+      );
+      setSubEventCategoriesData(subEventCategoriesArray);
+    } catch (error) {
+      log.error('error is here  ', error);
+    }
+  };
   useEffect(() => {
-    const fetchEventCategoryData = async () => {
-      try {
-        const response = await ApiService.get(`${subCategoryUrl}/${3}`);
-
-        const subEventCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubEventCategoriesData(subEventCategoriesArray);
-      } catch (error) {
-        log.error('error is here  ', error);
-      }
-    };
     fetchEventCategoryData();
-  }, []);
+  }, [subCategoriesData]);
+  const OutfitCategoriesData = async () => {
+    try {
+      const response = await ApiService.get(`${subCategoryUrl}/${4}`);
+      const subOutfitCategoriesArray = response.map(
+        (category: {id: any; subcategoryName: any}) => ({
+          value: category.id,
+          label: category.subcategoryName,
+        }),
+      );
+      setSubOutfitCategoriesData(subOutfitCategoriesArray);
+    } catch (error) {
+      log.error('error in fetchhing outfit data');
+    }
+  };
   useEffect(() => {
-    const OutfitCategoriesData = async () => {
-      try {
-        const response = await ApiService.get(`${subCategoryUrl}/${4}`);
-        const subOutfitCategoriesArray = response.map(
-          (category: {id: any; subcategoryName: any}) => ({
-            value: category.id,
-            label: category.subcategoryName,
-          }),
-        );
-        setSubOutfitCategoriesData(subOutfitCategoriesArray);
-      } catch (error) {
-        log.error('error in fetchhing outfit data');
-      }
-    };
     OutfitCategoriesData();
-  }, []);
+  }, [subOutfitCategoriesData]);
+  const fetchCategoryData = async () => {
+    try {
+      await dispatch(fetchCategoriesData() as any);
 
+      const categoriesArray = Data.map(
+        (category: {id: any; categoryName: any}) => ({
+          value: category.id,
+          label: category.categoryName,
+        }),
+      );
+      setCategoriesData(categoriesArray);
+    } catch (error) {
+      log.error('error in fetching category data');
+    }
+  };
   useEffect(() => {
-    const fetchCategoryData = async () => {
-      try {
-        await dispatch(fetchCategoriesData() as any);
-
-        const categoriesArray = Data.map(
-          (category: {id: any; categoryName: any}) => ({
-            ...category,
-            value: category.id,
-            label: category.categoryName,
-          }),
-        );
-        setCategoriesData(categoriesArray);
-      } catch (error) {
-        log.error('error in fetching category data');
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchCategoryData();
-  }, []);
+  }, [categoriesData]);
   const handleEventTypeChange = (
     selectedEventType: React.SetStateAction<string>,
   ) => {

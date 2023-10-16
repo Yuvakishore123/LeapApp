@@ -1,12 +1,10 @@
-import {render} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
-import {Provider} from 'react-redux';
 
-import {store} from '../../../../src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import Profile from 'screens/Profile/Profile';
+import useProfile from 'screens/Profile/useProfile';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -34,8 +32,12 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
 
-const Stack = createNativeStackNavigator();
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -46,6 +48,25 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+jest.mock('screens/Profile/useProfile', () => ({
+  isloading: false,
+  ImageUpload: jest.fn(),
+  showModall: jest.fn(),
+  closeModal: jest.fn(),
+  showModal1: jest.fn(),
+  closeModal1: jest.fn(),
+  loading: false,
+  handleRemoveProfilePic: jest.fn(),
+  refreshData: jest.fn(),
+  refreshState: jest.fn(),
+  data: {},
+  handleEditAddress: jest.fn(),
+  handleOwnerScreen: jest.fn(),
+  handleEditProfile: jest.fn(),
+  default: jest.fn(),
+  __esModule: true,
+}));
+
 jest.mock('@react-native-firebase/messaging', () => {
   return {
     __esModule: true,
@@ -57,19 +78,86 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('Profile Screen', () => {
-  it('should render the Profile Screen', () => {
-    // Define a mock route with the necessary params
+  const dispatchMock = jest.fn(); // Create a mock function
+  const useSelector = useSelectorOriginal as jest.Mock;
 
-    const result = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Profile" component={Profile} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
+  beforeEach(() => {
+    (useDispatch as jest.Mock).mockReturnValue(dispatchMock);
+    (useProfile as jest.Mock).mockReturnValue({
+      useProfile: jest.fn(() => ({
+        isloading: false,
+        ImageUpload: jest.fn(),
+        showModall: jest.fn(),
+        closeModal: jest.fn(),
+        showModal1: jest.fn(),
+        closeModal1: jest.fn(),
+        loading: false,
+        handleRemoveProfilePic: jest.fn(),
+        refreshData: jest.fn(),
+        refreshState: jest.fn(),
+        data: {},
+        handleEditAddress: jest.fn(),
+        handleOwnerScreen: jest.fn(),
+        handleEditProfile: jest.fn(),
+      })),
+    });
+    useSelector.mockImplementation(selector =>
+      selector({
+        profileData: {
+          data: [],
+        },
+        Rolereducer: {
+          role: '',
+        },
+      }),
     );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
+  it('should render the Profile Screen', () => {
+    const result = render(<Profile />);
+    expect(result).toBeDefined();
+  });
+  it('should render the Loading ', () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      isloading: true,
+    });
+    const {getByTestId} = render(<Profile />);
+    const loadingComponent = getByTestId('activity-indicator');
+    expect(loadingComponent).toBeDefined();
+  });
+  it('should render the Skeleton Loading ', () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      loading: true,
+    });
+    const result = render(<Profile />);
 
     expect(result).toBeDefined();
+  });
+  it('should delete the Image ', () => {
+    const mockRemove = jest.fn();
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: mockRemove,
+      isloading: false,
+    });
+    const {getByTestId} = render(<Profile />);
+    const RemoveButton = getByTestId('Remove-Button');
+    expect(RemoveButton).toBeDefined();
+    fireEvent.press(RemoveButton);
+    expect(mockRemove).toHaveBeenCalled();
+  });
+  it('should Signout when Signout is Clicked ', () => {
+    const mockRemove = jest.fn();
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: mockRemove,
+      isloading: false,
+    });
+    const {getByTestId} = render(<Profile />);
+    const signoutButton = getByTestId('SignOut-Button');
+    expect(signoutButton).toBeDefined();
+    fireEvent.press(signoutButton);
+    expect(dispatchMock).toHaveBeenCalled();
   });
 });

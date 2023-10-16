@@ -10,6 +10,7 @@ test('renders DropdownComponent without crashing', () => {
       value=""
       placeholder="Select an option"
       data={[]}
+      testId={'dropdown-component'}
     />,
   );
 });
@@ -23,6 +24,7 @@ test('displays correct placeholder text', () => {
       value=""
       placeholder={placeholder}
       data={[]}
+      testId={'dropdown-component'}
     />,
   );
   const placeholderElement = getByText(placeholder);
@@ -42,6 +44,7 @@ test('calls onChange event handler when an item is selected', () => {
         {label: 'Option 2', value: 'option2'},
         {label: 'Option 3', value: 'option3'},
       ]}
+      testId={'dropdown-component'}
     />,
   );
   const dropdownComponent = getByTestId('dropdown-component');
@@ -62,6 +65,7 @@ test('calls onSelect event handler when an item is selected', () => {
         {label: 'Option 2', value: 'option2'},
         {label: 'Option 3', value: 'option3'},
       ]}
+      testId={'dropdown-component'}
     />,
   );
   const dropdownComponent = getByTestId('dropdown-component');
