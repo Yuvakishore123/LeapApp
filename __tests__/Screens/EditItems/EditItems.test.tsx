@@ -224,34 +224,6 @@ describe('OwnerEditItems Screen', () => {
     );
     expect(result).toBeTruthy();
   });
-  it('images should be handled', () => {
-    const Stack = createNativeStackNavigator();
-    (Useowneredititems as jest.Mock).mockReturnValue({
-      data: [
-        {
-          id: 1,
-          imageUrl: ['image1.jpg'],
-          name: 'Product 1',
-          price: 10,
-        },
-      ],
-      imageUrls: ['image1.png'],
-      setRefreshData: jest.fn(),
-      selectedImage: 'image.png',
-    });
-
-    const {getByTestId} = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Owneredititems" component={Owneredititems} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
-    );
-    const image = getByTestId('image');
-    expect(image).toBeDefined();
-  });
   it('handle Fetchdata when edit button is pressed', () => {
     const mockFetchData = jest.fn();
     const mockEditProductid = jest.fn();

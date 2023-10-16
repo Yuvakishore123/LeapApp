@@ -1,10 +1,12 @@
 import 'react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import App, {AuthStack} from '../App';
-import {render} from '@testing-library/react-native';
-import {NavigationContainer} from '@react-navigation/native';
-import {createStackNavigator} from '@react-navigation/stack';
+import App from '../App';
+import {render, waitFor} from '@testing-library/react-native';
+import MockAdapter from 'axios-mock-adapter';
+import axios from 'axios';
+import {useNavigation} from '@react-navigation/native';
+import dynamicLinks from '@react-native-firebase/dynamic-links';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -36,7 +38,9 @@ jest.mock('@react-native-firebase/dynamic-links', () => {
     __esModule: true,
     default: jest.fn(),
     dynamicLinks: jest.fn(() => ({
-      getInitialLink: jest.fn(() => Promise.resolve('Your Mocked Link')),
+      getInitialLink: jest.fn().mockResolvedValue({
+        url: 'http://example.com/product?id=123',
+      }),
       // You can add other methods you need here
     })),
   };
@@ -100,6 +104,15 @@ jest.mock('victory-native', () => ({
 describe('App.tsx file', () => {
   beforeEach(() => {
     AsyncStorage.clear();
+  });
+  let mockAxios: {restore: () => void};
+
+  beforeAll(() => {
+    mockAxios = new MockAdapter(axios);
+  });
+
+  afterAll(() => {
+    mockAxios.restore();
   });
   afterEach(() => {
     jest.clearAllMocks();

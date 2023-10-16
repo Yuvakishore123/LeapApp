@@ -45,7 +45,6 @@ const HomeStack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="Homescreen">
-      <Stack.Screen name="ApiErrorScreen" component={ApiErrorScreen} />
       <Stack.Screen name="Homescreen" component={Homescreen} />
       <Stack.Screen
         name="SearchResultsScreen"
@@ -68,7 +67,6 @@ const CategoryStack = () => {
       <Stack.Screen name="Subcategory" component={Subcategory} />
       <Stack.Screen name="CategoryProducts" component={CategoryProducts} />
       <Stack.Screen name="UProductDetails" component={UProductDetails} />
-
     </Stack.Navigator>
   );
 };

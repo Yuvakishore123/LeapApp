@@ -234,6 +234,7 @@ const useAddImages = () => {
     checkPermission,
     handlePriceChange,
     handleQuantityChange,
+    setImageUrls,
     handleBlur,
     pickImages,
     imageUris,

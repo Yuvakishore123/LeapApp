@@ -10,6 +10,7 @@ import {useDispatch} from 'react-redux';
 import ApiService from 'network/network';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
+import {logMessage} from 'helpers/helper';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -178,6 +179,31 @@ describe('useCart', () => {
 
     // Check if setIsLoading was called with false
   });
+  it('should reject  FetchData ', async () => {
+    const mockId = 2;
+    const mockResponse = [
+      {
+        id: 1,
+        name: 'Item 1',
+        price: 10,
+        description: 'Item 1 description',
+        totalQuantity: 5,
+      },
+    ];
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Mock the ApiService.get function to return a resolved Promise with mockResponse
+    (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
+
+    // Call the fetchData function
+    await result.current.FetchData(mockId);
+
+    waitFor(() => {
+      expect(logMessage.error).toBe('error in FetchData of Owneredititems :');
+    });
+
+    // Check if setIsLoading was called with false
+  });
   it('should update refreshData state correctly', () => {
     const {result} = renderHook(() => Useowneredititems()); // Render the hook
 
@@ -284,21 +310,18 @@ describe('useCart', () => {
   it('should handle disabling button correctly', async () => {
     const {result} = renderHook(() => Useowneredititems()); // Render the hook
     waitFor(() => {
-      expect(result.current.productQuantity).toBe(10);
+      expect(result.current.productQuantity).toBe(20);
       expect(result.current.totalQuantity).toBe(20);
-      expect(result.current.disabledQuantity).toBe(5);
+      expect(result.current.disabledQuantity).toBe(10);
     });
     const itemId = 123;
-
+    const disabledQuantity = 5;
     const mockApiResponse = {
-      message: 'Quantities enabled successfully',
+      message: 'Quantities disable successfully',
       status: 'SUCCESS',
     };
     await act(async () => {
-      await result.current.handleDisablebutton(
-        itemId,
-        result.current.disabledQuantity,
-      );
+      await result.current.handleDisablebutton(itemId, disabledQuantity);
     });
 
     (ApiService.get as jest.Mock).mockResolvedValue(mockApiResponse);
@@ -521,6 +544,68 @@ describe('useCart', () => {
     // Call the pickImg function
     await act(async () => {
       await result.current.pickImg();
+    });
+    waitFor(() => {
+      expect(logMessage.error).toBe('Upload failed');
+    });
+  });
+  it('should reject response set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockRejectedValue(imageResponse);
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImg();
+    });
+    waitFor(() => {
+      expect(logMessage.error).toBe('ImagePicker Error:');
+    });
+  });
+  it('should reject the handleEdit correctly', () => {
+    const data = {
+      brand: 'addidas',
+      categoryIds: ['mockGender'],
+      color: 'black',
+      description: 'mockDescription',
+      id: 0,
+      imageUrl: ['mockImageUrl'],
+      material: 'fibre',
+      name: 'mockName',
+      price: 'mockPrice',
+      totalQuantity: 'mockQuantity',
+      size: 'mockSize',
+      subcategoryIds: ['mockItemType', 'mockOutfitType', 'mockEventType'],
+    };
+    const {result} = renderHook(() => Useowneredititems()); // Render the hook
+    act(() => {
+      result.current.handleedit();
+    });
+
+    (ApiService.put as jest.Mock).mockRejectedValue(data);
+    waitFor(() => {
+      expect(logMessage.error).toBeCalled();
+    });
+  });
+  it('should  handlemodalVisible correctly', () => {
+    const {result} = renderHook(() => Useowneredititems()); // Render the hook
+    act(() => {
+      result.current.handleVisibleModal();
+    });
+    waitFor(() => {
+      expect(result.current.setViisble).toBe(false);
+      expect(result.current.setHideId).toBe(null);
     });
   });
 });

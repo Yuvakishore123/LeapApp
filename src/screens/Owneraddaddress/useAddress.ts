@@ -36,7 +36,7 @@ const useAddress = () => {
   useEffect(() => {
     console.log('in uneeffect');
     dispatch(ListAddress());
-    // fetchData();
+    fetchData();
   }, []);
   const openModal = () => {
     setShowModal(true);
@@ -48,7 +48,7 @@ const useAddress = () => {
   const fetchData = useCallback(async () => {
     setIsLoading(true);
     try {
-      // dispatch(ListAddress() as any);
+      dispatch(ListAddress() as any);
       const data = addressdata;
       setIsLoading(false);
       setAddress(data);

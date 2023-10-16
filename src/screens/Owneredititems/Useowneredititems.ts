@@ -46,6 +46,7 @@ const Useowneredititems = () => {
   const [selectedProductId, setSelectedProductId] = useState<number | null>(
     null,
   );
+  const [_hideId, setHideId] = useState(null);
   const [categoriesData, setCategoriesData] = useState([]);
   const [outofStock, setOutofstock] = useState(false);
   const [totalQuantity, settotalQuantities] = useState(0);
@@ -277,7 +278,7 @@ const Useowneredititems = () => {
         openModal();
       })
       .catch(error => {
-        console.error(error);
+        logMessage.error(error);
       });
   };
   const handleDisableProduct = (item: any) => {
@@ -350,6 +351,10 @@ const Useowneredititems = () => {
 
     setIsModalVisible(false);
   };
+  const handleVisibleModal = () => {
+    setViisble(!visible);
+    setHideId(null);
+  };
 
   return {
     data,
@@ -364,6 +369,8 @@ const Useowneredititems = () => {
     setImageUris,
     selectedImage,
     RemoveProducts,
+    handleVisibleModal,
+    setHideId,
     closeModal,
     setShowModal,
     showModal,

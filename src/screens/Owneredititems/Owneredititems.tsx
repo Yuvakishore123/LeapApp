@@ -80,6 +80,7 @@ const App = () => {
     refreshData,
     setRefreshData,
     handleRefresh,
+    handleVisibleModal,
   } = Useowneredititems();
   const {
     subEventCategoriesData,
@@ -88,12 +89,6 @@ const App = () => {
     itemType,
   } = useAdditems();
 
-  const [_hideId, setHideId] = useState(null);
-
-  const handleVisibleModal = () => {
-    setViisble(!visible);
-    setHideId(null);
-  };
   useEffect(() => {
     if (!isModalVisible) {
       setRefreshData(false);
@@ -102,7 +97,6 @@ const App = () => {
 
   const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
-
   return (
     <SafeAreaView>
       <Modal
@@ -311,7 +305,10 @@ const App = () => {
                   <View style={[Style.item_course]}>
                     <View style={[OwnerEditItemstyles.imagePriceContainer]}>
                       <View style={[OwnerEditItemstyles.cardImageContainer]}>
-                        <ImageComponent imageUrl={item.image} />
+                        <Image
+                          style={OwnerEditItemstyles.cardImage}
+                          source={{uri: item.image}}
+                        />
                       </View>
                       <View
                         style={[
@@ -386,7 +383,6 @@ const App = () => {
                     testID="modal-test"
                     animationType="slide"
                     visible={isModalVisible}
-                    onRequestClose={() => setIsModalVisible(false)}
                     transparent={true}>
                     <View style={styles.modalContainer}>
                       <View style={{alignItems: 'flex-end', marginRight: 20}}>

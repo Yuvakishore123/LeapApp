@@ -1,4 +1,7 @@
-import {useState} from 'react';
+/* eslint-disable radix */
+/* eslint-disable react-hooks/exhaustive-deps */
+/* eslint-disable @typescript-eslint/no-shadow */
+import {SetStateAction, useEffect, useState} from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
 import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
 
@@ -12,16 +15,31 @@ import {
 
 import ApiService from '../../network/network';
 import axios from 'axios';
+import Colors from '../../constants/colors';
 import {onclickDasboardUrl} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 const useAnalytics = () => {
   const [Data, setData] = useState('');
+  const monthNames = [
+    'Jan',
+    'Feb',
+    'Mar',
+    'Apr',
+    'May',
+    'Jun',
+    'Jul',
+    'Aug',
+    'Sep',
+    'Oct',
+    'Nov',
+    'Dec',
+  ];
   const [orderData, setOrderdata] = useState([]);
   const [piechart, setPiechart] = useState([]);
   const [CategoriesPiechart, setCategoriesData] = useState([]);
   const [loading, setisLoading] = useState(false);
-  const [DashboardYearly, setDashboardYearlydata] = useState({});
+  const [DashboardYearly, setDashboardYearlydata] = useState([]);
   const handleAnalytics = async () => {
     setisLoading(true);
     try {
@@ -110,6 +128,149 @@ const useAnalytics = () => {
       logMessage.error('Error in Dashboardyearlydata', error);
     }
   };
+  const [showModel, setShowModel] = useState(false);
+  const [selectedBarIndex, setSelectedBarIndex] = useState(null);
+  const [selectedMonth, setSelectedMonth] = useState(
+    `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
+      .toString()
+      .padStart(2, '0')}`,
+  );
+  const [totalEarnings, setTotalEarnings] = useState(0);
+  const [totalNumberOfItems, settotalNumberOfItems] = useState(0);
+
+  const [monthtitle, setmonthtitle] = useState(
+    monthNames[new Date().getMonth()],
+  );
+  const [selectedYear, setSelectedYear] = useState('');
+  useEffect(() => {
+    handleAnalytics();
+    HandlePiechart();
+    Dashboardyeardata();
+    // handleOrders();
+    filterOrderData();
+    const currentDate = new Date();
+    const currentMonth = currentDate.getMonth();
+    const currentMonthFormatted = `${currentDate.getFullYear()}-${(
+      currentMonth + 1
+    )
+      .toString()
+      .padStart(2, '0')}`;
+    setSelectedMonth(currentMonthFormatted);
+    const selectedBarIndex = rentalData.findIndex(
+      data => data.month === monthNames[currentMonth],
+    );
+    setSelectedBarIndex(selectedBarIndex as any);
+  }, []);
+  const years = Object.keys(DashboardYearly);
+  const handleTotalOrdersClick = () => {
+    setShowModel(true);
+  };
+  const filterOrderData = () => {
+    const filteredOrderData = [] as any;
+    Object.keys(orderData).forEach(month => {
+      if (month === selectedMonth) {
+        filteredOrderData[month] = orderData[month as any];
+      }
+    });
+    handleOrders();
+  };
+  const handleVisibleModal = () => {
+    setShowModel(!showModel);
+    filterOrderData();
+  };
+
+  const rentalData = monthNames.map(month => {
+    const monthIndex = monthNames.indexOf(month);
+    const formattedMonth = `${selectedYear}-${String(monthIndex + 1).padStart(
+      2,
+      '0',
+    )}`;
+
+    const monthData = DashboardYearly[selectedYear as any]?.[
+      formattedMonth
+    ] || {
+      totalEarnings: 0,
+      totalNumberOfItems: 0,
+    };
+
+    return {
+      month: month,
+      totalEarnings: monthData.totalEarnings,
+      totalNumberOfItems: monthData.totalNumberOfItems,
+      monthIndex: monthIndex,
+    };
+  });
+
+  if (selectedYear && DashboardYearly[selectedYear as any]) {
+    Object.entries(DashboardYearly[selectedYear as any]).forEach(
+      ([month, data]) => {
+        const monthIndex = parseInt(month.split('-')[1]) - 1;
+        rentalData[monthIndex] = {
+          month: month.split('-')[0],
+          totalEarnings: data.totalEarnings,
+          totalNumberOfItems: data.totalNumberOfItems,
+          monthIndex: monthIndex,
+        };
+      },
+    );
+  }
+
+  const handleBarClick = (
+    event: any,
+    barData: {datum: {month: any}; index: SetStateAction<null>},
+  ) => {
+    const selectedMonth = barData.datum.month;
+    const selectedMonthIndex =
+      monthNames.indexOf(monthNames[selectedMonth]) + 1;
+    const selectedYearFormatted = selectedYear.toString();
+    const formattedMonth = `${selectedYearFormatted}-${String(
+      selectedMonthIndex,
+    ).padStart(2, '0')}`;
+
+    setSelectedMonth(formattedMonth);
+    setSelectedBarIndex(barData.index);
+
+    const selectedMonthData =
+      DashboardYearly[selectedYearFormatted as any]?.[formattedMonth];
+
+    if (selectedMonthData) {
+      const {totalEarnings, totalNumberOfItems} = selectedMonthData;
+      setTotalEarnings(totalEarnings);
+      settotalNumberOfItems(totalNumberOfItems);
+    }
+    setmonthtitle(monthNames[selectedMonth]);
+
+    filterOrderData();
+  };
+
+  const getBarColor = (datum: {index: any}) => {
+    if (datum.index === selectedBarIndex) {
+      return Colors.buttonColor; // Color for the selected bar
+    }
+    return '#eadaff'; // Color for other bars
+  };
+
+  const pieChartData = piechart?.[selectedMonth as any] ?? {};
+
+  const chartColors = [
+    '#594AB5',
+    '#E28B5E',
+    '#7CB9E8',
+    '#B5E8A1',
+    '#F1C5D4',
+    '#F5D96C',
+    '#B6A2D3',
+    '#7F8FA6',
+    '#E8DAEF',
+    '#D2B4DE',
+  ];
+  const transformedData = Object.entries(pieChartData).map(
+    ([subcategory, {totalOrders}], index) => ({
+      name: subcategory,
+      value: totalOrders,
+      color: chartColors[index % chartColors.length],
+    }),
+  );
 
   return {
     handleAnalytics,
@@ -123,7 +284,29 @@ const useAnalytics = () => {
     CategoriePieData,
     CategoriesPiechart,
     Dashboardyeardata,
+    setShowModel,
     DashboardYearly,
+    transformedData,
+    getBarColor,
+    handleBarClick,
+    handleVisibleModal,
+    handleTotalOrdersClick,
+    filterOrderData,
+    setTotalEarnings,
+    settotalNumberOfItems,
+    years,
+    totalEarnings,
+    setSelectedMonth,
+    totalNumberOfItems,
+    selectedBarIndex,
+    selectedMonth,
+    selectedYear,
+    monthtitle,
+    setmonthtitle,
+    setSelectedYear,
+    setSelectedBarIndex,
+    rentalData,
+    showModel,
   };
 };
 

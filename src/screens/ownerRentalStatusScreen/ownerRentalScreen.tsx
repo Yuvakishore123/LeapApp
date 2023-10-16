@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import {View, Text, FlatList, TouchableOpacity} from 'react-native';
+import {View, Text, FlatList, TouchableOpacity, Image} from 'react-native';
 import OwnerRentalstyles from './ownerRentalScreenStyles';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import OwnerRentalSwitch from 'components/atoms/OwnerRentalSwitch';
@@ -20,7 +20,11 @@ const OwnerRentalScreen = () => {
     return (
       <TouchableOpacity style={OwnerRentalstyles.card} testID="Rentalitemcard">
         <View>
-          <ImageComponent imageUrl={item.imageUrl} />
+          <Image
+            source={{uri: item.imageUrl}}
+            style={OwnerRentalstyles.Productimage}
+            testID={`image-${item.id}`}
+          />
         </View>
         <View
           style={{

@@ -394,4 +394,57 @@ describe('SearchResultScreen', () => {
     });
     expect(mockgoBack).toBeCalled();
   });
+  test('handle the SubCategoryDropdown when TouchableOpacity is pressed', () => {
+    const mockMin = jest.fn();
+    const mockMax = jest.fn();
+    const size = jest.fn();
+    const setSubcategory = jest.fn();
+    const subcategory = 'shirt';
+    (useSearchresults as jest.Mock).mockReturnValue({
+      filterData: jest.fn(),
+      minimumPrice: '1000',
+      maximumPrice: '2000',
+      setMinimumPrice: mockMin,
+      setMaximumPrice: mockMax,
+      filteredProducts: [],
+      sizes: ['S', 'XL', 'XXL'],
+      modalVisible: true,
+      selectedSize: 'XXL',
+      setFilteredProducts: jest.fn(),
+      setSelectedSize: size,
+      setModalVisible: jest.fn(),
+      handleFilterButtonPress: jest.fn(),
+      imageLoaded: false,
+      setImageLoaded: jest.fn(),
+      SubcategoryData: jest.fn(),
+      handleFilterapply: jest.fn(),
+      selectedSubCategory: subcategory,
+      setSelectedSubCategory: setSubcategory,
+      subcategoriesData: [],
+    });
+    const searchResults = [
+      {
+        id: 1,
+        name: 'Product 1',
+        price: 10,
+        imageUrl: ['https://example.com/image1.jpg'],
+      },
+    ];
+    const {getByTestId} = render(
+      <SearchResultsScreen route={{params: {searchResults: searchResults}}} />,
+    );
+    const applybutton = getByTestId('filter-apply-button');
+    act(() => {
+      fireEvent.press(applybutton);
+    });
+    const subCategorybutton = getByTestId('sub-category-dropdown');
+    act(() => {
+      fireEvent(subCategorybutton, 'onChange', {value: 'shirt'});
+    });
+    // const sizebtn = getByTestId('shirt');
+    // act(() => {
+    //   fireEvent.press(sizebtn);
+    // });
+    expect(setSubcategory).toBeCalledWith('shirt');
+  });
 });

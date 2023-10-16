@@ -188,4 +188,59 @@ describe('ColorSchemeProvider', () => {
 
     // Add more test cases for other functions and style retrievals
   });
+  it('returns the correct tab color for light scheme', () => {
+    const {getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({tabColor, toggleColorScheme}) => (
+            <>
+              <Text testID="text" style={tabColor()} />
+              <Button
+                testID="toggleButton"
+                onPress={toggleColorScheme}
+                title="Toggle Scheme"
+              />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const text = getByTestId('text');
+    const toggleButton = getByTestId('toggleButton');
+
+    expect(text.props.style).toEqual({color: 'white'});
+
+    // Simulate toggling the color scheme
+    fireEvent.press(toggleButton);
+
+    expect(text.props.style).toEqual({color: 'black'});
+  });
+  it('toggles color scheme light for container style correctly', () => {
+    const {getByText, getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({colorScheme, toggleColorScheme, getContainerStyle}) => (
+            <>
+              <Text testID="colorSchemeText">{colorScheme}</Text>
+              <Button onPress={toggleColorScheme} title="Toggle" />
+              <View testID="container" style={getContainerStyle()} />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const colorSchemeText = getByTestId('colorSchemeText');
+    const toggleButton = getByText('Toggle');
+
+    expect(colorSchemeText.props.children).toBe('dark');
+
+    fireEvent.press(toggleButton);
+
+    expect(colorSchemeText.props.children).toBe('light');
+    const container = getByTestId('container');
+
+    expect(container.props.style).toBe(Styles.whiteTheme);
+  });
 });

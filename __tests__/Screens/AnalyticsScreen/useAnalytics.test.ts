@@ -3,7 +3,8 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
 import ApiService from 'network/network';
 import axios from 'axios';
-import { url } from 'constants/Apis';
+import Colors from '../../../src/constants/colors';
+import {url} from 'constants/Apis';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -84,7 +85,7 @@ describe('useAnalytics', () => {
         totalNumberOfItems: 1,
       },
     };
-    ApiService.get.mockResolvedValueOnce(mockData);
+    (ApiService.get as jest.Mock).mockResolvedValueOnce(mockData);
 
     const {result} = renderHook(() => useAnalytics());
 
@@ -97,123 +98,6 @@ describe('useAnalytics', () => {
       // Assert data and loading state after API call
       expect(result.current.Data).toEqual(mockData);
       expect(result.current.loading).toBe(false);
-    });
-  });
-  it('should reject handle analytics successfully', async () => {
-    const Error = 'Error getting fetching handle analytics';
-    ApiService.get.mockRejectedValue(Error);
-
-    const {result} = renderHook(() => useAnalytics());
-
-    act(() => {
-      result.current.handleAnalytics();
-    });
-    // Assert loading state changes
-    expect(result.current.loading).toBe(true);
-  });
-  it('should handle handleOrder successfully', async () => {
-    const mockOrderItems = {
-      '2023-05': [
-        {
-          name: 'GUCCI PRINTED SHIRT',
-          quantity: 1,
-          rentalStartDate: '2023-05-29T06:30:00',
-          rentalEndDate: '2023-05-30T06:30:00',
-          rentalCost: 8999,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
-          productId: 19,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-        {
-          name: 'SHRUNK RACER JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-05-29T06:30:00',
-          rentalEndDate: '2023-05-30T06:30:00',
-          rentalCost: 11999,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685303764085_image.png',
-          productId: 15,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-        {
-          name: 'NILOUFER SAREE',
-          quantity: 2,
-          rentalStartDate: '2023-05-29T06:30:00',
-          rentalEndDate: '2023-05-30T06:30:00',
-          rentalCost: 2598,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335616131_image.png',
-          productId: 26,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-      ],
-      '2023-06': [
-        {
-          name: 'PRADA JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-06-01T06:30:00',
-          rentalEndDate: '2023-06-04T06:30:00',
-          rentalCost: 5697,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335795440_image.png',
-          productId: 27,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-        {
-          name: 'ARMANI JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-06-15T06:30:00',
-          rentalEndDate: '2023-06-16T06:30:00',
-          rentalCost: 1399,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685341177953_image.png',
-          productId: 30,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-      ],
-      '2023-07': [
-        {
-          name: 'PRADA JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-07-01T06:30:00',
-          rentalEndDate: '2023-07-07T06:30:00',
-          rentalCost: 8394,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685336081896_image.png',
-          productId: 28,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-      ],
-      // You can continue to add data for other months as needed.
-    };
-    ApiService.get.mockResolvedValueOnce(mockOrderItems);
-
-    const {result} = renderHook(() => useAnalytics());
-
-    act(() => {
-      result.current.handleOrders();
-    });
-    waitFor(() => {
-      expect(result.current.orderData).toEqual(mockOrderItems);
     });
   });
   it('should  handle handlePieChart successfully', async () => {
@@ -298,12 +182,70 @@ describe('useAnalytics', () => {
       },
       // You can add more data for other months as needed.
     };
-    ApiService.get.mockResolvedValue(mockOrderItems);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockOrderItems);
 
     const {result} = renderHook(() => useAnalytics());
 
     act(() => {
       result.current.HandlePiechart();
+    });
+  });
+  it('should handle order successfully', async () => {
+    const mockData = {
+      '2023-05': [
+        {
+          name: 'GUCCI PRINTED SHIRT',
+          quantity: 1,
+          rentalStartDate: '2023-05-29T06:30:00',
+          rentalEndDate: '2023-05-30T06:30:00',
+          rentalCost: 8999,
+          imageUrl:
+            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
+          productId: 19,
+          borrowerId: 5,
+          borrowerName: 'Bala Pranay reddy Reddy',
+          borrowerEmail: 'p.pranayreddy699@gmail.com',
+          borrowerPhoneNumber: '9505180888',
+        },
+        {
+          name: 'SHRUNK RACER JACKET',
+          quantity: 1,
+          rentalStartDate: '2023-05-29T06:30:00',
+          rentalEndDate: '2023-05-30T06:30:00',
+          rentalCost: 11999,
+          imageUrl:
+            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685303764085_image.png',
+          productId: 15,
+          borrowerId: 5,
+          borrowerName: 'Bala Pranay reddy Reddy',
+          borrowerEmail: 'p.pranayreddy699@gmail.com',
+          borrowerPhoneNumber: '9505180888',
+        },
+        {
+          name: 'NILOUFER SAREE',
+          quantity: 2,
+          rentalStartDate: '2023-05-29T06:30:00',
+          rentalEndDate: '2023-05-30T06:30:00',
+          rentalCost: 2598,
+          imageUrl:
+            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335616131_image.png',
+          productId: 26,
+          borrowerId: 5,
+          borrowerName: 'Bala Pranay reddy Reddy',
+          borrowerEmail: 'p.pranayreddy699@gmail.com',
+          borrowerPhoneNumber: '9505180888',
+        },
+      ],
+    };
+    (ApiService.get as jest.Mock).mockResolvedValueOnce(mockData);
+
+    const {result} = renderHook(() => useAnalytics());
+
+    act(() => {
+      result.current.handleOrders();
+    });
+    waitFor(() => {
+      expect(result.current.orderData).toEqual(mockData);
     });
   });
   it('should  handle CategoriePieData successfully', async () => {
@@ -399,7 +341,7 @@ describe('useAnalytics', () => {
       },
       // You can add more data for other months and categories as needed.
     };
-    ApiService.get.mockResolvedValue(mockOrderItems);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockOrderItems);
 
     const {result} = renderHook(() => useAnalytics());
 
@@ -477,7 +419,7 @@ describe('useAnalytics', () => {
         },
       },
     };
-    ApiService.get.mockResolvedValue(mockYearlyData);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockYearlyData);
 
     const {result} = renderHook(() => useAnalytics());
 
@@ -497,79 +439,44 @@ describe('useAnalytics', () => {
         },
       },
     };
-    ApiService.get.mockRejectedValue(mockYearlyData);
+    const mockError = 'Error getting Dashboard yearly data';
+    (ApiService.get as jest.Mock).mockRejectedValueOnce(mockError);
 
     const {result} = renderHook(() => useAnalytics());
 
     act(() => {
       result.current.Dashboardyeardata();
     });
+
     waitFor(() => {
       expect(result.current.DashboardYearly).not.toBe(mockYearlyData);
     });
   });
-  it('should reject handle CategoriePieData successfully', async () => {
-    const mockYearlyData = {
-      '2023-05': {
-        Women: {
-          orderItems: [
-            {
-              name: 'GUCCI PRINTED SHIRT',
-              quantity: 1,
-              rentalStartDate: '2023-05-29T06:30:00',
-              rentalEndDate: '2023-05-30T06:30:00',
-              rentalCost: 8999,
-              imageUrl:
-                'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
-              productId: 19,
-              borrowerId: 5,
-              borrowerName: 'Bala Pranay reddy Reddy',
-              borrowerEmail: 'p.pranayreddy699@gmail.com',
-              borrowerPhoneNumber: '9505180888',
-            },
-            {
-              name: 'SHRUNK RACER JACKET',
-              quantity: 1,
-              rentalStartDate: '2023-05-29T06:30:00',
-              rentalEndDate: '2023-05-30T06:30:00',
-              rentalCost: 11999,
-              imageUrl:
-                'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685303764085_image.png',
-              productId: 15,
-              borrowerId: 5,
-              borrowerName: 'Bala Pranay reddy Reddy',
-              borrowerEmail: 'p.pranayreddy699@gmail.com',
-              borrowerPhoneNumber: '9505180888',
-            },
-            {
-              name: 'NILOUFER SAREE',
-              quantity: 2,
-              rentalStartDate: '2023-05-29T06:30:00',
-              rentalEndDate: '2023-05-30T06:30:00',
-              rentalCost: 2598,
-              imageUrl:
-                'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335616131_image.png',
-              productId: 26,
-              borrowerId: 5,
-              borrowerName: 'Bala Pranay reddy Reddy',
-              borrowerEmail: 'p.pranayreddy699@gmail.com',
-              borrowerPhoneNumber: '9505180888',
-            },
-          ],
-          totalOrders: 4,
-        },
-      },
-    };
-    ApiService.get.mockRejectedValue(mockYearlyData);
-
+  it('should handleVisibleModal correctly', async () => {
     const {result} = renderHook(() => useAnalytics());
 
+    // Initial value of showModel should be false
+    expect(result.current.showModel).toBe(false);
+
+    // Toggle modal visibility
     act(() => {
-      result.current.CategoriePieData();
+      result.current.handleVisibleModal();
     });
-    waitFor(() => {
-      expect(result.current.DashboardYearly).not.toBe(mockYearlyData);
+
+    // After toggling, showModel should be true
+    expect(result.current.showModel).toBe(true);
+
+    // Check if filterOrderData is called
+    // expect(result.current.filterOrderData).toBeCalled();
+  });
+  it('should open modal after 800ms when handleTotalOrdersClick is called', async () => {
+    const {result} = renderHook(() => useAnalytics());
+    expect(result.current.showModel).toBe(false);
+    act(() => {
+      result.current.handleTotalOrdersClick();
     });
+
+    expect(result.current.showModel).toBe(true);
   });
   it('should handle exporting PDF successfully', async () => {
     const mockToken = 'undefined';
@@ -577,8 +484,8 @@ describe('useAnalytics', () => {
       data: 'mocked_pdf_data', // Mocked base64 encoded PDF data
     };
 
-    AsyncStorage.getItem.mockResolvedValueOnce(mockToken);
-    axios.get.mockResolvedValueOnce(mockResponse);
+    (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(mockToken);
+    (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
 
     const {result} = renderHook(() => useAnalytics());
 
@@ -592,5 +499,132 @@ describe('useAnalytics', () => {
       },
       responseType: 'blob',
     });
+  });
+  it('should reject handle analytics successfully', async () => {
+    const errorMessage = 'Error fetching analytics'; // You can change the error message as needed
+
+    (ApiService.get as jest.Mock).mockRejectedValueOnce(errorMessage);
+
+    const {result} = renderHook(() => useAnalytics());
+
+    act(async () => {
+      await result.current.handleAnalytics();
+    });
+    // Assert loading state changes
+    expect(result.current.loading).toBe(true);
+  });
+  it('should reject handle CategoriePieData successfully', async () => {
+    const mockYearlyData = {
+      '2023-05': {
+        Women: {
+          orderItems: {
+            name: 'GUCCI PRINTED SHIRT',
+            quantity: 1,
+            rentalStartDate: '2023-05-29T06:30:00',
+            rentalEndDate: '2023-05-30T06:30:00',
+            rentalCost: 8999,
+            imageUrl:
+              'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
+            productId: 19,
+            borrowerId: 5,
+            borrowerName: 'Bala Pranay reddy Reddy',
+            borrowerEmail: 'p.pranayreddy699@gmail.com',
+            borrowerPhoneNumber: '9505180888',
+          },
+          totalOrders: 4,
+        },
+      },
+    };
+    (ApiService.get as jest.Mock).mockRejectedValueOnce(mockYearlyData);
+
+    const {result} = renderHook(() => useAnalytics());
+
+    act(() => {
+      result.current.CategoriePieData();
+    });
+    expect(result.current.DashboardYearly).not.toBe(mockYearlyData);
+  });
+  it('should return Colors.buttonColor for selected bar', () => {
+    const selectedBarIndex = 9; // Set the selected bar index
+    const {result} = renderHook(() => useAnalytics());
+    const datum = {index: selectedBarIndex};
+    act(() => {
+      expect(result.current.selectedBarIndex).toBe(9);
+    });
+    result.current.getBarColor(datum);
+    const res = result.current.getBarColor(datum);
+
+    expect(res).toBe(Colors.buttonColor);
+  });
+
+  it('should return #eadaff for other bars', () => {
+    const {result} = renderHook(() => useAnalytics());
+    act(() => {
+      expect(result.current.selectedBarIndex).toBe(9);
+    });
+    const datum = {index: 3}; // This is not the selected bar index
+
+    result.current.getBarColor(datum);
+    const res = result.current.getBarColor(datum);
+
+    expect(res).toBe('#eadaff');
+  });
+  it('should handle bar click correctly', () => {
+    const {result} = renderHook(() => useAnalytics());
+
+    const monthNames = [
+      'Jan',
+      'Feb',
+      'Mar',
+      'Apr',
+      'May',
+      'Jun',
+      'Jul',
+      'Aug',
+      'Sep',
+      'Oct',
+      'Nov',
+      'Dec',
+    ];
+    const DashboardYearly = {
+      '2023': {
+        '2023-05': {
+          totalEarnings: 23596,
+          totalNumberOfItems: 4,
+        },
+        // Add more data as needed
+      },
+    };
+
+    // Mock barData
+    const barData = {
+      datum: {
+        month: 4, // Assuming May (0-indexed)
+      },
+      index: 4,
+    };
+    const mockDate = '2023-05';
+    // Call handleBarClick
+    act(() => {
+      result.current.handleBarClick({}, barData as any);
+    });
+
+    act(() => {
+      result.current.setSelectedMonth('2023-05');
+      result.current.setSelectedBarIndex(4 as any);
+      result.current.setTotalEarnings(23596 as any);
+      result.current.settotalNumberOfItems(4 as any);
+      result.current.setmonthtitle('May' as any);
+    });
+
+    expect(result.current.selectedMonth).toBe(mockDate);
+    expect(result.current.selectedBarIndex).toBe(barData.index);
+    expect(result.current.totalEarnings).toBe(
+      DashboardYearly['2023']['2023-05'].totalEarnings,
+    );
+    expect(result.current.totalNumberOfItems).toBe(
+      DashboardYearly['2023']['2023-05'].totalNumberOfItems,
+    );
+    expect(result.current.monthtitle).toBe(monthNames[barData.datum.month]);
   });
 });

@@ -167,7 +167,6 @@ const OwnerHomestack = () => {
     <Stack.Navigator
       screenOptions={{headerShown: false}}
       initialRouteName="OwnerHome">
-      {createStackScreen('ApiErrorScreen', ApiErrorScreen)}
       {createStackScreen('OwnerHome', OwnerHome)}
       {createStackScreen('Additems', Additems)}
       {createStackScreen('DashboardDetails', DashboardDetails)}

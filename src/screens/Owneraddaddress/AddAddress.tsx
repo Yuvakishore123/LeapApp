@@ -132,9 +132,9 @@ const AddAddress = () => {
             editable={false}
             selectTextOnFocus={false}
             style={[style.smalltextInputs, getTextInputStyle(), getTextColor()]}
-            onChangeText={text => {
-              setCity(text);
-            }}
+            // onChangeText={text => {
+            //   setCity(text);
+            // }}
           />
         </View>
         <TextInput
@@ -145,7 +145,7 @@ const AddAddress = () => {
             colorScheme === 'dark' ? colors.Textinput : colors.black
           }
           style={[style.inputAddress, getTextInputStyle(), getTextColor()]}
-          onChangeText={text => setStateName(text)}
+          // onChangeText={text => setStateName(text)}
         />
         <TextInput
           placeholder="Country "
@@ -156,7 +156,7 @@ const AddAddress = () => {
           editable={false}
           selectTextOnFocus={false}
           style={[style.inputAddress, getTextInputStyle(), getTextColor()]}
-          onChangeText={text => setCountry(text)}
+          // onChangeText={text => setCountry(text)}
         />
       </View>
       <Text style={[style.textField, getTextColor()]}>Type of address</Text>

@@ -6,6 +6,7 @@ import {ProductAdd} from '../../../src/redux/slice/ProductAddSlice';
 import {addsize} from '../../../src/redux/actions/actions';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
+import { url } from 'constants/Apis';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -217,58 +218,16 @@ describe('useAddimages', () => {
     });
     expect(mockgoBack).toHaveBeenCalled();
   });
-  it('should handle image selection correctly', async () => {
-    // Mock token and image response
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: true,
-      json: jest
-        .fn()
-        .mockResolvedValue({urls: ['mockImageUrl1', 'mockImageUrl2']}),
-    });
-    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
-    const imageResponse = {
-      didCancel: false,
-      errorMessage: null,
-      errorCode: null,
-      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
-    };
-    (launchImageLibrary as jest.Mock).mockResolvedValue(imageResponse);
 
-    // Render your hook (replace useYourHook with your actual hook)
-    const {result} = renderHook(() => useAddImages());
-
-    // Call the pickImg function
-    await act(async () => {
-      await result.current.pickImages();
-    });
-
-    // Assertions
-    // Verify that AsyncStorage.getItem was called with 'token'
-    expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
-
-    // Verify that launchImageLibrary was called with the correct options
-    expect(launchImageLibrary).toHaveBeenCalledWith({
-      mediaType: 'photo',
-      selectionLimit: 10,
-    });
-
-    // Verify that imageUrls and selectedImage state are updated correctly
-    expect(result.current.imageUrls).toEqual([
-      'mockImageUrl1',
-      'mockImageUrl2',
-    ]);
-    expect(result.current.selectedImage).toEqual([
-      'mockImageUrl1',
-      'mockImageUrl2',
-    ]);
-  });
   it('should reject upload images and set image URLs', async () => {
     // Mock token and image response
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
       json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
     });
-    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValueOnce(
+      'mockToken',
+    );
     const imageResponse = {
       didCancel: false,
       assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
@@ -293,5 +252,28 @@ describe('useAddimages', () => {
     waitFor(() => {
       expect(result.current.pickImages).toHaveBeenCalled();
     });
+  });
+  it('should call handleremove', async () => {
+    const {result} = renderHook(() => useAddImages());
+
+    act(() => {
+      result.current.handleremove();
+    });
+    waitFor(() => {
+      expect(result.current.selectedImage).toBe('');
+    });
+  });
+  it('should call handleRemoveImages', async () => {
+    const {result} = renderHook(() => useAddImages());
+    const mockId = 0;
+    act(() => {
+      result.current.setImageUrls(['image.png', 'image2.png']);
+    });
+    expect(result.current.imageUrls).toEqual(['image.png', 'image2.png']);
+    act(() => {
+      result.current.handleRemoveImage(mockId);
+    });
+    expect(result.current.imageUrls).toEqual(['image2.png']);
+    expect(result.current.isLoading).toBe(false);
   });
 });

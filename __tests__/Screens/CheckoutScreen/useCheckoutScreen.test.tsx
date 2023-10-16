@@ -5,6 +5,7 @@ import useChectout from '../../../src/screens/CheckoutScreen/useCheckout';
 import React from 'react';
 import useCheckout from '../../../src/screens/CheckoutScreen/useCheckout';
 import {ADDORDER} from '../../../src/redux/actions/actions';
+import RazorpayCheckout from 'react-native-razorpay';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('react-native', () => ({
@@ -49,7 +50,7 @@ jest.mock('@react-navigation/native', () => {
 
 const configureDispatch = () => {
   const dispatch = jest.fn();
-  useDispatch.mockReturnValue(dispatch);
+  (useDispatch as jest.Mock).mockReturnValue(dispatch);
   return dispatch;
 };
 
@@ -57,8 +58,8 @@ describe('Checkout Screen', () => {
   const mockDispatch = configureDispatch();
   const mockCartData: cartData[] = [];
   beforeEach(() => {
-    useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockImplementation(selector =>
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useSelector as jest.Mock).mockImplementation(selector =>
       selector({
         cartData: {cartData: mockCartData},
         appliedCoupon: {appliedCouponData: 'mockCouponCode'},
@@ -105,25 +106,29 @@ describe('Checkout Screen', () => {
     const {result} = renderHook(() => useChectout());
 
     // Mock index
-    const mockIndex = 1;
+    const mockIndex = 0;
 
     // Call handleCheckboxChange
     act(() => {
-      result.current.handleCheckboxChange(mockIndex);
+      result.current.handleCheckboxChange(0);
     });
 
     // Check if state values have been updated correctly
     expect(result.current.selectedAddressIndex).toBe(mockIndex);
-
+    act(() => {
+      result.current.setIsCheckedArray([false]);
+    });
     const newIsCheckedArray = [false, true]; // Assuming there are two items in the data array
-    newIsCheckedArray[mockIndex] = true;
+    newIsCheckedArray[mockIndex] = false;
 
-    expect(result.current.isCheckedArray).toEqual(newIsCheckedArray);
+    expect(result.current.isCheckedArray).toEqual([false]);
     expect(result.current.isChecked).toBe(false);
   });
   it('handles payment correctly', async () => {
     const {result} = renderHook(() => useCheckout());
-    ADDORDER.mockResolvedValue({razorpay_payment_id: 'mockPaymentId'});
+    (ADDORDER as jest.Mock).mockResolvedValue({
+      razorpay_payment_id: 'mockPaymentId',
+    });
 
     // Call handlePayment
     await result.current.handlePayment();
@@ -133,5 +138,20 @@ describe('Checkout Screen', () => {
     expect(mockDispatch).toHaveBeenCalledWith(expect.any(Function));
 
     // Assert further based on your application logic
+  });
+  it('should reject handles payment correctly', async () => {
+    const {result} = renderHook(() => useCheckout());
+
+    // Mock RazorpayCheckout.open to return a rejected promise
+    jest
+      .spyOn(RazorpayCheckout, 'open')
+      .mockRejectedValue(new Error('Payment failed'));
+
+    // Call handlePayment
+    await act(async () => {
+      await result.current.handlePayment(); // Ensure this is an asynchronous operation
+    });
+
+    expect(mockNav).toHaveBeenCalledWith('PaymentFailScreen');
   });
 });

@@ -95,7 +95,7 @@ const OwnerEditProfile = () => {
                 getplaceholdercolor(),
               ]}
               value={email}
-              onChangeText={text => setEmail(text)}
+              // onChangeText={text => setEmail(text)}
               selectTextOnFocus={false}
               editable={false}
             />
@@ -108,7 +108,7 @@ const OwnerEditProfile = () => {
                 getplaceholdercolor(),
               ]}
               value={phoneNumber}
-              onChangeText={text => setPhoneNumber(text)}
+              // onChangeText={text => setPhoneNumber(text)}
               editable={false}
             />
           </View>

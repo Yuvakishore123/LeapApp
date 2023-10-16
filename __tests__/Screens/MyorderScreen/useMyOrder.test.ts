@@ -1,6 +1,11 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {act, renderHook, waitFor} from '@testing-library/react-native';
+import notifee from '@notifee/react-native';
+import axios from 'axios';
+import {url} from 'constants/Apis';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import {useDispatch, useSelector} from 'react-redux';
+import RNFetchBlob from 'rn-fetch-blob';
 import useMyOrder from 'screens/MyOrder/useMyOrder';
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-firebase/analytics', () =>
@@ -9,15 +14,35 @@ jest.mock('@react-native-firebase/analytics', () =>
 jest.mock('@react-native-firebase/dynamic-links', () =>
   require('@react-native-firebase'),
 );
-jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
+jest.mock('axios');
+global.FileReader = jest.fn(() => ({
+  onloadend: jest.fn(),
+  onerror: jest.fn(),
+  readAsDataURL: jest.fn(),
+}));
+
+jest.mock('rn-fetch-blob', () => ({
+  fs: {
+    dirs: {
+      DownloadDir: '/mock/download/dir', // Provide a mock directory
+    },
+    writeFile: jest.fn(),
+  },
+}));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('network/network');
+jest.mock('../../../src/network/network', () => ({
+  get: jest.fn(),
+}));
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('@react-native-firebase'),
 );
+jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+}));
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -141,5 +166,93 @@ describe('useOwnerEditprofile', () => {
     });
 
     expect(mockNav).toBeCalledWith('Profile');
+  });
+  it('should handle order details correctly', async () => {
+    // Mock asyncStorageWrapper.getItem to return a token
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+
+    // Mock axios.get to return a response
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: new Blob(), // Mocking a blob response
+    });
+    const mockFileReader = {
+      onloadend: jest.fn(),
+      onerror: jest.fn(),
+      readAsDataURL: jest.fn(),
+      result: 'data:application/pdf;base64,mockBase64String', // Mock the result
+    };
+
+    global.FileReader = jest.fn(() => mockFileReader);
+
+    // ... your code ...
+
+    // Trigger onloadend event
+
+    // Render the hook
+    const {result} = renderHook(() => useMyOrder()); // Replace with the actual hook
+
+    // Call handleOrderDetails with an orderId
+    await act(async () => {
+      await result.current.handleOrderDetails('mockOrderId'); // Provide a valid orderId
+    });
+    await act(async () => {
+      mockFileReader.onloadend();
+    });
+
+    // Add some delay if necessary, in case there's an asynchronous operation
+    // that may not resolve immediately
+    // Assert that the necessary functions have been called correctly
+    expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
+    expect(axios.get).toHaveBeenCalledWith(
+      `${url}/order/generateInvoice/mockOrderId`,
+      {
+        headers: {
+          Authorization: 'Bearer mockToken',
+        },
+        responseType: 'blob',
+      },
+    );
+    const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/invoice.pdf`;
+    const base64String = 'mockBase64String'; // Mock the base64 string
+    expect(RNFetchBlob.fs.writeFile).toHaveBeenCalledWith(
+      filePath,
+      base64String,
+      'base64',
+    );
+
+    // Add further assertions based on your specific logic
+  });
+  it('should show notification', async () => {
+    // Mock the channel creation
+    (notifee.createChannel as jest.Mock).mockResolvedValue('mockChannelId');
+
+    // Render the hook
+    const {result} = renderHook(() => useMyOrder());
+
+    // Call the function
+    await act(async () => {
+      await result.current.showNotification();
+    });
+
+    // Check if notifee.createChannel was called correctly
+    expect(notifee.createChannel).toHaveBeenCalledWith({
+      id: 'pdf_download_channel1',
+      name: 'PDF Download Channel1',
+      sound: 'default',
+    });
+
+    // Check if notifee.displayNotification was called correctly
+    expect(notifee.displayNotification).toHaveBeenCalledWith({
+      title: 'Leaps',
+      body: 'PDF file downloaded successfully.',
+      android: {
+        channelId: 'mockChannelId', // Assuming createChannel returned this value
+        largeIcon: require('../../../assets/Leaps-1.png'),
+        progress: {
+          max: 10,
+          current: 10,
+        },
+      },
+    });
   });
 });

@@ -21,6 +21,8 @@ const notifee = {
   // Add any other functions or properties you use from notifee
   createNotification: jest.fn(),
   cancelNotification: jest.fn(),
+  createChannel: jest.fn(),
+  displayNotification: jest.fn(),
   // Add mock implementations for other notifee functions
 };
 

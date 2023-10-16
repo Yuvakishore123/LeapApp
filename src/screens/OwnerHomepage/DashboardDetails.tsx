@@ -1,6 +1,5 @@
-/* eslint-disable @typescript-eslint/no-shadow */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useEffect, useState} from 'react';
+import React from 'react';
 import {
   Image,
   Text,
@@ -27,176 +26,30 @@ import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import AnalyticsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ForwardIcon from 'react-native-vector-icons/Ionicons';
-import {useNavigation} from '@react-navigation/core';
-
-const monthNames = [
-  'Jan',
-  'Feb',
-  'Mar',
-  'Apr',
-  'May',
-  'Jun',
-  'Jul',
-  'Aug',
-  'Sep',
-  'Oct',
-  'Nov',
-  'Dec',
-];
+import {useNavigation} from '@react-navigation/native';
 
 const DashboardDetails = () => {
   const {
-    handleAnalytics,
-    handleOrders,
-    orderData,
+    transformedData,
+    getBarColor,
+    handleBarClick,
+    handleVisibleModal,
+    handleTotalOrdersClick,
+    years,
+    totalEarnings,
+    totalNumberOfItems,
+    selectedBarIndex,
+    selectedMonth,
+    selectedYear,
+    monthtitle,
+    setSelectedYear,
+    rentalData,
     loading,
-    piechart,
-    HandlePiechart,
     handleExportpdf,
-    DashboardYearly,
-    Dashboardyeardata,
+    orderData,
+    showModel,
   } = useAnalytics();
   const navigation = useNavigation();
-  const [showModel, setShowModel] = useState(false);
-  const [selectedBarIndex, setSelectedBarIndex] = useState(null);
-  const [selectedMonth, setSelectedMonth] = useState(
-    `${new Date().getFullYear()}-${(new Date().getMonth() + 1)
-      .toString()
-      .padStart(2, '0')}`,
-  );
-  const [totalEarnings, setTotalEarnings] = useState(0);
-  const [totalNumberOfItems, settotalNumberOfItems] = useState(0);
-
-  const [monthtitle, setmonthtitle] = useState(
-    monthNames[new Date().getMonth()],
-  );
-  const [selectedYear, setSelectedYear] = useState('');
-  const years = Object.keys(DashboardYearly);
-
-  const handleVisibleModal = () => {
-    setShowModel(!showModel);
-    filterOrderData();
-  };
-
-  const handleTotalOrdersClick = () => {
-    setTimeout(() => {
-      setShowModel(true);
-    }, 800);
-  };
-  const filterOrderData = () => {
-    const filteredOrderData = {};
-    Object.keys(orderData).forEach(month => {
-      if (month === selectedMonth) {
-        filteredOrderData[month] = orderData[month];
-      }
-    });
-    handleOrders(filteredOrderData);
-  };
-
-  useEffect(() => {
-    handleAnalytics();
-    HandlePiechart();
-    Dashboardyeardata();
-    const currentDate = new Date();
-    const currentMonth = currentDate.getMonth();
-    const currentMonthFormatted = `${currentDate.getFullYear()}-${(
-      currentMonth + 1
-    )
-      .toString()
-      .padStart(2, '0')}`;
-    setSelectedMonth(currentMonthFormatted);
-    const selectedBarIndex = rentalData.findIndex(
-      data => data.month === monthNames[currentMonth],
-    );
-    setSelectedBarIndex(selectedBarIndex);
-    filterOrderData();
-  }, []);
-
-  const rentalData = monthNames.map(month => {
-    const monthIndex = monthNames.indexOf(month);
-    const formattedMonth = `${selectedYear}-${String(monthIndex + 1).padStart(
-      2,
-      '0',
-    )}`;
-
-    const monthData = DashboardYearly[selectedYear]?.[formattedMonth] || {
-      totalEarnings: 0,
-      totalNumberOfItems: 0,
-    };
-
-    return {
-      month: month,
-      totalEarnings: monthData.totalEarnings,
-      totalNumberOfItems: monthData.totalNumberOfItems,
-      monthIndex: monthIndex,
-    };
-  });
-
-  if (selectedYear && DashboardYearly[selectedYear]) {
-    Object.entries(DashboardYearly[selectedYear]).forEach(([month, data]) => {
-      const monthIndex = parseInt(month.split('-')[1]) - 1;
-      rentalData[monthIndex] = {
-        month: month.split('-')[0],
-        totalEarnings: data.totalEarnings,
-        totalNumberOfItems: data.totalNumberOfItems,
-        monthIndex: monthIndex,
-      };
-    });
-  }
-
-  const handleBarClick = (event, barData) => {
-    const selectedMonth = barData.datum.month;
-    const selectedMonthIndex =
-      monthNames.indexOf(monthNames[selectedMonth]) + 1;
-    const selectedYearFormatted = selectedYear.toString();
-    const formattedMonth = `${selectedYearFormatted}-${String(
-      selectedMonthIndex,
-    ).padStart(2, '0')}`;
-
-    setSelectedMonth(formattedMonth);
-    setSelectedBarIndex(barData.index);
-
-    const selectedMonthData =
-      DashboardYearly[selectedYearFormatted]?.[formattedMonth];
-
-    if (selectedMonthData) {
-      const {totalEarnings, totalNumberOfItems} = selectedMonthData;
-      setTotalEarnings(totalEarnings);
-      settotalNumberOfItems(totalNumberOfItems);
-    }
-    setmonthtitle(monthNames[selectedMonth]);
-
-    filterOrderData();
-  };
-
-  const getBarColor = (datum, index) => {
-    if (datum.index === selectedBarIndex) {
-      return Colors.buttonColor; // Color for the selected bar
-    }
-    return '#eadaff'; // Color for other bars
-  };
-
-  const pieChartData = piechart?.[selectedMonth] ?? {};
-
-  const chartColors = [
-    '#594AB5',
-    '#E28B5E',
-    '#7CB9E8',
-    '#B5E8A1',
-    '#F1C5D4',
-    '#F5D96C',
-    '#B6A2D3',
-    '#7F8FA6',
-    '#E8DAEF',
-    '#D2B4DE',
-  ];
-  const transformedData = Object.entries(pieChartData).map(
-    ([subcategory, {totalOrders}], index) => ({
-      name: subcategory,
-      value: totalOrders,
-      color: chartColors[index % chartColors.length],
-    }),
-  );
   type OrderItem = {
     id: {toString: () => any};
     imageUrl: any;
@@ -284,6 +137,7 @@ const DashboardDetails = () => {
                 style={{flexDirection: 'row', marginLeft: 8}}
                 testID="information-Sec">
                 <TouchableOpacity
+                  testID="navId"
                   onPress={() => navigation.navigate('FilteredAnalytics')}
                   style={{
                     width: 131,
@@ -326,6 +180,7 @@ const DashboardDetails = () => {
                   </View>
                 </TouchableOpacity>
                 <TouchableOpacity
+                  testID="yourOrdersId"
                   onPress={handleTotalOrdersClick}
                   style={{
                     width: 131,
@@ -369,7 +224,7 @@ const DashboardDetails = () => {
                 </TouchableOpacity>
               </View>
             ) : (
-              <Text>admflkadsk</Text>
+              <Text testID="emptyView">admflkadsk</Text>
             )}
             <View
               style={{
@@ -396,6 +251,7 @@ const DashboardDetails = () => {
                 </Text>
                 <View style={{flexDirection: 'row'}}>
                   <Picker
+                    testID="pickerId"
                     style={{
                       marginTop: 10,
                       width: 130,
@@ -502,7 +358,7 @@ const DashboardDetails = () => {
                     }}
                     style={{
                       data: {
-                        fill: getBarColor,
+                        fill: getBarColor as any,
                       },
                     }}
                     labels={({datum}) => `${datum.rentalPrice}`}
@@ -617,7 +473,7 @@ const DashboardDetails = () => {
                     }}>
                     {orderData &&
                     Object.keys(orderData).length > 0 &&
-                    orderData[selectedMonth] ? (
+                    orderData[selectedMonth as any] ? (
                       <Modal
                         testID="modal-component"
                         visible={showModel}
@@ -636,7 +492,10 @@ const DashboardDetails = () => {
                             <Text style={style.txtClose}>Close</Text>
                           </TouchableOpacity>
                           {orderData[selectedMonth].map((order: OrderItem) => (
-                            <View key={generateKey()} style={style.dashcard}>
+                            <View
+                              testID={`orderDataId-${order.id}`}
+                              key={generateKey()}
+                              style={style.dashcard}>
                               <View style={style.dashcardContainer}>
                                 <Image
                                   source={{uri: order.imageUrl}}

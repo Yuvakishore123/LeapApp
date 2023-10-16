@@ -159,7 +159,7 @@ describe('My Order Screen', () => {
       </Provider>,
     );
 
-    const openText = getByTestId('order-1');
+    const openText = getByTestId('Order-1-1');
     act(() => {
       fireEvent.press(openText);
     });
