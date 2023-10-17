@@ -69,6 +69,7 @@ const useWishlist = () => {
   return {
     WishlistProducts,
     wishlistremove,
+    showToast,
     refreshing,
     setRefreshing,
     onRefresh,

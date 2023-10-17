@@ -1,5 +1,5 @@
 import React from 'react';
-import {render, fireEvent} from '@testing-library/react-native';
+import {render, fireEvent, act} from '@testing-library/react-native';
 import AnalyticsDropdown from '../../../src/components/atoms/AnalyticsDropdown/AnalyticsDropdown';
 
 describe('AnalyticsDropdown', () => {
@@ -24,15 +24,18 @@ describe('AnalyticsDropdown', () => {
     );
 
     const mainContainer = getByTestId('mainContainer');
-    fireEvent.press(mainContainer);
+    act(() => {
+      fireEvent.press(mainContainer);
+    });
 
     const quantityOption = getByTestId('quantity');
     const earningsOption = queryByText('Earnings');
-
     expect(quantityOption).toBeDefined();
     expect(earningsOption).toBeDefined();
-
-    fireEvent.press(mainContainer);
+    act(() => {
+      fireEvent.press(quantityOption);
+    });
+    expect(mockOnSelect).toBeCalledWith('quantity');
   });
 
   test('selects an option', () => {

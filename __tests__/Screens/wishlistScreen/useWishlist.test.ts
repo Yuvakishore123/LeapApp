@@ -3,6 +3,7 @@ import React from 'react';
 import {useSelector} from 'react-redux';
 import useWishlist from '../../../src/screens/Wishlist/useWishlist';
 import {wishListRemove} from '../../../src/redux/slice/wishlistRemoveSlice';
+import Toast from 'react-native-toast-message';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -15,9 +16,11 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(() => mockDispatch),
   useSelector: jest.fn(),
 }));
-jest.mock('react-native-toast-message', () => ({
-  show: jest.fn(),
-}));
+jest.mock('react-native-toast-message', () => {
+  return {
+    show: jest.fn(),
+  };
+});
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -99,6 +102,17 @@ describe('useWislist', () => {
 
     waitFor(() => {
       expect(wishListRemove(mockId)).toBeCalled();
+    });
+  });
+  it('should show toast with error message for cart error', () => {
+    const {result} = renderHook(() => useWishlist());
+
+    result.current.showToast();
+
+    // Ensure that Toast.show was called with the correct parameters
+    expect(Toast.show).toHaveBeenCalledWith({
+      type: 'error',
+      text1: 'Error in wislist cart',
     });
   });
 });

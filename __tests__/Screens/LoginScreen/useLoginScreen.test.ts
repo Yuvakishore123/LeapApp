@@ -4,6 +4,7 @@ import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
 import {postLogin} from '../../../src/redux/slice/loginSlice';
 import {fetchUserProducts} from '../../../src/redux/slice/userProductSlice';
+import { logMessage } from 'helpers/helper';
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-firebase/analytics', () => {
   return () => ({

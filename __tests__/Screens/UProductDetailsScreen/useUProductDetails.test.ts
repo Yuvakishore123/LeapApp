@@ -16,6 +16,11 @@ jest.mock('@react-native-firebase/messaging', () =>
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('@react-native-firebase'),
 );
+jest.mock('react-native-toast-message', () => {
+  return {
+    show: jest.fn(),
+  };
+});
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),

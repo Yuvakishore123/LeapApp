@@ -171,6 +171,8 @@ const useProductdetails = (product: {
     setRentalStartDate,
     rentalEndDate,
     setRentalEndDate,
+    errorToast,
+    handleScroll,
     quantity,
     setQuantity,
     showModal,
@@ -200,7 +202,6 @@ const useProductdetails = (product: {
     activeIndex,
     startScrollTimer,
     stopScrollTimer,
-    handleScroll,
   };
 };
 

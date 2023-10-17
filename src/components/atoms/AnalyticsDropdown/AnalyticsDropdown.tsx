@@ -20,7 +20,7 @@ const AnalyticsDropdown = ({onSelect}: AnalyticsDropdownProps) => {
     onSelect(value); // Call the provided onSelect function with the selected value
     setIsOpen(false); // Close the dropdown after selection
   };
-
+  console.log(isOpen);
   return (
     <View>
       <TouchableOpacity
