@@ -1,6 +1,8 @@
 import React from 'react';
 import {fireEvent, render} from '@testing-library/react-native';
-import OwnerEditProfile from '../../../src/screens/Ownereditprofile/OwnerEditProfile';
+import OwnerEditProfile, {
+  SkeletonLoader,
+} from '../../../src/screens/Ownereditprofile/OwnerEditProfile';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Provider} from 'react-redux';
 import {store} from '../../../src/redux/store';
@@ -67,5 +69,20 @@ describe('OwnerEditProfile', () => {
 
     // Assuming you have a button with a testID for triggering handleUpdate
     fireEvent.press(getByTestId('update-button'));
+  });
+  it('should render skeleton loader correctly', () => {
+    const {getByTestId} = render(<SkeletonLoader />);
+
+    // Query for elements you expect to be rendered by the skeleton loader
+    const input1 = getByTestId('input1');
+    const input2 = getByTestId('input-2');
+    const input3 = getByTestId('input-3');
+    const input4 = getByTestId('input-4');
+
+    // Now you can make assertions about these elements
+    expect(input1).toBeDefined();
+    expect(input2).toBeDefined();
+    expect(input3).toBeDefined();
+    expect(input4).toBeDefined();
   });
 });

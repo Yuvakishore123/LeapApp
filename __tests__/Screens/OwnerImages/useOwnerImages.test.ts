@@ -6,7 +6,8 @@ import {ProductAdd} from '../../../src/redux/slice/ProductAddSlice';
 import {addsize} from '../../../src/redux/actions/actions';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
-import { url } from 'constants/Apis';
+import {logMessage} from 'helpers/helper';
+import {PermissionsAndroid} from 'react-native';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -14,6 +15,12 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
+}));
+jest.mock('../../../src/helpers/helper', () => ({
+  logMessage: {
+    error: jest.fn(),
+    info: jest.fn(),
+  },
 }));
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
@@ -56,13 +63,21 @@ jest.mock('@react-navigation/native', () => {
     useIsFocused: jest.fn().mockReturnValue(true),
   };
 });
-let PermissionsAndroidMock = {
-  request: jest.fn(),
-  RESULTS: {
-    GRANTED: 'granted',
-    DENIED: 'denied',
-  },
-};
+const mockRequest = jest.fn();
+jest.mock(
+  'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
+  () => ({
+    request: mockRequest,
+    RESULTS: {
+      GRANTED: 'granted',
+      DENIED: 'denied',
+    },
+    PERMISSIONS: {
+      WRITE_EXTERNAL_STORAGE: 'android.permission.WRITE_EXTERNAL_STORAGE',
+      // Add any other permissions you might use
+    },
+  }),
+);
 const configureDispatch = () => {
   const dispatch = jest.fn();
   (useDispatch as jest.Mock).mockReturnValue(dispatch);
@@ -197,8 +212,56 @@ describe('useAddimages', () => {
     expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith(
       'permissionGranted',
     );
-    expect(PermissionsAndroidMock.request).not.toHaveBeenCalled();
+    expect(PermissionsAndroid.request).not.toHaveBeenCalled();
   });
+  it('should handle permission denial', async () => {
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(null);
+    (mockRequest as jest.Mock).mockImplementation(() =>
+      Promise.resolve('denied'),
+    );
+
+    const {result} = renderHook(() => useAddImages());
+
+    await act(async () => {
+      await result.current.checkPermission();
+    });
+
+    expect(mockRequest).toHaveBeenCalledWith(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        buttonPositive: 'OK',
+        message: 'App needs access to your storage to upload images.',
+        title: 'Storage Permission',
+      },
+    );
+  });
+  it('should call pickImages when permission is granted', async () => {
+    const {result} = renderHook(() => useAddImages());
+
+    // Mock PermissionsAndroid.request to return GRANTED
+    (PermissionsAndroid.request as jest.Mock).mockResolvedValue('granted');
+
+    await result.current.checkPermission();
+
+    expect(PermissionsAndroid.request).toHaveBeenCalledWith(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        title: 'Storage Permission',
+        message: 'App needs access to your storage to upload images.',
+        buttonPositive: 'OK',
+      },
+    );
+
+    // expect(logMessage.error).toHaveBeenCalledWith('Storage permission granted');
+    expect(asyncStorageWrapper.setItem).toHaveBeenCalledWith(
+      'permissionGranted',
+      'true',
+    );
+    waitFor(() => {
+      expect(result.current.pickImages).toBeCalled();
+    });
+  });
+
   it('should call formik.setFieldTouched correctly when handleBlur is called', () => {
     const mockBlur = jest.fn();
     const {result} = renderHook(() => useAddImages());
@@ -217,30 +280,6 @@ describe('useAddimages', () => {
       result.current.onHandleOwnerItems();
     });
     expect(mockgoBack).toHaveBeenCalled();
-  });
-
-  it('should reject upload images and set image URLs', async () => {
-    // Mock token and image response
-    global.fetch = jest.fn().mockResolvedValue({
-      ok: false,
-      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
-    });
-    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValueOnce(
-      'mockToken',
-    );
-    const imageResponse = {
-      didCancel: false,
-      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
-    };
-    (launchImageLibrary as jest.Mock).mockResolvedValue(imageResponse);
-
-    // Render your hook (replace useYourHook with your actual hook)
-    const {result} = renderHook(() => useAddImages());
-
-    // Call the pickImg function
-    await act(async () => {
-      await result.current.pickImages();
-    });
   });
   it('should call pickImages if permission is granted', async () => {
     const {result} = renderHook(() => useAddImages());
@@ -275,5 +314,155 @@ describe('useAddimages', () => {
     });
     expect(result.current.imageUrls).toEqual(['image2.png']);
     expect(result.current.isLoading).toBe(false);
+  });
+  it('should upload images and set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+
+    // Mock launchImageLibrary to call the callback function directly
+    (launchImageLibrary as jest.Mock).mockImplementation(
+      (options, callback) => {
+        callback(imageResponse);
+      },
+    );
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => useAddImages());
+
+    // Call the pickImages function
+    await act(async () => {
+      await result.current.pickImages();
+    });
+
+    // Assertions
+
+    // Verify that AsyncStorage.getItem was called with 'token'
+    expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
+
+    // Verify that launchImageLibrary was called with the correct options
+    expect(launchImageLibrary).toBeCalled();
+
+    expect(result.current.imageUrls).toEqual(['mockImageUrl']);
+  });
+  it('should reject didCancel is true upload images and set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: true,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockImplementation(
+      (options, callback) => {
+        callback(imageResponse);
+      },
+    );
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => useAddImages());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImages();
+    });
+    waitFor(() => {
+      expect(logMessage.error).toBe('User cancelled image picker');
+    });
+  });
+  it('should reject when error message when upload images and set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      errorMessage: 'upload failed',
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockImplementation(
+      (options, callback) => {
+        callback(imageResponse);
+      },
+    );
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => useAddImages());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImages();
+    });
+    waitFor(() => {
+      expect(logMessage.error).toBe('upload failed');
+    });
+  });
+  it('should reject  upload images and set image URLs', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockImplementation(
+      (options, callback) => {
+        callback(imageResponse);
+      },
+    );
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => useAddImages());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImages();
+    });
+    waitFor(() => {
+      expect(logMessage.error).toBe('Upload failed');
+    });
+  });
+  it('should reject  response of launchImageLibrary', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockRejectedValue({
+      ok: false,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (launchImageLibrary as jest.Mock).mockImplementation(
+      (options, callback) => {
+        callback(imageResponse);
+      },
+    );
+
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => useAddImages());
+
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImages();
+    });
+    waitFor(() => {
+      expect(logMessage.error).toBe('Upload failed');
+    });
   });
 });

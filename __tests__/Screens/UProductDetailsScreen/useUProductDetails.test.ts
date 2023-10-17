@@ -170,6 +170,40 @@ describe('useOwnerEditprofile', () => {
       expect(setActiveIndex).toHaveBeenCalledWith(1);
     });
   });
+  it('should  handle scroll to next image', () => {
+    // Mock scrollViewRef
+    const scrollViewRef = {current: {scrollTo: jest.fn()}};
+
+    // Mock setActiveIndex
+    const setActiveIndex = jest.fn();
+
+    // Mock product data
+    const mockProduct = {
+      id: 1,
+      imageUrl: ['image1.jpg', 'image2.jpg'],
+      availableQuantities: 10,
+    };
+
+    // Render the hook with the necessary dependencies
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    result.current.setActiveIndex = setActiveIndex;
+
+    // Call scrollToNextImage
+    act(() => {
+      result.current.setActiveIndex(0);
+      result.current.scrollViewRef.current = scrollViewRef.current;
+      result.current.scrollToNextImage();
+    });
+
+    // Assert that scrollTo was called with the expected arguments
+    expect(scrollViewRef.current.scrollTo).toHaveBeenCalledWith({
+      x: 405,
+      animated: true,
+    });
+
+    // Assert that setActiveIndex was called with the expected value
+    expect(result.current.activeIndex).toBe(1);
+  });
   it('should disable decrement button and not change quantity when quantity is 1', () => {
     const {result} = renderHook(() => useProductdetails(mockproduct));
     waitFor(() => {

@@ -41,7 +41,7 @@ const useFilteredAnalytics = () => {
     }
   };
   const handleChartData = () => {
-    if (response !== null) {
+    if (response && response.data === 'object') {
       const chartData = Object.entries(response)?.map(
         ([month, rentals]: [string, unknown]) => ({
           month,
@@ -79,6 +79,7 @@ const useFilteredAnalytics = () => {
     startDate,
     endDate,
     setStartDate,
+    handleChartData,
     setChartData,
     setEndDate,
     navigation,

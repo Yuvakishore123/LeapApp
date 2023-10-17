@@ -4,6 +4,7 @@ import {AxiosResponse} from 'axios';
 import {profileUpload, url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import ApiService from 'network/network';
+import { PermissionsAndroid } from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import useProfile from 'screens/Profile/useProfile';
@@ -27,7 +28,21 @@ jest.mock('react-native-toast-message', () => ({
 jest.mock('../../../src/network/network', () => ({
   post: jest.fn(),
 }));
-
+const mockRequest = jest.fn();
+jest.mock(
+  'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
+  () => ({
+    request: mockRequest,
+    RESULTS: {
+      GRANTED: 'granted',
+      DENIED: 'denied',
+    },
+    PERMISSIONS: {
+      WRITE_EXTERNAL_STORAGE: 'android.permission.WRITE_EXTERNAL_STORAGE',
+      // Add any other permissions you might use
+    },
+  }),
+);
 jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -278,5 +293,76 @@ describe('Profile Screen', () => {
     await result.current.handleValidImage(image);
     expect(result.current.isLoading).toBe(true);
     expect(mockDispatch).toBeCalledTimes(4);
+  });
+  it('should call pickImages if permission is granted', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    // Mock permission as granted
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('true');
+
+    await result.current.checkPermission();
+    waitFor(() => {
+      expect(result.current.pickImage).toHaveBeenCalled();
+    });
+  });
+  it('should handle permission already granted', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('true');
+    act(async () => {
+      await result.current.checkPermission();
+    });
+
+    expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith(
+      'permissionGranted',
+    );
+    expect(PermissionsAndroid.request).not.toHaveBeenCalled();
+  });
+  it('should handle permission denial', async () => {
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(null);
+    (mockRequest as jest.Mock).mockImplementation(() =>
+      Promise.resolve('denied'),
+    );
+
+    const {result} = renderHook(() => useProfile());
+
+    await act(async () => {
+      await result.current.checkPermission();
+    });
+
+    expect(mockRequest).toHaveBeenCalledWith(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        buttonPositive: 'OK',
+        message: 'App needs access to your storage to upload images.',
+        title: 'Storage Permission',
+      },
+    );
+  });
+  it('should call pickImages when permission is granted', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    // Mock PermissionsAndroid.request to return GRANTED
+    (PermissionsAndroid.request as jest.Mock).mockResolvedValue('granted');
+
+    await result.current.checkPermission();
+
+    expect(PermissionsAndroid.request).toHaveBeenCalledWith(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      {
+        title: 'Storage Permission',
+        message: 'App needs access to your storage to upload images.',
+        buttonPositive: 'OK',
+      },
+    );
+
+    // expect(logMessage.error).toHaveBeenCalledWith('Storage permission granted');
+    expect(asyncStorageWrapper.setItem).toHaveBeenCalledWith(
+      'permissionGranted',
+      'true',
+    );
+    waitFor(() => {
+      expect(result.current.pickImages).toBeCalled();
+    });
   });
 });

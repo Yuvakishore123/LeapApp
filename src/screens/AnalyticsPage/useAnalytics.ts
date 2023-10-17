@@ -84,9 +84,6 @@ const useAnalytics = () => {
           id: 'pdf_download_channel1',
           name: 'PDF Download Channel1',
           sound: 'default',
-          importance: AndroidImportance.HIGH,
-          lights: true,
-          lightColor: AndroidColor.RED,
         });
         await notifee.displayNotification({
           title: 'Leaps',
@@ -94,7 +91,6 @@ const useAnalytics = () => {
           android: {
             channelId,
             largeIcon: require('../../../assets/Leaps-1.png'),
-            lights: [AndroidColor.RED, 300, 600],
             progress: {
               max: 10,
               current: 10,

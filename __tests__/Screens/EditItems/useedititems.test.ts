@@ -11,6 +11,7 @@ import ApiService from 'network/network';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {logMessage} from 'helpers/helper';
+import {disableProductUrl} from 'constants/apiRoutes';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -307,31 +308,41 @@ describe('useCart', () => {
       expect(result.current.updatedQuantity).toBe(4);
     });
   });
-  it('should handle disabling button correctly', async () => {
-    const {result} = renderHook(() => Useowneredititems()); // Render the hook
-    waitFor(() => {
-      expect(result.current.productQuantity).toBe(20);
-      expect(result.current.totalQuantity).toBe(20);
-      expect(result.current.disabledQuantity).toBe(10);
-    });
-    const itemId = 123;
-    const disabledQuantity = 5;
-    const mockApiResponse = {
-      message: 'Quantities disable successfully',
-      status: 'SUCCESS',
+  it('should Disable the product the data when button is clicked ', async () => {
+    const mockData = {
+      id: '3',
+      disableQuantity: 4,
+      productQuantity: 10,
     };
-    await act(async () => {
-      await result.current.handleDisablebutton(itemId, disabledQuantity);
+    const {result} = renderHook(() => Useowneredititems());
+    const mockResponse = {
+      message: 'successfully disabled',
+    };
+    ApiService.get.mockResolvedValue(mockResponse);
+    const disbleProduct = result.current.productQuantity;
+    console.log(disbleProduct);
+    waitFor(() => {
+      expect(result.current.productQuantity).toBe(10);
+      expect(result.current.totalQuantity).toBe(20);
+      expect(result.current.disabledQuantity).toBe(5);
     });
 
-    (ApiService.get as jest.Mock).mockResolvedValue(mockApiResponse);
+    // You can use this mockItem object in your test cases as needed.
 
+    await act(() => {
+      result.current.handleDisablebutton(
+        mockData.id,
+        result.current.disabledQuantity,
+      );
+    });
+    if (mockData.disableQuantity <= mockData.productQuantity) {
+      waitFor(() => {
+        expect(ApiService.get).toBeCalledWith(disableProductUrl);
+      });
+    }
     waitFor(() => {
+      expect(result.current.refreshData).toBe(true);
       expect(result.current.outofStock).toBe(true);
-
-      expect(result.current.fetchData).toHaveBeenCalled();
-      expect(result.current.setRefreshData).toHaveBeenCalledWith(true);
-      expect(result.current.setIsModalVisible).toHaveBeenCalledWith(false);
     });
   });
   it('should handle Enable button correctly', async () => {
@@ -572,6 +583,43 @@ describe('useCart', () => {
     waitFor(() => {
       expect(logMessage.error).toBe('ImagePicker Error:');
     });
+  });
+  it('should handle response.didCancel', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Mock launchImageLibrary to return a response with didCancel true
+    (launchImageLibrary as jest.Mock).mockResolvedValue({
+      didCancel: true,
+    });
+
+    await result.current.pickImg();
+
+    expect(result.current.imageUrls).toEqual([]);
+    expect(result.current.selectedImage).toBe('');
+  });
+  it('should handle falsy response', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    // Mock launchImageLibrary to return falsy response
+    (launchImageLibrary as jest.Mock).mockResolvedValue(false);
+
+    await result.current.pickImg();
+
+    // Verify that logMessage.error was called with the correct message
+    expect(logMessage.error).toHaveBeenCalledWith('ImagePicker Error: ');
+  });
+  it('should handle assets response when null', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    const imageResponse = {
+      didCancel: false,
+    };
+    (launchImageLibrary as jest.Mock).mockResolvedValue(imageResponse);
+
+    await result.current.pickImg();
+
+    // Verify that logMessage.error was called with the correct message
+    expect(logMessage.error).toHaveBeenCalledWith('Response assets not found');
   });
   it('should reject the handleEdit correctly', () => {
     const data = {

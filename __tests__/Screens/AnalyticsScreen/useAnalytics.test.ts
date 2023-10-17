@@ -5,6 +5,8 @@ import ApiService from 'network/network';
 import axios from 'axios';
 import Colors from '../../../src/constants/colors';
 import {url} from 'constants/Apis';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import RNFetchBlob from 'rn-fetch-blob';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -12,8 +14,21 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+global.FileReader = jest.fn(() => ({
+  onloadend: jest.fn(),
+  onerror: jest.fn(),
+  readAsDataURL: jest.fn(),
+}));
+
+jest.mock('rn-fetch-blob', () => ({
+  fs: {
+    dirs: {
+      DownloadDir: '/mock/download/dir', // Provide a mock directory
+    },
+    writeFile: jest.fn(),
+  },
+}));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -478,27 +493,57 @@ describe('useAnalytics', () => {
 
     expect(result.current.showModel).toBe(true);
   });
-  it('should handle exporting PDF successfully', async () => {
-    const mockToken = 'undefined';
-    const mockResponse = {
-      data: 'mocked_pdf_data', // Mocked base64 encoded PDF data
+  it('should handle order details correctly', async () => {
+    // Mock asyncStorageWrapper.getItem to return a token
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+
+    // Mock axios.get to return a response
+    (axios.get as jest.Mock).mockResolvedValue({
+      data: new Blob(), // Mocking a blob response
+    });
+    const mockFileReader = {
+      onloadend: jest.fn(),
+      onerror: jest.fn(),
+      readAsDataURL: jest.fn(),
+      result: 'data:application/pdf;base64,mockBase64String', // Mock the result
     };
 
-    (AsyncStorage.getItem as jest.Mock).mockResolvedValueOnce(mockToken);
-    (axios.get as jest.Mock).mockResolvedValueOnce(mockResponse);
+    global.FileReader = jest.fn(() => mockFileReader);
 
-    const {result} = renderHook(() => useAnalytics());
+    // ... your code ...
 
+    // Trigger onloadend event
+
+    // Render the hook
+    const {result} = renderHook(() => useAnalytics()); // Replace with the actual hook
+
+    // Call handleOrderDetails with an orderId
     await act(async () => {
-      await result.current.handleExportpdf();
+      await result.current.handleExportpdf(); // Provide a valid orderId
+    });
+    await act(async () => {
+      mockFileReader.onloadend();
     });
 
+    // Add some delay if necessary, in case there's an asynchronous operation
+    // that may not resolve immediately
+    // Assert that the necessary functions have been called correctly
+    expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
     expect(axios.get).toHaveBeenCalledWith(`${url}/pdf/export`, {
       headers: {
-        Authorization: `Bearer ${mockToken}`,
+        Authorization: 'Bearer mockToken',
       },
       responseType: 'blob',
     });
+    const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/report.pdf`;
+    const base64String = 'mockBase64String'; // Mock the base64 string
+    expect(RNFetchBlob.fs.writeFile).toHaveBeenCalledWith(
+      filePath,
+      base64String,
+      'base64',
+    );
+
+    // Add further assertions based on your specific logic
   });
   it('should reject handle analytics successfully', async () => {
     const errorMessage = 'Error fetching analytics'; // You can change the error message as needed

@@ -1,6 +1,7 @@
 import {act, renderHook, waitFor} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useFilteredAnalytics from 'screens/FilteredAnalytics/useFilteredAnalytics';
+import {useSelector} from 'react-redux';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -38,6 +39,30 @@ jest.mock('axios');
 describe('useAnalytics', () => {
   beforeEach(() => {
     AsyncStorage.clear();
+    (useSelector as jest.Mock).mockResolvedValueOnce(
+      (
+        selector: (arg0: {
+          FliterAnalyticsData: {
+            data: {
+              data: {
+                '2023-05': {rentalCost: number}[];
+                '2023-06': {rentalCost: number}[];
+              };
+            };
+          };
+        }) => any,
+      ) =>
+        selector({
+          FliterAnalyticsData: {
+            data: {
+              data: {
+                '2023-05': [{rentalCost: 100}, {rentalCost: 200}],
+                '2023-06': [{rentalCost: 300}],
+              },
+            },
+          },
+        }),
+    );
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -67,5 +92,24 @@ describe('useAnalytics', () => {
       mockKey2 = result.current.generateKey();
     });
     expect(mockKey1).not.toEqual(mockKey2);
+  });
+  it('should set chart data if response is an object', () => {
+    const {result} = renderHook(() => useFilteredAnalytics());
+    const mockChartData = [
+      {month: '2023-05', rentalCost: 300},
+      {month: '2023-06', rentalCost: 300},
+    ];
+    // Call handleChartData
+    result.current.handleChartData();
+    act(() => {
+      result.current.setChartData(mockChartData);
+    });
+
+    // Check if setChartData was called with the correct data
+    const expectedChartData = [
+      {month: '2023-05', rentalCost: 300},
+      {month: '2023-06', rentalCost: 300},
+    ];
+    expect(result.current.chartData).toEqual(expectedChartData);
   });
 });
