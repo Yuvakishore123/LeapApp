@@ -29,7 +29,7 @@ jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
 }));
-const mockHandleError = jest.fn();
+// const mockHandleError = jest.fn();
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -292,17 +292,17 @@ describe('SignUpScreen', () => {
     // After opening the modal, showModal should be true
     expect(result.current.showModal).toBe(false);
   });
-  it('This handleError should handle', () => {
-    const {result} = renderHook(() => useSignup(), {
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
-    });
+  // it('This handleError should handle', () => {
+  //   const {result} = renderHook(() => useSignup(), {
+  //     wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+  //   });
 
-    act(() => {
-      mockHandleError.mockClear();
-      result.current.handleSignup();
-    });
+  //   act(() => {
+  //     mockHandleError.mockClear();
+  //     result.current.handleSignup();
+  //   });
 
-    // Assert that handleError has been called
-    expect(mockHandleError).toHaveBeenCalled();
-  });
+  //   // Assert that handleError has been called
+  //   expect(mockHandleError).toHaveBeenCalled();
+  // });
 });

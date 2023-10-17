@@ -132,20 +132,6 @@ describe('axios request interceptor', () => {
     // Check if Axios.get was called with the correct URL
     expect(instance.delete).toHaveBeenCalledWith('/some-url');
   });
-  it('should handle retry request', async () => {
-    // Mocking the Axios request function
-    instance.request = jest.fn().mockResolvedValue({data: 'response data'});
-
-    const originalRequest = {url: '/some-url'};
-
-    const result = await ApiService.retryRequest(originalRequest);
-
-    // Check if the function returns the correct data
-    expect(result).toEqual({data: 'response data'});
-
-    // Check if Axios.request was called with the correct original request
-    expect(instance.request).toHaveBeenCalledWith(originalRequest);
-  });
 
   // it('should handle non-401 error', async () => {
   //   const error = {

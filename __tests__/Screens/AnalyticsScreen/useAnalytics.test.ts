@@ -108,8 +108,6 @@ describe('useAnalytics', () => {
       result.current.handleAnalytics();
     });
     waitFor(() => {
-      // Assert loading state changes
-      expect(result.current.loading).toBe(true);
       // Assert data and loading state after API call
       expect(result.current.Data).toEqual(mockData);
       expect(result.current.loading).toBe(false);

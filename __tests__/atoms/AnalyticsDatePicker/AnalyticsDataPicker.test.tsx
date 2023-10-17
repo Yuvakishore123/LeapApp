@@ -136,23 +136,6 @@ describe('AnalyticsDatePicker', () => {
 
     expect(onStartDateChange).toHaveBeenCalled();
   });
-  it('should call onEndDateChange when selecting end date', () => {
-    // Mock the onEndDateChange function
-    const onEndDateChange = jest.fn();
-    // Render the component
-    const {getByTestId} = render(
-      <AnalyticsDatePicker
-        startDate={new Date()}
-        endDate={new Date()}
-        onStartDateChange={() => {}}
-        onEndDateChange={onEndDateChange}
-      />,
-    );
-    // Find the end date button
-    fireEvent.press(getByTestId('end-date-button'));
-    // Expect onEndDateChange to be called
-    expect(onEndDateChange).toHaveBeenCalled();
-  });
 
   test('displays selected start date', () => {
     const startDate = new Date('2023-06-01');

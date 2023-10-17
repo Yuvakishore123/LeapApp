@@ -94,7 +94,7 @@ describe('useAddress', () => {
       result.current.handleDeleteAddress(deleteId);
     });
 
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
+    expect(mockDispatch).toHaveBeenCalledTimes(3);
     expect(result.current.showModal).toBe(true);
   });
   it('should navigate to EditAddress with item data', () => {

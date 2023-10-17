@@ -133,7 +133,7 @@ describe('OwnerRentalStatusScreen Page', () => {
         </NavigationContainer>
       </Provider>,
     );
-    const image = getByTestId('owner-rental-image'); // Replace with your actual test ID
+    const image = getByTestId('image-1'); // Replace with your actual test ID
 
     expect(image).toBeTruthy(); // Assert that the image element is present
   });

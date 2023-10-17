@@ -204,7 +204,7 @@ describe('removeAddress action', () => {
     await ADDORDER(mockId)(dispatch);
 
     expect(ApiService.post).toHaveBeenCalledWith(
-      `${url}/order/add/?razorpayId=${mockId}`,
+      `${url}/order/add?razorpayId=${mockId}`,
       mockId,
     );
     expect(dispatch).toHaveBeenCalledWith(Orderreducer(mockId));
