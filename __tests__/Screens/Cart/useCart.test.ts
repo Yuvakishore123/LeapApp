@@ -1,6 +1,7 @@
 import {act, renderHook} from '@testing-library/react-native';
 import {useSelector} from 'react-redux';
 import useCart from '../../../src/screens/Cart/useCart';
+import Toast from 'react-native-toast-message';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -14,6 +15,11 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(() => mockDispatch),
 }));
+jest.mock('react-native-toast-message', () => {
+  return {
+    show: jest.fn(),
+  };
+});
 const mockNav = jest.fn();
 
 jest.mock('@react-navigation/native', () => {
@@ -132,5 +138,28 @@ describe('useCart', () => {
       await result.current.handleDecrement(item);
     });
     expect(result.current.isplusDisable).toBe(false);
+  });
+  it('should show toast with error message for cart update', () => {
+    const {result} = renderHook(() => useCart());
+
+    result.current.showToast();
+
+    // Ensure that Toast.show was called with the correct parameters
+    expect(Toast.show).toHaveBeenCalledWith({
+      type: 'error',
+      text1: 'Error in updating cart',
+    });
+  });
+
+  it('should show toast with error message for cart error', () => {
+    const {result} = renderHook(() => useCart());
+
+    result.current.CartToast();
+
+    // Ensure that Toast.show was called with the correct parameters
+    expect(Toast.show).toHaveBeenCalledWith({
+      type: 'error',
+      text1: 'Error in cart',
+    });
   });
 });

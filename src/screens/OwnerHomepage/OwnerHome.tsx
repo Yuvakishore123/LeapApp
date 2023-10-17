@@ -13,7 +13,7 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './OwnerHomestyle';
-import Donut from '../../components/atoms/DonutChart';
+import Donut from '../../components/atoms/DonutChart/DonutChart';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import useOwnerHome from './useOwnerHome';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
@@ -88,19 +88,19 @@ const OwnerHome = ({navigation}: Props) => {
   const renderRecentlyAdded = () => {
     if (isLoading) {
       return (
-        <SkeletonPlaceholder
-          backgroundColor={colorScheme === 'dark' ? '#373737' : Colors.white}>
-          <>
-            <ScrollView
-              style={styles.mainContainer}
-              testID="recentlyAddedContainer">
-              {renderTouchableOpacity()}
-              <View>
-                <View style={styles.cardSt}>{renderTouchableOpacity()}</View>
-              </View>
-            </ScrollView>
-          </>
-        </SkeletonPlaceholder>
+        <View testID="recentlyAddedContainer">
+          <SkeletonPlaceholder
+            backgroundColor={colorScheme === 'dark' ? '#373737' : Colors.white}>
+            <>
+              <ScrollView style={styles.mainContainer}>
+                {renderTouchableOpacity()}
+                <View>
+                  <View style={styles.cardSt}>{renderTouchableOpacity()}</View>
+                </View>
+              </ScrollView>
+            </>
+          </SkeletonPlaceholder>
+        </View>
       );
     } else if (recentyAdded && recentyAdded.length === 0) {
       return (

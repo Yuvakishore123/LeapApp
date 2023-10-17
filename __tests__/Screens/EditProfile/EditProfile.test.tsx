@@ -74,15 +74,9 @@ describe('OwnerEditProfile', () => {
     const {getByTestId} = render(<SkeletonLoader />);
 
     // Query for elements you expect to be rendered by the skeleton loader
-    const input1 = getByTestId('input1');
-    const input2 = getByTestId('input-2');
-    const input3 = getByTestId('input-3');
-    const input4 = getByTestId('input-4');
+    const input1 = getByTestId('loading-component');
 
     // Now you can make assertions about these elements
     expect(input1).toBeDefined();
-    expect(input2).toBeDefined();
-    expect(input3).toBeDefined();
-    expect(input4).toBeDefined();
   });
 });

@@ -3,7 +3,7 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
 import RNFetchBlob from 'rn-fetch-blob';
-import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 
 import {
   Dashboardyearlydata,

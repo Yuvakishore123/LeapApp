@@ -14,20 +14,22 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 export function SkeletonLoader() {
   const {colorScheme} = useContext(ColorSchemeContext);
   return (
-    <SkeletonPlaceholder
-      highlightColor="#e0e0e0"
-      backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
-      <View testID="skeleton-loader">
-        <TextInput
-          style={style.input}
-          placeholderTextColor="#999"
-          testID="input1"
-        />
-        <TextInput style={style.input} testID="input-2" />
-        <TextInput style={style.input} testID="input-3" />
-        <TextInput style={style.input} testID="input-4" />
-      </View>
-    </SkeletonPlaceholder>
+    <View testID="loading-component">
+      <SkeletonPlaceholder
+        highlightColor="#e0e0e0"
+        backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
+        <View testID="skeleton-loader">
+          <TextInput
+            style={style.input}
+            placeholderTextColor="#999"
+            testID="input1"
+          />
+          <TextInput style={style.input} testID="input-2" />
+          <TextInput style={style.input} testID="input-3" />
+          <TextInput style={style.input} testID="input-4" />
+        </View>
+      </SkeletonPlaceholder>
+    </View>
   );
 }
 

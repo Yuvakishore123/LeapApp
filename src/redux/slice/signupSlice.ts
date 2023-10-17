@@ -43,7 +43,7 @@ export const postSignup = createAsyncThunk(
     } catch (error: any) {
       logMessage.error('error in signing up', error.response.status);
       dispatch(setError(error.response.status));
-      return error;
+      throw error;
     }
   },
 );

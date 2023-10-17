@@ -187,4 +187,25 @@ describe('OwnerProfile', () => {
     });
     expect(removefunc).toBeCalled();
   });
+  test('should render loading state in ownerprofile', () => {
+    const navigationMock = {navigate: jest.fn()};
+    const removefunc = jest.fn();
+    (UseOwnerprofile as jest.Mock).mockReturnValue({
+      loading: true, // Set isLoading to false
+      data: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phoneNumber: '1234567890',
+        profileImageUrl: 'https://example.com/profile.jpg',
+      },
+      handleRemoveProfilePic: removefunc,
+    });
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <OwnerProfile navigation={navigationMock} />
+      </NavigationContainer>,
+    );
+    const loading = getByTestId('skeleton-loader');
+    expect(loading).toBeDefined();
+  });
 });

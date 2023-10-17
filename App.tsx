@@ -8,7 +8,6 @@ import {
 } from '@react-navigation/native';
 
 import {LogBox, StatusBar, View} from 'react-native';
-import {createSharedElementStackNavigator} from 'react-navigation-shared-element';
 import LoginScreen from 'screens/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from './src/redux/store';
@@ -31,6 +30,7 @@ import {setNavigationReference} from '../LeapApp/src/network/network';
 import {listProductsById} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import NetInfo from '@react-native-community/netinfo';
+import {createNativeStackNavigator} from '@react-navigation/native-stack';
 Sentry.init({
   dsn: 'https://1a526180b7ecdaa480950fe3b01322a4@o4505635340419072.ingest.sentry.io/4505724329918464',
   enableAutoSessionTracking: true,
@@ -39,7 +39,7 @@ Sentry.init({
   tracesSampleRate: 1.0,
 });
 
-const Stack = createSharedElementStackNavigator();
+const Stack = createNativeStackNavigator();
 LogBox.ignoreAllLogs();
 
 export const AuthStack = () => {
@@ -80,7 +80,7 @@ export const AuthStack = () => {
     </Stack.Navigator>
   );
 };
-const RootNavigation = () => {
+export const RootNavigation = () => {
   const token = useSelector((state: any) => state.login.data.authToken);
   useEffect(() => {
     getToken();

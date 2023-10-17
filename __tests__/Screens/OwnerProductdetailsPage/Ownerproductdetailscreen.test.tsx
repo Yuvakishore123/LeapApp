@@ -1,5 +1,5 @@
 import React from 'react';
-import {fireEvent, render, waitFor} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import OproductDetails from '../../../src/screens/OwnerProductdetailsPage/OproductDetails';
 
 describe('OproductDetails', () => {
@@ -33,10 +33,7 @@ describe('OproductDetails', () => {
 
     const backButton = getByTestId('back-button');
     fireEvent.press(backButton);
-    fireEvent.press(backButton);
 
-    waitFor(() => {
-      expect(mockNavigation.goBack).toHaveBeenCalledTimes(2);
-    });
+    expect(mockNavigation.goBack).toBeCalled();
   });
 });

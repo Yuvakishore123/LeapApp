@@ -73,8 +73,7 @@ describe('signup slice', () => {
 
   it('should handle fetchCategoriesProducts.rejected action', () => {
     const mockError = 'Some error message';
-    jest.spyOn(ApiService, 'post').mockRejectedValueOnce(mockError);
-
+    (ApiService.post as jest.Mock).mockRejectedValue(mockError);
     return store.dispatch(postSignup(credentials)).catch(() => {
       const state = store.getState().SignUp as SigninDataState;
       expect(state.isLoader).toBe(false);

@@ -12,6 +12,7 @@ jest.mock('@react-native-community/netinfo', () => ({
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
+jest.mock('network/network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -75,7 +76,7 @@ describe('AddressAddThunk Slice', () => {
   });
 
   it('should handle AddressAdd.fulfilled correctly', async () => {
-    jest.spyOn(ApiService, 'post').mockImplementation(mockData);
+    (ApiService.post as jest.Mock).mockResolvedValue(mockData);
 
     await store.dispatch(AddressAdd(mockData));
 
@@ -88,7 +89,7 @@ describe('AddressAddThunk Slice', () => {
   it('should handle AddressAdd.rejected correctly', async () => {
     const errorMessage = 'An error occurred while adding the address';
 
-    jest.spyOn(ApiService, 'post').mockRejectedValueOnce(errorMessage);
+    (ApiService.post as jest.Mock).mockRejectedValue(errorMessage);
 
     try {
       await store.dispatch(AddressAdd(mockData));

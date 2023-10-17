@@ -4,7 +4,7 @@ import {AxiosResponse} from 'axios';
 import {profileUpload, url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import ApiService from 'network/network';
-import { PermissionsAndroid } from 'react-native';
+import {PermissionsAndroid} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
 import useProfile from 'screens/Profile/useProfile';
@@ -62,7 +62,7 @@ jest.mock('@react-navigation/native', () => {
 
 const configureDispatch = () => {
   const dispatch = jest.fn();
-  useDispatch.mockReturnValue(dispatch);
+  (useDispatch as jest.Mock).mockReturnValue(dispatch);
   return dispatch;
 };
 jest.mock('react-native-image-picker', () => ({
@@ -77,8 +77,8 @@ describe('Profile Screen', () => {
   const mockDispatch = configureDispatch();
   beforeEach(() => {
     mockPost = jest.spyOn(ApiService, 'post');
-    useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockImplementation(
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useSelector as jest.Mock).mockImplementation(
       (selector: (arg0: {profileData: {data: {}}}) => any) =>
         selector({
           profileData: {data: {}},
@@ -110,7 +110,7 @@ describe('Profile Screen', () => {
       });
 
     // Mock ApiService.post to return a success response
-    ApiService.post.mockResolvedValue({
+    (ApiService.post as jest.Mock).mockResolvedValue({
       ok: true,
       json: () => ({url: 'mockImageUrl'}),
     });
@@ -168,7 +168,7 @@ describe('Profile Screen', () => {
 
     // Mocking the response of launchImageLibrary
     const mockResponse = {didCancel: true, assets: []}; // Adjust the response as needed
-    launchImageLibrary.mockResolvedValue(mockResponse);
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
 
     // Access pickImage from the hook
     const {pickImage} = result.current;
@@ -182,11 +182,11 @@ describe('Profile Screen', () => {
     const {result} = renderHook(() => useProfile());
 
     // Mock permission as granted
-    asyncStorageWrapper.getItem.mockResolvedValue('true');
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('true');
 
     // Mock launchImageLibrary response
     const mockResponse = {didCancel: false, assets: [{uri: 'mockImageUri'}]};
-    launchImageLibrary.mockResolvedValue(mockResponse);
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
 
     // Access checkPermission from the hook
     const {checkPermission} = result.current;
@@ -362,7 +362,7 @@ describe('Profile Screen', () => {
       'true',
     );
     waitFor(() => {
-      expect(result.current.pickImages).toBeCalled();
+      expect(result.current.pickImage).toBeCalled();
     });
   });
 });

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render} from '@testing-library/react-native';
-import Donut from '../../../src/components/atoms/DonutChart';
+import Donut from '../../../src/components/atoms/DonutChart/DonutChart';
 describe('Donut Component', () => {
   it('renders correctly', () => {
     const {getByTestId} = render(

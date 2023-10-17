@@ -38,6 +38,8 @@ const Homescreen = ({navigation}: Props) => {
     setSearchQuery,
     placeholderText,
     placeholderTextColor,
+    wishlistList,
+    setWishlistList,
     loading,
     closeModal,
     showModal,
@@ -46,7 +48,6 @@ const Homescreen = ({navigation}: Props) => {
     allProducts,
   } = useHome();
 
-  const [wishlistList, setWishlistList] = useState<string[]>([]);
   const {
     colorScheme,
     getContainerStyle,
@@ -61,7 +62,6 @@ const Homescreen = ({navigation}: Props) => {
       </View>
     );
   };
-  console.log(loading);
   return (
     <SafeAreaView
       style={[
@@ -74,90 +74,96 @@ const Homescreen = ({navigation}: Props) => {
         getContainerStyle(),
       ]}>
       {loading ? (
-        <SkeletonPlaceholder
-          highlightColor="#e0e0e0"
-          backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
-          <View>
-            <Text
-              style={[
-                {
-                  marginLeft: 26,
-                  marginTop: 10,
-                  width: 70,
-                  fontFamily: 'Poppins-SemiBold',
-                  fontSize: 15,
-                },
-                getTextColor(),
-              ]}></Text>
-            <View
-              testID="loadingtest"
-              style={[style.searchInputContainer, getTextColor()]}>
-              <TextInput
-                placeholder="Search"
-                placeholderTextColor={
-                  colorScheme === 'dark' ? Colors.white : Colors.black
-                }
-                style={{
-                  borderRadius: 40,
-                  fontFamily: 'Poppins-Regular',
-                  fontSize: 16,
-                  width: '90%',
-                  height: 45,
-                  marginTop: 8,
-                  paddingLeft: 10,
-                }}
-              />
-            </View>
-            <Text
-              style={[
-                {
-                  marginLeft: 26,
-                  marginTop: 30,
-                  width: 300,
-                  height: 25,
-                  borderRadius: 50,
-                  fontFamily: 'Poppins-SemiBold',
-                  fontSize: 15,
-                },
-                getTextColor(),
-              ]}></Text>
-            <View style={style.categoriesContainer}>
-              <Text style={[style.CategoriesText, getTextColor()]}></Text>
-              <TouchableOpacity>
-                <Text style={style.Seetext}></Text>
-              </TouchableOpacity>
-            </View>
-            <View style={{flexDirection: 'row'}}>
-              <View>
-                <TextInput style={style.img}></TextInput>
+        <View testID="loading-component">
+          <SkeletonPlaceholder
+            highlightColor="#e0e0e0"
+            backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
+            <View>
+              <Text
+                style={[
+                  {
+                    marginLeft: 26,
+                    marginTop: 10,
+                    width: 70,
+                    fontFamily: 'Poppins-SemiBold',
+                    fontSize: 15,
+                  },
+                  getTextColor(),
+                ]}></Text>
+              <View
+                testID="loadingtest"
+                style={[style.searchInputContainer, getTextColor()]}>
+                <TextInput
+                  placeholder="Search"
+                  placeholderTextColor={
+                    colorScheme === 'dark' ? Colors.white : Colors.black
+                  }
+                  style={{
+                    borderRadius: 40,
+                    fontFamily: 'Poppins-Regular',
+                    fontSize: 16,
+                    width: '90%',
+                    height: 45,
+                    marginTop: 8,
+                    paddingLeft: 10,
+                  }}
+                />
               </View>
-              <View>
-                <TextInput style={style.img}></TextInput>
+              <Text
+                style={[
+                  {
+                    marginLeft: 26,
+                    marginTop: 30,
+                    width: 300,
+                    height: 25,
+                    borderRadius: 50,
+                    fontFamily: 'Poppins-SemiBold',
+                    fontSize: 15,
+                  },
+                  getTextColor(),
+                ]}></Text>
+              <View style={style.categoriesContainer}>
+                <Text style={[style.CategoriesText, getTextColor()]}></Text>
+                <TouchableOpacity>
+                  <Text style={style.Seetext}></Text>
+                </TouchableOpacity>
               </View>
-              <View>
-                <TextInput style={style.img}></TextInput>
-              </View>
-              <View>
-                <TextInput style={style.img}></TextInput>
-              </View>
-              <View>
-                <TextInput style={style.img}></TextInput>
-              </View>
-            </View>
-            <View style={[style.container, {marginTop: 70}]}>
-              <TouchableOpacity>
-                <View style={style.imageContainer}>
-                  <TextInput style={style.image}></TextInput>
-                  <TouchableOpacity style={style.wishlistButton}>
-                    <MaterialIcons size={20} color={'red'} name="cards-heart" />
-                  </TouchableOpacity>
+              <View style={{flexDirection: 'row'}}>
+                <View>
+                  <TextInput style={style.img}></TextInput>
                 </View>
-              </TouchableOpacity>
-              <Text style={style.name}></Text>
-              <Text style={style.price}></Text>
+                <View>
+                  <TextInput style={style.img}></TextInput>
+                </View>
+                <View>
+                  <TextInput style={style.img}></TextInput>
+                </View>
+                <View>
+                  <TextInput style={style.img}></TextInput>
+                </View>
+                <View>
+                  <TextInput style={style.img}></TextInput>
+                </View>
+              </View>
+              <View style={[style.container, {marginTop: 70}]}>
+                <TouchableOpacity>
+                  <View style={style.imageContainer}>
+                    <TextInput style={style.image}></TextInput>
+                    <TouchableOpacity style={style.wishlistButton}>
+                      <MaterialIcons
+                        size={20}
+                        color={'red'}
+                        name="cards-heart"
+                      />
+                    </TouchableOpacity>
+                  </View>
+                </TouchableOpacity>
+                <Text style={style.name}></Text>
+                <Text style={style.price}></Text>
+              </View>
             </View>
-          </View>
-        </SkeletonPlaceholder>
+          </SkeletonPlaceholder>
+        </View>
       ) : (
         <View style={[style.mainContainer, getContainerStyle()]}>
           <View style={{flexDirection: 'row'}}>
@@ -268,9 +274,9 @@ const Homescreen = ({navigation}: Props) => {
                               testID={`wishlistremove-${item.id}`}
                               style={style.wishlistButton}
                               onPress={() => {
-                                if (wishlistList.includes(item.id)) {
+                                if (wishlistList?.includes(item.id)) {
                                   setWishlistList(
-                                    wishlistList.filter(id => id !== item.id),
+                                    wishlistList?.filter(id => id !== item.id),
                                   );
                                   wishlistremove(item.id);
                                 } else {
@@ -278,7 +284,7 @@ const Homescreen = ({navigation}: Props) => {
                                   dispatch(postProductToAPI(item) as any);
                                 }
                               }}>
-                              {wishlistList.includes(item.id) ? (
+                              {wishlistList?.includes(item.id) ? (
                                 <Animatable.View
                                   testID={`wishlistheart-${item.id}`}
                                   animation={'bounceIn'}

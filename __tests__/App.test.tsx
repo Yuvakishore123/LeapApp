@@ -1,12 +1,11 @@
 import 'react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import App from '../App';
-import {render, waitFor} from '@testing-library/react-native';
+import App, {AuthStack, RootNavigation} from '../App';
+import {render} from '@testing-library/react-native';
 import MockAdapter from 'axios-mock-adapter';
 import axios from 'axios';
-import {useNavigation} from '@react-navigation/native';
-import dynamicLinks from '@react-native-firebase/dynamic-links';
+import {NavigationContainer} from '@react-navigation/native';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -119,6 +118,18 @@ describe('App.tsx file', () => {
   });
   it('render the App.tsx file correctly', () => {
     const result = render(<App />);
+    expect(result).toBeDefined();
+  });
+  it('render the AuthStack correctly', () => {
+    const result = render(
+      <NavigationContainer>
+        <AuthStack />
+      </NavigationContainer>,
+    );
+    expect(result).toBeDefined();
+  });
+  it('render the Root Navigation correctly', () => {
+    const result = render(<RootNavigation />);
     expect(result).toBeDefined();
   });
 });

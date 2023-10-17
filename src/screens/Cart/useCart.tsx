@@ -157,6 +157,10 @@ const useCart = () => {
     rentalStartDate,
     rentalEndDate,
     setRentalStartDate,
+    cartError,
+    CartToast,
+    isError,
+    showToast,
     setRentalEndDate,
     openModal,
     imageLoaded,
@@ -175,7 +179,6 @@ const useCart = () => {
     getTextColor,
     getTextInputStyle,
     cartProductId,
-    isError,
   };
 };
 export default useCart;

@@ -12,7 +12,7 @@ export function setNavigationReference(ref: NavigationContainerRef) {
 }
 
 // Create an Axios instance with specific configuration
-const instance = axios.create({
+export const instance = axios.create({
   baseURL: url,
   timeout: 15000,
 });

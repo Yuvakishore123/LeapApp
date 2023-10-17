@@ -30,6 +30,7 @@ const useHome = () => {
   const [Data, setData] = useState([]);
   const [oldData, setOldDate] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [wishlistList, setWishlistList] = useState<string[]>([]);
 
   const {dispatch} = useThunkDispatch();
   const {navigation} = useNavigationProp();
@@ -112,6 +113,8 @@ const useHome = () => {
     setSearchQuery,
     placeholderText,
     placeholderTextColor,
+    setWishlistList,
+    wishlistList,
     loading,
     openModal,
     setRefreshing,

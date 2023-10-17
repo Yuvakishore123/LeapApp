@@ -12,6 +12,7 @@ jest.mock('@react-native-community/netinfo', () => ({
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
+jest.mock('network/network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -61,7 +62,7 @@ describe('LoginSlice', () => {
   });
 
   it('should handle fetchCategoriesProducts.fulfilled action', () => {
-    jest.spyOn(ApiService, 'post').mockResolvedValue(mockdata);
+    (ApiService.post as jest.Mock).mockResolvedValue(credentials);
 
     return store.dispatch(postLogin(credentials)).then(() => {
       const state = store.getState().LoginData as LoginState;
