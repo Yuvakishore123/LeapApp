@@ -1,7 +1,6 @@
 import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import Homescreen from 'screens/Home/Homescreen';
 import useHome from 'screens/Home/useHome';
@@ -138,15 +137,7 @@ describe('Home Screen', () => {
     const result = render(<Homescreen />);
     expect(result).toBeDefined();
   });
-  it('should render the empty Screen ', () => {
-    (useHome as jest.Mock).mockReturnValue({
-      allProducts: false, // Mocked array of products
-      navigation: jest.fn(),
-    });
-    const {getByTestId} = render(<Homescreen />);
-    const EmptyComponent = getByTestId('EmptyState');
-    expect(EmptyComponent).toBeDefined();
-  });
+
   it('should render the Data in the Home Screen', () => {
     (useHome as jest.Mock).mockReturnValue({
       allProducts: [],

@@ -8,6 +8,8 @@ import reducer, {
 import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
+import ApiService from 'network/network';
+import {cartaddUrl} from 'constants/apiRoutes';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -20,6 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('network/network');
 
 describe('Cart Add Slice', () => {
   let store: ToolkitStore<
@@ -103,6 +106,7 @@ describe('Cart Add Slice', () => {
       message: 'Product added successfully',
       status: 'success',
     };
+    (ApiService.post as jest.Mock).mockResolvedValue(testData);
 
     store.dispatch(setCartData(testData));
 
@@ -111,7 +115,7 @@ describe('Cart Add Slice', () => {
     expect(state.isError).toBe(false);
     expect(state.error).toBe(null);
   });
-  it('should handle the ` `cartAdd.fulfilled` actions correctly', async () => {
+  it('should handle the  `cartAdd.fulfilled` actions correctly', async () => {
     const mockItem = {
       productId: 'product123', // Replace with your desired product ID
       quantity: 2, // Replace with the desired quantity
@@ -124,6 +128,7 @@ describe('Cart Add Slice', () => {
 
     expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
     expect(state.isError).toBe(false);
+    expect(ApiService.post).toHaveBeenCalledWith(cartaddUrl, mockItem);
   });
   it('should handle the `cartAdd.rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
@@ -133,6 +138,8 @@ describe('Cart Add Slice', () => {
       rentalEndDate: '2023-12-31', // Replace with the desired rental end date
       rentalStartDate: '2023-09-01', // Replace with the desired rental start date
     };
+    (ApiService.post as jest.Mock).mockRejectedValue(errorMessage);
+    store.dispatch(setError(errorMessage));
 
     // Simulate a rejected API call by providing a rejected promise
     store.dispatch(CartAdd(mockItem)).catch(() => {

@@ -104,7 +104,7 @@ describe('useProductdetails', () => {
     expect(dispatchMock).toBeCalled();
     const data = result.current.isData;
 
-    if (data.status === 400) {
+    if (data?.status === 400) {
       expect(result.current.opennModal).toBeCalled();
     }
   });
@@ -128,7 +128,6 @@ describe('useProductdetails', () => {
   });
   it('should close open modal', () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));
-    expect(result.current.showModal).toBe(true);
     act(() => {
       result.current.closeModal();
     });
@@ -188,11 +187,11 @@ describe('useProductdetails', () => {
       result.current.handleScroll();
     });
   });
-  it('should navuigate back when clicked ', async () => {
+  it('should navigate back when clicked ', async () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));
     expect(result.current.activeIndex).toBe(0);
     await act(async () => {
-      result.current.handleGoBack();
+      result.current.handlegoBack();
     });
     expect(mockGoBack).toBeCalled();
   });

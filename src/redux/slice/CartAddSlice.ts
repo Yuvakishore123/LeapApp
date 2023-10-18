@@ -1,6 +1,7 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 import ApiService from '../../network/network';
 import {cartaddUrl} from '../../constants/apiRoutes';
+
 interface CartAddData {
   message: string;
   status: string;
@@ -38,7 +39,7 @@ export const CartAdd = createAsyncThunk(
     } catch (error: any) {
       dispatch(setError(error.response));
 
-      return error.response;
+      throw error;
     }
   },
 );

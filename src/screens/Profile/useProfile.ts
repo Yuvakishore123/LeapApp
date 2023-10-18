@@ -206,12 +206,7 @@ const useProfile = () => {
       text2: ' Image Size Exceeding',
     });
   };
-  const ErrorToast = () => {
-    Toast.show({
-      type: 'error',
-      text1: 'Allow the Permissions for the Photos',
-    });
-  };
+
   const handleEditAddress = () => {
     navigation.navigate('Owneraddresspage');
   };
@@ -250,11 +245,12 @@ const useProfile = () => {
     showDialogToAppSettings,
     openAppSettings,
     requestCameraPermission,
-    ErrorToast,
+
     setIsLoading,
     handleEditAddress,
     handleOwnerScreen,
     handleEditProfile,
+    showToast,
   };
 };
 

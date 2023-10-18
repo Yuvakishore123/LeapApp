@@ -158,7 +158,7 @@ describe('useProductdetails Screen', () => {
   it('should navigate back to hone screen', () => {
     const mockNavigation = jest.fn();
     (useProductdetails as jest.Mock).mockReturnValue({
-      handleGoBack: mockNavigation,
+      handlegoBack: mockNavigation,
     });
     // Define a mock route with the necessary params
     const route = {
@@ -196,8 +196,11 @@ describe('useProductdetails Screen', () => {
     const route = {
       params: {
         product: {
-          imageUrl: ['url1', 'url2', 'url3'],
-        }, // Provide a valid subcategoryId here
+          id: 1,
+          name: 'Product 1',
+          price: 10,
+          imageUrl: ['https://example.com/image1.jpg'],
+        },
       },
     };
 
@@ -214,8 +217,13 @@ describe('useProductdetails Screen', () => {
     );
     const cardComponent = getByTestId('Card-Component');
     expect(cardComponent).toBeDefined();
-    fireEvent.scroll(cardComponent);
-    expect(mockHandleScroll).toBeCalled();
+    fireEvent(cardComponent, 'onMomentumScrollEnd', {
+      nativeEvent: {
+        contentOffset: {x: 405}, // Simulating scroll position
+      },
+    });
+
+    expect(mockSetActiveIndex).toBeCalled();
   });
   it('should display the Products ', () => {
     const mockNavigation = jest.fn();

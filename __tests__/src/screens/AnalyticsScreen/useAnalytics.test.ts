@@ -3,7 +3,13 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 import {useDispatch} from 'react-redux';
 
 import useAnalytics from '../../../../src/screens/AnalyticsPage/useAnalytics';
-import ApiService from 'network/network';
+
+import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
+import axios from 'axios';
+import ApiService from '../../../../src/network/network';
+import {url} from 'constants/Apis';
+import RNFetchBlob from 'rn-fetch-blob';
+import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
@@ -15,17 +21,25 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+global.FileReader = jest.fn(() => ({
+  onloadend: jest.fn(),
+  onerror: jest.fn(),
+  readAsDataURL: jest.fn(),
+}));
 const mockLog = {
   error: jest.fn(),
 };
-
-jest.mock('helpers/helper', () => ({
-  logMessage: jest.fn(() => ({
-    log: jest.fn(), // Mock the log function here
-  })),
+jest.mock('../../../../src/network/network', () => ({
+  get: jest.fn(),
 }));
+
 jest.mock('rn-fetch-blob', () => ({
-  fetch: jest.fn(), // Mock the fetch method
+  fs: {
+    dirs: {
+      DownloadDir: '/mock/download/dir', // Provide a mock directory
+    },
+    writeFile: jest.fn(),
+  },
 }));
 jest.mock('@notifee/react-native', () => require('notifee'));
 jest.mock('@react-native-community/netinfo', () => ({
@@ -33,11 +47,13 @@ jest.mock('@react-native-community/netinfo', () => ({
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
+
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
+jest.mock('axios');
 jest.mock('../../../../src/utils/asyncStorage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -71,23 +87,6 @@ describe('useAnalytics Screen', () => {
         totalEarnings: 9793,
         totalNumberOfItems: 5,
       },
-      '2023-11': {
-        totalEarnings: 11999,
-        totalNumberOfItems: 1,
-      },
-      '2023-12': {
-        totalEarnings: 16095,
-        totalNumberOfItems: 5,
-      },
-      '2023-09': {
-        totalEarnings: 5596,
-        totalNumberOfItems: 3,
-      },
-      '2024-06': {
-        totalEarnings: 2798,
-        totalNumberOfItems: 1,
-      },
-      // Add more data for other months as needed
     };
 
     jest.spyOn(ApiService, 'get').mockResolvedValue(mockEarningsData);
@@ -104,6 +103,18 @@ describe('useAnalytics Screen', () => {
       // Assert that data is set to the sample result
       expect(result.current.Data).toEqual(mockEarningsData);
     });
+  });
+  it('should get the error', async () => {
+    const {result} = renderHook(() => useAnalytics());
+    const mockError = 'error during fetching data';
+
+    jest.spyOn(ApiService, 'get').mockRejectedValue(mockError);
+
+    expect(result.current.loading).toBe(false);
+    act(() => {
+      result.current.handleAnalytics();
+    });
+    expect(result.current.loading).toBe(true);
   });
   it('should get the OrdersData ', async () => {
     const {result} = renderHook(() => useAnalytics());
@@ -123,111 +134,8 @@ describe('useAnalytics Screen', () => {
           borrowerEmail: 'p.pranayreddy699@gmail.com',
           borrowerPhoneNumber: '9505180888',
         },
-        {
-          name: 'SHRUNK RACER JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-05-29T06:30:00',
-          rentalEndDate: '2023-05-30T06:30:00',
-          rentalCost: 11999,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685303764085_image.png',
-          productId: 15,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-        {
-          name: 'NILOUFER SAREE',
-          quantity: 2,
-          rentalStartDate: '2023-05-29T06:30:00',
-          rentalEndDate: '2023-05-30T06:30:00',
-          rentalCost: 2598,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335616131_image.png',
-          productId: 26,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
       ],
-      '2023-06': [
-        {
-          name: 'PRADA JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-06-01T06:30:00',
-          rentalEndDate: '2023-06-04T06:30:00',
-          rentalCost: 5697,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335795440_image.png',
-          productId: 27,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-        {
-          name: 'ARMANI JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-06-15T06:30:00',
-          rentalEndDate: '2023-06-16T06:30:00',
-          rentalCost: 1399,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685341177953_image.png',
-          productId: 30,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-      ],
-      '2023-07': [
-        {
-          name: 'PRADA JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-07-01T06:30:00',
-          rentalEndDate: '2023-07-07T06:30:00',
-          rentalCost: 8394,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685336081896_image.png',
-          productId: 28,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-      ],
-      '2023-08': [
-        {
-          name: 'SABYASACHI SAREE',
-          quantity: 1,
-          rentalStartDate: '2023-08-10T06:30:00',
-          rentalEndDate: '2023-08-18T06:30:00',
-          rentalCost: 7992,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685335472835_image.png',
-          productId: 25,
-          borrowerId: 5,
-          borrowerName: 'Bala Pranay reddy Reddy',
-          borrowerEmail: 'p.pranayreddy699@gmail.com',
-          borrowerPhoneNumber: '9505180888',
-        },
-        {
-          name: 'PRADA JACKET',
-          quantity: 1,
-          rentalStartDate: '2023-08-24T06:30:00',
-          rentalEndDate: '2023-08-25T06:30:00',
-          rentalCost: 1399,
-          imageUrl:
-            'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685336081896_image.png',
-          productId: 28,
-          borrowerId: 4,
-          borrowerName: 'Yuva Kishore Kolli',
-          borrowerEmail: 'yuvakishorekolli@gmail.com',
-          borrowerPhoneNumber: '8978661606',
-        },
-      ],
+
       // You can continue to add data for other months as needed.
     };
 
@@ -459,22 +367,7 @@ describe('useAnalytics Screen', () => {
           totalEarnings: 11999,
           totalNumberOfItems: 1,
         },
-        '2023-10': {
-          totalEarnings: 9793,
-          totalNumberOfItems: 5,
-        },
-        '2023-08': {
-          totalEarnings: 11190,
-          totalNumberOfItems: 3,
-        },
-        '2023-07': {
-          totalEarnings: 8394,
-          totalNumberOfItems: 1,
-        },
-        '2023-06': {
-          totalEarnings: 7096,
-          totalNumberOfItems: 2,
-        },
+
         '2023-05': {
           totalEarnings: 23596,
           totalNumberOfItems: 4,
@@ -523,37 +416,59 @@ describe('useAnalytics Screen', () => {
       expect(result.current.DashboardYearly).toEqual(mockYearlyData);
     });
   });
-  // it('should handle notification', async () => {
-  //   const {result} = renderHook(() => useAnalytics());
+  it('should handle notification', async () => {
+    const {result} = renderHook(() => useAnalytics());
 
-  //   // Call the HandleNotification function
-  //   await act(async () => {
-  //     await result.current.HandleNotification();
-  //   });
+    // Call the HandleNotification function
+    await act(async () => {
+      await result.current.HandleNotification();
+    });
 
-  //   // Assert that createChannel and displayNotification were called as expected
-  //   expect(notifee.createChannel).toHaveBeenCalledWith({
-  //     id: 'pdf_download_channel1',
-  //     name: 'PDF Download Channel1',
-  //     sound: 'default',
+    // Assert that createChannel and displayNotification were called as expected
+    expect(notifee.createChannel).toHaveBeenCalledWith({
+      id: 'pdf_download_channel1',
+      name: 'PDF Download Channel1',
+      sound: 'default',
 
-  //     lights: true,
-  //     importance: AndroidImportance.HIGH,
-  //     lightColor: AndroidColor.RED,
-  //   });
+      lights: true,
+      importance: AndroidImportance?.HIGH,
+      lightColor: AndroidColor?.RED,
+    });
+  });
+  it('should export the pdf', async () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const {result} = renderHook(() => useAnalytics());
+    const mockFileReader = {
+      readAsDataURL: jest.fn(),
+      result: 'mockedBase64Data',
+      onloadend: jest.fn(),
+    };
 
-  //   expect(notifee.displayNotification).toHaveBeenCalledWith({
-  //     title: 'Leaps',
-  //     body: 'PDF file downloaded successfully.',
-  //     android: {
-  //       channelId: 'pdf_download_channel1',
-  //       largeIcon: require('../../../assets/Leaps-1.png'),
-  //       lights: [AndroidColor.RED, 300, 600],
-  //       progress: {
-  //         max: 10,
-  //         current: 10,
-  //       },
-  //     },
-  //   });
-  // });
+    (axios.get as jest.Mock).mockResolvedValue({mockedDAta: new Blob()});
+
+    // Set the mocked objects in the global scope
+    global.FileReader = jest.fn(() => mockFileReader);
+
+    // Call the HandleNotification function
+    await act(async () => {
+      await result.current.handleExportpdf();
+    });
+    act(() => {
+      mockFileReader.onloadend();
+    });
+
+    expect(axios.get).toHaveBeenCalledWith(`${url}/pdf/export`, {
+      headers: {
+        Authorization: 'Bearer mockToken',
+      },
+      responseType: 'blob',
+    });
+    const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/report.pdf`;
+
+    expect(RNFetchBlob.fs.writeFile).toHaveBeenCalledWith(
+      filePath,
+      'mockedBase64Data',
+      'base64',
+    );
+  });
 });

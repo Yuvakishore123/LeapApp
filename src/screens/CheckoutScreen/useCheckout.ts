@@ -38,10 +38,8 @@ const useChectout = () => {
     setRefreshing(false);
   }, [dispatch]);
   const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
-    cartItems: [],
-  };
+    (state: {CartProducts: {data: {cartItems: []}}}) => state.CartProducts.data,
+  );
   const isLoading = useSelector(
     (state: {CartProducts: {isLoader: boolean}}) => state.CartProducts.isLoader,
   );

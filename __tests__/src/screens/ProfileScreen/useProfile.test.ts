@@ -1,11 +1,12 @@
-import {renderHook, act} from '@testing-library/react-native';
+import {renderHook, act, waitFor} from '@testing-library/react-native';
 import useProfile from '../../../../src/screens/Profile/useProfile';
 import {Alert, Linking, PermissionsAndroid} from 'react-native';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
-
+import Toast from 'react-native-toast-message';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {profileUpload, url} from 'constants/Apis';
 import ApiService from 'network/network';
+
 jest.mock('network/network', () => ({
   post: jest.fn().mockResolvedValue({status: 200, data: {}}),
 }));
@@ -203,7 +204,7 @@ describe('ProfileScreen', () => {
   it('should call showToast and setIsloading when no valid images are selected', async () => {
     // Mock the response when user cancels image selection
     const mockResponse = {didCancel: true};
-    launchImageLibrary.mockResolvedValue(mockResponse);
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
 
     // Mock showToast and setIsloading functions
 
@@ -225,6 +226,26 @@ describe('ProfileScreen', () => {
     // Assert that setIsLoading(false) was called
     expect(result.current.isLoading).toBe(false);
   });
+  it('should log if any error code is there', async () => {
+    // Mock the response when user cancels image selection
+    const mockResponse = {errorCode: true};
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
+
+    // Mock showToast and setIsloading functions
+
+    // Render the hook
+    const {result} = renderHook(() => useProfile());
+
+    // Mock the showToast and setIsLoading functions within the hook
+
+    expect(result.current.isLoading).toBe(false);
+
+    // Call pickImage
+    await act(async () => {
+      await result.current.pickImage();
+    });
+    expect(result.current.isLoading).toBe(false);
+  });
   it('should call uploadImage and fetchProfileData when images are selected and uploaded successfully', async () => {
     // Mock a valid response when user selects and uploads an image
     const mockResponse = {
@@ -236,7 +257,7 @@ describe('ProfileScreen', () => {
         },
       ],
     };
-    launchImageLibrary.mockResolvedValue(mockResponse);
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
 
     // Mock other functions and states
 
@@ -265,7 +286,7 @@ describe('ProfileScreen', () => {
         },
       ],
     };
-    launchImageLibrary.mockResolvedValue(mockResponse);
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
 
     // Mock other functions and states within the hook
     const mockSetIsLoading = jest.fn();
@@ -274,7 +295,9 @@ describe('ProfileScreen', () => {
     const mockOpenModal = jest.fn();
 
     // Mock AsyncStorageWrapper.getItem to return a token
-    AsyncStorageWrapper.getItem.mockResolvedValue('mocked-token');
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(
+      'mocked-token',
+    );
 
     // Mock the fetch API response
     const mockFetchResponse = {
@@ -322,8 +345,6 @@ describe('ProfileScreen', () => {
     // Assert that uploadImage was called with the correct URL
   });
   it('should upload an image and fetch profile data', async () => {
-    const mockFetchProfileData = jest.fn();
-
     // Mock the ApiService module
     const {result} = renderHook(() => useProfile());
 
@@ -373,5 +394,70 @@ describe('ProfileScreen', () => {
       result.current.handleEditProfile();
     });
     expect(mockNav).toHaveBeenCalledWith('Ownereditprofile');
+  });
+  it('should upload the Image and call pick images', () => {
+    const mockPickImage = jest.fn();
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('granted');
+    const {result} = renderHook(() => useProfile());
+    result.current.pickImage = mockPickImage;
+
+    act(() => {
+      result.current.ImageUpload();
+    });
+  });
+  it('should upload the Image and call Request Access', () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('Denied');
+    const {result} = renderHook(() => useProfile());
+    act(() => {
+      result.current.ImageUpload();
+    });
+  });
+  it('should requestCameraPermission ', () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('Denied');
+    jest.spyOn(PermissionsAndroid, 'request').mockResolvedValue('granted');
+    const {result} = renderHook(() => useProfile());
+    act(() => {
+      result.current.requestCameraPermission();
+    });
+  });
+  it('should deny the request', async () => {
+    // Mock AsyncStorageWrapper to return 'Denied'
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('granted');
+
+    // Mock PermissionsAndroid.request to return 'Denied'
+    jest
+      .spyOn(PermissionsAndroid, 'request')
+      .mockResolvedValue(PermissionsAndroid.RESULTS.DENIED);
+
+    // Render the component or hook that uses requestCameraPermission
+    const {result} = renderHook(() => useProfile());
+
+    // Act: Call the requestCameraPermission function
+    await act(async () => {
+      await result.current.requestCameraPermission();
+    });
+  });
+  it('should show toast if image is null', async () => {
+    // Mock a valid response when user selects and uploads an image
+    const mockResponse = {
+      assets: [],
+    };
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
+
+    // Mock AsyncStorageWrapper.getItem to return a token
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(
+      'mocked-token',
+    );
+
+    // Render the hook
+    const {result} = renderHook(() => useProfile());
+
+    // Call pickImage
+    await act(async () => {
+      await result.current.pickImage();
+    });
+    expect(result.current.isloading).toBe(false);
+
+    // Assert that uploadImage was called with the correct URL
   });
 });

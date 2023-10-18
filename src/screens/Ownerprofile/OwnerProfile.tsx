@@ -22,11 +22,11 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import UseOwnerprofile from './useOwnerProfile';
 import Toast from 'react-native-toast-message';
-type Props = {
-  navigation: any;
-};
+import {useNavigationProp} from 'helpers/helper';
+
 export const SkeletonLoader = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
+
   return (
     <View testID="skeleton-loader">
       <SkeletonPlaceholder
@@ -41,11 +41,13 @@ export const SkeletonLoader = () => {
     </View>
   );
 };
-const OwnerProfile = ({navigation}: Props) => {
+const OwnerProfile = () => {
   const {getContainerStyle, getTextInputStyle, getPlaceholderTextColor} =
     useContext(ColorSchemeContext);
+  const {navigation} = useNavigationProp();
   const {isloading, pickImage, handleRemoveProfilePic} = ProfileData();
   const {handleLogout, data, loading} = UseOwnerprofile();
+  console.log(data);
   const renderProfileImage = () => {
     if (isloading) {
       return (
@@ -53,8 +55,14 @@ const OwnerProfile = ({navigation}: Props) => {
           <ActivityIndicator size="large" color="gray" />
         </View>
       );
-    } else if (data.profileImageUrl) {
-      return <Avatar.Image size={100} source={{uri: data.profileImageUrl}} />;
+    } else if (data?.profileImageUrl) {
+      return (
+        <Avatar.Image
+          testID="Image-container"
+          size={100}
+          source={{uri: data.profileImageUrl}}
+        />
+      );
     } else {
       return (
         <View testID="avatar-container">
@@ -93,13 +101,13 @@ const OwnerProfile = ({navigation}: Props) => {
         ) : (
           <View style={[style.card, getTextInputStyle()]}>
             <Text style={[style.profileText, getPlaceholderTextColor()]}>
-              {data.firstName}
+              {data?.firstName}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.email}
+              {data?.email}
             </Text>
             <Text style={[style.profileText1, getPlaceholderTextColor()]}>
-              {data.phoneNumber}
+              {data?.phoneNumber}
             </Text>
           </View>
         )}

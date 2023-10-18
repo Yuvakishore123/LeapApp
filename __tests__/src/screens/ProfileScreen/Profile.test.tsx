@@ -80,6 +80,12 @@ jest.mock('@react-native-firebase/messaging', () => {
 describe('Profile Screen', () => {
   const dispatchMock = jest.fn(); // Create a mock function
   const useSelector = useSelectorOriginal as jest.Mock;
+  const mockData = {
+    firstName: 'John Doe',
+    email: 'johndoe@example.com',
+    profileImageUrl: 'url-1',
+    phoneNumber: '123-456-7890',
+  };
 
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(dispatchMock);
@@ -95,7 +101,7 @@ describe('Profile Screen', () => {
         handleRemoveProfilePic: jest.fn(),
         refreshData: jest.fn(),
         refreshState: jest.fn(),
-        data: {},
+        data: [],
         handleEditAddress: jest.fn(),
         handleOwnerScreen: jest.fn(),
         handleEditProfile: jest.fn(),
@@ -131,10 +137,11 @@ describe('Profile Screen', () => {
   it('should render the Skeleton Loading ', () => {
     (useProfile as jest.Mock).mockReturnValue({
       loading: true,
+      isloading: true,
     });
-    const result = render(<Profile />);
-
-    expect(result).toBeDefined();
+    const {getByTestId} = render(<Profile />);
+    const loadingComponent = getByTestId('activity-indicator');
+    expect(loadingComponent).toBeTruthy();
   });
   it('should delete the Image ', () => {
     const mockRemove = jest.fn();
@@ -159,5 +166,14 @@ describe('Profile Screen', () => {
     expect(signoutButton).toBeDefined();
     fireEvent.press(signoutButton);
     expect(dispatchMock).toHaveBeenCalled();
+  });
+  it('should get the uploaded image the Image ', () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      isloading: false,
+      data: mockData,
+    });
+    const {getByTestId} = render(<Profile />);
+    const ImageComponent = getByTestId('avatar-container');
+    expect(ImageComponent).toBeTruthy();
   });
 });

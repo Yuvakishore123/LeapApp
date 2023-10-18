@@ -110,43 +110,6 @@ describe('loginSlice Slice', () => {
     );
   });
 
-  //   it('should add auth token when  data to the state when `postLogin is fulfilled  data` action is dispatched', async () => {
-  //     const testData = {
-  //       authToken: 'Adawdadawdaw2sxad',
-  //       isAuthenticated: true,
-  //     };
-
-  //     // Mock the Axios response before dispatching the action
-  //     const axiosPostSpy = jest.spyOn(axios, 'post');
-  //     axiosPostSpy.mockResolvedValue(mockResponse);
-
-  //     await store.dispatch(postLogin(credentials));
-  //     store.dispatch(setLoginData(testData));
-
-  //     const state = store.getState();
-  //     expect(state.data).toEqual(testData);
-  //     expect(state.isError).toBe(false);
-  //     expect(state.error).toBe(null);
-
-  //     // Restore the original axios.post method
-  //     axiosPostSpy.mockRestore();
-  //   });
-
-  //   it('should handle the  `postLogin.fulfilled` actions correctly', async () => {
-  //     const testData = {
-  //       authToken: 'Adawdadawdaw2sxad',
-  //       isAuthenticated: true,
-  //     };
-  //     const axiosPostSpy = jest.spyOn(axios, 'post');
-  //     axiosPostSpy.mockResolvedValue(mockResponse);
-  //     await store.dispatch(postLogin(credentials));
-  //     const state = store.getState();
-  //     expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
-  //     expect(state.isError).toBe(false);
-  //     expect(state.data).toEqual(testData);
-  //     // Restore the original axios.post method
-  //     axiosPostSpy.mockRestore();
-  //   });
   it('should handle the `postLogin.rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';
     const axiosPostSpy = jest.spyOn(axios, 'post');

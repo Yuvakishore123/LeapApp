@@ -1,4 +1,4 @@
-import {render} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {Provider} from 'react-redux';
 
@@ -63,13 +63,19 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('OwnerProduct DetailsPage Screen', () => {
+  const mockProduct = {
+    name: 'Sample Product',
+    imageUrl: [
+      'https://example.com/image1.jpg',
+      'https://example.com/image2.jpg',
+    ],
+    price: 100.0,
+    description: 'This is a sample product description.',
+  };
   it('should render the OwnerProduct DetailsPage Screen', () => {
-    // Define a mock route with the necessary params
     const mockRoute = {
       params: {
-        product: {
-          /* mock product data here */
-        },
+        product: mockProduct,
       },
     };
 
@@ -97,5 +103,43 @@ describe('OwnerProduct DetailsPage Screen', () => {
     );
 
     expect(ownerHome).toBeDefined();
+  });
+  it('should display images of productsin the OwnerProduct DetailsPage Screen', () => {
+    const mockRoute = {
+      params: {
+        product: mockProduct,
+      },
+    };
+
+    const mockNavigation = {
+      // Define any navigation functions or properties your component uses
+      navigate: jest.fn(),
+      goBack: jest.fn(),
+      // Add other mock functions or properties as needed
+    };
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="OproductDetails">
+              {() => (
+                <OproductDetails
+                  route={mockRoute}
+                  navigation={mockNavigation}
+                />
+              )}
+            </Stack.Screen>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const ImageComponent = getByTestId(
+      'product-image-https://example.com/image1.jpg',
+    );
+    expect(ImageComponent).toBeDefined();
+    const backButton = getByTestId('back-button');
+    fireEvent.press(backButton);
+    expect(mockNavigation.goBack).toBeCalled();
   });
 });

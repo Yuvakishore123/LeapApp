@@ -72,7 +72,7 @@ const useAnalytics = () => {
 
       reader.readAsDataURL(blob);
     } catch (error) {
-      log.error('Error downloading file:', error);
+      log?.error('Error downloading file:', error);
     }
   };
   const HandleNotification = async () => {

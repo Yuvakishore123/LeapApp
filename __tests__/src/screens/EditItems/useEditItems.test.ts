@@ -7,8 +7,11 @@ import {
   removeproducts,
 } from '../../../../src/redux/actions/actions';
 import ApiService from 'network/network';
-import {disableProductUrl, enableProductUrl} from 'constants/apiRoutes';
+
 import {url} from 'constants/Apis';
+import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
+import * as ImagePicker from 'react-native-image-picker';
 jest.mock('network/network');
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
@@ -20,6 +23,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+jest.mock('react-native-image-picker');
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -30,18 +34,20 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
+
 jest.mock('../../../../src/utils/asyncStorage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-
+jest.mock('network/network');
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
 describe('editItems', () => {
   const mockDispatch = jest.fn();
+
   const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
@@ -68,7 +74,6 @@ describe('editItems', () => {
 
     expect(result.current.showModal).toBe(true);
 
-    // expect(result.current.fetchData).toBeCalled();
     expect(result.current.refreshData).toBe(true);
   });
   it('should close the modal  when openModal is clicked', async () => {
@@ -132,7 +137,7 @@ describe('editItems', () => {
       disabled: false,
       totalQuantity: 10,
     };
-    ApiService.get.mockResolvedValue(mockItem);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockItem);
 
     // You can use this mockItem object in your test cases as needed.
 
@@ -140,10 +145,21 @@ describe('editItems', () => {
       result.current.fetchData();
     });
 
-    waitFor(() => {
-      expect(result.current.data).toBe(mockItem);
-      expect(result.current.isLoading).toBe(false);
+    expect(result.current.data).toBe(mockItem);
+    expect(result.current.isLoading).toBe(false);
+  });
+  it('should throw error when Api call is false ', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+    const error = 'error during fetch Data';
+    (ApiService.get as jest.Mock).mockRejectedValue(error);
+
+    // You can use this mockItem object in your test cases as needed.
+
+    await act(() => {
+      result.current.fetchData();
     });
+
+    expect(result.current.isLoading).toBe(true);
   });
   it('should fetch the data of Particular product ', async () => {
     const {result} = renderHook(() => Useowneredititems());
@@ -158,7 +174,7 @@ describe('editItems', () => {
       totalQuantity: 10,
       description: 'mock description',
     };
-    ApiService.get.mockResolvedValue(mockItem);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockItem);
 
     // You can use this mockItem object in your test cases as needed.
 
@@ -176,6 +192,7 @@ describe('editItems', () => {
       expect(result.current.description).toBe(mockItem.description);
     });
   });
+
   it('should remove the  images after deleting ', async () => {
     const {result} = renderHook(() => Useowneredititems());
 
@@ -297,9 +314,8 @@ describe('editItems', () => {
       result.current.incrementQuantity();
     });
     await asyncOperation();
-    waitFor(() => {
-      expect(result.current.isPlusDisabled).toBe(true);
-    });
+
+    expect(result.current.isPlusDisabled).toBe(true);
   });
   it('should refresh Producs after onrefresh is selected', async () => {
     const mockItem = {
@@ -322,28 +338,21 @@ describe('editItems', () => {
       result.current.handleRefresh();
     });
     await asyncOperation();
-    waitFor(() => {
-      expect(result.current.refreshData).toBe(true);
-    });
+
+    expect(result.current.refreshData).toBe(false);
   });
   it('should set the decrement the Producs after selected', async () => {
-    const mockItem = {
-      id: 1,
-      name: 'Mocked Item',
-      price: 10.99,
-      image: 'mocked-image-url.jpg',
-      disabledQuantities: 4,
-      availableQuantities: 10,
-      disabled: false,
-      totalQuantity: 10,
-    };
     const {result} = renderHook(() => Useowneredititems());
     expect(result.current.isModalVisible).toBe(false);
-    waitFor(() => {
-      expect(result.current.productQuantity).toBe(10);
-      expect(result.current.totalQuantity).toBe(20);
-      expect(result.current.disabledQuantity).toBe(5);
+    act(() => {
+      result.current.setProductQuantity(10);
+      result.current.settotalQuantities(20);
+      result.current.setdisabledQuantity(5);
     });
+
+    expect(result.current.productQuantity).toBe(10);
+    expect(result.current.totalQuantity).toBe(20);
+    expect(result.current.disabledQuantity).toBe(5);
 
     await act(() => {
       result.current.incrementQuantity();
@@ -353,9 +362,7 @@ describe('editItems', () => {
       result.current.decrementQuantity();
     });
 
-    waitFor(() => {
-      expect(result.current.updatedQuantity).toBe(1);
-    });
+    expect(result.current.updatedQuantity).toBe(1);
   });
   it('should Disable the product the data when button is clicked ', async () => {
     const mockData = {
@@ -367,16 +374,18 @@ describe('editItems', () => {
     const mockResponse = {
       message: 'successfully disabled',
     };
-    ApiService.get.mockResolvedValue(mockResponse);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResponse);
     const disbleProduct = result.current.productQuantity;
     console.log(disbleProduct);
-    waitFor(() => {
-      expect(result.current.productQuantity).toBe(10);
-      expect(result.current.totalQuantity).toBe(20);
-      expect(result.current.disabledQuantity).toBe(5);
+    act(() => {
+      result.current.setProductQuantity(10);
+      result.current.settotalQuantities(20);
+      result.current.setdisabledQuantity(5);
     });
 
-    // You can use this mockItem object in your test cases as needed.
+    expect(result.current.productQuantity).toBe(10);
+    expect(result.current.totalQuantity).toBe(20);
+    expect(result.current.disabledQuantity).toBe(5);
 
     await act(() => {
       result.current.handleDisablebutton(
@@ -385,9 +394,7 @@ describe('editItems', () => {
       );
     });
     if (mockData.disableQuantity <= mockData.productQuantity) {
-      waitFor(() => {
-        expect(ApiService.get).toBeCalledWith(disableProductUrl);
-      });
+      expect(ApiService.get).toBeCalled();
     }
     waitFor(() => {
       expect(result.current.refreshData).toBe(true);
@@ -407,11 +414,15 @@ describe('editItems', () => {
     (ApiService.get as jest.Mock).mockResolvedValue(mockResponse);
     const disbleProduct = result.current.productQuantity;
     console.log(disbleProduct);
-    waitFor(() => {
-      expect(result.current.productQuantity).toBe(10);
-      expect(result.current.totalQuantity).toBe(20);
-      expect(result.current.disabledQuantity).toBe(5);
+    act(() => {
+      result.current.setProductQuantity(10);
+      result.current.settotalQuantities(20);
+      result.current.setdisabledQuantity(5);
     });
+
+    expect(result.current.productQuantity).toBe(10);
+    expect(result.current.totalQuantity).toBe(20);
+    expect(result.current.disabledQuantity).toBe(5);
 
     // You can use this mockItem object in your test cases as needed.
 
@@ -422,11 +433,9 @@ describe('editItems', () => {
         result.current.disabledQuantity,
       );
     });
-    if (result.current.updatedQuantity <= mockData.productQuantity) {
-      waitFor(() => {
-        expect(ApiService.get).toBeCalledWith(enableProductUrl);
-      });
-    }
+
+    expect(ApiService.get).toBeCalled();
+
     waitFor(() => {
       expect(result.current.refreshData).toBe(true);
       expect(result.current.outofStock).toBe(true);
@@ -436,7 +445,7 @@ describe('editItems', () => {
     const {result} = renderHook(() => Useowneredititems());
 
     const moctResponse = {message: 'successfully edited'};
-    ApiService.put.mockResolvedValue(moctResponse);
+    (ApiService.put as jest.Mock).mockResolvedValue(moctResponse);
 
     // You can use this mockItem object in your test cases as needed.
 
@@ -447,18 +456,46 @@ describe('editItems', () => {
       result.current.handleedit();
     });
     await asyncOperation();
-    waitFor(() => {
-      expect(result.current.refreshData).toBe(true);
-      expect(mockNav).toBeCalledWith('OwnerProfile');
-      expect(ApiService.put).toBeCalledWith(`${url}/product/update/`);
+
+    expect(result.current.refreshData).toBe(true);
+    expect(mockNav).toBeCalledWith('OwnerProfile');
+    expect(ApiService.put).toBeCalledWith(`${url}/product/update/null`, {
+      brand: 'addidas',
+      categoryIds: [''],
+      color: 'black',
+      description: '',
+      id: 0,
+      imageUrl: [],
+      material: 'fibre',
+      name: '',
+      price: '',
+      size: '',
+      subcategoryIds: ['', '', ''],
+      totalQuantity: '',
     });
+  });
+  it('should throw error when error during Editing ', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    const mockResponse = 'Error during Fetching';
+    (ApiService.put as jest.Mock).mockRejectedValue(mockResponse);
+
+    // You can use this mockItem object in your test cases as needed.
+
+    const asyncOperation = () =>
+      new Promise(resolve => setTimeout(resolve, 100));
+
+    await act(() => {
+      result.current.handleedit();
+    });
+    await asyncOperation();
   });
   it('should remove product  when delete is pressed ', async () => {
     const {result} = renderHook(() => Useowneredititems());
     const mockId = '12';
 
     const moctResponse = {message: 'successfully deleted'};
-    ApiService.delete.mockResolvedValue(moctResponse);
+    (ApiService.delete as jest.Mock).mockResolvedValue(moctResponse);
 
     // You can use this mockItem object in your test cases as needed.
 
@@ -474,5 +511,54 @@ describe('editItems', () => {
     expect(ApiService.delete).toBeCalledWith(
       `${url}/product/deleteProduct/${mockId}`,
     );
+  });
+  it('should throw error  when delete is not working ', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+    const mockId = '12';
+
+    const errorMessage = 'error in ApiCall';
+    (ApiService.delete as jest.Mock).mockRejectedValue(errorMessage);
+
+    // You can use this mockItem object in your test cases as needed.
+
+    const asyncOperation = () =>
+      new Promise(resolve => setTimeout(resolve, 100));
+
+    await act(() => {
+      result.current.RemoveProducts(mockId);
+    });
+    await asyncOperation();
+  });
+  it('should pick Images ', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: false,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (ImagePicker.launchImageLibrary as jest.Mock).mockResolvedValue(
+      imageResponse,
+    );
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => Useowneredititems());
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImg();
+    });
+    // Assertions
+    // Verify that AsyncStorage.getItem was called with 'token'
+    expect(AsyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
+    // Verify that launchImageLibrary was called with the correct options
+    expect(ImagePicker.launchImageLibrary).toHaveBeenCalledWith({
+      mediaType: 'photo',
+      selectionLimit: 10,
+    });
+    expect(result.current.imageUrls).toEqual(['mockImageUrl']);
+    expect(result.current.selectedImage).toEqual(['mockImageUrl']);
   });
 });

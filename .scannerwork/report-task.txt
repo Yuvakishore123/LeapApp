@@ -2,5 +2,5 @@ projectKey=sqp_377e775dc07a7a0e1089c7d05de71857d3e6c000
 serverUrl=http://localhost:9000
 serverVersion=10.1.0.73491
 dashboardUrl=http://localhost:9000/dashboard?id=sqp_377e775dc07a7a0e1089c7d05de71857d3e6c000
-ceTaskId=AYs3N_ZK30VJLQfYs7Cw
-ceTaskUrl=http://localhost:9000/api/ce/task?id=AYs3N_ZK30VJLQfYs7Cw
+ceTaskId=AYtCGctnzF9vQ1C_lPtK
+ceTaskUrl=http://localhost:9000/api/ce/task?id=AYtCGctnzF9vQ1C_lPtK

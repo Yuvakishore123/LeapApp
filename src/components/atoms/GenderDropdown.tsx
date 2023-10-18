@@ -32,6 +32,7 @@ const DropdownComponent: React.FC<GenderDropdownProps> = ({
             styles.selectedTextStyle,
             getPlaceHolderTextStyle(),
           ]}
+          testID="Gender-Dropdown"
           inputSearchStyle={[styles.inputSearchStyle, getTextInputStyle()]}
           iconStyle={styles.iconStyle}
           itemTextStyle={styles.itemTextStyle}

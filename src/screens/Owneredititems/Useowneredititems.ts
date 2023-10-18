@@ -124,18 +124,6 @@ const Useowneredititems = () => {
     setSelectedImage('');
   };
 
-  useEffect(() => {
-    const getImageUrls = async () => {
-      const url = await AsyncStorageWrapper.getItem('url');
-      if (url) {
-        const imageUrls = Array.from({length: 10}, (_, index) => {
-          return `${url}/file${index + 1}`;
-        });
-        imageUrls(imageUris);
-      }
-    };
-    getImageUrls();
-  }, [imageUris]);
   const pickImg = async () => {
     try {
       const token = await AsyncStorageWrapper.getItem('token');
@@ -355,6 +343,7 @@ const Useowneredititems = () => {
     setShowModal,
     showModal,
     handleremove,
+    setdisabledQuantity,
 
     pickImg,
     imageUris,
@@ -405,6 +394,7 @@ const Useowneredititems = () => {
     handleEnablebutton,
     setSelectedProductId,
     totalQuantity,
+    settotalQuantities,
     updatedQuantity,
     disabledQuantity,
     refreshData,
@@ -416,6 +406,7 @@ const Useowneredititems = () => {
     outfitType,
     selectedsize,
     itemType,
+    setProductQuantity,
   };
 };
 

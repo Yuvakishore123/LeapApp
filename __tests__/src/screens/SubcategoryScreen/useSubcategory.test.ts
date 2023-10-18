@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useDispatch} from 'react-redux';
 
-import {useSubcategory} from '../../../../src/screens/Subcategory/useSubcategory';
+import useSubcategory from '../../../../src/screens/Subcategory/useSubcategory';
 import ApiService from 'network/network';
 
 const mockNav = jest.fn();

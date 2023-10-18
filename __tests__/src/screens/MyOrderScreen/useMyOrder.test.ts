@@ -4,10 +4,17 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import useMyOrder from '../../../../src/screens/MyOrder/useMyOrder';
 import notifee from '../../../__mocks__/notifee-mocks';
+import RNFetchBlob from 'rn-fetch-blob';
+import axios from 'axios';
+import {url} from 'constants/Apis';
+import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
 const mockNav = jest.fn();
-
+jest.mock('axios');
+jest.mock('../../../../src/network/network', () => ({
+  get: jest.fn(),
+}));
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
   return {
@@ -17,14 +24,20 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+global.FileReader = jest.fn(() => ({
+  onloadend: jest.fn(),
+  onerror: jest.fn(),
+  readAsDataURL: jest.fn(),
+}));
 jest.mock('rn-fetch-blob', () => ({
   fs: {
     dirs: {
-      DownloadDir: '/mocked/download/directory', // Replace with a mock directory path
+      DownloadDir: '/mock/download/dir', // Provide a mock directory
     },
     writeFile: jest.fn(),
   },
 }));
+
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -121,9 +134,27 @@ describe('useCheckout', () => {
       result.current.openModal(mockOrder);
     });
     expect(result.current.selectedOrder).toBe(mockOrder);
-    // expect(result.current.handleOrderDetails(mockOrder.id)).toBeCalled();
 
     expect(result.current.isModalOpen).toBe(true);
+  });
+  it('should handle orders', async () => {
+    const mockOrder = {
+      id: '12345', // Replace with a unique identifier
+      orderItems: [
+        {
+          name: 'Product A',
+          price: 10.99,
+          quantity: 2,
+        },
+        {
+          name: 'Product B',
+          price: 5.99,
+          quantity: 3,
+        },
+      ],
+    };
+    const {result} = renderHook(() => useMyOrder());
+    expect(result.current.isModalOpen).toBe(false);
   });
   it('should create and display a notification', async () => {
     const {result} = renderHook(() => useMyOrder());
@@ -149,22 +180,50 @@ describe('useCheckout', () => {
       lights: true,
       //   lightColor: AndroidColor.RED, // Access directly
     });
-    waitFor(() => {
-      expect(notifee.displayNotification).toHaveBeenCalledWith({
-        title: 'Leaps',
-        body: 'PDF file downloaded successfully.',
-        android: {
-          channelId: 'pdf_download_channel1',
-          largeIcon: {
-            testUri: '../../../assets/Leaps-1.png', // Pass the icon source as a string
-          }, // You can modify this expectation based on your actual asset path
-          // lights: [AndroidColor.RED, 300, 600], // Access directly
-          progress: {
-            max: 10,
-            current: 10,
-          },
-        },
-      });
+  });
+  it('should export the pdf', async () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const {result} = renderHook(() => useMyOrder());
+
+    // Set the mocked objects in the global scope
+
+    const mockOrderId = '2';
+
+    // Call the HandleNotification function
+
+    (axios.get as jest.Mock).mockResolvedValue({mockedDAta: new Blob()});
+    const mockResponse = {
+      data: 'mockedBase64Data', // Mocked base64 data
+    };
+    const mockFileReader = {
+      onloadend: jest.fn(),
+      onerror: jest.fn(),
+      readAsDataURL: jest.fn(),
+      result: 'data:application/pdf;base64,mockBase64String', // Mock the result
+    };
+    global.FileReader = jest.fn(() => mockFileReader);
+    await act(async () => {
+      await result.current.handleOrderDetails(mockOrderId);
     });
+    act(() => {
+      mockFileReader.onloadend();
+    });
+
+    expect(axios.get).toHaveBeenCalledWith(
+      `${url}/order/generateInvoice/${mockOrderId}`,
+      {
+        headers: {
+          Authorization: 'Bearer mockToken',
+        },
+        responseType: 'blob',
+      },
+    );
+    const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/invoice.pdf`;
+    const base64String = 'mockBase64String'; // Mock the base64 string
+    expect(RNFetchBlob.fs.writeFile).toHaveBeenCalledWith(
+      filePath,
+      base64String,
+      'base64',
+    );
   });
 });

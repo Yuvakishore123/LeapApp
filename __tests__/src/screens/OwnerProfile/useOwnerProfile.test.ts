@@ -44,7 +44,7 @@ jest.mock('react-native-razorpay', () => {
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
-describe('useCheckout', () => {
+describe('useOwner profile', () => {
   const mockDispatch = jest.fn();
   const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {

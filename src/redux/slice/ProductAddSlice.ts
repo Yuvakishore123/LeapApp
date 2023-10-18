@@ -66,7 +66,7 @@ export const ProductAdd = createAsyncThunk(
       return response;
     } catch (error: any) {
       dispatch(setError(error));
-      return error;
+      throw error;
     }
   },
 );

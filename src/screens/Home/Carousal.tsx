@@ -19,7 +19,7 @@ import {useNavigationProp} from '../../helpers/helper';
 const Carousal = () => {
   const {navigation} = useNavigationProp();
   const SCREEN_WIDTH = Dimensions.get('window').width;
-  const {colorScheme} = useContext(ColorSchemeContext);
+  const {colorScheme, getTextColor} = useContext(ColorSchemeContext);
   const data = useSelector(
     (state: {category: {data: any}}) => state.category.data,
   );
@@ -46,6 +46,7 @@ const Carousal = () => {
             }) => (
               <View key={subcategory.id}>
                 <TouchableOpacity
+                  testID={`card_component-${subcategory.id}`}
                   style={styles.corosalView}
                   onPress={() =>
                     navigation.navigate('Subcategory', {
@@ -56,13 +57,7 @@ const Carousal = () => {
                     source={{uri: subcategory.imageUrl}}
                     style={styles.corousalImage}
                   />
-                  <Text
-                    style={[
-                      styles.corousalSubname,
-                      colorScheme === 'dark'
-                        ? Styles.whitetext
-                        : Styles.blackText,
-                    ]}>
+                  <Text style={[styles.corousalSubname, getTextColor()]}>
                     {subcategory.categoryName}
                   </Text>
                 </TouchableOpacity>

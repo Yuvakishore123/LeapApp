@@ -16,7 +16,7 @@ export function setNavigationReference(
   navigationRef = ref;
 }
 
-const instance = axios.create({
+const instance = axios?.create({
   baseURL: url,
   timeout: 15000,
 });
@@ -35,7 +35,7 @@ instance.interceptors.request.use(
     return Promise.reject(error);
   },
 );
-instance.interceptors.response.use(
+instance.interceptors?.response.use(
   response => {
     return response;
   },

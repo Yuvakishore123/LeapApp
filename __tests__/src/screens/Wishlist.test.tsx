@@ -1,13 +1,9 @@
-import {act, renderHook, render, waitFor} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
-import {Provider} from 'react-redux';
-import {store} from '../../../src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import Wishlist from 'screens/Wishlist/Wishlist';
 import useWishlist from 'screens/Wishlist/useWishlist';
-import Toast from 'react-native-toast-message';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -37,7 +33,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(),
 }));
 
-const Stack = createNativeStackNavigator();
 const mockAddListener = jest.fn();
 const mockNavigate = jest.fn();
 
@@ -52,6 +47,23 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
+jest.mock('screens/Wishlist/useWishlist', () => ({
+  WishlistProducts: [],
+  wishlistremove: jest.fn(),
+  closeModal: jest.fn(),
+  showModal: false, // You can set this to true if needed
+  openModal: jest.fn(),
+  refreshing: false,
+  onRefresh: jest.fn(),
+  isLoading: false,
+  default: jest.fn(),
+  __esModule: true,
+}));
 jest.mock('@react-native-firebase/messaging', () => {
   return {
     __esModule: true,
@@ -64,168 +76,102 @@ jest.mock('@react-native-firebase/messaging', () => {
 });
 
 describe('Wishlist Screen', () => {
-  it('should render the Wishlist Screen', () => {
-    const result = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="Wishlist" component={Wishlist} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
+  const mockWishlistProducts = [
+    {
+      id: 1,
+      name: 'Product 1',
+      price: 50,
+      imageUrl: ['image_url_1'],
+    },
+    {
+      id: 2,
+      name: 'Product 2',
+      price: 75,
+      imageUrl: ['image_url_2'],
+    },
+    // Add more products as needed
+  ];
+
+  const mockDispatch = jest.fn();
+  const useSelector = useSelectorOriginal as jest.Mock;
+  beforeEach(() => {
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useWishlist as jest.Mock).mockReturnValue({
+      WishlistProducts: [],
+      wishlistremove: jest.fn(),
+      closeModal: jest.fn(),
+      showModal: false, // You can set this to true if needed
+      openModal: jest.fn(),
+      refreshing: false,
+      onRefresh: jest.fn(),
+      isLoading: false,
+    });
+    useSelector.mockImplementation(selector =>
+      selector({
+        WishlistProducts: {data: [], error: false},
+      }),
     );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should render the Wishlist Screen', () => {
+    const result = render(<Wishlist />);
     expect(result).toBeDefined();
-
-    // Use waitFor to wait for asynchronous actions to complete
   });
-});
-describe('useWishlist Screen', () => {
-  it('This should open custom modal', () => {
-    // Wrap your hook with the Redux Provider
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+  it('should render the Loading Component ', () => {
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: true,
     });
-
-    expect(result.current.showModal).toBe(false);
-
-    act(() => {
-      result.current.openModal();
-    });
-
-    expect(result.current.showModal).toBe(true);
+    const {getByTestId} = render(<Wishlist />);
+    const loadingComponent = getByTestId('loading-Component');
+    expect(loadingComponent).toBeDefined();
   });
-  it('This should close custom modal', () => {
-    // Wrap your hook with the Redux Provider
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+  it('should render the Empty Component ', () => {
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: false,
     });
-
-    expect(result.current.showModal).toBe(false);
-
-    act(() => {
-      result.current.closeModal();
-    });
-
-    expect(result.current.showModal).toBe(false);
+    const {getByTestId} = render(<Wishlist />);
+    const emptyComponent = getByTestId('wishlist-Loading');
+    expect(emptyComponent).toBeDefined();
   });
-  it('This should dispatch  remove from wishlist', () => {
-    const mockDispatch = jest.fn();
-    const mockItemId = 1;
-    // Wrap your hook with the Redux Provider
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
+  it('should render the Data in the screen ', () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        WishlistProducts: {data: mockWishlistProducts, error: false},
+      }),
+    );
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: false,
+      WishlistProducts: mockWishlistProducts,
     });
-
-    result.current.wishlistremove(mockItemId);
-
-    // Wait for the action to complete
-    waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'removefromWishlist/pending', // Replace with your actual action type
-          payload: mockItemId,
-        }),
-      );
-    });
-    waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'removefromWishlist/success', // Replace with your actual action type
-          payload: mockItemId,
-        }),
-      );
+    const {getByTestId, getByText} = render(<Wishlist />);
+    const cardComponent = getByTestId('wishlist-Button-1');
+    expect(cardComponent).toBeDefined();
+    const wishlistProduct = getByText('Product 1');
+    expect(wishlistProduct).toBeDefined();
+    fireEvent.press(cardComponent);
+    expect(mockNavigate).toHaveBeenCalledWith('UProductDetails', {
+      product: mockWishlistProducts[0],
     });
   });
-  it('This should dispatch  fetchwishlist ', async () => {
-    const mockDispatch = jest.fn();
+  it('should remove wishlist after clicking on button ', () => {
+    const mockwishlistRemove = jest.fn();
+    useSelector.mockImplementation(selector =>
+      selector({
+        WishlistProducts: {data: mockWishlistProducts, error: false},
+      }),
+    );
+    (useWishlist as jest.Mock).mockReturnValue({
+      isLoading: false,
+      WishlistProducts: mockWishlistProducts,
+      wishlistremove: mockwishlistRemove,
+    });
+    const {getByTestId} = render(<Wishlist />);
+    const removeFromWishlist = getByTestId('Wishlist-remove-1');
+    expect(removeFromWishlist).toBeDefined();
 
-    // Wrap your hook with the Redux Provider
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
-    });
-    expect(result.current.refreshing).toBe(false);
-    act(() => {
-      result.current.onRefresh();
-    });
-    expect(result.current.refreshing).toBe(true);
-    // Wait for the action to complete
-    waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'fetchWishlistProducts/pending', // Replace with your actual action type
-        }),
-      );
-    });
-    waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'fetchWishlistProducts/success', // Replace with your actual action type
-        }),
-      );
-    });
-  });
-  it('This should dispatch  fetch wishlist', () => {
-    const mockDispatch = jest.fn();
-    const mockItemId = 1;
-    // Wrap your hook with the Redux Provider
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
-    });
-
-    result.current.wishlistremove(mockItemId);
-
-    // Wait for the action to complete
-    waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'removefromWishlist/pending', // Replace with your actual action type
-          payload: mockItemId,
-        }),
-      );
-    });
-    waitFor(() => {
-      expect(mockDispatch).toHaveBeenCalledWith(
-        expect.objectContaining({
-          type: 'removefromWishlist/success', // Replace with your actual action type
-          payload: mockItemId,
-        }),
-      );
-    });
-  });
-  it('should showToast when error occured', async () => {
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
-    });
-    const toastShowMock = jest.spyOn(Toast, 'show');
-
-    await act(() => {
-      result.current.showToast();
-    });
-    await waitFor(() => {
-      expect(toastShowMock).toHaveBeenCalledWith({
-        type: 'error',
-        text1: 'Error in wislist cart',
-      });
-    });
-  });
-  it('should onRefresh when on refresh is called', async () => {
-    const {result} = renderHook(() => useWishlist(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
-    });
-    const toastShowMock = jest.spyOn(Toast, 'show');
-
-    await act(() => {
-      result.current.onRefresh();
-    });
-    await waitFor(() => {
-      expect(result.current.refreshing).toBe(false);
-    });
+    fireEvent.press(removeFromWishlist);
+    expect(mockwishlistRemove).toHaveBeenCalled();
   });
 });

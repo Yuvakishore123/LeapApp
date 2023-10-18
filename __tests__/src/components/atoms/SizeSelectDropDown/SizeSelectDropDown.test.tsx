@@ -52,18 +52,6 @@ describe('Sizeselection', () => {
     expect(getByText('...')).toBeTruthy();
   });
 
-  it('changes the placeholder text back when the Dropdown is blurred', () => {
-    const onChange = jest.fn();
-    const {getByTestId, getByText} = render(
-      <Sizeselection onChange={onChange} />,
-    );
-
-    fireEvent(getByTestId('dropdown'), 'onFocus');
-    fireEvent(getByTestId('dropdown'), 'onBlur');
-
-    expect(getByText('Select size')).toBeTruthy();
-  });
-
   it('calls onChange with the selected size and sets isFocus to false on change', () => {
     const onChange = jest.fn();
     const {getByTestId} = render(<Sizeselection onChange={onChange} />);

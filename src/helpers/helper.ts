@@ -15,6 +15,9 @@ type RootStackParamList = {
   UProductDetails: {product: []};
   CategoryScreen: undefined;
   FilteredAnalytics: undefined;
+  Owneraddresspage: undefined;
+  Owneredititems: undefined;
+  OwnerEditProfile: undefined;
 };
 export const useThunkDispatch = () => {
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();

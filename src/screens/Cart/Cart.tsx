@@ -10,7 +10,7 @@ import {
 } from 'react-native';
 import React, {ReactNode, useContext} from 'react';
 import Lottie from 'lottie-react-native';
-import {useSelector} from 'react-redux';
+
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Toast from 'react-native-toast-message';
@@ -44,15 +44,9 @@ const Cart = () => {
   const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 
-  const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
-    cartItems: [],
-  };
-
-  if (!cartData) {
+  if (!CartProducts) {
     return (
-      <View testID="loading-view'" style={style.lottiecontainer}>
+      <View testID="loading-view" style={style.lottiecontainer}>
         <LottieAnimation
           source={require('../../../assets/loading2.json')}
           style={style.lottie}

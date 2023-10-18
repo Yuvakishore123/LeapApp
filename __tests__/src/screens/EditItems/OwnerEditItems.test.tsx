@@ -142,7 +142,7 @@ describe('EditItem Screen', () => {
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
     (Useowneredititems as jest.Mock).mockReturnValue({
-      useCategoryProducts: jest.fn(() => ({
+      Useowneredititems: jest.fn(() => ({
         data: [],
         setGender: jest.fn(),
         visible: false,

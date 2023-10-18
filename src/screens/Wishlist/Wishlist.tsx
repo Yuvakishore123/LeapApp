@@ -18,27 +18,28 @@ import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import Toast from 'react-native-toast-message';
 import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
+import {useNavigationProp} from 'helpers/helper';
 
-type Props = {
-  route: {name: string};
-  navigation: any;
-};
-const Wishlist = ({navigation}: Props) => {
-  const {WishlistProducts, wishlistremove, closeModal, showModal, openModal} =
-    useWishlist();
+const Wishlist = () => {
+  const {
+    WishlistProducts,
+    wishlistremove,
+    closeModal,
+    showModal,
+    openModal,
+    refreshing,
+    onRefresh,
+    isLoading,
+  } = useWishlist();
+  const {navigation} = useNavigationProp();
   const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
-  const {refreshing, onRefresh} = useWishlist();
+
   const allWishlistProducts = useSelector(
     (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
   );
 
-  const isLoading = useSelector(
-    (state: {WishlistProducts: {isLoader: boolean}}) =>
-      state.WishlistProducts.isLoader,
-  );
-
-  if (isLoading || !WishlistProducts) {
+  if (isLoading) {
     return (
       <View
         style={[
@@ -48,6 +49,7 @@ const Wishlist = ({navigation}: Props) => {
           getContainerStyle(),
         ]}>
         <Lottie
+          testID="loading-Component"
           source={require('../../../assets/loading2.json')}
           autoPlay
           style={style.Lottiestyle}
@@ -66,10 +68,10 @@ const Wishlist = ({navigation}: Props) => {
         <Text style={[style.textStylewishlist, getTextColor()]}>Wishlist</Text>
         <View style={[style.textConatiner, getContainerStyle()]}>
           <Text style={[style.textStyle, getTextColor()]}>
-            My favorites ({allWishlistProducts.length})
+            My favorites ({WishlistProducts?.length})
           </Text>
         </View>
-        {allWishlistProducts.length === 0 ? (
+        {allWishlistProducts?.length === 0 ? (
           <>
             <View style={[style.lottieStyle, getContainerStyle()]}>
               <Lottie
@@ -86,7 +88,7 @@ const Wishlist = ({navigation}: Props) => {
           <View style={[style.maincontainer, getContainerStyle()]}>
             <View style={style.wishlistViewContaner}>
               <View style={style.whishlistView}>
-                {allWishlistProducts?.map(item => {
+                {WishlistProducts?.map(item => {
                   return (
                     <View style={style.wishlistConatinerwrap} key={item.id}>
                       <View
@@ -118,8 +120,7 @@ const Wishlist = ({navigation}: Props) => {
                         <TouchableOpacity
                           style={style.wishlistButton}
                           testID={`Wishlist-remove-${item.id}`}
-                          onPress={() => wishlistremove(item.id)}
-                          onPressIn={() => openModal()}>
+                          onPress={() => wishlistremove(item.id)}>
                           <Image
                             source={require('../../../assets/fillheart.png')}
                             style={style.EmptyImage}

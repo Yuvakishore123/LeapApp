@@ -65,7 +65,7 @@ export default function UDetailScreen({route}: Props) {
     activeIndex,
     startScrollTimer,
     handleScroll,
-    handleGoBack,
+    handlegoBack,
   } = useProductdetails(product);
   const Quantity = product?.quantity;
 
@@ -87,7 +87,7 @@ export default function UDetailScreen({route}: Props) {
             name="arrow-back-ios"
             size={28}
             color="black"
-            onPress={handleGoBack}
+            onPress={handlegoBack}
           />
         </View>
         <View style={styles.sharebutton}>
@@ -118,25 +118,15 @@ export default function UDetailScreen({route}: Props) {
             onScroll={handleScroll}>
             {product?.imageUrl?.map((item: any) => (
               <ImageBackground
-                key={item}
                 testID={`Image-${item}`}
+                key={item}
                 style={{
                   height: 500,
                   width: 405,
-                  backgroundColor: Colors.gray,
-                  display: imageLoaded ? 'flex' : 'none',
+                  backgroundColor: '#3E54AC1A',
                 }}
                 source={{uri: item}}
-                onLoad={() => setImageLoaded(true)}
-                onError={() => setImageLoaded(false)}>
-                {!imageLoaded && (
-                  <Image
-                    testID={`loadingImage-${item}`}
-                    source={require('../../../assets/imageload1.png')} // Replace with your placeholder image source
-                    style={{height: 500, width: 405}}
-                  />
-                )}
-              </ImageBackground>
+              />
             ))}
           </ScrollView>
           <Animatable.Text

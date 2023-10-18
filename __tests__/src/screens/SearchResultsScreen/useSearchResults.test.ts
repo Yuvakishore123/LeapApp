@@ -81,7 +81,7 @@ describe('useCheckout', () => {
     },
   ];
   it('should get the data when filtered Data is clicked', async () => {
-    ApiService.get.mockResolvedValue(searchResults);
+    (ApiService.get as jest.Mock).mockResolvedValue(searchResults);
     const {result} = renderHook(() => useSearchResults());
     await act(() => {
       result.current.filterData();
@@ -92,7 +92,7 @@ describe('useCheckout', () => {
   });
   it('should get the data empty when nodata', () => {
     const mockErrorData: any[] = [];
-    ApiService.get.mockRejectedValue(mockErrorData);
+    (ApiService.get as jest.Mock).mockRejectedValue(mockErrorData);
     const {result} = renderHook(() => useSearchResults());
     act(() => {
       result.current.filterData();
@@ -103,7 +103,7 @@ describe('useCheckout', () => {
   });
   it('should fetch subcategory data and set subcategoriesData', async () => {
     // Mock ApiService.get to return some sample data
-    ApiService.get.mockResolvedValue([
+    (ApiService.get as jest.Mock).mockResolvedValue([
       {id: 1, subcategoryName: 'Subcategory 1'},
       {id: 2, subcategoryName: 'Subcategory 2'},
     ]);
@@ -113,7 +113,7 @@ describe('useCheckout', () => {
 
     // Call the SubcategoryData function
     await act(async () => {
-      result.current.SubcategoryData();
+      result.current.SubCategoryData();
     });
 
     // Wait for the hook to update state
@@ -135,7 +135,7 @@ describe('useCheckout', () => {
     });
     expect(result.current.modalVisible).toBe(true);
     waitFor(() => {
-      expect(result.current.SubcategoryData()).toBeCalled();
+      expect(result.current.SubCategoryData()).toBeCalled();
     });
   });
   it('should call fetch data', async () => {

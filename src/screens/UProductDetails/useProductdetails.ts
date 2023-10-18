@@ -6,7 +6,7 @@ import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
-import {useThunkDispatch} from '../../helpers/helper';
+import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';
 
@@ -29,6 +29,7 @@ const useProductdetails = (product: {
   const [activeIndex, setActiveIndex] = useState(0);
   const [_shareData, setshareData] = useState({});
   const {dispatch} = useThunkDispatch();
+  const {navigation} = useNavigationProp();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
   const handleDecrement = () => {
@@ -138,12 +139,12 @@ const useProductdetails = (product: {
     scrollTimerRef.current = setInterval(scrollToNextImage, 2000);
   }, [scrollToNextImage]);
 
-  // useEffect(() => {
-  //   startScrollTimer();
-  //   return () => {
-  //     stopScrollTimer();
-  //   };
-  // }, [activeIndex, startScrollTimer]);
+  useEffect(() => {
+    startScrollTimer();
+    return () => {
+      stopScrollTimer();
+    };
+  }, [activeIndex, startScrollTimer]);
 
   const stopScrollTimer = () => {
     if (scrollTimerRef.current) {
@@ -166,6 +167,9 @@ const useProductdetails = (product: {
 
   const handleScroll = () => {
     startScrollTimer();
+  };
+  const handlegoBack = () => {
+    navigation.goBack();
   };
 
   return {
@@ -199,6 +203,11 @@ const useProductdetails = (product: {
     startScrollTimer,
     stopScrollTimer,
     handleScroll,
+    generateLink,
+    handlegoBack,
+    openModal,
+    opennModal,
+    isData,
   };
 };
 

@@ -11,8 +11,7 @@ type RootStackParamList = {
     subcategoryId: string;
   };
 };
-
-export const useSubcategory = (categoryId: string) => {
+const useSubcategory = (categoryId: string) => {
   const [subcategories, setSubcategories] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -41,3 +40,5 @@ export const useSubcategory = (categoryId: string) => {
     handleSubcategoryPress,
   };
 };
+
+export default useSubcategory;

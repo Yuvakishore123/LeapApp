@@ -47,7 +47,7 @@ const OproductDetails: React.FC<Props> = ({route, navigation}: Props) => {
         <View style={styles.productImagecon}>
           {product.imageUrl?.map((item: any) => (
             <ImageBackground
-              testID="product-image"
+              testID={`product-image-${item}`}
               key={item}
               style={styles.imgBack}
               source={{uri: item}}></ImageBackground>

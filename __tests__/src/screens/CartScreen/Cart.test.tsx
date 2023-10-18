@@ -116,11 +116,14 @@ describe('Cart Screen', () => {
     totalCost: 119.95,
     userId: 12345,
   };
+  const emptyData = {
+    cartItems: [],
+  };
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
     useSelector.mockImplementation(selector =>
       selector({
-        CartProducts: {data: {}},
+        CartProducts: {data: []},
       }),
     );
     (useCart as jest.Mock).mockReturnValue({
@@ -301,6 +304,42 @@ describe('Cart Screen', () => {
       </NavigationContainer>,
     );
     const imageButton = getByTestId('Image-1');
+    expect(imageButton).toBeDefined();
+  });
+  it('should get the empty screen', () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        CartProducts: {data: {cartItems: []}},
+      }),
+    );
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Cart" component={Cart} />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+    const imageButton = getByTestId('loading-view');
+    expect(imageButton).toBeDefined();
+  });
+  it('should get the loading when data is not there screen', () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        CartProducts: {data: {cartItems: []}},
+      }),
+    );
+    (useCart as jest.Mock).mockReturnValue({
+      isLoading: false,
+      CartProducts: emptyData,
+    });
+    const {getByText} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Cart" component={Cart} />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+    const imageButton = getByText('Hey,it feels so light!');
     expect(imageButton).toBeDefined();
   });
 });

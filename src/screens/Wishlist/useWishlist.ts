@@ -23,14 +23,21 @@ const useWishlist = () => {
   };
   const wishlistremove = async (productId: any) => {
     dispatch(wishListRemove(productId) as any);
+    openModal();
   };
   const WishlistProducts = useSelector(
-    (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
+    (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
   );
   const isError = useSelector(
     (state: {WishlistProducts: {error: boolean}}) =>
       state.WishlistProducts.error,
   );
+
+  const isLoading = useSelector(
+    (state: {WishlistProducts: {isLoader: boolean}}) =>
+      state.WishlistProducts.isLoader,
+  );
+
   const showToast = () => {
     Toast.show({
       type: 'error',
@@ -72,6 +79,8 @@ const useWishlist = () => {
     openModal,
     colorScheme,
     showToast,
+    isError,
+    isLoading,
   };
 };
 export default useWishlist;

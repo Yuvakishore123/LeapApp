@@ -8,7 +8,7 @@ interface SigninData {
   message: string;
   status: string;
 }
-interface SigninDataState {
+export interface SigninDataState {
   data: SigninData;
   isLoader: boolean;
   isError: boolean;
@@ -46,7 +46,7 @@ export const postSignup = createAsyncThunk(
     } catch (error: any) {
       log.error('error ', error.response.status);
       dispatch(setError(error.response.status));
-      return error;
+      throw error;
     }
   },
 );

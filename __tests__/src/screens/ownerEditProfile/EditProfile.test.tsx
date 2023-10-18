@@ -1,13 +1,11 @@
-import {render} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
-import {Provider} from 'react-redux';
 
-import {store} from '../../../../src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-
-import OwnerEditProfile from 'screens/Ownereditprofile/OwnerEditProfile';
-
+import OwnerEditProfile, {
+  SkeletonLoader,
+} from 'screens/Ownereditprofile/OwnerEditProfile';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
+import OwnerEditProfileCustomHook from 'screens/Ownereditprofile/useOwnerProfile';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -27,7 +25,11 @@ jest.mock('@react-native-firebase/messaging', () =>
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('react-native-firebase-mock'),
 );
-
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -35,7 +37,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(),
 }));
 
-const Stack = createNativeStackNavigator();
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -46,6 +47,23 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+jest.mock('screens/Ownereditprofile/useOwnerProfile', () => ({
+  isLoading: false,
+  closeModal: jest.fn(),
+  showModal: jest.fn(),
+  firstName: '',
+  lastName: '',
+  email: '',
+  phoneNumber: '',
+  setFirstName: jest.fn(),
+  setlastName: jest.fn(),
+  setEmail: jest.fn(),
+  setPhoneNumber: jest.fn(),
+  handleUpdate: jest.fn(),
+  default: jest.fn(),
+  __esModule: true,
+}));
+
 jest.mock('@react-native-firebase/messaging', () => {
   return {
     __esModule: true,
@@ -57,22 +75,95 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('OwnerEditProfile Screen', () => {
-  it('should render the OwnerEditProfile Screen', () => {
-    // Define a mock route with the necessary params
+  const mockData = {
+    firstName: 'John Doe',
+    lastName: 'Kishore Yuva',
+    email: 'johndoe@example.com',
+    profileImageUrl: 'url-1',
+    phoneNumber: '123-456-7890',
+  };
+  const mockDispatch = jest.fn();
+  const useSelector = useSelectorOriginal as jest.Mock;
 
-    const categoryProducts = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen
-              name="OwnerEditProfile"
-              component={OwnerEditProfile}
-            />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
+  beforeEach(() => {
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      OwnerEditProfileCustomHook: jest.fn(() => ({
+        isLoading: false,
+        closeModal: jest.fn(),
+        showModal: jest.fn(),
+        firstName: '',
+        lastName: '',
+        email: mockData.email,
+        phoneNumber: mockData.phoneNumber,
+        setFirstName: jest.fn(),
+        setlastName: jest.fn(),
+        setEmail: jest.fn(),
+        setPhoneNumber: jest.fn(),
+        handleUpdate: jest.fn(),
+      })),
+    });
+
+    useSelector.mockImplementation(selector =>
+      selector({
+        profileData: {
+          data: [],
+        },
+        Rolereducer: {
+          role: '',
+        },
+      }),
     );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should render the OwnerEditProfile Screen', () => {
+    const result = render(<OwnerEditProfile />);
 
-    expect(categoryProducts).toBeDefined();
+    expect(result).toBeDefined();
+  });
+  it('should render the loadingComponent Screen', () => {
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      isLoading: true,
+    });
+
+    const result = render(<SkeletonLoader />);
+
+    expect(result).toBeDefined();
+  });
+  it('should render the first name textInput', () => {
+    const mockSetFirstName = jest.fn();
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      isLoading: false,
+      firstName: mockData.firstName,
+      setFirstName: mockSetFirstName,
+    });
+
+    const {getByTestId, getByText} = render(<OwnerEditProfile />);
+    const firstname = getByText('First name');
+
+    expect(firstname).toBeDefined();
+    const FirstNameinput = getByTestId('firstname');
+    fireEvent.changeText(FirstNameinput, mockData.firstName);
+    expect(mockSetFirstName).toHaveBeenCalledWith(mockData.firstName);
+  });
+  it('should render the LastName textInput', () => {
+    const mockSetlastName = jest.fn();
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      isLoading: false,
+      lastName: mockData.lastName,
+      setLastName: mockSetlastName,
+      email: mockData.email,
+      phoneNumber: mockData.phoneNumber,
+    });
+
+    const {getByTestId, getByText} = render(<OwnerEditProfile />);
+    const firstname = getByText('Last name');
+
+    expect(firstname).toBeDefined();
+    const FirstNameinput = getByTestId('lastName');
+    fireEvent.changeText(FirstNameinput, mockData.lastName);
+    expect(mockSetlastName).toHaveBeenCalledWith(mockData.lastName);
   });
 });

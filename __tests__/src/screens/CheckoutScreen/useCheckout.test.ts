@@ -47,7 +47,7 @@ describe('useCheckout', () => {
     useSelector.mockImplementation(selector =>
       selector({
         listAddress: {data: {}},
-        CartProducts: {data: {}},
+        CartProducts: {data: {cartItems: []}},
       }),
     );
   });
@@ -79,21 +79,62 @@ describe('useCheckout', () => {
         state: 'CA',
         defaultType: false,
       },
-    ]; // Provide a valid array
+      {
+        addressLine1: '123 Street',
+        addressLine2: '',
+        addressType: 'office',
+        city: 'Cityville',
+        country: 'USA',
+        postalCode: '12345',
+        state: 'CA',
+        defaultType: false,
+      },
+    ];
     const mockSelector = state => ({listAddress: {data: mockData}});
     useSelector.mockImplementation(mockSelector);
     const {result} = renderHook(() => useCheckout());
-    const mockIndex = 1; // Correct the type to match the function's argument type
+
+    // Provide the correct index (in the mockData array, it's 0-based)
+    const mockIndex = 0;
 
     act(() => {
       result.current.handleCheckboxChange(mockIndex);
     });
 
-    expect(result.current.selectedAddressIndex).toBe(1);
-
+    // Expectations for the selected address index and isCheckedArray
+    expect(result.current.selectedAddressIndex).toBe(mockIndex);
     waitFor(() => {
-      expect(result.current.isCheckedArray).toEqual([false]); // Provide the expected value based on the mockData
+      expect(result.current.isCheckedArray).toEqual([true]); // Address at index 0 should be checked
     });
+  });
+  it('should handle the case where data is not an array', () => {
+    // Mock data as an object (not an array)
+    const mockData = {
+      addressLine1: '123 Main Street',
+      addressLine2: '',
+      addressType: 'Home',
+      city: 'Cityville',
+      country: 'USA',
+      postalCode: '12345',
+      state: 'CA',
+      defaultType: false,
+    };
+    const mockSelector = state => ({listAddress: {data: mockData}});
+    useSelector.mockImplementation(mockSelector);
+    const {result} = renderHook(() => useCheckout());
+
+    // Provide the correct index
+    const mockIndex = 0;
+
+    act(() => {
+      result.current.handleCheckboxChange(mockIndex);
+    });
+
+    // Expectations for the selected address index and isCheckedArray
+    expect(result.current.selectedAddressIndex).toBe(mockIndex);
+
+    // Expect isCheckedArray to be an empty array because data is not an array
+    expect(result.current.isCheckedArray).toEqual([]);
   });
   it('should handle successful payment', async () => {
     const {result} = renderHook(() => useCheckout());
@@ -133,5 +174,14 @@ describe('useCheckout', () => {
     //   expect.objectContaining({type: 'ADDORDER_FAILURE'}),
     // );
     // Add assertions for Alert.alert and other expected behaviors
+  });
+  it('should navigate to AddAddress when on Add button is clicked is clicked', () => {
+    const {result} = renderHook(() => useCheckout());
+    expect(result.current.refreshing).toBe(false);
+
+    act(() => {
+      result.current.handleAddAddress();
+    });
+    expect(mockNav).toHaveBeenCalledWith('Owneraddresspage');
   });
 });
