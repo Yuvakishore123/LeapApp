@@ -69,8 +69,8 @@ const useLoginscreen = () => {
   };
   const requestFCMPermission = async () => {
     try {
-      await firebase.messaging().requestPermission();
-      const Dtoken = await firebase.messaging().getToken();
+      await firebase?.messaging()?.requestPermission();
+      const Dtoken = await firebase?.messaging()?.getToken();
       onTokenRefresh(Dtoken);
     } catch (error) {
       logMessage.error('Error requesting FCM permission:', error);
@@ -81,8 +81,10 @@ const useLoginscreen = () => {
   };
   useEffect(() => {
     requestFCMPermission();
-    firebase?.messaging().onTokenRefresh(onTokenRefresh);
-    firebase?.messaging().setBackgroundMessageHandler(backgroundMessageHandler);
+    firebase?.messaging()?.onTokenRefresh(onTokenRefresh);
+    firebase
+      ?.messaging()
+      ?.setBackgroundMessageHandler(backgroundMessageHandler);
   }, []);
 
   const handleErrorResponse = (error: number) => {

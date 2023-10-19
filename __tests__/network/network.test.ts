@@ -1,3 +1,4 @@
+import {waitFor} from '@testing-library/react-native';
 import axios from 'axios';
 import {url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
@@ -14,6 +15,18 @@ jest.mock('constants/asyncStorageWrapper', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+const mockNav = jest.fn();
+jest.mock('@react-navigation/native', () => {
+  const actualNav = jest.requireActual('@react-navigation/native');
+  return {
+    ...actualNav,
+    useNavigation: () => ({
+      navigate: jest.fn(),
+      addListener: jest.fn(),
+      NavigationContainerRef: mockNav,
+    }),
+  };
+});
 setNavigationReference({navigate: jest.fn()});
 describe('axios request interceptor', () => {
   it('should add Authorization header with access token', async () => {
@@ -92,6 +105,22 @@ describe('axios request interceptor', () => {
 
     // Check if Axios.get was called with the correct URL
     expect(instance.get).toHaveBeenCalledWith('/some-url');
+  });
+  it('should reject to make a GET request', async () => {
+    // Mocking the Axios get function to reject with an error message
+    instance.get = jest.fn().mockRejectedValue('error in get method');
+
+    try {
+      await ApiService.get('/some-url');
+    } catch (error) {
+      // Check if the function throws an error
+      expect(error).toBe('error in get method');
+
+      // Check if navigate function was called with the correct parameters
+      waitFor(() => {
+        expect(mockNav).toHaveBeenCalledWith('ApiErrorScreen', {status: 401});
+      });
+    }
   });
   it('should make a POST request', async () => {
     // Mocking the Axios get function

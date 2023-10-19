@@ -2,7 +2,7 @@ import {firebase} from '@react-native-firebase/messaging';
 const googleApiKey = process.env.GOOGLE_API_KEY;
 
 if (firebase?.apps.length === 0) {
-  firebase.initializeApp({
+  firebase?.initializeApp({
     apiKey: googleApiKey,
     authDomain: 'In-App Messaging.firebase.com',
     databaseURL: 'https://in-app-messaging-feed0-default-rtdb.firebaseio.com/',

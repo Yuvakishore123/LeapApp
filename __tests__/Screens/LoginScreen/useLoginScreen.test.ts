@@ -25,6 +25,16 @@ jest.mock('@react-native-firebase/messaging', () => {
     getToken: jest.fn().mockResolvedValue(mockToken),
   });
 });
+jest.mock('../../../src/utils/firebase', () => {
+  return {
+    messaging: jest.fn(() => ({
+      getToken: jest.fn(() => Promise.resolve('mockedToken')),
+      onTokenRefresh: jest.fn(),
+      setBackgroundMessageHandler: jest.fn(),
+    })),
+  };
+});
+
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('@react-native-firebase'),
 );
@@ -151,34 +161,14 @@ describe('useLoginScreen', () => {
     });
   });
   it('handles requestFCMToken correctly', async () => {
-    jest.mock('@react-native-firebase/messaging', () => {
-      return {
-        __esModule: true,
-        default: {
-          messaging: jest.fn(() => ({
-            requestPermission: jest.fn(),
-            getToken: jest.fn(),
-          })),
-        },
-      };
-    });
-    const mockPermission = jest.fn();
-    const mockGetToken = jest.fn().mockReturnValue('mockedToken');
-
-    // Mock requestPermission and getToken functions
-    jest
-      .spyOn(firebase.messaging(), 'requestPermission')
-      .mockImplementation(mockPermission);
-    jest
-      .spyOn(firebase.messaging(), 'getToken')
-      .mockImplementation(mockGetToken);
     const {result} = renderHook(() => useLoginscreen());
 
     await act(() => {
       result.current.requestFCMPermission();
     });
+    const token = await firebase.messaging()?.getToken();
     waitFor(() => {
-      expect(result.current.onTokenRefresh).toHaveBeenCalledWith('mockedToken');
+      expect(result.current.onTokenRefresh).toBeCalledWith('mockedToken');
     });
   });
 });

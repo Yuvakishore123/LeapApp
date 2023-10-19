@@ -1,11 +1,11 @@
-const requestPermission = jest.fn();
-const getToken = jest.fn().mockResolvedValue('mocked-token');
-const onTokenRefresh = jest.fn();
+// __mocks__/utils/firebase.js
+const messaging = jest.fn(() => ({
+  getToken: jest.fn(() => Promise.resolve('mockedToken')),
+}));
 
-const messaging = () => ({
-  requestPermission,
-  getToken,
-  onTokenRefresh,
-});
+const firebase = {
+  apps: [],
+  messaging,
+};
 
-export default messaging;
+export default firebase;

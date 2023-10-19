@@ -1,5 +1,5 @@
 /* eslint-disable @typescript-eslint/no-shadow */
-import axios, {AxiosRequestConfig} from 'axios';
+import axios from 'axios';
 import {url} from 'constants/Apis';
 import {NavigationContainerRef} from '@react-navigation/native';
 import {RefreshToken_Error} from 'constants/errorCodes';
@@ -97,14 +97,6 @@ const ApiService = {
   delete: async (url: string) => {
     const response = await instance.delete(url);
     return response.data;
-  },
-  retryRequest: async (originalRequest: AxiosRequestConfig<any>) => {
-    try {
-      const response = await instance(originalRequest);
-      return response.data;
-    } catch (error) {
-      return Promise.reject(error);
-    }
   },
 };
 

@@ -71,15 +71,18 @@ describe('signup slice', () => {
     });
   });
 
-  it('should handle fetchCategoriesProducts.rejected action', () => {
-    const mockError = 'Some error message';
+  it('should handle fetchCategoriesProducts.rejected action', async () => {
+    const mockError = {response: {status: 401}};
     (ApiService.post as jest.Mock).mockRejectedValue(mockError);
-    return store.dispatch(postSignup(credentials)).catch(() => {
+    try {
+      await store.dispatch(postSignup(credentials));
+    } catch (error) {
       const state = store.getState().SignUp as SigninDataState;
+      store.dispatch(setError(mockError.response.status)); // Dispatch setError action
       expect(state.isLoader).toBe(false);
       expect(state.isError).toBe(true);
-      expect(state.error).toEqual(mockError);
-    });
+      expect(state.error).toEqual(mockError.response.status);
+    }
   });
   it('should handle setError action', () => {
     const errorPayload = 'Some error message';

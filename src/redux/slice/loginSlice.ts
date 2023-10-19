@@ -43,9 +43,9 @@ export const postLogin = createAsyncThunk(
         'refresh_token',
         response.headers.refresh_token,
       );
-      logMessage.error('refresh_token', response.headers.refresh_token);
-      logMessage.error('refresh_token expiry time', response.headers);
-      console.log(response);
+      // logMessage.error('refresh_token', response.headers.refresh_token);
+      // logMessage.error('refresh_token expiry time', response.headers);
+      // console.log(response);
       return response;
     } catch (error: any) {
       logMessage.error('error recieved during Login');

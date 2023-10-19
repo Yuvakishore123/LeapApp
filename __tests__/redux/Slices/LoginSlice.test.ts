@@ -6,7 +6,7 @@ import reducer, {
   setLoginData,
 } from '../../../src/redux/slice/loginSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
-import ApiService from 'network/network';
+import axios from 'axios';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -19,6 +19,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('axios');
 describe('LoginSlice', () => {
   let store: ToolkitStore<
     {LoginData: unknown},
@@ -40,10 +41,10 @@ describe('LoginSlice', () => {
     password: 'John@123',
     deviceToken: 'TestToken',
   };
-  // const mockdata = {
-  //   authToken: 'test_Token',
-  //   isAuthenticated: true,
-  // };
+  const mockdata = {
+    authToken: 'test_Token',
+    isAuthenticated: true,
+  };
   it('should return the initial state', () => {
     const initialState = {
       data: {authToken: null, isAuthenticated: false},
@@ -61,22 +62,16 @@ describe('LoginSlice', () => {
     expect(newState.isLoader).toBe(true);
   });
 
-  // it('should handle fetchCategoriesProducts.fulfilled action', () => {
-  //   (ApiService.post as jest.Mock).mockResolvedValue(credentials);
-
-  //   return store.dispatch(postLogin(credentials)).then(() => {
-  //     const state = store.getState().LoginData as LoginState;
-  //     expect(state.isLoader).toBe(false);
-  //     expect(state.data).toEqual({
-  //       authToken: 'test_Token',
-  //       isAuthenticated: true,
-  //     });
-  //   });
-  // });
+  it('should handle fetchCategoriesProducts.fulfilled action', async () => {
+    jest.spyOn(axios, 'post').mockResolvedValue(mockdata);
+    await store.dispatch(postLogin(credentials));
+    const state = store.getState().LoginData as LoginState;
+    expect(state.isLoader).toBe(false);
+  });
 
   it('should handle fetchCategoriesProducts.rejected action', () => {
     const mockError = 'Some error message';
-    jest.spyOn(ApiService, 'post').mockRejectedValueOnce(mockError);
+    jest.spyOn(axios, 'post').mockRejectedValueOnce(mockError);
 
     return store.dispatch(postLogin(credentials)).catch(() => {
       const state = store.getState().LoginData as LoginState;

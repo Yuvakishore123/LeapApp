@@ -12,7 +12,7 @@ export const ColorSchemeContext = React.createContext({
   getPlaceholderTextColor: () => ({}),
   getplaceholdercolor: () => ({}),
   getButtonColor: () => ({}),
-  tabColor: () => ({}),
+  tabColor: () => {},
   PlaceholderColor: () => {},
 });
 
@@ -28,8 +28,6 @@ export const ColorSchemeProvider = ({children}) => {
       return Styles.blacktheme;
     } else if (colorScheme === 'light') {
       return Styles.whiteTheme;
-    } else {
-      return {}; // Return an empty object as a fallback
     }
   };
 
