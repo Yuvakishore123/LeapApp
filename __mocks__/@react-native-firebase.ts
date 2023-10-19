@@ -24,12 +24,15 @@ const getToken = jest.fn();
 
 export const messaging = () => ({
   getToken,
+  requestPermission: jest.fn(),
+  onTokenRefresh: jest.fn(),
 });
-
+const initializeApp = jest.fn();
 export default {
   analytics,
   messaging,
   message,
+  initializeApp,
   InAppMessaging,
   dynamicLinks,
 };

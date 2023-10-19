@@ -7,6 +7,7 @@ import Colors from '../../../src/constants/colors';
 import {url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import RNFetchBlob from 'rn-fetch-blob';
+import {logMessage} from 'helpers/helper';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -19,7 +20,13 @@ global.FileReader = jest.fn(() => ({
   onerror: jest.fn(),
   readAsDataURL: jest.fn(),
 }));
-
+jest.mock('../../../src/helpers/helper', () => ({
+  logMessage: {
+    error: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+  },
+}));
 jest.mock('rn-fetch-blob', () => ({
   fs: {
     dirs: {
@@ -58,7 +65,7 @@ describe('useAnalytics', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
-  afterEach(() => {
+  afterAll(() => {
     jest.clearAllMocks();
   });
   it('should handle analytics successfully', async () => {
@@ -482,6 +489,45 @@ describe('useAnalytics', () => {
     // Check if filterOrderData is called
     // expect(result.current.filterOrderData).toBeCalled();
   });
+  // it('should filterOrderData correctly', async () => {
+  //   const mockOrderItems = {
+  //     '2023-05': {
+  //       Dresses: {
+  //         orderItems: [
+  //           {
+  //             name: 'GUCCI PRINTED SHIRT',
+  //             quantity: 1,
+  //             rentalStartDate: '2023-05-29T06:30:00',
+  //             rentalEndDate: '2023-05-30T06:30:00',
+  //             rentalCost: 8999,
+  //             imageUrl:
+  //               'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
+  //             productId: 19,
+  //             borrowerId: 5,
+  //             borrowerName: 'Bala Pranay reddy Reddy',
+  //             borrowerEmail: 'p.pranayreddy699@gmail.com',
+  //             borrowerPhoneNumber: '9505180888',
+  //           },
+  //         ],
+  //         totalOrders: 1,
+  //       },
+  //     },
+  //     // You can add more data for other months as needed.
+  //   };
+  //   (ApiService.get as jest.Mock).mockResolvedValue(mockOrderItems);
+  //   const {result} = renderHook(() => useAnalytics());
+
+  //   // Toggle modal visibility
+  //   act(() => {
+  //     result.current.filterOrderData();
+  //   });
+
+  //   // After toggling, showModel should be true
+  //   expect(jest.fn()).toBeCalledWith(result.current.handleOrders);
+
+  //   // Check if filterOrderData is called
+  //   // expect(result.current.filterOrderData).toBeCalled();
+  // });
   it('should open modal after 800ms when handleTotalOrdersClick is called', async () => {
     const {result} = renderHook(() => useAnalytics());
     expect(result.current.showModel).toBe(false);
@@ -557,35 +603,19 @@ describe('useAnalytics', () => {
     expect(result.current.loading).toBe(true);
   });
   it('should reject handle CategoriePieData successfully', async () => {
-    const mockYearlyData = {
-      '2023-05': {
-        Women: {
-          orderItems: {
-            name: 'GUCCI PRINTED SHIRT',
-            quantity: 1,
-            rentalStartDate: '2023-05-29T06:30:00',
-            rentalEndDate: '2023-05-30T06:30:00',
-            rentalCost: 8999,
-            imageUrl:
-              'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
-            productId: 19,
-            borrowerId: 5,
-            borrowerName: 'Bala Pranay reddy Reddy',
-            borrowerEmail: 'p.pranayreddy699@gmail.com',
-            borrowerPhoneNumber: '9505180888',
-          },
-          totalOrders: 4,
-        },
-      },
-    };
-    (ApiService.get as jest.Mock).mockRejectedValueOnce(mockYearlyData);
+    const mockError = 'Error getting Dashboard yearly data';
+    (ApiService.get as jest.Mock).mockRejectedValueOnce(mockError);
 
     const {result} = renderHook(() => useAnalytics());
 
     act(() => {
       result.current.CategoriePieData();
     });
-    expect(result.current.DashboardYearly).not.toBe(mockYearlyData);
+    waitFor(() => {
+      expect(logMessage.error).toBeCalledWith(
+        'Error getting Dashboard yearly data',
+      );
+    });
   });
   it('should return Colors.buttonColor for selected bar', () => {
     const selectedBarIndex = 9; // Set the selected bar index

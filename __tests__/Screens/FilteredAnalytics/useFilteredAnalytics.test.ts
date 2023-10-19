@@ -39,15 +39,13 @@ jest.mock('axios');
 describe('useAnalytics', () => {
   beforeEach(() => {
     AsyncStorage.clear();
-    (useSelector as jest.Mock).mockResolvedValueOnce(
+    (useSelector as jest.Mock).mockImplementationOnce(
       (
         selector: (arg0: {
           FliterAnalyticsData: {
             data: {
-              data: {
-                '2023-05': {rentalCost: number}[];
-                '2023-06': {rentalCost: number}[];
-              };
+              '2023-05': {rentalCost: number}[];
+              '2023-06': {rentalCost: number}[];
             };
           };
         }) => any,
@@ -55,10 +53,8 @@ describe('useAnalytics', () => {
         selector({
           FliterAnalyticsData: {
             data: {
-              data: {
-                '2023-05': [{rentalCost: 100}, {rentalCost: 200}],
-                '2023-06': [{rentalCost: 300}],
-              },
+              '2023-05': [{rentalCost: 100}, {rentalCost: 200}],
+              '2023-06': [{rentalCost: 300}],
             },
           },
         }),

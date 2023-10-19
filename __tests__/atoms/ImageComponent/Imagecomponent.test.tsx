@@ -1,4 +1,4 @@
-import {render, waitFor} from '@testing-library/react-native';
+import {fireEvent, render, waitFor} from '@testing-library/react-native';
 import ImageComponent from '../../../src/components/atoms/ImageComponent';
 import React from 'react';
 
@@ -12,15 +12,15 @@ describe('Image Component', () => {
       expect(Image).toBeTruthy();
     });
   });
-  // test('sets imageLoaded state to true on image load', () => {
-  //   const {getByTestId} = render(
-  //     <ImageComponent imageUrl="example.com/image.jpg" />,
-  //   );
+  test('sets imageLoaded state to true on image load', () => {
+    const {getByTestId} = render(
+      <ImageComponent imageUrl="example.com/image.jpg" />,
+    );
 
-  //   // Set imageLoaded to true before trying to access the imageComponent
-  //   fireEvent(getByTestId('imageComponent'), 'onLoad');
+    // Set imageLoaded to true before trying to access the imageComponent
+    fireEvent(getByTestId('imageComponent'), 'onLoad');
 
-  //   const actualImage = getByTestId('imageComponent');
-  //   expect(actualImage).toBeTruthy();
-  // });
+    const image = getByTestId('image');
+    expect(image).toBeTruthy();
+  });
 });

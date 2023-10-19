@@ -41,8 +41,8 @@ const useFilteredAnalytics = () => {
     }
   };
   const handleChartData = () => {
-    if (response && response.data === 'object') {
-      const chartData = Object.entries(response)?.map(
+    if (response !== null && response !== undefined) {
+      const chartData = Object.entries(response).map(
         ([month, rentals]: [string, unknown]) => ({
           month,
           rentalCost: (rentals as {rentalCost: number}[]).reduce(
@@ -52,6 +52,8 @@ const useFilteredAnalytics = () => {
         }),
       );
       setChartData(chartData);
+    } else {
+      console.error('error');
     }
   };
   useEffect(() => {

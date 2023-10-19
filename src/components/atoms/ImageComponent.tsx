@@ -10,7 +10,7 @@ const ImageComponent = ({imageUrl}) => {
   const placeholderImageSource = require('../../../assets/imageload1.png'); // Replace with your placeholder image source
 
   return (
-    <View>
+    <View testID="imageComponent">
       {!imageLoaded && (
         <Image
           testID="image"

@@ -133,7 +133,6 @@ describe('AnalyticsDatePicker', () => {
 
     fireEvent.press(getByText('Select Start Date'));
     fireEvent(getByText('15'), 'onPress');
-
     expect(onStartDateChange).toHaveBeenCalled();
   });
 
@@ -147,6 +146,22 @@ describe('AnalyticsDatePicker', () => {
         onEndDateChange={() => {}}
       />,
     );
+
+    expect(getByText('Jun 1, 2023')).toBeDefined();
+  });
+  test('displays selected end date', () => {
+    const onStartDateChange = jest.fn();
+    const onEndDateChange = jest.fn();
+    const endDate = new Date('2023-06-01');
+    const {getByText, getByTestId} = render(
+      <AnalyticsDatePicker
+        startDate={null}
+        endDate={endDate}
+        onStartDateChange={onStartDateChange}
+        onEndDateChange={onEndDateChange}
+      />,
+    );
+    fireEvent.press(getByTestId('end-date-button'));
 
     expect(getByText('Jun 1, 2023')).toBeDefined();
   });

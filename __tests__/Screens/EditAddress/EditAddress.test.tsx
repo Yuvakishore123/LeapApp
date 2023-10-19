@@ -3,7 +3,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import {store} from '../../../src/redux/store';
 import {Provider, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
-import EditAddress from 'screens/EditAddress/EditAddress';
+import EditAddress, {SkeletonLoader} from 'screens/EditAddress/EditAddress';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useEditAddress from 'screens/EditAddress/useEditAddress';
 
@@ -265,5 +265,14 @@ describe('EditAddress Screen', () => {
 
     // Simulate a change event on the TextInput
     fireEvent.changeText(flatTextInput, 'Bangalore');
+  });
+  it('should render skeleton loader correctly', () => {
+    const {getByTestId} = render(<SkeletonLoader />);
+
+    // Query for elements you expect to be rendered by the skeleton loader
+    const input1 = getByTestId('loading-component');
+
+    // Now you can make assertions about these elements
+    expect(input1).toBeDefined();
   });
 });

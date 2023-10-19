@@ -3,7 +3,6 @@ import {act, renderHook} from '@testing-library/react-native';
 import {logMessage} from '../../../src/helpers/helper';
 import {useDispatch, useSelector} from 'react-redux';
 import useOwnerEditProfileCustomHook from 'screens/Ownereditprofile/useOwnerEditProfileCustomHook';
-import {updateProfile} from '../../../src/redux/slice/editProfileSlice';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

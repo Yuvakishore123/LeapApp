@@ -137,6 +137,7 @@ const MyStack = () => {
         headerShown: false,
         tabBarShowLabel: false,
         tabBarHideOnKeyboard: true,
+        tabBarTestID: 'tab-bar',
         tabBarStyle: {
           display: isFocused ? 'flex' : 'none',
           width: '100%',

@@ -2,6 +2,8 @@ import {act, renderHook, waitFor} from '@testing-library/react-native';
 import useSwitchButton from '../../../src/components/atoms/switchButton/useSwitchbutton';
 import {url} from 'constants/Apis';
 import {setRole} from '../../../src/redux/actions/actions';
+import {logMessage} from '../../../src/helpers/helper';
+import ApiService from 'network/network';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -19,7 +21,13 @@ jest.mock('react-native', () => ({
     timing: jest.fn().mockReturnValue({start: jest.fn()}),
   },
 }));
-
+jest.mock('../../../src/helpers/helper', () => ({
+  logMessage: {
+    error: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+  },
+}));
 jest.mock('network/network', () => ({
   post: jest.fn(),
 }));
@@ -64,7 +72,7 @@ describe('useSwitchButton', () => {
 
     expect(result.current.showOptions).toBe(false);
     waitFor(() => {
-      expect(require('network/network').post).toHaveBeenCalledWith(
+      expect(ApiService.post).toHaveBeenCalledWith(
         `${url}/user/switch?profile=${mockOption}`,
         null,
       );
@@ -86,6 +94,28 @@ describe('useSwitchButton', () => {
       },
     };
 
+    require('network/network').post.mockResolvedValue(mockResponse);
+    const {result} = renderHook(() => useSwitchButton());
+    const mockOption = 'BORROWER';
+    act(() => {
+      result.current.handleOptionPress(mockOption);
+    });
+
+    expect(result.current.showOptions).toBe(false);
+    waitFor(() => {
+      expect(logMessage.error).toHaveBeenCalledWith(
+        'error in switching of user',
+      );
+    });
+  });
+  it('should reject when post api rejected in the handleOptionPress', () => {
+    const mockResponse = {
+      status: 404,
+      headers: {
+        access_token: '',
+      },
+    };
+
     require('network/network').post.mockRejectedValue(mockResponse);
     const {result} = renderHook(() => useSwitchButton());
     const mockOption = 'BORROWER';
@@ -95,9 +125,8 @@ describe('useSwitchButton', () => {
 
     expect(result.current.showOptions).toBe(false);
     waitFor(() => {
-      expect(require('network/network').post).not.toHaveBeenCalledWith(
-        `${url}/user/switch?profile=${mockOption}`,
-        null,
+      expect(logMessage.error).toHaveBeenCalledWith(
+        'error in switching of user',
       );
     });
   });

@@ -28,7 +28,7 @@ const useProfile = () => {
       setIsLoading(true);
       dispatch(getProfileData());
     } catch (error) {
-      console.error(error);
+      logMessage.error(error);
     } finally {
       setIsLoading(false);
     }
@@ -84,7 +84,7 @@ const useProfile = () => {
 
     if (response.assets) {
       const image = response.assets[0];
-      const imageSizeBytes = image.fileSize;
+      const imageSizeBytes = image.fileSize as any;
 
       if (imageSizeBytes <= MAX_IMAGE_SIZE_BYTES) {
         await handleValidImage(image);
@@ -164,7 +164,7 @@ const useProfile = () => {
         }
       }
     } catch (err) {
-      console.warn(err);
+      logMessage.warn(err);
     }
   };
   const showToast = () => {
@@ -193,6 +193,7 @@ const useProfile = () => {
     uploadImage,
     imageUrls,
     profilePic,
+    handleImageResponse,
     handleRemoveProfilePic,
     handleUploadResult,
     handleValidImage,

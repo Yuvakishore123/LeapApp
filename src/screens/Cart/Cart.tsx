@@ -2,7 +2,6 @@
 
 import {
   ActivityIndicator,
-  Image,
   ScrollView,
   Text,
   TouchableOpacity,
@@ -20,7 +19,6 @@ import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import DatePickerComponent from '../../components/atoms/DatePickerComponent/DatepickerComponent';
 
 import style from './CartItemStyles';
-import Colors from '../../constants/colors';
 import ImageComponent from 'components/atoms/ImageComponent';
 
 const Cart = () => {
@@ -46,19 +44,6 @@ const Cart = () => {
   ) || {
     cartItems: [],
   };
-
-  if (!cartData) {
-    return (
-      <View testID="loading-view'" style={style.lottiecontainer}>
-        <Lottie
-          source={require('../../../assets/loading2.json')}
-          autoPlay
-          style={style.lottie}
-        />
-        <Text style={{color: Colors.iconscolor}}>The Items are Loading...</Text>
-      </View>
-    );
-  }
   type items = {
     id: any;
     rentalEndDate: ReactNode;

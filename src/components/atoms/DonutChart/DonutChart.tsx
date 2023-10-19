@@ -46,9 +46,15 @@ const Donut = ({
       delay,
       useNativeDriver: true,
     }).start(({finished}) => {
+      console.log('animation: ', finished);
       if (!finished) {
         return;
       }
+      console.log(
+        'round values: ',
+        Math.round(toValue),
+        Math.round(finalPercentage),
+      );
       if (Math.round(toValue) === Math.round(finalPercentage)) {
         return;
       }

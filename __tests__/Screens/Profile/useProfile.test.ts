@@ -3,6 +3,7 @@ import {act, renderHook, waitFor} from '@testing-library/react-native';
 import {AxiosResponse} from 'axios';
 import {profileUpload, url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {logMessage} from 'helpers/helper';
 import ApiService from 'network/network';
 import {PermissionsAndroid} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
@@ -14,6 +15,14 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
+}));
+jest.mock('../../../src/helpers/helper', () => ({
+  logMessage: {
+    error: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+  },
+  useThunkDispatch: jest.fn(),
 }));
 jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
@@ -120,6 +129,7 @@ describe('Profile Screen', () => {
     await act(() => {
       result.current.fetchProfileData();
     });
+    expect(mockDispatch).toBeCalledTimes(2);
     // Ensure isLoading is set to false after fetching data
     expect(result.current.isLoading).toBe(false);
 
@@ -194,9 +204,6 @@ describe('Profile Screen', () => {
     // Call the function
     await checkPermission();
 
-    // Add your assertions based on the expected behavior
-
-    // For example, you can check if pickImage has been called
     expect(launchImageLibrary).toHaveBeenCalled();
   });
   it('should upload image and handle response', async () => {
@@ -364,5 +371,76 @@ describe('Profile Screen', () => {
     waitFor(() => {
       expect(result.current.pickImage).toBeCalled();
     });
+  });
+  it('should call handleImageResponse when errorMessage is triggered if permission is granted', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    // Mock permission as granted
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('true');
+
+    // Mock launchImageLibrary response
+    const mockResponse = {
+      didCancel: false,
+      errorMessage: 'error in upload',
+      errorCode: 404 as any,
+      assets: [{uri: 'mockImageUri'}],
+    };
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
+
+    result.current.handleImageResponse(mockResponse);
+    expect(logMessage.error).toBeCalledWith(
+      'ImagePicker Error: ',
+      mockResponse.errorMessage,
+    );
+  });
+  it('should not pick image if permission is not granted', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    // Mock permission as granted
+    (asyncStorageWrapper.getItem as jest.Mock).mockRejectedValue('false');
+
+    // Mock launchImageLibrary response
+    const mockResponse = {didCancel: false, assets: [{uri: 'mockImageUri'}]};
+    (launchImageLibrary as jest.Mock).mockResolvedValue(mockResponse);
+
+    // Access checkPermission from the hook
+    const {checkPermission} = result.current;
+
+    // Call the function
+    await checkPermission();
+
+    expect(logMessage.warn).toHaveBeenCalled();
+  });
+  it('should not handle successful upload result', async () => {
+    const {result} = renderHook(() => useProfile());
+    const image = 'mockImageUrl';
+    const mockResult = new Response(JSON.stringify({url: image}), {
+      status: 404,
+      headers: {'Content-type': 'application/json'},
+    });
+
+    await result.current.handleUploadResult(mockResult);
+    expect(logMessage.error).toBeCalledWith(
+      'Upload failed in profile picture',
+      {url: image},
+    );
+  });
+  it('should not  handleValidImage function', async () => {
+    const {result} = renderHook(() => useProfile());
+
+    const image = {
+      uri: 'file://path-to-your-image/image.png', // Replace with the actual path
+      type: 'image/png',
+      name: 'image.png',
+    };
+    // Mock the fetch function
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: false,
+      status: 404,
+      json: () => Promise.reject({success: true}),
+    });
+
+    await result.current.handleValidImage(image);
+    expect(result.current.isloading).toBe(true);
   });
 });

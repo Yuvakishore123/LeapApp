@@ -1,4 +1,3 @@
-import {NavigationContainerRef} from '@react-navigation/native';
 import axios from 'axios';
 import {url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';

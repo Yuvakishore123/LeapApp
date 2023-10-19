@@ -4,7 +4,7 @@ import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
 import {postLogin} from '../../../src/redux/slice/loginSlice';
 import {fetchUserProducts} from '../../../src/redux/slice/userProductSlice';
-import { logMessage } from 'helpers/helper';
+import firebase from '../../../src/utils/firebase';
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-firebase/analytics', () => {
   return () => ({
@@ -18,8 +18,11 @@ jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('network/network');
 jest.mock('@react-native-firebase/messaging', () => {
+  const mockToken = 'mocked_token';
+
   return () => ({
-    getToken: jest.fn().mockResolvedValue('mocked-token'),
+    requestPermission: jest.fn(),
+    getToken: jest.fn().mockResolvedValue(mockToken),
   });
 });
 jest.mock('@react-native-firebase/crashlytics', () =>
@@ -145,6 +148,37 @@ describe('useLoginScreen', () => {
 
     waitFor(() => {
       expect(result.current.openModal).toBeCalled();
+    });
+  });
+  it('handles requestFCMToken correctly', async () => {
+    jest.mock('@react-native-firebase/messaging', () => {
+      return {
+        __esModule: true,
+        default: {
+          messaging: jest.fn(() => ({
+            requestPermission: jest.fn(),
+            getToken: jest.fn(),
+          })),
+        },
+      };
+    });
+    const mockPermission = jest.fn();
+    const mockGetToken = jest.fn().mockReturnValue('mockedToken');
+
+    // Mock requestPermission and getToken functions
+    jest
+      .spyOn(firebase.messaging(), 'requestPermission')
+      .mockImplementation(mockPermission);
+    jest
+      .spyOn(firebase.messaging(), 'getToken')
+      .mockImplementation(mockGetToken);
+    const {result} = renderHook(() => useLoginscreen());
+
+    await act(() => {
+      result.current.requestFCMPermission();
+    });
+    waitFor(() => {
+      expect(result.current.onTokenRefresh).toHaveBeenCalledWith('mockedToken');
     });
   });
 });

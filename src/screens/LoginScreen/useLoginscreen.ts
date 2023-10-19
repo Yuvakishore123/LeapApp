@@ -67,20 +67,19 @@ const useLoginscreen = () => {
       logMessage.error('Error handling FCM token refresh:', error);
     }
   };
+  const requestFCMPermission = async () => {
+    try {
+      await firebase.messaging().requestPermission();
+      const Dtoken = await firebase.messaging().getToken();
+      onTokenRefresh(Dtoken);
+    } catch (error) {
+      logMessage.error('Error requesting FCM permission:', error);
+    }
+  };
+  const backgroundMessageHandler = async (remoteMessage: string) => {
+    logMessage.error('FCM background message:', remoteMessage);
+  };
   useEffect(() => {
-    const requestFCMPermission = async () => {
-      try {
-        await firebase.messaging().requestPermission();
-        const Dtoken = await firebase.messaging().getToken();
-        onTokenRefresh(Dtoken);
-      } catch (error) {
-        logMessage.error('Error requesting FCM permission:', error);
-      }
-    };
-    const backgroundMessageHandler = async (remoteMessage: string) => {
-      logMessage.error('FCM background message:', remoteMessage);
-    };
-
     requestFCMPermission();
     firebase?.messaging().onTokenRefresh(onTokenRefresh);
     firebase?.messaging().setBackgroundMessageHandler(backgroundMessageHandler);
@@ -149,6 +148,7 @@ const useLoginscreen = () => {
     handleOtpScreen,
     storeFCMToken,
     onTokenRefresh,
+    requestFCMPermission,
     handleSignUp,
     handleLoginScreen,
     passwordVisible,
