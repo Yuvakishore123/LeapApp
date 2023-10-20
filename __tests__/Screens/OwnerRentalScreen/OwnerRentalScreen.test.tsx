@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OwnerRentalScreen from 'screens/ownerRentalStatusScreen/ownerRentalScreen';
+import useOwnerorderproducts from 'screens/ownerRentalStatusScreen/useOwnerorderproducts';
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
@@ -27,29 +28,70 @@ jest.mock('screens/ownerRentalStatusScreen/useOwnerorderproducts', () => ({
   useOwnerorderproducts: jest.fn(), // Ensure it's a function
 }));
 
-jest.mock(
-  'screens/ownerRentalStatusScreen/useOwnerorderproducts',
-  () => () => ({
-    ownerrentalproducts: [
-      {
-        id: 1,
-        imageUrl: 'https://example.com/image1.jpg',
-        status: 'Order placed',
-        totalPrice: 100,
-        name: 'Product 1',
-        quantity: 2,
-      },
-      // Add more mock data if needed
-    ],
-    imageLoaded: true,
-    setImageLoaded: jest.fn(),
-  }),
-);
+jest.mock('screens/ownerRentalStatusScreen/useOwnerorderproducts', () => ({
+  ownerrentalproducts: [
+    {
+      id: 1,
+      imageUrl: 'https://example.com/image1.jpg',
+      status: 'Order placed',
+      totalPrice: 100,
+      name: 'Product 1',
+      quantity: 2,
+    },
+    // Add more mock data if needed
+  ],
+  default: jest.fn(),
+  __esModule: true,
+}));
 describe('OwnerRentalStatusScreen Page', () => {
   beforeEach(() => {
     AsyncStorage.clear();
+    (useOwnerorderproducts as jest.Mock).mockReturnValue({
+      ownerrentalproducts: [
+        {
+          id: 1,
+          imageUrl: 'https://example.com/image1.jpg',
+          status: 'Order placed',
+          totalPrice: 100,
+          name: 'Product 1',
+          quantity: 2,
+        },
+        // Add more mock data if needed
+      ],
+    });
   });
   test('renders OwnerRentalStatusScreen correctly', () => {
+    const Stack = createNativeStackNavigator();
+
+    const result = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="OwnerRentalScreen"
+              component={OwnerRentalScreen}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+
+    expect(result).toBeTruthy();
+  });
+  test('renders OwnerRentalStatusScreen correctly of returned products', () => {
+    (useOwnerorderproducts as jest.Mock).mockReturnValue({
+      ownerrentalproducts: [
+        {
+          id: 1,
+          imageUrl: 'https://example.com/image1.jpg',
+          status: 'Returned',
+          totalPrice: 100,
+          name: 'Product 1',
+          quantity: 2,
+        },
+        // Add more mock data if needed
+      ],
+    });
     const Stack = createNativeStackNavigator();
 
     const result = render(

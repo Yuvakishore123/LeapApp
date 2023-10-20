@@ -43,9 +43,6 @@ export const postLogin = createAsyncThunk(
         'refresh_token',
         response.headers.refresh_token,
       );
-      // logMessage.error('refresh_token', response.headers.refresh_token);
-      // logMessage.error('refresh_token expiry time', response.headers);
-      // console.log(response);
       return response;
     } catch (error: any) {
       logMessage.error('error recieved during Login');
@@ -74,7 +71,6 @@ const loginThunk = createSlice({
       .addCase(postLogin.fulfilled, (state, action) => {
         state.isLoader = false;
         state.data = {
-          ...state,
           authToken: action.payload,
           isAuthenticated: true,
         };

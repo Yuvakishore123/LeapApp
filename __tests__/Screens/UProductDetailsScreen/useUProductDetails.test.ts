@@ -1,5 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {act, renderHook, waitFor} from '@testing-library/react-native';
+import Toast from 'react-native-toast-message';
 import {useDispatch, useSelector} from 'react-redux';
 import useProductdetails from 'screens/UProductDetails/useProductdetails';
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
@@ -247,6 +248,14 @@ describe('useOwnerEditprofile', () => {
     waitFor(() => {
       expect(result.current.quantity).toBe(11); // Quantity should remain 10
       expect(result.current.isPlusDisabled).toBe(true); // isPlusDisabled should be true
+    });
+  });
+  it('should handle error Toast', () => {
+    const {result} = renderHook(() => useProductdetails(mockproduct));
+    result.current.errorToast();
+    expect(Toast.show).toHaveBeenCalledWith({
+      text1: 'An error occurred while sharing the product. Please try again.',
+      type: 'error',
     });
   });
 });

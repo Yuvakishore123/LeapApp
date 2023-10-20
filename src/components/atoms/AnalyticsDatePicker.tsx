@@ -90,7 +90,10 @@ const AnalyticsDatePicker = ({
         </Text>
       </TouchableOpacity>
 
-      <Modal visible={showPicker} animationType="slide">
+      <Modal
+        visible={showPicker}
+        animationType="slide"
+        testID="date-picker-modal">
         <View style={{flex: 1}}>
           <CalendarPicker
             startFromMonday={true}

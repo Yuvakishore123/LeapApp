@@ -7,6 +7,7 @@ import reducer, {
 } from '../../../src/redux/slice/loginSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import axios from 'axios';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -14,6 +15,12 @@ jest.mock('@react-native-community/netinfo', () => ({
 }));
 jest.mock('network/network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
+  getItem: jest.fn(),
+  setItem: jest.fn(),
+  removeItem: jest.fn(),
+  clear: jest.fn(),
+}));
+jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
@@ -41,10 +48,6 @@ describe('LoginSlice', () => {
     password: 'John@123',
     deviceToken: 'TestToken',
   };
-  const mockdata = {
-    authToken: 'test_Token',
-    isAuthenticated: true,
-  };
   it('should return the initial state', () => {
     const initialState = {
       data: {authToken: null, isAuthenticated: false},
@@ -62,11 +65,41 @@ describe('LoginSlice', () => {
     expect(newState.isLoader).toBe(true);
   });
 
-  it('should handle fetchCategoriesProducts.fulfilled action', async () => {
-    jest.spyOn(axios, 'post').mockResolvedValue(mockdata);
+  it('should set auth token in AsyncStorage after a successful login', async () => {
+    const testData = {
+      authToken: 'Adawdadawdaw2sxad',
+      isAuthenticated: true,
+    };
+    const mockResponse = {
+      data: {}, // Your mock response data here
+      headers: {
+        access_token: 'mock-access-token',
+        refresh_token: 'mock-refresh-token',
+      },
+    };
+    // Mock the Axios response before dispatching the action
+    const axiosPostSpy = jest.spyOn(axios, 'post');
+    axiosPostSpy.mockResolvedValue(mockResponse);
+
+    // Mock AsyncStorageWrapper.setItem to check if it's called correctly
+    const AsyncStorageWrapperSpy = jest.spyOn(asyncStorageWrapper, 'setItem');
+
     await store.dispatch(postLogin(credentials));
-    const state = store.getState().LoginData as LoginState;
-    expect(state.isLoader).toBe(false);
+    store.dispatch(setLoginData(testData));
+
+    // Assert that AsyncStorageWrapper.setItem is called with the correct arguments
+    expect(AsyncStorageWrapperSpy).toHaveBeenCalledWith(
+      'token',
+      mockResponse.headers.access_token,
+    );
+    expect(AsyncStorageWrapperSpy).toHaveBeenCalledWith(
+      'refresh_token',
+      mockResponse.headers.refresh_token,
+    );
+
+    // Restore the original axios.post and AsyncStorageWrapper.setItem methods
+    axiosPostSpy.mockRestore();
+    AsyncStorageWrapperSpy.mockRestore();
   });
 
   it('should handle fetchCategoriesProducts.rejected action', () => {

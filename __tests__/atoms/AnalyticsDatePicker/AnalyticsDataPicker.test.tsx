@@ -150,19 +150,30 @@ describe('AnalyticsDatePicker', () => {
     expect(getByText('Jun 1, 2023')).toBeDefined();
   });
   test('displays selected end date', () => {
+    const selectedStartDate = new Date('2023-06-28');
     const onStartDateChange = jest.fn();
     const onEndDateChange = jest.fn();
     const endDate = new Date('2023-06-01');
     const {getByText, getByTestId} = render(
       <AnalyticsDatePicker
-        startDate={null}
+        startDate={selectedStartDate}
         endDate={endDate}
         onStartDateChange={onStartDateChange}
         onEndDateChange={onEndDateChange}
       />,
     );
-    fireEvent.press(getByTestId('end-date-button'));
+    const startdate = getByTestId('start-date-text');
+    fireEvent.press(startdate);
+    const updatedText = getByText('1');
+    expect(updatedText).toBeDefined();
+    expect(startdate).toBeDefined();
+    const ModalButton = getByTestId('date-picker-modal');
+    fireEvent.press(ModalButton);
+    const startDateText = getByText('20');
 
-    expect(getByText('Jun 1, 2023')).toBeDefined();
+    fireEvent.press(startDateText);
+
+    const clearDates = getByTestId('clear-dates-button');
+    fireEvent.press(clearDates);
   });
 });

@@ -1,8 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
-/* eslint-disable react-hooks/exhaustive-deps */
-import React, {useEffect, useRef, useState} from 'react';
+
+import React from 'react';
 import {View, Animated, TextInput, StyleSheet} from 'react-native';
 import Svg, {G, Circle} from 'react-native-svg';
+import useDonutLogic from './useDonut';
 const Donut = ({
   refreshTrigger,
   percentage = 0,
@@ -28,65 +29,15 @@ const Donut = ({
   // Create animated components
   const AnimatedCircle = Animated.createAnimatedComponent(Circle);
   const AnimatedInput = Animated.createAnimatedComponent(TextInput);
-
-  // State and Refs initialization
-  const [finalPercentage, setFinalPercentage] = useState(percentage);
-  const animatedValue = useRef(new Animated.Value(0)).current;
-  const circleRef = useRef();
-  const inputRef = useRef();
-
-  // Constants for calculations
-  const halfCircle = radius + strokeWidth;
-  const circleCircumference = 2 * Math.PI * radius;
-  // Function to handle animations
-  const animation = (toValue: number) => {
-    return Animated.timing(animatedValue, {
-      toValue,
-      duration,
-      delay,
-      useNativeDriver: true,
-    }).start(({finished}) => {
-      console.log('animation: ', finished);
-      if (!finished) {
-        return;
-      }
-      console.log(
-        'round values: ',
-        Math.round(toValue),
-        Math.round(finalPercentage),
-      );
-      if (Math.round(toValue) === Math.round(finalPercentage)) {
-        return;
-      }
-      if (toValue === 0) {
-        animation(finalPercentage);
-      } else {
-        animation(0);
-      }
-    });
-  };
-
-  // Effect to handle animations and updates on mount and prop changes
-  useEffect(() => {
-    setFinalPercentage(percentage);
-    animation(finalPercentage);
-    animatedValue.addListener(v => {
-      if (circleRef?.current) {
-        const maxPerc = (100 * v.value) / max;
-        const strokeDashoffset =
-          circleCircumference - (circleCircumference * maxPerc) / 100;
-        circleRef.current.setNativeProps({
-          strokeDashoffset,
-        });
-      }
-      inputRef.current.setNativeProps({
-        text: `${Math.round(v.value)}`,
-      });
-    });
-    return () => {
-      animatedValue.removeAllListeners();
-    };
-  }, [max, finalPercentage, percentage, refreshTrigger]);
+  const {halfCircle, circleCircumference, circleRef, inputRef} = useDonutLogic({
+    refreshTrigger,
+    percentage,
+    radius,
+    strokeWidth,
+    duration,
+    delay,
+    max,
+  });
   return (
     <View>
       <Svg

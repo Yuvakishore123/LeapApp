@@ -67,10 +67,40 @@ describe('OwnerNavigation Component', () => {
         UserProducts: {data: {}},
         WishlistProducts: {data: {}},
         category: {data: {}},
+        products: {data: {}},
       }),
     );
   });
   it('renders Ownerstack when role is OWNER', () => {
+    (useSelector as jest.Mock).mockImplementation(selector =>
+      selector({
+        Rolereducer: {role: 'OWNER'},
+        profileData: {data: {}},
+        UserProducts: {data: {}},
+        WishlistProducts: {data: {}},
+        category: {data: {}},
+        products: {data: {}},
+      }),
+    );
+    const result = render(
+      <NavigationContainer>
+        <OwnerNavigation />
+      </NavigationContainer>,
+    );
+
+    expect(result).toBeDefined();
+  });
+  it('renders Ownerstack when role is BRROWER', () => {
+    (useSelector as jest.Mock).mockImplementation(selector =>
+      selector({
+        Rolereducer: {role: 'BORROWER'},
+        profileData: {data: {}},
+        UserProducts: {data: {}},
+        WishlistProducts: {data: {}},
+        category: {data: {}},
+        products: {data: {}},
+      }),
+    );
     const result = render(
       <NavigationContainer>
         <OwnerNavigation />

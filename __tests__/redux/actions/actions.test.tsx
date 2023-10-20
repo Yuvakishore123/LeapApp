@@ -138,8 +138,14 @@ describe('removeAddress action', () => {
     const dispatch = jest.fn();
     const phoneNumber = '122333211';
     const mockToken = 'token';
+    const mockResponse = {
+      headers: {
+        access_token: mockToken,
+        refresh_token: 'mock-refresh-token',
+      },
+    };
     const otp = 12322;
-    (ApiService.post as jest.Mock).mockResolvedValue({mockToken});
+    (ApiService.post as jest.Mock).mockResolvedValue(mockResponse);
 
     await submitOTP(phoneNumber, otp)(dispatch);
 
@@ -150,6 +156,24 @@ describe('removeAddress action', () => {
       `${url}/otp?phoneNumber=${phoneNumber}&otp=${otp}`,
       {otp: otp, phoneNumber: phoneNumber},
     );
+    const AsyncStorageWrapperSpy = jest.spyOn(asyncStorageWrapper, 'setItem');
+    expect(AsyncStorageWrapperSpy).toHaveBeenCalledWith(
+      'token',
+      mockResponse.headers.access_token,
+    );
+    expect(dispatch).toBeCalledTimes(2);
+  });
+  it('should reject dispatch submitOTP', async () => {
+    const dispatch = jest.fn();
+    const phoneNumber = '122333211';
+    const mockerror = {
+      type: 'LOGIN_FAILURE',
+      payload: 'error in signUp',
+    };
+    const otp = 12322;
+    (ApiService.post as jest.Mock).mockRejectedValueOnce(mockerror);
+
+    await submitOTP(phoneNumber, otp)(dispatch);
     expect(dispatch).toBeCalledTimes(2);
   });
   it('should dispatch Logout function', async () => {

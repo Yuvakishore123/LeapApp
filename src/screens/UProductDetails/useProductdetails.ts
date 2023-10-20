@@ -8,7 +8,7 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
 import {logMessage} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import Toast from 'react-native-toast-message';
 import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
 
 const useProductdetails = (product: {

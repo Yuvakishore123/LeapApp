@@ -14,7 +14,7 @@ import {
   useNavigationProp,
   useThunkDispatch,
 } from '../../helpers/helper';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import Toast from 'react-native-toast-message';
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);
   const [signInPasswordVisible, setSignInPasswordVisible] = useState(false);
@@ -124,6 +124,7 @@ const useSignup = () => {
     handleLogin,
     handleError,
     PlaceholderColor,
+    postSignup,
     showToast,
     BorrowerRole,
     OwnerRole,

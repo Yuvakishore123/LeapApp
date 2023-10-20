@@ -229,4 +229,33 @@ describe('Profile Screen', () => {
 
     // Optionally, you can add more specific assertions related to loading state
   });
+  test('renders loading state of profileData correctly', () => {
+    (useProfile as jest.Mock).mockReturnValue({
+      handleRemoveProfilePic: jest.fn(),
+      isloading: false, // Set isLoading to false
+      loading: true,
+      profileData: {
+        firstName: 'John',
+        email: 'john@example.com',
+        phoneNumber: '1234567890',
+        profileImageUrl: 'https://example.com/profile.jpg',
+      },
+    });
+    const navigationMock = {navigate: jest.fn()};
+
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Profile navigation={navigationMock} />
+        </NavigationContainer>
+      </Provider>,
+    );
+
+    // Check if the activity indicator is rendered
+    // Ensure that the avatar container is not rendered
+    const loading = getByTestId('profileDataloading');
+    expect(loading).toBeDefined();
+
+    // Optionally, you can add more specific assertions related to loading state
+  });
 });
