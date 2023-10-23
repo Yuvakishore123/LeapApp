@@ -60,6 +60,8 @@ jest.mock('screens/Ownereditprofile/useOwnerProfile', () => ({
   setEmail: jest.fn(),
   setPhoneNumber: jest.fn(),
   handleUpdate: jest.fn(),
+  isFormValid: true,
+  setIsFormValid: jest.fn(),
   default: jest.fn(),
   __esModule: true,
 }));
@@ -101,6 +103,8 @@ describe('OwnerEditProfile Screen', () => {
         setEmail: jest.fn(),
         setPhoneNumber: jest.fn(),
         handleUpdate: jest.fn(),
+        setIsFormValid: jest.fn(),
+        isFormValid: true,
       })),
     });
 
@@ -119,6 +123,9 @@ describe('OwnerEditProfile Screen', () => {
     jest.clearAllMocks();
   });
   it('should render the OwnerEditProfile Screen', () => {
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      setIsFormValid: jest.fn(),
+    });
     const result = render(<OwnerEditProfile />);
 
     expect(result).toBeDefined();
@@ -138,6 +145,7 @@ describe('OwnerEditProfile Screen', () => {
       isLoading: false,
       firstName: mockData.firstName,
       setFirstName: mockSetFirstName,
+      setIsFormValid: jest.fn(),
     });
 
     const {getByTestId, getByText} = render(<OwnerEditProfile />);
@@ -156,6 +164,7 @@ describe('OwnerEditProfile Screen', () => {
       setLastName: mockSetlastName,
       email: mockData.email,
       phoneNumber: mockData.phoneNumber,
+      setIsFormValid: jest.fn(),
     });
 
     const {getByTestId, getByText} = render(<OwnerEditProfile />);
@@ -165,5 +174,55 @@ describe('OwnerEditProfile Screen', () => {
     const FirstNameinput = getByTestId('lastName');
     fireEvent.changeText(FirstNameinput, mockData.lastName);
     expect(mockSetlastName).toHaveBeenCalledWith(mockData.lastName);
+  });
+  it('should render the loading Component Screen', () => {
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      isLoading: true,
+      setIsFormValid: jest.fn(),
+    });
+
+    const result = render(<OwnerEditProfile />);
+
+    expect(result).toBeDefined();
+  });
+  it('should  check if the form is valid or not', () => {
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      isLoading: false,
+      isFormValid: true,
+      setIsFormValid: jest.fn(),
+    });
+
+    const {getByTestId} = render(<OwnerEditProfile />);
+    const disableButton = getByTestId('button-Disable');
+
+    expect(disableButton).toBeDefined();
+    expect(disableButton.props.style).toStrictEqual([
+      {
+        alignItems: 'center',
+        backgroundColor: '#9747FF',
+        borderRadius: 100,
+        height: 59,
+        marginLeft: 28,
+        top: 40,
+        width: '85%',
+      },
+      {opacity: 1},
+    ]);
+  });
+  it('should update and check if the form is valid or not', () => {
+    const mockhandleUpdate = jest.fn();
+    (OwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      isLoading: false,
+      isFormValid: true,
+      setIsFormValid: jest.fn(),
+      handleUpdate: mockhandleUpdate,
+    });
+
+    const {getByTestId} = render(<OwnerEditProfile />);
+    const disableButton = getByTestId('update-button');
+
+    expect(disableButton).toBeDefined();
+    fireEvent.press(disableButton);
+    expect(mockhandleUpdate).toBeCalled();
   });
 });

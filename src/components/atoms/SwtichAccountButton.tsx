@@ -17,6 +17,7 @@ const SwitchAccountButton = () => {
   const userType = useSelector((state: any) => state.Rolereducer.role);
   const [accountType, setAccountType] = useState('');
   const {log} = logMessage();
+  console.log(userType);
 
   const buttonAnimation = useState(new Animated.Value(0))[0];
   const optionsAnimation = useState(new Animated.Value(0))[0];
@@ -88,6 +89,7 @@ const SwitchAccountButton = () => {
             onPress={() => handleOptionPress('BORROWER')}
             accessibilityLabel="BORROWER">
             <View
+              testID="Borrower-Conatiner"
               style={
                 accountType === 'BORROWER'
                   ? styles.buttonContainer
@@ -109,6 +111,7 @@ const SwitchAccountButton = () => {
             onPress={() => handleOptionPress('OWNER')}
             accessibilityLabel="OWNER">
             <View
+              testID="Owner-Conatiner"
               style={
                 accountType === 'OWNER'
                   ? styles.buttonContainer

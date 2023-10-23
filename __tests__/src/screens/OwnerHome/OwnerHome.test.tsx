@@ -1,4 +1,4 @@
-import {fireEvent, render} from '@testing-library/react-native';
+import {fireEvent, render, waitFor} from '@testing-library/react-native';
 import React from 'react';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
@@ -8,6 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OwnerHome from 'screens/OwnerHomepage/OwnerHome';
 import useOwnerHome from 'screens/OwnerHomepage/useOwnerHome';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
+import Donut from 'components/atoms/DonutChart';
 
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
@@ -143,6 +144,7 @@ describe('OwnerHome Screen', () => {
     jest.clearAllMocks();
   });
   it('should render the OwnerHome Screen', () => {
+    jest.useFakeTimers();
     // Define a mock route with the necessary params
 
     const ownerHome = render(
@@ -161,6 +163,8 @@ describe('OwnerHome Screen', () => {
     const mockDashboardyeardata = jest.fn();
     const mockHandleAnalytics = jest.fn();
 
+    jest.useFakeTimers();
+
     (useAnalytics as jest.Mock).mockReturnValue({
       handleOrders: mockhandleOrders, // Mock handleOrders function
       CategoriePieData: mockCategoriePieData, // Mock data for CategoriePieData
@@ -177,6 +181,7 @@ describe('OwnerHome Screen', () => {
         </Stack.Navigator>
       </NavigationContainer>,
     );
+    jest.useFakeTimers();
     const viewMoreButton = getByTestId('View-More');
 
     expect(viewMoreButton).toBeDefined();
@@ -210,6 +215,7 @@ describe('OwnerHome Screen', () => {
       </NavigationContainer>,
     );
     const rentalHistorytext = getByTestId('Rental-History');
+    jest.useFakeTimers();
 
     expect(rentalHistorytext).toBeDefined();
 
@@ -255,29 +261,27 @@ describe('OwnerHome Screen', () => {
       product: mockProducts[0],
     });
   });
-  // it('should render the loading  Screen', () => {
-  //   // Define a mock route with the necessary params
-  //   (useOwnerHome as jest.Mock).mockReturnValue({
-  //     products: mockProducts, // Mock products data
-  //     name: ProfileData,
-  //     refreshing: false, // Mock refreshing state
-  //     onRefresh: jest.fn(), // Mock refresh function
-  //     handleAnalatyics: jest.fn(), // Mock analytics function
-  //     recentyAdded: mockProducts, // Mock recently added items
-  //     refreshTrigger: jest.fn(), // Mock refresh trigger function
-  //     rentedItemsPercentage: 0, // Mock rented items percentage
-  //     totalEarningsPercentage: 0,
-  //     isloading: true,
-  //   });
+  it('should render the loading  Screen', () => {
+    // Define a mock route with the necessary params
+    (useOwnerHome as jest.Mock).mockReturnValue({
+      isLoading: true,
+      isloading: true,
+    });
 
-  //   const {getByTestId} = render(
-  //     <NavigationContainer>
-  //       <Stack.Navigator>
-  //         <Stack.Screen name="OwnerHome" component={OwnerHome} />
-  //       </Stack.Navigator>
-  //     </NavigationContainer>,
-  //   );
-  //   const loadingComponent = getByTestId('loading-container');
-  //   expect(loadingComponent).toBeDefined();
-  // });
+    const {getByTestId} = render(<OwnerHome />);
+    const loadingComponent = getByTestId('loading');
+    expect(loadingComponent).toBeDefined();
+  });
+  it('should render the empty  Screen', () => {
+    // Define a mock route with the necessary params
+    (useOwnerHome as jest.Mock).mockReturnValue({
+      isLoading: true,
+      isloading: false,
+      recentyAdded: [],
+    });
+
+    const {getByTestId} = render(<OwnerHome />);
+    const loadingComponent = getByTestId('empty-case');
+    expect(loadingComponent).toBeDefined();
+  });
 });

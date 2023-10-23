@@ -48,6 +48,8 @@ jest.mock('screens/FilteredAnalytics/useFilteredAnalytics', () => ({
   endDate: new Date(), // Set your mock endDate here
   setEndDate: jest.fn(), // Mock the setEndDate function
   navigation: {}, // Set your mock navigation object here
+  handleEndDateChange: jest.fn(),
+
   default: jest.fn(),
   __esModule: true,
 }));

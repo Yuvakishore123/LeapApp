@@ -8,7 +8,7 @@ import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
 import {listProductsById} from '../../constants/apiRoutes';
-import {Toast} from 'react-native-toast-message/lib/src/Toast';
+import Toast from 'react-native-toast-message';
 
 const useProductdetails = (product: {
   id: any;
@@ -49,21 +49,17 @@ const useProductdetails = (product: {
     setIsMinusDisabled(false);
   };
   const handleSubmit = () => {
-    try {
-      const Item = {
-        productId: product.id,
-        quantity: quantity,
-        rentalEndDate: rentalEndDate.toISOString(),
-        rentalStartDate: rentalStartDate.toISOString(),
-      };
-      dispatch(CartAdd(Item));
-      if (isData.status === 400) {
-        opennModal();
-      } else {
-        openModal();
-      }
-    } catch (error) {
-      console.log(error);
+    const Item = {
+      productId: product.id,
+      quantity: quantity,
+      rentalEndDate: rentalEndDate.toISOString(),
+      rentalStartDate: rentalStartDate.toISOString(),
+    };
+    dispatch(CartAdd(Item));
+    if (isData.status === 400) {
+      opennModal();
+    } else {
+      openModal();
     }
   };
   const openModal = () => {

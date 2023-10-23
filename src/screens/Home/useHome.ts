@@ -18,6 +18,7 @@ const useHome = () => {
   const [placeholderTextColor, _setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? Colors.white : Colors.black,
   );
+  const [imageLoaded, setImageLoaded] = useState(false);
   const [pageError, setError] = useState('');
   const [pageSize, setPageSize] = useState(10);
   const [searchResults, setSearchResults] = useState([]);
@@ -26,6 +27,7 @@ const useHome = () => {
   const [Data, setData] = useState([]);
   const [oldData, setOldDate] = useState([]);
   const [showModal, setShowModal] = useState(false);
+  const [wishlistList, setWishlistList] = useState<string[]>([]);
 
   const {dispatch} = useThunkDispatch();
   const {navigation} = useNavigationProp();
@@ -59,13 +61,8 @@ const useHome = () => {
   }, [dispatch, pageSize]);
 
   const wishlistremove = async (productId: any) => {
-    try {
-      await dispatch(wishListRemove(productId) as any);
-      setError(''); // Clear any previous errors on success
-    } catch (error) {
-      setError('Something went wrong. Please try again.');
-      console.error(error);
-    }
+    await dispatch(wishListRemove(productId) as any);
+    setError(''); // Clear any previous errors on success
   };
 
   const handleEndReached = async () => {
@@ -112,7 +109,11 @@ const useHome = () => {
     handleEndReached,
     productsData,
     Loading,
+    imageLoaded,
+    setImageLoaded,
     navigation,
+    wishlistList,
+    setWishlistList,
   };
 };
 export default useHome;

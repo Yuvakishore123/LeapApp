@@ -1,8 +1,10 @@
-import {useState} from 'react';
+import {useContext, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {getOTP, submitOTP} from '../../redux/actions/actions';
+import {ColorSchemeContext} from '../../../ColorSchemeContext';
+import colors from 'constants/colors';
 
 type Dispatch = ThunkDispatch<any, any, AnyAction>;
 
@@ -18,6 +20,7 @@ type UseotpReturnType = {
   openModal: () => void;
   closeModal: () => void;
   setPasswordError: (value: string) => void;
+  PlaceholderColor: any;
 };
 
 const Useotp = (): UseotpReturnType => {
@@ -26,6 +29,8 @@ const Useotp = (): UseotpReturnType => {
   const [passwordError, setPasswordError] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
   const dispatch: Dispatch = useDispatch();
+
+  const {colorScheme} = useContext(ColorSchemeContext);
 
   const openModal = () => {
     setShowModal(true);
@@ -51,6 +56,9 @@ const Useotp = (): UseotpReturnType => {
   const handlePasswordChange = (value: string) => {
     setotp(value);
   };
+  const [PlaceholderColor, _setPlaceholderColor] = useState(
+    colorScheme === 'dark' ? colors.Textinput : colors.black,
+  );
 
   return {
     phoneNo,
@@ -64,6 +72,7 @@ const Useotp = (): UseotpReturnType => {
     openModal,
     closeModal,
     setPasswordError,
+    PlaceholderColor,
   };
 };
 

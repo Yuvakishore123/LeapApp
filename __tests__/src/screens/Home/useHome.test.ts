@@ -3,9 +3,9 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import {boolean} from 'yup';
-import Toast from 'react-native-toast-message';
+
 import useHome from '../../../../src/screens/Home/useHome';
-import {wishListRemove} from '../../../../src/redux/slice/wishlistRemoveSlice';
+
 import ApiService from 'network/network';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
@@ -66,7 +66,7 @@ jest.mock('react-native-razorpay', () => {
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
-describe('useSignup', () => {
+describe('useHome', () => {
   const mockDispatch = jest.fn();
   const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {
@@ -117,6 +117,7 @@ describe('useSignup', () => {
     expect(mockDispatch).toBeCalled();
     expect(result.current.pageError).toBe('');
   });
+
   it('should dispatch after data is completed  ', async () => {
     const {result} = renderHook(() => useHome());
     expect(result.current.pageError).toBe('');
@@ -136,7 +137,7 @@ describe('useSignup', () => {
     const mockData = [{id: 1, name: 'Product 1'}];
 
     // Mock ApiService.get to resolve with the mockData
-    ApiService.get.mockResolvedValue(mockData);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockData);
 
     // Set up initial state
     act(() => {
@@ -165,14 +166,14 @@ describe('useSignup', () => {
     expect(result.current.oldData).toEqual(mockData);
     expect(result.current.searchQuery).toBe('');
   });
-  it('should catch the erroe during search results', async () => {
+  it('should catch the error during search results', async () => {
     const {result} = renderHook(() => useHome());
 
     // Mock data to be returned from ApiService
     const mockError = new Error('Search error');
 
     // Mock ApiService.get to reject with the mockError
-    ApiService.get.mockRejectedValue(mockError);
+    (ApiService.get as jest.Mock).mockRejectedValue(mockError);
     // Set up initial state
     act(() => {
       result.current.setSearchQuery('your_search_query'); // Set the search query

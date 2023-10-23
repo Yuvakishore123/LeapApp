@@ -59,6 +59,11 @@ describe('SwitchAccountButton', () => {
     expect(queryByTestId('account-type-borrower')).toBeFalsy();
   });
   it('should toggle the option to Owner is pressed', () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        Rolereducer: 'Owner',
+      }),
+    );
     const {getByTestId} = render(<SwitchAccountButton />);
     const ToggleButton = getByTestId('switch-account-button');
     fireEvent.press(ToggleButton);
@@ -67,6 +72,11 @@ describe('SwitchAccountButton', () => {
     fireEvent.press(Role);
   });
   it('should toggle the option to Borrower is pressed', async () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        Rolereducer: 'Borrower',
+      }),
+    );
     const {getByTestId, getByText} = render(<SwitchAccountButton />);
     const mockData = {
       status: 200,
@@ -93,8 +103,10 @@ describe('SwitchAccountButton', () => {
     const AccountType = getByText('Borrower');
     expect(AccountType).toBeTruthy();
   });
-  it('should toggle the option to Owner  is pressed', async () => {
-    const {getByTestId} = render(<SwitchAccountButton />);
+  it('should toggle the option to Owner when pressed', async () => {
+    const {getByTestId, findByTestId, getByText} = render(
+      <SwitchAccountButton />,
+    );
     const mockData = {
       status: 200,
       headers: {
@@ -109,10 +121,50 @@ describe('SwitchAccountButton', () => {
     // Simulate a press on the button
     fireEvent.press(ToggleButton);
 
-    // Find the "Borrower" role button
-    const RoleBorrower = getByTestId('account-type-owner');
+    // Use findByTestId to wait for AccoutType to appear
+    const AccoutType = await findByTestId('account-type-owner');
+    expect(AccoutType.props.style).toEqual({opacity: 1});
+  });
+  it('should toggle the option to Borrower when pressed', async () => {
+    const {getByTestId, getByText} = render(<SwitchAccountButton />);
+    const mockData = {
+      status: 200,
+      headers: {
+        access_token: 'newAccessToken',
+      },
+    };
+    (ApiService.post as jest.Mock).mockResolvedValue(mockData);
 
-    // Simulate a press on the "Borrower" role button
-    fireEvent.press(RoleBorrower);
+    // Find the button for toggling the role
+    const ToggleButton = getByTestId('switch-account-button');
+
+    // Simulate a press on the button
+    fireEvent.press(ToggleButton);
+    const BorrowerButton = getByTestId('Borrower-Conatiner');
+    expect(BorrowerButton.props.style).toStrictEqual({
+      alignItems: 'center',
+      backgroundColor: '#B8B5FF',
+      borderRadius: 15,
+      height: 50,
+      justifyContent: 'center',
+      marginBottom: 3,
+      marginTop: 3,
+      opacity: 0.7,
+      width: 270,
+    });
+
+    // Use findByTestId to wait for AccoutType to appear
+    const AccoutType = getByTestId('account-type-borrower');
+
+    fireEvent.press(AccoutType);
+  });
+  it('should toggle the option to Borrower ', async () => {
+    const {getByTestId, findByTestId} = render(<SwitchAccountButton />);
+    const ToggleButton = getByTestId('switch-account-button');
+    fireEvent.press(ToggleButton);
+
+    const AccoutType = await findByTestId('account-type-borrower');
+    fireEvent.press(AccoutType);
+    // Add your assertions for the AccoutType's style or behavior here...
   });
 });

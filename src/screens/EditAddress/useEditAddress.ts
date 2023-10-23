@@ -10,6 +10,7 @@ import {ListAddress} from '../../redux/slice/listAddressSlice';
 import {logMessage} from 'helpers/helper';
 const useEditAddress = () => {
   const navigation = useNavigation();
+
   const route = useRoute();
   const address = (route.params as any)?.address;
   const response = useSelector(
@@ -27,6 +28,9 @@ const useEditAddress = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
+  const [placeholderTextColor, _setPlaceholderTextColor] = useState(
+    colorScheme === 'dark' ? colors.white : colors.black,
+  );
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const {log} = logMessage();
   const openModal = () => {
@@ -48,32 +52,27 @@ const useEditAddress = () => {
     setIsChecked(!isChecked);
   };
   const handleUpdateAddress = async () => {
-    try {
-      const updateaddress = {
-        addressLine1: addressLine1,
-        addressLine2: addressLine2,
-        addressType: selectedOption,
-        city: city,
-        country: country,
-        postalCode: postalCode,
-        state: state,
-        defaultType: isChecked,
-      };
-      dispatch(editAddressData({updateaddress, addressid}));
+    const updateaddress = {
+      addressLine1: addressLine1,
+      addressLine2: addressLine2,
+      addressType: selectedOption,
+      city: city,
+      country: country,
+      postalCode: postalCode,
+      state: state,
+      defaultType: isChecked,
+    };
+    dispatch(editAddressData({updateaddress, addressid}));
 
-      if (response) {
-        setIsLoading(false);
-        openModal();
-      }
-    } catch (error) {
-      log.errror('error during editing address');
-    } finally {
+    if (response) {
       setIsLoading(false);
+      openModal();
     }
   };
-  const PlaceholderColor = () => {
-    return colorScheme === 'dark' ? colors.Textinput : colors.black;
-  };
+
+  const [PlaceholderColor, _setPlaceholderColor] = useState(
+    colorScheme === 'dark' ? colors.Textinput : colors.black,
+  );
   return {
     handleUpdateAddress,
     handlePostalcode,
@@ -97,6 +96,7 @@ const useEditAddress = () => {
     setAddressLine2,
     isLoading,
     PlaceholderColor,
+    placeholderTextColor,
   };
 };
 export default useEditAddress;

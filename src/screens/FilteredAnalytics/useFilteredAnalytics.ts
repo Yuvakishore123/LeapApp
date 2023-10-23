@@ -45,18 +45,29 @@ const useFilteredAnalytics = () => {
   const handleChartData = () => {
     if (response !== null && response !== undefined) {
       const chartData = Object.entries(response).map(
-        ([month, rentals]: [string, unknown]) => ({
-          month,
-          rentalCost: (rentals as {rentalCost: number}[]).reduce(
-            (total, rental) => total + rental.rentalCost,
-            0,
-          ),
-        }),
+        ([month, rentals]: [string, {rentalCost: number}[]]) => {
+          let rentalCost = 0;
+          if (Array.isArray(rentals)) {
+            rentalCost = rentals.reduce(
+              (total, rental) => total + rental.rentalCost,
+              0,
+            );
+          }
+          return {
+            month,
+            rentalCost,
+          };
+        },
       );
       setChartData(chartData);
     } else {
       console.error('error');
     }
+  };
+
+  const handleEndDateChange = (date: any) => {
+    setEndDate(date);
+    fetchData();
   };
 
   useEffect(() => {
@@ -84,6 +95,7 @@ const useFilteredAnalytics = () => {
     navigation,
     response,
     handleChartData,
+    handleEndDateChange,
   };
 };
 

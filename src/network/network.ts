@@ -8,6 +8,8 @@ import {BottomTabScreenProps} from '@react-navigation/bottom-tabs';
 import {StatusCodes} from '../utils/statusCodes';
 import {networkStatus} from 'helpers/helper';
 import AsyncStorageWrapper from '../utils/asyncStorage';
+import requestInterceptor from './requestInterceptor';
+import responseInterceptor from './responseInterceptor';
 
 let navigationRef: NavigationContainerRef | null = null;
 export function setNavigationReference(
@@ -21,59 +23,61 @@ const instance = axios?.create({
   timeout: 15000,
 });
 
-instance.interceptors.request.use(
-  async config => {
-    const token = await AsyncStorageWrapper.getItem('token');
-    config.headers.Authorization = `Bearer ${token}`;
-    const userPreferredLanguage = 'en-US';
-    config.headers['Accept-Language'] = userPreferredLanguage;
+// instance.interceptors.request.use(
+//   async config => {
+//     const token = await AsyncStorageWrapper.getItem('token');
+//     config.headers.Authorization = `Bearer ${token}`;
+//     const userPreferredLanguage = 'en-US';
+//     config.headers['Accept-Language'] = userPreferredLanguage;
 
-    return config;
-  },
-  error => {
-    console.log('error is', error.response);
-    return Promise.reject(error);
-  },
-);
-instance.interceptors?.response.use(
-  response => {
-    return response;
-  },
-  async error => {
-    const originalRequest = error.config;
+//     return config;
+//   },
+//   error => {
+//     console.log('error is', error.response);
+//     return Promise.reject(error);
+//   },
+// );
+requestInterceptor(instance);
+responseInterceptor(instance);
+// instance.interceptors?.response.use(
+//   response => {
+//     return response;
+//   },
+//   async error => {
+//     const originalRequest = error.config;
 
-    if (
-      error.response?.status === StatusCodes.UNAUTHORIZED &&
-      !originalRequest._retry
-    ) {
-      originalRequest._retry = true;
-      const refreshToken = await AsyncStorageWrapper.getItem('refresh_token');
+//     if (
+//       error.response?.status === StatusCodes.UNAUTHORIZED &&
+//       !originalRequest._retry
+//     ) {
+//       originalRequest._retry = true;
+//       const refreshToken = await AsyncStorageWrapper.getItem('refresh_token');
 
-      return axios
-        .post(`${url}/user/refreshToken`, null, {
-          headers: {
-            Authorization: `Bearer ${refreshToken}`,
-          },
-        })
-        .then(async response => {
-          const newToken = response.headers.access_token;
+//       return axios
+//         .post(`${url}/user/refreshToken`, null, {
+//           headers: {
+//             Authorization: `Bearer ${refreshToken}`,
+//           },
+//         })
+//         .then(async response => {
+//           const newToken = response.headers.access_token;
 
-          await AsyncStorageWrapper.setItem('token', newToken);
+//           await AsyncStorageWrapper.setItem('token', newToken);
 
-          // Update the default headers and original request headers with the new token
-          instance.defaults.headers.common.Authorization = `Bearer ${newToken}`;
-          originalRequest.headers.Authorization = `Bearer ${newToken}`;
+//           // Update the default headers and original request headers with the new token
+//           instance.defaults.headers.common.Authorization = `Bearer ${newToken}`;
+//           originalRequest.headers.Authorization = `Bearer ${newToken}`;
 
-          return instance(originalRequest);
-        })
-        .catch(error => {
-          console.error('Refresh token failed:', error);
-        });
-    }
+//           return instance(originalRequest);
+//         })
+//         .catch(error => {
+//           console.error('Refresh token failed:', error);
+//         });
+//     }
 
-    return Promise.reject(error);
-  },
-);
+//     return Promise.reject(error);
+//   },
+// );
 
 const ApiService = {
   get: async (url: string) => {

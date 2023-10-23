@@ -62,14 +62,12 @@ const useCart = () => {
   }, [refreshing]);
 
   const handleUpdate = async (newQuantity: number, productId: string) => {
-    try {
-      const data = {
-        productId: productId,
-        quantity: newQuantity,
-      };
-      dispatch(updateCart(data) as any);
-      setRefreshing(true);
-    } catch (error) {}
+    const data = {
+      productId: productId,
+      quantity: newQuantity,
+    };
+    dispatch(updateCart(data) as any);
+    setRefreshing(true);
   };
 
   const handleCheckout = async () => {
@@ -77,11 +75,9 @@ const useCart = () => {
   };
 
   const handleRemove = async (productId: number) => {
-    try {
-      dispatch(removefromCart(productId) as any);
-      dispatch(fetchCartProducts as any);
-      openModal();
-    } catch (error) {}
+    dispatch(removefromCart(productId) as any);
+    dispatch(fetchCartProducts as any);
+    openModal();
   };
 
   const handleIncrement = (item: any) => {

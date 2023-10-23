@@ -43,6 +43,8 @@ const SearchResultsScreen = ({route}: {route: any}) => {
 
     setSelectedSubCategory,
     subcategoriesData,
+    imageLoaded,
+    setImageLoaded,
   } = useSearchresults();
   const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
@@ -144,7 +146,11 @@ const SearchResultsScreen = ({route}: {route: any}) => {
                         })
                       }>
                       <View style={style.imageContainer}>
-                        <ImageComponent imageUrl={item.imageUrl[0]} />
+                        <ImageComponent
+                          imageUrl={item.imageUrl[0]}
+                          imageLoaded={imageLoaded}
+                          setImageLoaded={setImageLoaded}
+                        />
                       </View>
                     </TouchableOpacity>
                     <View style={style.cardTextContainer}>

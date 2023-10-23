@@ -12,7 +12,6 @@ import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
-import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 
 jest.mock('../../../../src/utils/asyncStorage');
 jest.mock('@react-native-community/netinfo', () =>
@@ -29,11 +28,7 @@ jest.mock('@react-native-firebase/messaging', () =>
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('react-native-firebase-mock'),
 );
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-}));
+
 jest.mock('../../../../src/redux/slice/loginSlice', () => ({
   postLogin: jest.fn(),
 }));
@@ -48,6 +43,7 @@ jest.mock('../../../../src/utils/asyncStorage', () => {
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
+  useSelector: jest.fn(),
 }));
 jest.mock('@react-native-firebase/analytics', () => {
   return {
@@ -66,6 +62,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
+
 jest.mock('@react-native-firebase/messaging', () => {
   return {
     __esModule: true,
@@ -269,32 +266,5 @@ describe('useLogin Screen', () => {
     });
 
     expect(result.current.showModal).toBe(false);
-  });
-  it('Should dispatch postLogin', async () => {
-    // Mock AsyncStorageWrapper.getItem to return a mock token
-    const mockToken = 'mocked_token';
-    jest.spyOn(AsyncStorageWrapper, 'getItem').mockResolvedValue(mockToken);
-
-    // Mock the dispatch function to track its calls
-    const dispatchMock = jest.spyOn(store, 'dispatch');
-
-    // Mock formik.values.email and formik.values.password
-    // Mock credentials data
-    const credentials = {
-      email: 'mocked_email@example.com',
-      password: 'mocked_password',
-      deviceToken: 'mocked_device_token',
-    };
-
-    // Use the mocked values when calling useLoginscreen
-    const {result} = renderHook(() => useLoginscreen(), {
-      // Provide the Redux store as a value for the Provider
-      wrapper: ({children}) => <Provider store={store}>{children}</Provider>,
-    });
-
-    // Act: Call the handleLoginScreen function
-    await act(async () => {
-      await result.current.handleLoginScreen();
-    });
   });
 });

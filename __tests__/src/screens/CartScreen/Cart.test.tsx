@@ -1,4 +1,4 @@
-import {fireEvent, render} from '@testing-library/react-native';
+import {act, fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
@@ -219,6 +219,25 @@ describe('Cart Screen', () => {
     expect(mockincremenet).toHaveBeenCalled();
     expect(mockincremenet).toHaveBeenCalledWith(mockCartData.cartItems[0]);
   });
+  it('should incremenet button should be disabled', () => {
+    const mockincremenet = jest.fn();
+    (useCart as jest.Mock).mockReturnValue({
+      isLoading: false,
+      CartProducts: mockCartData,
+      handleIncrement: mockincremenet,
+      isplusDisable: true,
+    });
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen name="Cart" component={Cart} />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+    jest.useFakeTimers();
+    const incrementButton = getByTestId('increment-button-1');
+    expect(incrementButton).toBeDefined();
+  });
   it('should remove when handleRemove is clicked', () => {
     const mockremove = jest.fn();
     (useCart as jest.Mock).mockReturnValue({
@@ -341,5 +360,31 @@ describe('Cart Screen', () => {
     );
     const imageButton = getByText('Hey,it feels so light!');
     expect(imageButton).toBeDefined();
+  });
+  it('should get the load the image when image is present', () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        CartProducts: {data: {cartItems: []}},
+      }),
+    );
+    const mockImageLoaded = jest.fn();
+    (useCart as jest.Mock).mockReturnValue({
+      isLoading: false,
+      CartProducts: mockCartData,
+      imageLoaded: true,
+      setImageLoaded: mockImageLoaded,
+    });
+    const {getByTestId} = render(<Cart />);
+    const imageButton = getByTestId('Image-1');
+    expect(imageButton).toBeDefined();
+    act(() => {
+      fireEvent(imageButton, 'onLoad');
+    });
+    expect(mockImageLoaded).toHaveBeenCalledWith(true);
+
+    act(() => {
+      fireEvent(imageButton, 'onError');
+    });
+    expect(mockImageLoaded).toHaveBeenCalledWith(false);
   });
 });

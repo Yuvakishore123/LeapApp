@@ -81,6 +81,19 @@ describe('useProductdetails', () => {
       expect(result.current.isMinusDisabled).toBe(false);
     }
   });
+  it('should  handle decrement and disable the button', () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    const quantity = result.current.quantity;
+    expect(result.current.isMinusDisabled).toBe(true);
+    act(() => {
+      result.current.setQuantity(5);
+    });
+    act(() => {
+      result.current.handleDecrement();
+    });
+    expect(result.current.quantity).toBe(4);
+    expect(result.current.isPlusDisabled).toBe(false);
+  });
   it('should  handle increment', () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));
     const quantity = result.current.quantity;
@@ -92,6 +105,19 @@ describe('useProductdetails', () => {
     if (mockProduct.availableQuantities === quantity) {
       expect(result.current.isPlusDisabled).toBe(true);
     }
+  });
+  it('should  handle increment and Add', () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    act(() => {
+      result.current.setQuantity(5);
+    });
+    expect(result.current.isPlusDisabled).toBe(false);
+    act(() => {
+      result.current.handleIncrement();
+    });
+
+    expect(result.current.quantity).toBe(6);
+    expect(result.current.isMinusDisabled).toBe(false);
   });
   it('should  add data to the cart', () => {
     const mockSelector = state => ({CartAdd: {data: mockedData}});
@@ -168,6 +194,10 @@ describe('useProductdetails', () => {
   it('should scroll to next image', async () => {
     // Render the hook with the mocked dependencies
     const {result} = renderHook(() => useProductdetails(mockProduct));
+    const scrollViewRef = {current: {scrollTo: jest.fn()}};
+    // Mock setActiveIndex
+    const setActiveIndex = jest.fn();
+    result.current.setActiveIndex = setActiveIndex;
     expect(result.current.activeIndex).toBe(0);
     const initialActiveIndex = 0;
     await act(async () => {
@@ -179,6 +209,15 @@ describe('useProductdetails', () => {
         : initialActiveIndex + 0;
 
     expect(result.current.activeIndex).toEqual(expectedActiveIndex);
+    act(() => {
+      result.current.setActiveIndex(0);
+      result.current.scrollViewRef.current = scrollViewRef.current;
+      result.current.scrollToNextImage();
+    });
+    expect(scrollViewRef.current.scrollTo).toHaveBeenCalledWith({
+      x: 405,
+      animated: true,
+    });
   });
   it('should start scroll timer ', async () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));

@@ -1,11 +1,9 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, View} from 'react-native';
-import React, {useState} from 'react';
+import React from 'react';
 import style from '../../../screens/CategoryProducts/categoryStyles';
 
-const ImageComponent = ({imageUrl}) => {
-  const [imageLoaded, setImageLoaded] = useState(false);
-
+const ImageComponent = ({imageUrl, imageLoaded, setImageLoaded}) => {
   // Define a placeholder image source
   const placeholderImageSource = require('../../../../assets/imageload1.png'); // Replace with your placeholder image source
 

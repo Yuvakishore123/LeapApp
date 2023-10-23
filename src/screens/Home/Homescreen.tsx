@@ -1,6 +1,6 @@
 /* eslint-disable react/self-closing-comp */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {useDispatch} from 'react-redux';
 import {SafeAreaView} from 'react-native-safe-area-context';
 import {
@@ -44,10 +44,13 @@ const Homescreen = () => {
     name,
     handleEndReached,
     allProducts,
+    imageLoaded,
+    setImageLoaded,
+    wishlistList,
+    setWishlistList,
   } = useHome();
   const {navigation} = useNavigationProp();
 
-  const [wishlistList, setWishlistList] = useState<string[]>([]);
   const {
     colorScheme,
     getContainerStyle,
@@ -262,12 +265,16 @@ const Homescreen = () => {
                             })
                           }>
                           <View style={style.imageContainer}>
-                            <ImageComponent imageUrl={item.imageUrl[0]} />
+                            <ImageComponent
+                              imageUrl={item.imageUrl[0]}
+                              imageLoaded={imageLoaded}
+                              setImageLoaded={setImageLoaded}
+                            />
                             <TouchableOpacity
                               testID={`wishlist-Button-${item.id}`}
                               style={style.wishlistButton}
                               onPress={() => {
-                                if (wishlistList.includes(item.id)) {
+                                if (wishlistList?.includes(item.id)) {
                                   setWishlistList(
                                     wishlistList.filter(id => id !== item.id),
                                   );
@@ -277,12 +284,13 @@ const Homescreen = () => {
                                   dispatch(postProductToAPI(item) as any);
                                 }
                               }}>
-                              {wishlistList.includes(item.id) ? (
+                              {wishlistList?.includes(item.id) ? (
                                 <Animatable.View
                                   animation={'bounceIn'}
                                   duration={1000}>
                                   <MaterialIcons
                                     size={20}
+                                    testID={`wishlist-remove-${item.id}`}
                                     color={'red'}
                                     name="cards-heart"
                                   />

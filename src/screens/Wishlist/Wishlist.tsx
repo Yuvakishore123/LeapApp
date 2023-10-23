@@ -26,10 +26,12 @@ const Wishlist = () => {
     wishlistremove,
     closeModal,
     showModal,
-    openModal,
+
     refreshing,
     onRefresh,
     isLoading,
+    imageLoaded,
+    setImageLoaded,
   } = useWishlist();
   const {navigation} = useNavigationProp();
   const {getContainerStyle, getTextColor, getTextInputStyle} =
@@ -102,7 +104,11 @@ const Wishlist = () => {
                             })
                           }>
                           <View style={style.imageContainer}>
-                            <ImageComponent imageUrl={item?.imageUrl[0]} />
+                            <ImageComponent
+                              imageUrl={item?.imageUrl[0]}
+                              imageLoaded={imageLoaded}
+                              setImageLoaded={setImageLoaded}
+                            />
                           </View>
                         </TouchableOpacity>
                         <View style={style.cardTextContainer}>

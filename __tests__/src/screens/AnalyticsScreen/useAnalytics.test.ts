@@ -471,4 +471,26 @@ describe('useAnalytics Screen', () => {
       'base64',
     );
   });
+  it('should get the error during fetching Category Data', async () => {
+    const {result} = renderHook(() => useAnalytics());
+    const mockError = 'error during fetching data';
+
+    jest.spyOn(ApiService, 'get').mockRejectedValue(mockError);
+
+    expect(result.current.loading).toBe(false);
+    act(() => {
+      result.current.CategoriePieData();
+    });
+  });
+  it('should get the error during fetching Dashboard Data', async () => {
+    const {result} = renderHook(() => useAnalytics());
+    const mockError = 'error during fetching data';
+
+    jest.spyOn(ApiService, 'get').mockRejectedValue(mockError);
+
+    expect(result.current.loading).toBe(false);
+    act(() => {
+      result.current.Dashboardyeardata();
+    });
+  });
 });

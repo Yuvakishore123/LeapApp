@@ -21,8 +21,13 @@ type RootStackParamList = {
 const CategoryProducts = ({route}: any) => {
   const {subcategoryId} = route.params;
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const {subcategories, wishlistList, toggleWishlist} =
-    useCategoryProducts(subcategoryId);
+  const {
+    subcategories,
+    wishlistList,
+    toggleWishlist,
+    imageLoaded,
+    setImageLoaded,
+  } = useCategoryProducts(subcategoryId);
   const {getTextColor, getTextInputStyle, getContainerStyle} =
     useContext(ColorSchemeContext);
   return (
@@ -71,7 +76,11 @@ const CategoryProducts = ({route}: any) => {
                           })
                         }>
                         <View style={style.imageContainer}>
-                          <ImageComponent imageUrl={item.imageUrl[0]} />
+                          <ImageComponent
+                            imageLoaded={imageLoaded}
+                            setImageLoaded={setImageLoaded}
+                            imageUrl={item.imageUrl[0]}
+                          />
                         </View>
                       </TouchableOpacity>
                       <View style={style.cardTextContainer}>

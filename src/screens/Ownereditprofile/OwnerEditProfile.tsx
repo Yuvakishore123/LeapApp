@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Text, TextInput, View, TouchableOpacity} from 'react-native';
-import React, {useState, useEffect, useContext} from 'react';
+import React, {useEffect, useContext} from 'react';
 import style from './ownerEditProfileStyle';
 import Colors from '../../constants/colors';
 
@@ -40,11 +40,13 @@ const OwnerEditProfile = () => {
     email,
     showModal,
     closeModal,
-    setEmail,
+
     phoneNumber,
-    setPhoneNumber,
+
     handleUpdate,
     isLoading,
+    setIsFormValid,
+    isFormValid,
   } = useOwnerProfile();
   const {
     getContainerStyle,
@@ -52,15 +54,10 @@ const OwnerEditProfile = () => {
     getTextInputStyle,
     getplaceholdercolor,
   } = useContext(ColorSchemeContext);
-  const [isFormValid, setIsFormValid] = useState(false);
+
   useEffect(() => {
-    setIsFormValid(
-      firstName?.trim().length > 0 &&
-        lastName?.trim().length > 0 &&
-        email?.trim().length > 0 &&
-        phoneNumber?.trim().length > 0,
-    );
-  }, [firstName, lastName, email, phoneNumber]);
+    setIsFormValid(firstName?.trim().length > 0 && lastName?.trim().length > 0);
+  }, [firstName, lastName, setIsFormValid]);
   return (
     <View style={[style.container, getContainerStyle()]}>
       <View style={style.addAddressHeader}>
@@ -68,7 +65,9 @@ const OwnerEditProfile = () => {
       </View>
       <View>
         {isLoading ? (
-          <SkeletonLoader />
+          <View testID="loading-container">
+            <SkeletonLoader />
+          </View>
         ) : (
           <View>
             <Text style={[style.text, getTextColor()]}>First name</Text>
@@ -114,6 +113,7 @@ const OwnerEditProfile = () => {
       </View>
       <View style={style.buttons}>
         <View
+          testID="button-Disable"
           style={[
             style.btnfield,
             {

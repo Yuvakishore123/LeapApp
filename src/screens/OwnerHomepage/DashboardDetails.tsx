@@ -61,6 +61,7 @@ const DashboardDetails = () => {
     selectedYear,
     setSelectedYear,
   } = useAnalytics();
+
   const {navigation} = useNavigationProp();
 
   const [selectedBarIndex, setSelectedBarIndex] = useState(null);
@@ -76,7 +77,7 @@ const DashboardDetails = () => {
     monthNames[new Date().getMonth()],
   );
 
-  const years = Object.keys(DashboardYearly);
+  const years = Object?.keys(DashboardYearly);
 
   const handleVisibleModal = () => {
     setShowModel(!showModel);
@@ -84,9 +85,7 @@ const DashboardDetails = () => {
   };
 
   const handleTotalOrdersClick = () => {
-    setTimeout(() => {
-      setShowModel(true);
-    }, 100);
+    setShowModel(true);
   };
   const filterOrderData = () => {
     const filteredOrderData = {};
@@ -586,6 +585,7 @@ const DashboardDetails = () => {
                         animationType="slide"
                         transparent={true}>
                         <ScrollView
+                          testID="Modal-component"
                           style={{
                             backgroundColor: Colors.white,
                             width: '100%',
@@ -594,7 +594,9 @@ const DashboardDetails = () => {
                             borderTopRightRadius: 30,
                             marginTop: 200,
                           }}>
-                          <TouchableOpacity onPress={handleVisibleModal}>
+                          <TouchableOpacity
+                            testID="Close-button"
+                            onPress={handleVisibleModal}>
                             <Text style={style.txtClose}>Close</Text>
                           </TouchableOpacity>
                           {orderData[selectedMonth].map((order: OrderItem) => (

@@ -10,7 +10,7 @@ import React, {useContext} from 'react';
 import style from '../Owneraddaddress/AddressStyles';
 import useAddAddress from '../Owneraddaddress/useAddAddress';
 import {CheckBox} from 'react-native-elements';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
+
 import {RadioButton} from 'react-native-paper';
 import useEditaddress from './useEditAddress';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -62,10 +62,10 @@ const EditAddress = () => {
     postalCode,
     state,
     setCity,
+    placeholderTextColor,
   } = useEditaddress();
 
   const {
-    colorScheme,
     getContainerStyle,
     getTextColor,
     getTextInputStyle,
@@ -160,7 +160,7 @@ const EditAddress = () => {
                     testID="Radio-Home"
                     status={selectedOption === 'HOME' ? 'checked' : 'unchecked'}
                     onPress={() => handleOptionChange('HOME')}
-                    color={colorScheme === 'dark' ? Colors.white : Colors.black}
+                    color={placeholderTextColor}
                   />
                   <Text style={[style.textRadio, getTextColor()]}>Home</Text>
                 </View>
@@ -172,7 +172,7 @@ const EditAddress = () => {
                       selectedOption === 'OFFICE' ? 'checked' : 'unchecked'
                     }
                     onPress={() => handleOptionChange('OFFICE')}
-                    color={colorScheme === 'dark' ? Colors.white : Colors.black}
+                    color={placeholderTextColor}
                   />
                   <Text style={[style.textRadio, getTextColor()]}>Office</Text>
                 </View>

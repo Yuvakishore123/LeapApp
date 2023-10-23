@@ -19,12 +19,10 @@ const FilteredAnalytics = () => {
     setStartDate,
     endDate,
     setEndDate,
+
     navigation,
+    handleEndDateChange,
   } = useFilteredAnalytics();
-  const handleEndDateChange = (date: any) => {
-    setEndDate(date);
-    fetchData();
-  };
 
   const addPrefixToYLabel = (value: any) => `₹ ${value}`;
 

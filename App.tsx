@@ -84,7 +84,7 @@ export const AuthStack = () => {
     </Stack.Navigator>
   );
 };
-const RootNavigation = () => {
+export const RootNavigation = () => {
   const {log} = logMessage();
 
   const token = useSelector((state: any) => state.login.data.authToken);

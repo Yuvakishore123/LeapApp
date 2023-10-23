@@ -138,11 +138,12 @@ const MyStack = () => {
             backgroundColor: tabBarBackgroundColor,
           },
           tabBarLabel: 'Home',
+          tabBarTestID: 'Home-tab',
           tabBarIcon: ({focused, color}) => {
             if (!isFocused) return null;
 
             let iconComponent;
-            const backgroundColor = focused ? Colors.buttonColor : Colors.black;
+
             const iconBackgroundColor = focused
               ? Colors.buttonColor
               : tabBarBackgroundColor;
@@ -194,7 +195,7 @@ const MyStack = () => {
             if (!isFocused) return null;
 
             let iconComponent;
-            const backgroundColor = focused ? Colors.buttonColor : Colors.white;
+
             const iconBackgroundColor = focused
               ? Colors.buttonColor
               : tabBarBackgroundColor;
@@ -247,7 +248,7 @@ const MyStack = () => {
             if (!isFocused) return null;
 
             let iconComponent;
-            const backgroundColor = focused ? Colors.buttonColor : Colors.white;
+
             const iconBackgroundColor = focused
               ? Colors.buttonColor
               : tabBarBackgroundColor;
@@ -300,7 +301,7 @@ const MyStack = () => {
             if (!isFocused) return null;
 
             let iconComponent;
-            const backgroundColor = focused ? Colors.buttonColor : Colors.white;
+
             const iconBackgroundColor = focused
               ? Colors.buttonColor
               : tabBarBackgroundColor;
@@ -353,7 +354,7 @@ const MyStack = () => {
             if (!isFocused) return null;
 
             let iconComponent;
-            const backgroundColor = focused ? Colors.buttonColor : Colors.white;
+
             const iconBackgroundColor = focused
               ? Colors.buttonColor
               : tabBarBackgroundColor;

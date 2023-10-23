@@ -87,27 +87,23 @@ const useAddImages = () => {
     navigation.goBack();
   };
   const postData = async () => {
-    try {
-      const Data = {
-        brand: 'adiddas',
-        categoryIds: categoryIds,
-        color: 'black',
-        name: name,
-        description: description,
-        id: 0,
-        imageUrl: imageUrls, // Use the imageUrls state
-        material: 'fibre',
-        price: price,
-        totalQuantity: quantity,
-        size: selectedsize,
-        subcategoryIds: subcategoryIds,
-      };
-      dispatch(ProductAdd(Data));
-      dispatch(addsize(selectedsize));
-      openModal();
-    } catch (error) {
-      log.error('erorr in posting Item');
-    }
+    const Data = {
+      brand: 'adiddas',
+      categoryIds: categoryIds,
+      color: 'black',
+      name: name,
+      description: description,
+      id: 0,
+      imageUrl: imageUrls, // Use the imageUrls state
+      material: 'fibre',
+      price: price,
+      totalQuantity: quantity,
+      size: selectedsize,
+      subcategoryIds: subcategoryIds,
+    };
+    dispatch(ProductAdd(Data));
+    dispatch(addsize(selectedsize));
+    openModal();
   };
 
   const handleremove = () => {

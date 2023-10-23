@@ -192,6 +192,21 @@ describe('editItems', () => {
       expect(result.current.description).toBe(mockItem.description);
     });
   });
+  it('should log the error after error in api call', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+    const error = 'errpr during Api call';
+    (ApiService.get as jest.Mock).mockRejectedValue(error);
+
+    // You can use this mockItem object in your test cases as needed.
+
+    const asyncOperation = () =>
+      new Promise(resolve => setTimeout(resolve, 100));
+
+    await act(() => {
+      result.current.FetchData(3);
+    });
+    await asyncOperation();
+  });
 
   it('should remove the  images after deleting ', async () => {
     const {result} = renderHook(() => Useowneredititems());
@@ -317,6 +332,22 @@ describe('editItems', () => {
 
     expect(result.current.isPlusDisabled).toBe(true);
   });
+  it('should set the disable the button', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+
+    const asyncOperation = () =>
+      new Promise(resolve => setTimeout(resolve, 100));
+    await act(() => {
+      result.current.setdisabledQuantity(2);
+    });
+
+    await act(() => {
+      result.current.incrementQuantity();
+    });
+    await asyncOperation();
+
+    expect(result.current.isPlusDisabled).toBe(false);
+  });
   it('should refresh Producs after onrefresh is selected', async () => {
     const mockItem = {
       id: 1,
@@ -363,6 +394,29 @@ describe('editItems', () => {
     });
 
     expect(result.current.updatedQuantity).toBe(1);
+  });
+  it('should decrement the value', async () => {
+    const {result} = renderHook(() => Useowneredititems());
+    expect(result.current.isModalVisible).toBe(false);
+    act(() => {
+      result.current.setProductQuantity(10);
+      result.current.settotalQuantities(20);
+      result.current.setdisabledQuantity(5);
+    });
+
+    expect(result.current.productQuantity).toBe(10);
+    expect(result.current.totalQuantity).toBe(20);
+    expect(result.current.disabledQuantity).toBe(5);
+
+    await act(() => {
+      result.current.setupdatedquantity(3);
+    });
+
+    await act(() => {
+      result.current.decrementQuantity();
+    });
+
+    expect(result.current.updatedQuantity).toBe(2);
   });
   it('should Disable the product the data when button is clicked ', async () => {
     const mockData = {
@@ -440,6 +494,52 @@ describe('editItems', () => {
       expect(result.current.refreshData).toBe(true);
       expect(result.current.outofStock).toBe(true);
     });
+  });
+  it('should throw error during disabling Product ', async () => {
+    const mockData = {
+      id: '3',
+      disableQuantity: 4,
+      productQuantity: 10,
+    };
+    const {result} = renderHook(() => Useowneredititems());
+    const mockResponse = {
+      message: 'error in Api call',
+    };
+    (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
+
+    await act(() => {
+      result.current.handleDisablebutton(
+        mockData.id,
+
+        result.current.disabledQuantity,
+      );
+    });
+
+    expect(ApiService.get).toBeCalled();
+  });
+  it('should throw error during enabling Product ', async () => {
+    const mockData = {
+      id: '3',
+      disableQuantity: 4,
+      productQuantity: 10,
+    };
+    const {result} = renderHook(() => Useowneredititems());
+    const mockResponse = {
+      message: 'error in Api call',
+    };
+    (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
+    const disbleProduct = result.current.productQuantity;
+    console.log(disbleProduct);
+
+    await act(() => {
+      result.current.handleEnablebutton(
+        mockData.id,
+        result.current.updatedQuantity,
+        result.current.disabledQuantity,
+      );
+    });
+
+    expect(ApiService.get).toBeCalled();
   });
   it('should submit  the data of edited  Product ', async () => {
     const {result} = renderHook(() => Useowneredititems());
@@ -560,5 +660,35 @@ describe('editItems', () => {
     });
     expect(result.current.imageUrls).toEqual(['mockImageUrl']);
     expect(result.current.selectedImage).toEqual(['mockImageUrl']);
+  });
+  it('should close the images  ', async () => {
+    // Mock token and image response
+    global.fetch = jest.fn().mockResolvedValue({
+      ok: true,
+      json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
+    });
+
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const imageResponse = {
+      didCancel: true,
+      assets: [{uri: 'image1.jpg'}, {uri: 'image2.jpg'}],
+    };
+    (ImagePicker.launchImageLibrary as jest.Mock).mockResolvedValue(
+      imageResponse,
+    );
+    // Render your hook (replace useYourHook with your actual hook)
+    const {result} = renderHook(() => Useowneredititems());
+    // Call the pickImg function
+    await act(async () => {
+      await result.current.pickImg();
+    });
+    // Assertions
+    // Verify that AsyncStorage.getItem was called with 'token'
+    expect(AsyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
+    // Verify that launchImageLibrary was called with the correct options
+    expect(ImagePicker.launchImageLibrary).toHaveBeenCalledWith({
+      mediaType: 'photo',
+      selectionLimit: 10,
+    });
   });
 });

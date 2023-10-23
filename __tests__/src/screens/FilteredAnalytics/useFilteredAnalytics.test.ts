@@ -102,4 +102,26 @@ describe('useFiltered Analytics Screen', () => {
       result.current.handleChartData();
     });
   });
+  it('should handle the end date', () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        FliterAnalyticsData: {data: mockChartData},
+      }),
+    );
+    const {result} = renderHook(() => useFilteredAnalytics());
+    act(() => {
+      result.current.handleEndDateChange('14');
+    });
+    expect(result.current.endDate).toBe('14');
+  });
+  it('generated keys should be unique', () => {
+    const keys = new Set();
+    const {result} = renderHook(() => useFilteredAnalytics());
+    const numKeys = 1000; // You can adjust the number of keys to generate
+    for (let i = 0; i < numKeys; i++) {
+      const key = result.current.generateKey();
+      keys.add(key);
+    }
+    expect(keys.size).toBe(numKeys);
+  });
 });

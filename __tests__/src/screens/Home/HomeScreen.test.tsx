@@ -70,6 +70,8 @@ jest.mock('screens/Home/useHome', () => ({
   handleEndReached: jest.fn(),
   allProducts: [], // Mocked array of products
   navigation: jest.fn(),
+  wishlistList: [],
+  setWishlistList: jest.fn(),
 }));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -128,12 +130,23 @@ describe('Home Screen', () => {
       handleEndReached: jest.fn(),
       allProducts: [], // Mocked array of products
       navigation: jest.fn(),
+      wishlistList: [],
+      setWishlistList: jest.fn(),
     })),
   });
   afterEach(() => {
     jest.clearAllMocks();
   });
   it('should render the Home Screen', () => {
+    const mockSetWishlist = jest.fn();
+    const initialWishlist = [1];
+    (useHome as jest.Mock).mockReturnValue({
+      allProducts: mockData,
+      loading: false, // Mocked array of products
+      navigation: jest.fn(),
+      wishlistList: initialWishlist,
+      setWishlistList: mockSetWishlist,
+    });
     const result = render(<Homescreen />);
     expect(result).toBeDefined();
   });
@@ -201,10 +214,14 @@ describe('Home Screen', () => {
     expect(mockNav).toHaveBeenCalledWith('CategoryScreen');
   });
   it('should render the Products in the Home Screen ', () => {
+    const mockSetWishlist = jest.fn();
+    const initialWishlist = [1];
     (useHome as jest.Mock).mockReturnValue({
       allProducts: mockData,
       loading: false, // Mocked array of products
       navigation: jest.fn(),
+      wishlistList: initialWishlist,
+      setWishlistList: mockSetWishlist,
     });
     const {getByTestId} = render(<Homescreen />);
     const FlatListComponent = getByTestId('FlatList');
@@ -227,5 +244,113 @@ describe('Home Screen', () => {
     });
     const result = render(<Homescreen />);
     expect(result).toBeDefined();
+  });
+  it('should add and remove the product to wishlist ', () => {
+    const mockSetWishlist = jest.fn();
+    const initialWishlist = [1];
+    (useHome as jest.Mock).mockReturnValue({
+      allProducts: mockData,
+      loading: false, // Mocked array of products
+      navigation: jest.fn(),
+      wishlistList: initialWishlist,
+      setWishlistList: mockSetWishlist,
+    });
+    const {getByTestId} = render(<Homescreen />);
+
+    const wishlistButton = getByTestId('wishlist-Button-2');
+    expect(wishlistButton).toBeTruthy();
+    fireEvent.press(wishlistButton);
+    expect(mockSetWishlist).toHaveBeenCalled();
+  });
+  it('should not add the same product to the wishlist again', () => {
+    const mockSetWishlist = jest.fn();
+    const mockWishlistremove = jest.fn();
+    const initialWishlist = [1, 3];
+    const itemToRemove = 2;
+    (useHome as jest.Mock).mockReturnValue({
+      allProducts: mockData,
+      loading: false, // Mocked array of products
+      navigation: jest.fn(),
+      wishlistList: initialWishlist,
+      setWishlistList: mockSetWishlist,
+      wislistremove: mockWishlistremove,
+    });
+    const {getByTestId} = render(<Homescreen />);
+
+    const wishlistButton = getByTestId('wishlist-Button-2'); // Assuming item id is 2
+    expect(wishlistButton).toBeTruthy();
+    fireEvent.press(wishlistButton);
+
+    expect(initialWishlist).not.toContain(itemToRemove);
+  });
+  // it('should remove the product from the wishlist if it is already in the list', () => {
+  //   const mockSetWishlist = jest.fn();
+  //   const mockWishlistremove = jest.fn();
+  //   const initialWishlist = [1, 2, 3];
+  //   const itemIdToRemove = 2; // Assuming item with ID 2 is already in the wishlist
+
+  //   (useHome as jest.Mock).mockReturnValue({
+  //     allProducts: mockData,
+  //     loading: false,
+  //     wishlistList: [1, 2],
+  //     setWishlistList: mockSetWishlist,
+  //     wishlistremove: mockWishlistremove,
+  //   });
+  //   const {getByTestId} = render(<Homescreen />);
+
+  //   const wishlistButton = getByTestId('wishlist-Button-1');
+  //   expect(wishlistButton).toBeTruthy();
+
+  //   fireEvent.press(wishlistButton);
+  //   expect(mockWishlistremove).toHaveBeenCalledWith(1);
+  // });
+  it('should trigger wishlistremove when button is pressed', () => {
+    const remove = jest.fn();
+    const setwishlist = jest.fn();
+    (useHome as jest.Mock).mockReturnValue({
+      onRefresh: jest.fn(),
+      refreshing: false,
+      name: 'John Doe', // Replace with your mock data
+      searchQuery: '',
+      searchResults: [],
+      setSearchResults: jest.fn(),
+      searchProducts: jest.fn(),
+      setSearchQuery: jest.fn(),
+      wishlistList: [1, 2],
+      setWishlistList: setwishlist,
+      placeholderText: 'Search',
+      placeholderTextColor: 'black',
+      loading: false,
+      openModal: jest.fn(),
+      setRefreshing: jest.fn(),
+      closeModal: jest.fn(),
+      showModal: false,
+      Data: [],
+      oldData: [],
+      pageSize: 10,
+      wishlistremove: remove,
+      allProducts: [
+        {
+          id: 1,
+          imageUrl: ['image1.jpg'],
+          name: 'Product 1',
+          price: 10,
+        },
+        {
+          id: 2,
+          imageUrl: ['image2.jpg'],
+          name: 'Product 2',
+          price: 20,
+        },
+      ],
+      pageError: '',
+      IsError: null,
+      handleEndReached: jest.fn(),
+      productsData: [],
+    });
+    const {getByTestId} = render(<Homescreen />);
+    const button = getByTestId('wishlist-remove-1'); // Assuming you have a button with this test ID
+    fireEvent.press(button);
+    expect(remove).toBeCalledWith(1);
   });
 });

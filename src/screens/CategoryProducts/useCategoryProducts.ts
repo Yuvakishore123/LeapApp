@@ -38,10 +38,12 @@ const useCategoryProducts = (subcategoryId: number) => {
   return {
     subcategories,
     wishlistList,
+    setWishlistList,
 
     toggleWishlist,
     imageLoaded,
     setImageLoaded,
+    setSubcategories,
   };
 };
 

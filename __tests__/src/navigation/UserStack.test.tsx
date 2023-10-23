@@ -154,9 +154,9 @@ describe('MyStack Component', () => {
 
     // Check if the CategoryScreen component renders correctly
 
-    const categoryScreen = getByTestId('Cart-tab'); // You can set a testID in your CategoryScreen component
-    fireEvent.press(categoryScreen);
-    expect(categoryScreen).toBeTruthy();
+    const cartTab = getByTestId('Cart-tab'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(cartTab);
+    expect(cartTab).toBeTruthy();
   });
   it('renders Wishlist stack without errors', () => {
     const {getByTestId, getByText} = render(
@@ -176,8 +176,44 @@ describe('MyStack Component', () => {
       </NavigationContainer>,
     );
 
-    const WishlistScreen = getByTestId('Profile-tab'); // You can set a testID in your CategoryScreen component
-    fireEvent.press(WishlistScreen);
-    expect(WishlistScreen).toBeTruthy();
+    const ProfileTab = getByTestId('Profile-tab'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(ProfileTab);
+    expect(ProfileTab).toBeTruthy();
+  });
+  it('renders Home tab with null tabBarIcon when not focused', () => {
+    // Arrange
+    const {getByTestId, queryByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+
+    // Simulate clicking on the Home tab
+    const homeTab = getByTestId('Home-tab'); // Adjust testID as needed
+
+    // Act
+    fireEvent.press(homeTab);
+
+    // Assert
+    // Ensure that the tabBarIcon is not in the DOM when not focused
+    expect(queryByTestId('homeTabBarIcon')).toBeNull();
+  });
+  it('renders Category tab with icon when not focused', () => {
+    // Arrange
+    const {getByTestId, queryByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+
+    // Simulate clicking on the Category tab
+    const categoryTab = getByTestId('categoryTab'); // Adjust testID as needed
+
+    // Act
+    fireEvent.press(categoryTab);
+
+    // Assert
+    // Ensure that the tabBarIcon is not in the DOM when not focused
+    expect(queryByTestId('categoryTabBarIcon')).toBeNull();
   });
 });

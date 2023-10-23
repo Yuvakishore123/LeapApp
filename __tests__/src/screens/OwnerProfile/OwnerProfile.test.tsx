@@ -201,4 +201,19 @@ describe('OwnerProfile Screen', () => {
     const loadingComponent = getByTestId('skeleton-loader');
     expect(loadingComponent).toBeDefined();
   });
+  it('should render the Loading Component Screen', () => {
+    (ProfileData as jest.Mock).mockReturnValue({
+      isloading: true,
+      data: mockData,
+    });
+    (UseOwnerprofile as jest.Mock).mockReturnValue({
+      loading: true,
+      data: mockData,
+      handleLogout: jest.fn(),
+    });
+
+    const {getByTestId} = render(<OwnerProfile />);
+    const loadingComponent = getByTestId('skeleton-loader');
+    expect(loadingComponent).toBeDefined();
+  });
 });

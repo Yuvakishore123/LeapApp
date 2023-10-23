@@ -53,6 +53,24 @@ describe('handleCategoryData navigates to Subcategory and dispatches getsubcateg
       subcategoryIds: [2],
       totalQuantity: 100,
     },
+    {
+      availableQuantities: 3,
+      brand: 'MockBrand 2',
+      categoryIds: [1],
+      color: 'MockColor 2',
+      description: 'MockDescription2',
+      disabled: true,
+      disabledQuantities: 0,
+      id: 1,
+      imageUrl: ['https://example.com/mock-image.jpg'],
+      material: 'MockMaterial',
+      name: 'MockProduct 2',
+      price: 10.99,
+      rentedQuantities: 0,
+      size: 'MockSize',
+      subcategoryIds: [2],
+      totalQuantity: 100,
+    },
   ];
 
   const dispatchMock = jest.fn();
@@ -66,26 +84,59 @@ describe('handleCategoryData navigates to Subcategory and dispatches getsubcateg
   });
 
   it('should add an item to the wishlist', () => {
-    const {result} = renderHook(() => useCategoryProducts(mockId));
-    const itemId = 1;
+    const {result} = renderHook(() => useCategoryProducts(1)); // Provide an initial subcategoryId
+    const initialWishlist = [2, 3]; // An initial wishlist with items 2 and 3
 
+    // Set the initial wishlist
     act(() => {
-      result.current.toggleWishlist(itemId);
+      result.current.setWishlistList(initialWishlist);
     });
 
-    expect(result.current.wishlistList).toContain(itemId);
+    const itemIdToAdd = 1; // Item to add to the wishlist
+
+    // Mock the subcategories data
+    const subcategories = [
+      {id: 1 /* other properties */},
+      {id: 2 /* other properties */},
+      {id: 3 /* other properties */},
+    ];
+
+    // Set the subcategories data
+    act(() => {
+      result.current.setSubcategories(mockedData);
+    });
+
+    // Call toggleWishlist to add the item
+    act(() => {
+      result.current.toggleWishlist(itemIdToAdd);
+    });
+
+    // Verify that the item has been added to the wishlist
+    expect(result.current.wishlistList).toContain(itemIdToAdd);
+    expect(dispatchMock).toHaveBeenCalled();
   });
+
   it('should remove an item from the wishlist', () => {
-    const initialWishlist = [1, 2, 3];
-    const {result} = renderHook(() => useCategoryProducts(1));
+    const {result} = renderHook(() => useCategoryProducts(1)); // Provide an initial subcategoryId
+    const initialWishlist = [1, 2, 3]; // An initial wishlist with items 1, 2, and 3
 
-    // Specify the item to be removed
-    const itemIdToRemove = 2;
+    // Set the initial wishlist
+    act(() => {
+      result.current.setWishlistList(initialWishlist);
+    });
 
+    act(() => {
+      result.current.setSubcategories(mockedData);
+    });
+
+    const itemIdToRemove = 2; // Item to remove from the wishlist
+
+    // Call toggleWishlist to remove the item
     act(() => {
       result.current.toggleWishlist(itemIdToRemove);
     });
 
-    expect(dispatchMock).not.toHaveBeenCalled();
+    // Verify that the item has been removed from the wishlist
+    expect(result.current.wishlistList).not.toContain(itemIdToRemove);
   });
 });

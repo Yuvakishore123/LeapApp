@@ -47,6 +47,9 @@ const OwnerHome = () => {
     totalEarningsPercentage,
     isloading,
   } = useOwnerHome();
+
+  console.log(rentedItemsPercentage);
+
   const {handleOrders, CategoriePieData, Dashboardyeardata} = useAnalytics();
   const {colorScheme, getTextColor, getContainerStyle, getTextInputStyle} =
     useContext(ColorSchemeContext);
@@ -96,21 +99,23 @@ const OwnerHome = () => {
   const renderRecentlyAdded = () => {
     if (isloading) {
       return (
-        <SkeletonPlaceholder
-          backgroundColor={colorScheme === 'dark' ? '#373737' : Colors.white}>
-          <>
-            <ScrollView style={styles.mainContainer}>
-              {renderTouchableOpacity()}
-              <View>
-                <View style={styles.cardSt}>{renderTouchableOpacity()}</View>
-              </View>
-            </ScrollView>
-          </>
-        </SkeletonPlaceholder>
+        <View testID="loading">
+          <SkeletonPlaceholder
+            backgroundColor={colorScheme === 'dark' ? '#373737' : Colors.white}>
+            <>
+              <ScrollView style={styles.mainContainer}>
+                {renderTouchableOpacity()}
+                <View>
+                  <View style={styles.cardSt}>{renderTouchableOpacity()}</View>
+                </View>
+              </ScrollView>
+            </>
+          </SkeletonPlaceholder>
+        </View>
       );
     } else if (recentyAdded && recentyAdded.length === 0) {
       return (
-        <View style={styles.lottieS}>
+        <View testID="empty-case" style={styles.lottieS}>
           <Lottie source={require('../../../assets/ownerHome.json')} autoPlay />
         </View>
       );

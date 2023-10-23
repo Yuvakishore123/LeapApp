@@ -3,7 +3,8 @@ import analytics from '@react-native-firebase/analytics';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-
+import {firebase} from '@react-native-firebase/messaging';
+import {logMessage} from 'helpers/helper';
 jest.mock('../../../../src/utils/asyncStorage');
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),
@@ -13,9 +14,15 @@ jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
 
-jest.mock('@react-native-firebase/messaging', () =>
-  require('react-native-firebase-mock'),
-);
+jest.mock('@react-native-firebase/messaging', () => {
+  return {
+    messaging: jest.fn(() => ({
+      requestPermission: jest.fn(),
+      getToken: jest.fn(),
+    })),
+  };
+});
+
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('react-native-firebase-mock'),
 );
@@ -61,20 +68,17 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-jest.mock('react-redux', () => ({
-  ...jest.requireActual('react-redux'),
-  useDispatch: jest.fn(),
-  useSelector: jest.fn(),
-}));
+
 describe('Use Login Screens', () => {
   const mockDispatch = jest.fn();
   const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+
     useSelector.mockImplementation(selector =>
       selector({
         UserProducts: {data: [], firstCallLoading: false},
-        login: {error: null},
+        login: {data: []},
       }),
     );
   });
@@ -147,6 +151,7 @@ describe('Use Login Screens', () => {
       mockToken,
     );
   });
+
   it('should show modal when incorrect details are given', async () => {
     const isError = 401;
     // Render the hook
@@ -169,7 +174,7 @@ describe('Use Login Screens', () => {
     });
     expect(mockNav).toHaveBeenCalledWith('ApiErrorScreen', {status: 404});
   });
-  it('should dispatch post Login', async () => {
+  it('should dispatch post Login', () => {
     (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue('fcmToken');
     const credentials = {
       email: 'mocked_email@example.com',
@@ -183,5 +188,43 @@ describe('Use Login Screens', () => {
     act(() => {
       result.current.handleLoginScreen(); // You need to call the initialization function
     });
+  });
+  it('should request permission from the Firebase', async () => {
+    const {result} = renderHook(() => useLoginscreen());
+
+    // Verify that Firebase initialization was called
+    act(() => {
+      result.current.requestFCMPermission(); // You need to call the initialization function
+    });
+    (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue('fcmToken');
+  });
+  it('should handle Messsages backGround messages', async () => {
+    const {result} = renderHook(() => useLoginscreen());
+    const message = 'mesage recieved';
+
+    // Verify that Firebase initialization was called
+    act(() => {
+      result.current.backgroundMessageHandler(message); // You need to call the initialization function
+    });
+  });
+  it('should remove if not getting', async () => {
+    // Mock the AsyncStorage getItem and setItem functions
+    (AsyncStorageWrapper.getItem as jest.Mock).mockRejectedValue(null);
+    (AsyncStorageWrapper.setItem as jest.Mock).mockRejectedValue(null);
+
+    const mockToken = '';
+
+    // Render the hook
+    const {result} = renderHook(() => useLoginscreen());
+
+    // Trigger the onTokenRefresh function
+    await act(async () => {
+      result.current.storeFCMToken(mockToken);
+    });
+
+    expect(AsyncStorageWrapper.setItem).toHaveBeenCalledWith(
+      'fcmToken',
+      mockToken,
+    );
   });
 });

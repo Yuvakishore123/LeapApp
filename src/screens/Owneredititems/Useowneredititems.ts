@@ -407,6 +407,7 @@ const Useowneredititems = () => {
     selectedsize,
     itemType,
     setProductQuantity,
+    setupdatedquantity,
   };
 };
 

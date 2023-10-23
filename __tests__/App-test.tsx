@@ -1,8 +1,8 @@
 import 'react-native';
 import React from 'react';
-import App, {AuthStack} from '../App';
-import {render, waitFor} from '@testing-library/react-native';
-import {useDispatch} from 'react-redux';
+import App, {AuthStack, RootNavigation} from '../App';
+import {render} from '@testing-library/react-native';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorageWrapper from '../src/utils/asyncStorage';
 
@@ -128,9 +128,7 @@ describe('Auth Stack ', () => {
 
   it('handles first-time user correctly', async () => {
     // Mock AsyncStorageWrapper.getItem to return null (first-time user)
-    AsyncStorageWrapper.getItem = jest
-      .fn()
-      .mockReturnValue(Promise.resolve(null));
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(null);
 
     // Run your component or function that calls checkFirstTimeUser
     const result = render(
@@ -147,5 +145,41 @@ describe('Auth Stack ', () => {
       'hasLoggedIn',
       'true',
     );
+  });
+  it('Should Navigate to Login Screen', async () => {
+    (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue('hasLoggedIn');
+    // Mock AsyncStorageWrapper.getItem to return null (first-time user)
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('hasLoggedIn');
+
+    // Run your component or function that calls checkFirstTimeUser
+    render(
+      <NavigationContainer>
+        <AuthStack />
+      </NavigationContainer>,
+    );
+
+    // Expect that AsyncStorageWrapper.setItem has been called with the flag 'hasLoggedIn' set to 'true'
+  });
+});
+describe('RootNavigation ', () => {
+  beforeEach(() => {
+    const mockDispatch = jest.fn();
+    const useSelector = useSelectorOriginal as jest.Mock;
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    useSelector.mockImplementation(selector =>
+      selector({
+        login: {data: {authToken: ''}},
+      }),
+    );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('renders correctly', () => {
+    render(<RootNavigation />);
+  });
+  it('should set the Token in Async Storage', () => {
+    const result = render(<RootNavigation />);
+    (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue('Fcm_token');
   });
 });

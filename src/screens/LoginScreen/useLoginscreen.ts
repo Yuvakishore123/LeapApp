@@ -4,8 +4,7 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
-import {ThunkDispatch} from 'redux-thunk';
-import {AnyAction} from 'redux';
+
 import {passwordValidation} from '../../constants/Regex';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -15,7 +14,6 @@ import analytics from '@react-native-firebase/analytics';
 
 import messaging, {firebase} from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
-import crashlytics from '@react-native-firebase/crashlytics';
 
 import {logMessage} from '../../helpers/helper';
 import AsyncStorageWrapper from '../..//utils/asyncStorage';
@@ -31,7 +29,7 @@ const useLoginscreen = () => {
   const [passwordError, setPasswordError] = useState<string>('');
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
-  const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
+  const dispatch = useDispatch();
   const isError = useSelector((state: any) => state.login?.error);
   const [pageSize, _setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -70,6 +68,18 @@ const useLoginscreen = () => {
       log.error('Error storing FCM token:', error);
     }
   };
+  const requestFCMPermission = async () => {
+    try {
+      await firebase.messaging().requestPermission();
+      const Dtoken = await firebase.messaging().getToken();
+      onTokenRefresh(Dtoken);
+    } catch (error) {
+      log.error('Error requesting FCM permission:', error);
+    }
+  };
+  const backgroundMessageHandler = async (remoteMessage: string) => {
+    log.info('FCM background message:', remoteMessage);
+  };
 
   useEffect(() => {
     const googleApiKey = process.env.GOOGLE_API_KEY;
@@ -86,19 +96,6 @@ const useLoginscreen = () => {
         appId: '1:280824523367:android:5d9cfd3fae3dc9e65b02c2',
       });
     }
-
-    const requestFCMPermission = async () => {
-      try {
-        await firebase.messaging().requestPermission();
-        const Dtoken = await firebase.messaging().getToken();
-        onTokenRefresh(Dtoken);
-      } catch (error) {
-        log.error('Error requesting FCM permission:', error);
-      }
-    };
-    const backgroundMessageHandler = async (remoteMessage: string) => {
-      log.info('FCM background message:', remoteMessage);
-    };
 
     requestFCMPermission();
     firebase?.messaging()?.onTokenRefresh(onTokenRefresh);
@@ -118,20 +115,15 @@ const useLoginscreen = () => {
   const handleLoginScreen = async () => {
     const Fcm_token = await messaging()?.getToken();
     await AsyncStorageWrapper.setItem('device_token', Fcm_token);
-
-    try {
-      const token = await AsyncStorageWrapper.getItem('fcmToken');
-      const credentials = {
-        email: formik.values.email,
-        password: formik.values.password,
-        deviceToken: token,
-      };
-      await dispatch(postLogin(credentials));
-      loginEvent();
-      dispatch(fetchUserProducts({pageSize}));
-    } catch (error) {
-      log.error('error');
-    }
+    const token = await AsyncStorageWrapper.getItem('fcmToken');
+    const credentials = {
+      email: formik.values.email,
+      password: formik.values.password,
+      deviceToken: token,
+    };
+    dispatch(postLogin(credentials) as any);
+    loginEvent();
+    dispatch(fetchUserProducts({pageSize}) as any);
   };
   const handleOtpScreen = () => {
     navigation.navigate('OtpScreen');
@@ -177,6 +169,8 @@ const useLoginscreen = () => {
     storeFCMToken,
     loginEvent,
     handleErrorResponse,
+    backgroundMessageHandler,
+    requestFCMPermission,
   };
 };
 export default useLoginscreen;

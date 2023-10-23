@@ -20,7 +20,7 @@ import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import Styles from '../LoginScreen/loginStyle';
-import styles from '../../constants/themeColors';
+
 import OwnerImagestyles from './OwnerImagestyles';
 import Colors from '../../constants/colors';
 
@@ -41,7 +41,7 @@ const AddImages = () => {
     isLoading,
   } = useAddImages();
   const areImagesUploaded = imageUrls && imageUrls.length > 0;
-  const {colorScheme, getTextColor, getTextInputStyle, getContainerStyle} =
+  const {getTextColor, getTextInputStyle, getContainerStyle} =
     useContext(ColorSchemeContext);
   return (
     <ScrollView
@@ -64,12 +64,7 @@ const AddImages = () => {
                   {imageUrls.map((image, index) => (
                     <View key={image} style={[OwnerImagestyles.ImageContainer]}>
                       <Image
-                        style={[
-                          OwnerImagestyles.image,
-                          colorScheme === 'dark'
-                            ? styles.cardColor
-                            : styles.whiteTheme,
-                        ]}
+                        style={[OwnerImagestyles.image, getTextInputStyle()]}
                         testID={`image-${index}`}
                         source={{uri: image}}
                       />
@@ -139,8 +134,8 @@ const AddImages = () => {
               style={[
                 OwnerImagestyles.Price,
                 {paddingLeft: 25},
-                colorScheme === 'dark' ? styles.cardColor : styles.whiteTheme,
-                colorScheme === 'dark' ? styles.placeholder : styles.blackText,
+                getContainerStyle(),
+                getTextColor(),
               ]}
               placeholder="Select price"
               placeholderTextColor="gray"
@@ -160,8 +155,8 @@ const AddImages = () => {
               style={[
                 OwnerImagestyles.quantity,
                 {paddingLeft: 25},
-                colorScheme === 'dark' ? styles.cardColor : styles.whiteTheme,
-                colorScheme === 'dark' ? styles.placeholder : styles.blackText,
+                getTextInputStyle(),
+                getTextColor(),
               ]}
               onChangeText={handleQuantityChange}
               onBlur={() => handleBlur('quantity')}

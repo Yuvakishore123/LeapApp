@@ -9,6 +9,7 @@ const OwnerEditProfileCustomHook = () => {
   const [showModal, setShowModal] = useState(false);
   const [email, setEmail] = useState('');
   const [phoneNumber, setPhoneNumber] = useState('');
+  const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useDispatch();
   const Data = useSelector(
     (state: {profileData: {data: any}}) => state.profileData.data,
@@ -39,18 +40,14 @@ const OwnerEditProfileCustomHook = () => {
     dispatch(getProfileData() as any);
   }, [dispatch]);
   const handleUpdate = async () => {
-    try {
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phoneNumber: phoneNumber,
-      };
-      dispatch(updateProfile(data) as any);
-      openModal();
-    } catch (error) {
-      console.error(error);
-    }
+    const data = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+    };
+    dispatch(updateProfile(data) as any);
+    openModal();
   };
   return {
     firstName,
@@ -67,6 +64,8 @@ const OwnerEditProfileCustomHook = () => {
     closeModal,
     showModal,
     Data,
+    isFormValid,
+    setIsFormValid,
   };
 };
 export default OwnerEditProfileCustomHook;

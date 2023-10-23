@@ -111,16 +111,21 @@ describe('loginSlice Slice', () => {
   });
 
   it('should handle the `postLogin.rejected` action correctly', async () => {
-    const errorMessage = 'An error occurred during the API call';
+    const mockedResponse = {
+      message: 'An error occurred during the API call',
+      status: 401,
+    };
     const axiosPostSpy = jest.spyOn(axios, 'post');
-    axiosPostSpy.mockResolvedValue(mockResponse);
+    axiosPostSpy.mockRejectedValue(mockedResponse);
+    store.dispatch(setError(mockedResponse.status));
+
     // Simulate a rejected API call by providing a rejected promise
     await store.dispatch(postLogin(credentials)).catch(() => {
       const state = store.getState();
 
       expect(state.isLoader).toBe(false);
       expect(state.isError).toBe(true); // Error occurred
-      expect(state.error).toEqual(errorMessage);
+      expect(state.error).toEqual(mockedResponse);
     });
   });
   it('should set an error in the state when `setError` action is dispatched', async () => {

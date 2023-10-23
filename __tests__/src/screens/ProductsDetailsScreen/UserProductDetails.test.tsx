@@ -304,4 +304,91 @@ describe('useProductdetails Screen', () => {
     fireEvent.press(decrementButton);
     expect(mockDecrement).toBeCalled();
   });
+  it('should decrement button should be disabled ', () => {
+    const mockDecrement = jest.fn();
+    (useProductdetails as jest.Mock).mockReturnValue({
+      imageLoaded: true,
+      handleDecrement: mockDecrement,
+      isMinusDisabled: true,
+    });
+
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        product: {
+          id: 1,
+          imageUrl: ['url1', 'url2', 'url3'],
+          name: 'Mock Product Name',
+          price: 100,
+          description: 'Mock Product Description',
+          size: 'Mock Product Size',
+        }, // Provide a valid subcategoryId here
+      },
+    };
+
+    const {getByTestId, getByText} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route.params} // Pass route.params as initialParams
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+
+    const decrementButton = getByTestId('Decrement-Button');
+    expect(decrementButton).toBeTruthy();
+    fireEvent.press(decrementButton);
+  });
+  it('should Increment button should be disabled ', () => {
+    const mockDecrement = jest.fn();
+    (useProductdetails as jest.Mock).mockReturnValue({
+      imageLoaded: true,
+      handleDecrement: mockDecrement,
+      isPlusDisabled: true,
+      Quantity: 5,
+    });
+
+    // Define a mock route with the necessary params
+    const route = {
+      params: {
+        product: {
+          id: 1,
+          imageUrl: ['url1', 'url2', 'url3'],
+          name: 'Mock Product Name',
+          price: 100,
+          description: 'Mock Product Description',
+          size: 'Mock Product Size',
+          quantity: 5,
+        }, // Provide a valid subcategoryId here
+      },
+    };
+
+    const {getByTestId, getByText} = render(
+      <NavigationContainer>
+        <Stack.Navigator>
+          <Stack.Screen
+            name="UDetailScreen"
+            component={UDetailScreen}
+            initialParams={route.params} // Pass route.params as initialParams
+          />
+        </Stack.Navigator>
+      </NavigationContainer>,
+    );
+
+    const plusButton = getByTestId('Decrement-Button');
+    expect(plusButton).toBeTruthy();
+    fireEvent.press(plusButton);
+    expect(plusButton.props.style).toStrictEqual({
+      backgroundColor: '#9747FF',
+      borderRadius: 15,
+      height: 30,
+      marginLeft: '45%',
+      opacity: 1,
+      padding: 5,
+      width: 30,
+    });
+  });
 });

@@ -1,10 +1,8 @@
 import {render} from '@testing-library/react-native';
 import React from 'react';
-import {Provider} from 'react-redux';
-import {store} from '../../../../src/redux/store';
-import {NavigationContainer} from '@react-navigation/native';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
+
 import OTPScreen from 'screens/OtpScreen/OtpScreen';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),
@@ -25,8 +23,12 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
+jest.mock('react-redux', () => ({
+  ...jest.requireActual('react-redux'),
+  useDispatch: jest.fn(),
+  useSelector: jest.fn(),
+}));
 
-const Stack = createNativeStackNavigator();
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {
   const actualNav = jest.requireActual('@react-navigation/native');
@@ -48,16 +50,21 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('Otp Screen', () => {
-  it('should render the Login Screen', () => {
-    const result = render(
-      <Provider store={store}>
-        <NavigationContainer>
-          <Stack.Navigator>
-            <Stack.Screen name="OtpScreen" component={OTPScreen} />
-          </Stack.Navigator>
-        </NavigationContainer>
-      </Provider>,
+  const mockDispatch = jest.fn();
+  const useSelector = useSelectorOriginal as jest.Mock;
+  beforeEach(() => {
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    useSelector.mockImplementation(selector =>
+      selector({
+        signup: {error: false},
+      }),
     );
+  });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+  it('should render the Login Screen', () => {
+    const result = render(<OTPScreen />);
     expect(result).toBeDefined();
   });
 });

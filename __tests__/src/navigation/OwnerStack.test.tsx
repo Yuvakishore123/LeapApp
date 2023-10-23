@@ -172,15 +172,4 @@ describe('MyStack Component', () => {
     fireEvent.press(WishlistScreen);
     expect(WishlistScreen).toBeTruthy();
   });
-  //   it('renders ProfileScreen stack without errors', () => {
-  //     const {getByTestId, getByText} = render(
-  //       <NavigationContainer>
-  //         <MyStack />
-  //       </NavigationContainer>,
-  //     );
-
-  //     const WishlistScreen = getByTestId('Profile-tab'); // You can set a testID in your CategoryScreen component
-  //     fireEvent.press(WishlistScreen);
-  //     expect(WishlistScreen).toBeTruthy();
-  //   });
 });

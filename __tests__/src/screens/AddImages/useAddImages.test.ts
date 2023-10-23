@@ -4,7 +4,7 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import useAddImages from 'screens/OwnerImage/useAddImages';
 import {ProductAdd} from '../../../../src/redux/slice/ProductAddSlice';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
-
+import * as ImagePicker from 'react-native-image-picker';
 jest.mock('react-native-skeleton-placeholder', () => {
   const mockSkeletonPlaceholder = jest.fn();
   return mockSkeletonPlaceholder;
@@ -222,7 +222,7 @@ describe('AddItems Screen', () => {
     expect(result.current.selectedImage).toBe('');
   });
   it('should post the image and get the response  ', () => {
-    AsyncStorageWrapper.getItem.mockResolvedValue('mockedToken');
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockedToken');
 
     const mockResponse = {urls: ['new-image.jpg']};
     globalThis.fetch = jest.fn().mockResolvedValue({
@@ -250,7 +250,35 @@ describe('AddItems Screen', () => {
 
     // Verify that imageUrls have been updated
     expect(result.current.imageUrls).not.toEqual(initialImageUrls);
+  });
+  it('should cancel to be called  ', () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockedToken');
 
-    // Verify the fetch call was made with the expected URL and headers
+    const mockResponse = {urls: ['new-image.jpg']};
+    globalThis.fetch = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve(mockResponse),
+      ok: true,
+    });
+
+    // Store the initial imageUrls
+
+    const {result} = renderHook(() => useAddImages());
+    const initialImageUrls = result.current.imageUrls;
+    act(() => {
+      result.current.setImageUrls(['image1.jpg', 'image2.jpg', 'image3.jpg']);
+    });
+
+    expect(result.current.imageUrls).toEqual([
+      'image1.jpg',
+      'image2.jpg',
+      'image3.jpg',
+    ]);
+
+    act(() => {
+      result.current.pickImages();
+    });
+
+    // Verify that imageUrls have been updated
+    expect(result.current.imageUrls).not.toEqual(initialImageUrls);
   });
 });

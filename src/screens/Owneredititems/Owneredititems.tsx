@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext} from 'react';
 import {
   SafeAreaView,
   View,
@@ -86,13 +86,6 @@ const EditItem = () => {
     subCategoriesData,
     itemType,
   } = useAdditems();
-
-  const [_hideId, setHideId] = useState(null);
-
-  const handleVisibleModal = () => {
-    setVisible(!visible);
-    setHideId(null);
-  };
 
   const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
@@ -214,7 +207,6 @@ const EditItem = () => {
                     animationType="slide"
                     visible={isModalVisible}
                     testID={`Modal-Container-${item.id}`}
-                    onRequestClose={() => setIsModalVisible(false)}
                     transparent={true}>
                     <View style={styles.modalContainer}>
                       <View style={{alignItems: 'flex-end', marginRight: 20}}>
@@ -349,10 +341,7 @@ const EditItem = () => {
           )
         )}
       </ScrollView>
-      <Modal
-        animationType="slide"
-        visible={visible}
-        onRequestClose={handleVisibleModal}>
+      <Modal animationType="slide" visible={visible}>
         <SafeAreaView>
           <ScrollView
             style={[{width: '100%', height: '100%'}, getContainerStyle()]}>
