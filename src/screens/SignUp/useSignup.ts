@@ -57,20 +57,16 @@ const useSignup = () => {
     }
   };
   const handleSignup = () => {
-    try {
-      const credentials = {
-        firstName: formik.values.firstName,
-        lastName: formik.values.lastName,
-        email: formik.values.email,
-        phoneNumber: formik.values.phoneNumber,
-        password: formik.values.password,
-        role: role,
-      };
-      dispatch(postSignup(credentials));
-      handleError();
-    } catch (error) {
-      openModal();
-    }
+    const credentials = {
+      firstName: formik.values.firstName,
+      lastName: formik.values.lastName,
+      email: formik.values.email,
+      phoneNumber: formik.values.phoneNumber,
+      password: formik.values.password,
+      role: role,
+    };
+    dispatch(postSignup(credentials));
+    handleError();
   };
 
   const formik = useFormik({

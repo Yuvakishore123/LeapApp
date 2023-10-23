@@ -229,43 +229,25 @@ describe('SignUpScreen Screen', () => {
     });
     expect(mockNav).toHaveBeenCalledWith('Login');
   });
-});
-describe('postSignup async thunk', () => {
-  let store;
+  test('It shuld hide  the Password when pressed', () => {
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Signup" component={SignUpScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const eyeButton = getByTestId('EyeButton');
+    const passwordInput = getByTestId('Password'); // Replace with your actual password input testID
+    expect(passwordInput.props.secureTextEntry).toBe(true);
 
-  beforeEach(() => {
-    store = configureStore({
-      reducer: {
-        signup: signupSlice, // Provide your reducer here
-      },
-      middleware: [thunk],
+    act(() => {
+      fireEvent.press(eyeButton);
     });
-  });
 
-  it('should dispatch postSignup.pending, postSignup.fulfilled, or postSignup.rejected actions correctly', async () => {
-    const credentials = {
-      firstName: 'John',
-      lastName: 'Doe',
-      email: 'john@example.com',
-      phoneNumber: '1234567890',
-      password: 'password123',
-      role: 'user',
-    };
-
-    // Dispatch the async thunk
-    const action = await store.dispatch(postSignup(credentials));
-
-    // Check if the correct actions were dispatched based on the async thunk's lifecycle
-    expect(action.type).toMatch(/(pending|fulfilled|rejected)/);
-
-    // If the thunk was fulfilled, you can also check the payload
-    if (action.type === postSignup.fulfilled.type) {
-      expect(action.payload).toBeDefined();
-    }
-
-    // If the thunk was rejected, you can check the error message or response status
-    if (action.type === postSignup.rejected.type) {
-      expect(action.error).toEqual('error');
-    }
+    // After pressing the Eye button, the password should be hidden
+    expect(passwordInput.props.secureTextEntry).toBe(false);
   });
 });

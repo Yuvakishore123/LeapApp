@@ -125,6 +125,7 @@ const SignUpScreen = () => {
               onBlur={formik.handleBlur('password')}
             />
             <TouchableOpacity
+              testID="EyeButton"
               style={Styles.eyeButton}
               onPress={() => setSignInPasswordVisible(!signInPasswordVisible)}>
               <MaterialIcons

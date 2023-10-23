@@ -54,7 +54,7 @@ describe('useSignup', () => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
     useSelector.mockImplementation(selector =>
       selector({
-        signup: {error: boolean},
+        signup: {error: null},
       }),
     );
   });
@@ -128,5 +128,18 @@ describe('useSignup', () => {
       result.current.handleSignup();
     });
     expect(mockDispatch).toBeCalled();
+  });
+  it('should open mocal when error is occured', async () => {
+    useSelector.mockImplementation(selector =>
+      selector({
+        signup: {error: 401},
+      }),
+    );
+    const {result} = renderHook(() => useSignup());
+
+    await act(() => {
+      result.current.handleError();
+    });
+    expect(result.current.showModal).toBe(true);
   });
 });

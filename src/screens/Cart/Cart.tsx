@@ -173,10 +173,7 @@ const Cart = () => {
                                 onPress={() => handleIncrement(item)}
                                 testID={`increment-${item.id}`}
                                 disabled={isplusDisable}
-                                style={[
-                                  style.quantityButton,
-                                  isplusDisable && style.disabled,
-                                ]}>
+                                style={[style.quantityButton]}>
                                 <Icon name="plus" color={'white'} size={10} />
                               </TouchableOpacity>
                             </>
