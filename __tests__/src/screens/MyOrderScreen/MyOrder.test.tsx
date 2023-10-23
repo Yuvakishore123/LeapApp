@@ -65,7 +65,7 @@ describe('MyOrder Screen', () => {
         OrderProducts: {data: []},
       }),
     );
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       useMyOrder: jest.fn(() => ({
         OrderProducts: [], // Mocked OrderProducts array
         orderData: {}, // Mocked orderData object
@@ -109,7 +109,7 @@ describe('MyOrder Screen', () => {
     expect(result).toBeDefined();
   });
   it('Should render the loading Container details', () => {
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       loading: true, // Set isLoading to true
     });
     const {getByTestId} = render(
@@ -121,7 +121,7 @@ describe('MyOrder Screen', () => {
     expect(loadingContainer).toBeDefined();
   });
   it('Should render the Empty Screen details', () => {
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       OrderProducts: [],
     });
     const {getByTestId} = render(
@@ -135,7 +135,7 @@ describe('MyOrder Screen', () => {
     expect(loadingText).toBeDefined();
   });
   it('Should render the My Order Text Screen ', () => {
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       OrderProducts: [],
     });
     const {getByText} = render(
@@ -148,7 +148,7 @@ describe('MyOrder Screen', () => {
   });
   it('Should render the OrderDetails on the  Screen ', () => {
     const mockOpenModal = jest.fn();
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       orderData: mockOrderData,
       openModal: mockOpenModal,
     });
@@ -171,7 +171,7 @@ describe('MyOrder Screen', () => {
   it('Should render the OrderItem deatails on the  Screen ', () => {
     const mockOpenModal = jest.fn();
 
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       orderData: mockOrderData,
       openModal: mockOpenModal,
     });
@@ -211,28 +211,39 @@ describe('MyOrder Screen', () => {
           status: 'Pending',
           imageUrl: 'https://example.com/image1.jpg', // Replace with a valid image URL
         },
+        {
+          id: 103,
+          name: 'Product 2', // Replace with the actual product name
+          quantity: 2, // Replace with the actual quantity
+          rentalStartDate: '2023-10-10', // Replace with the actual date
+          rentalEndDate: '2023-10-13', // Replace with the actual date
+          status: 'Pending',
+          imageUrl: 'https://example.com/image1.jpg', // Replace with a valid image URL
+        },
       ],
     };
 
-    useMyOrder.mockReturnValue({
+    (useMyOrder as jest.Mock).mockReturnValue({
       orderData: mockModalData,
       openModal: mockOpenModal,
       visible: true,
       isModalOpen: true,
     });
-    const {getByText} = render(
+    const {getByText, getByTestId} = render(
       <NavigationContainer>
         <OrderDetailsModal
-          order={mockOrderData}
+          order={mockModalData}
           onClose={mockOnclose}
           visible={true}
           showNotifications={mockShowNotifications}
         />
       </NavigationContainer>,
     );
+    const orderContainer = getByTestId('OrderContainer-1-101');
     const downloadButton = getByText('download');
     expect(downloadButton).toBeDefined();
     fireEvent.press(downloadButton);
     expect(mockShowNotifications).toBeCalled();
+    expect(orderContainer).toBeTruthy();
   });
 });
