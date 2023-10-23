@@ -63,7 +63,7 @@ describe('cartThunk Slice', () => {
 
     expect(state.isLoader).toBe(false);
 
-    store.dispatch(ProductAdd(Data));
+    store.dispatch(ProductAdd(Data as any));
 
     const newState = store.getState().ProductAdd as ProductAddState;
 
@@ -71,9 +71,9 @@ describe('cartThunk Slice', () => {
   });
 
   it('should handle cartupdate.fulfilled correctly', async () => {
-    jest.spyOn(ApiService, 'post').mockResolvedValue(Data);
+    jest.spyOn(ApiService, 'post').mockResolvedValue(Data as any);
 
-    await store.dispatch(ProductAdd(Data));
+    await store.dispatch(ProductAdd(Data as any));
 
     const state = store.getState().ProductAdd as ProductAddState;
 
@@ -87,7 +87,7 @@ describe('cartThunk Slice', () => {
     jest.spyOn(ApiService, 'post').mockRejectedValueOnce(errorMessage);
 
     try {
-      await store.dispatch(ProductAdd(Data));
+      await store.dispatch(ProductAdd(Data as any));
     } catch (error) {
       const state = store.getState().ProductAdd as ProductAddState;
 

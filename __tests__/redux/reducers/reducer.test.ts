@@ -33,7 +33,7 @@ describe('authReducer', () => {
 
   it('should handle LOGIN_REQUEST', () => {
     const action = {type: LOGIN_REQUEST};
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(true);
     expect(state.verifyingOTP).toBe(true);
@@ -44,7 +44,7 @@ describe('authReducer', () => {
       type: LOGIN_SUCCESS,
       payload: 'mockAuthToken',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.authToken).toBe('mockAuthToken');
@@ -58,7 +58,7 @@ describe('authReducer', () => {
       type: LOGIN_FAILURE,
       payload: 'mockError',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.isAuthenticated).toBe(false);
@@ -68,7 +68,7 @@ describe('authReducer', () => {
 
   it('should handle SIGNUP_REQUEST', () => {
     const action = {type: SIGNUP_REQUEST};
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(true);
     expect(state.verifyingOTP).toBe(true);
@@ -79,7 +79,7 @@ describe('authReducer', () => {
       type: SIGNUP_SUCCESS,
       payload: 'mockAuthToken',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.authToken).toBe('mockAuthToken');
@@ -93,7 +93,7 @@ describe('authReducer', () => {
       type: SIGNUP_FAILURE,
       payload: 'mockError',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.isAuthenticated).toBe(false);
@@ -103,7 +103,7 @@ describe('authReducer', () => {
 
   it('should handle OTP_REQUEST', () => {
     const action = {type: OTP_REQUEST};
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(true);
     expect(state.verifyingOTP).toBe(true);
@@ -114,7 +114,7 @@ describe('authReducer', () => {
       type: OTP_SUCCESS,
       payload: 'mockAuthToken',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.authToken).toBe('mockAuthToken');
@@ -128,7 +128,7 @@ describe('authReducer', () => {
       type: OTP_FAILURE,
       payload: 'mockError',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.isAuthenticated).toBe(false);
@@ -138,7 +138,7 @@ describe('authReducer', () => {
 
   it('should handle VERIFY_OTP_REQUEST', () => {
     const action = {type: VERIFY_OTP_REQUEST};
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(true);
     expect(state.verifyingOTP).toBe(true);
@@ -153,7 +153,7 @@ describe('authReducer', () => {
       error: 'mockError',
       verifyingOTP: true,
     };
-    const state = authReducer(prevState, action);
+    const state = authReducer(prevState as any, action);
 
     expect(state.verifyingOTP).toBe(false);
   });
@@ -163,7 +163,7 @@ describe('authReducer', () => {
       type: VERIFY_OTP_FAILURE,
       payload: 'mockError',
     };
-    const state = authReducer(undefined, action);
+    const state = authReducer(undefined, action) as any;
 
     expect(state.loading).toBe(false);
     expect(state.isAuthenticated).toBe(false);
@@ -177,7 +177,7 @@ describe('authReducer', () => {
       authToken: 'mockAuthToken',
       verifyingOTP: true,
     };
-    const state = authReducer(prevState, action);
+    const state = authReducer(prevState as any, action);
 
     expect(state.authToken).toBe(null);
     expect(state.verifyingOTP).toBe(false);
@@ -192,7 +192,7 @@ describe('authReducer', () => {
       error: 'mockError',
       verifyingOTP: true,
     };
-    const state = authReducer(prevState, action);
+    const state = authReducer(prevState as any, action);
 
     expect(state).toBe(prevState); // Ensure that state remains unchanged
   });

@@ -6,7 +6,7 @@ import {useFormik} from 'formik';
 
 import {addsize} from '../../redux/actions/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {url as baseUrl} from '../../constants/Apis';
 import {ProductAdd} from '../../redux/slice/ProductAddSlice';
 import {PermissionsAndroid} from 'react-native';
@@ -32,7 +32,7 @@ const useAddImages = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const dispatch = useDispatch();
+  const {dispatch} = useThunkDispatch();
   const name = useSelector(
     (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
   );
@@ -86,27 +86,23 @@ const useAddImages = () => {
     navigation.goBack();
   };
   const postData = async () => {
-    try {
-      const Data = {
-        brand: 'adiddas',
-        categoryIds: categoryIds,
-        color: 'black',
-        name: name,
-        description: description,
-        id: 0,
-        imageUrl: imageUrls, // Use the imageUrls state
-        material: 'fibre',
-        price: price,
-        totalQuantity: quantity,
-        size: selectedsize,
-        subcategoryIds: subcategoryIds,
-      };
-      dispatch(ProductAdd(Data));
-      dispatch(addsize(selectedsize));
-      openModal();
-    } catch (error) {
-      logMessage.error(error);
-    }
+    const Data = {
+      brand: 'adiddas',
+      categoryIds: categoryIds,
+      color: 'black',
+      name: name,
+      description: description,
+      id: 0,
+      imageUrl: imageUrls, // Use the imageUrls state
+      material: 'fibre',
+      price: price,
+      totalQuantity: quantity,
+      size: selectedsize,
+      subcategoryIds: subcategoryIds,
+    };
+    dispatch(ProductAdd(Data));
+    dispatch(addsize(selectedsize));
+    openModal();
   };
 
   const handleremove = () => {
@@ -179,31 +175,27 @@ const useAddImages = () => {
     );
   };
   const checkPermission = async () => {
-    try {
-      const permissionGranted = await asyncStorageWrapper.getItem(
-        'permissionGranted',
+    const permissionGranted = await asyncStorageWrapper.getItem(
+      'permissionGranted',
+    );
+    if (permissionGranted === 'true') {
+      pickImages();
+    } else {
+      const granted = await PermissionsAndroid.request(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+        {
+          title: 'Storage Permission',
+          message: 'App needs access to your storage to upload images.',
+          buttonPositive: 'OK',
+        },
       );
-      if (permissionGranted === 'true') {
+      if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+        logMessage.error('Storage permission granted');
+        await asyncStorageWrapper.setItem('permissionGranted', 'true');
         pickImages();
       } else {
-        const granted = await PermissionsAndroid.request(
-          PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
-          {
-            title: 'Storage Permission',
-            message: 'App needs access to your storage to upload images.',
-            buttonPositive: 'OK',
-          },
-        );
-        if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          logMessage.error('Storage permission granted');
-          await asyncStorageWrapper.setItem('permissionGranted', 'true');
-          pickImages();
-        } else {
-          logMessage.error('Storage permission denied');
-        }
+        logMessage.error('Storage permission denied');
       }
-    } catch (err) {
-      logMessage.error('error in permissions of media', err);
     }
   };
   const formik = useFormik({

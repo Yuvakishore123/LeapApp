@@ -7,7 +7,6 @@ import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {editAddressData} from '../../redux/slice/editAddressSlice';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
-import {logMessage} from 'helpers/helper';
 const useEditAddress = () => {
   const navigation = useNavigation();
   const route = useRoute();
@@ -46,26 +45,20 @@ const useEditAddress = () => {
     setIsChecked(!isChecked);
   };
   const handleUpdateAddress = async () => {
-    try {
-      const updateaddress = {
-        addressLine1: addressLine1,
-        addressLine2: addressLine2,
-        addressType: selectedOption,
-        city: city,
-        country: country,
-        postalCode: postalCode,
-        state: state,
-        defaultType: isChecked,
-      };
-      dispatch(editAddressData({updateaddress, addressid}));
-      if (response) {
-        setIsLoading(false);
-        openModal();
-      }
-    } catch (error) {
-      logMessage.error('Failed to update address');
-    } finally {
+    const updateaddress = {
+      addressLine1: addressLine1,
+      addressLine2: addressLine2,
+      addressType: selectedOption,
+      city: city,
+      country: country,
+      postalCode: postalCode,
+      state: state,
+      defaultType: isChecked,
+    };
+    dispatch(editAddressData({updateaddress, addressid}));
+    if (response) {
       setIsLoading(false);
+      openModal();
     }
   };
   const PlaceholderColor = () => {

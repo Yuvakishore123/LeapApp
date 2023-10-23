@@ -84,8 +84,6 @@ const useAdditems = () => {
     } catch (error) {
       logMessage.error(error, 'data error');
       setIsLoading(true);
-    } finally {
-      setIsLoading(false);
     }
   };
   useEffect(() => {
@@ -132,25 +130,25 @@ const useAdditems = () => {
     OutfitCategoriesData();
   }, []);
 
+  const fetchCategoryData = async () => {
+    try {
+      const response = dispatch(fetchCategoriesData() as any);
+      logMessage.error('category data here is ', response.data);
+      const categoriesArray = Data.map(
+        (category: {id: any; categoryName: any}) => ({
+          ...category,
+          value: category.id,
+          label: category.categoryName,
+        }),
+      );
+      setCategoriesData(categoriesArray);
+    } catch (error) {
+      logMessage.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
   useEffect(() => {
-    const fetchCategoryData = async () => {
-      try {
-        const response = dispatch(fetchCategoriesData() as any);
-        logMessage.error('category data here is ', response.data);
-        const categoriesArray = Data.map(
-          (category: {id: any; categoryName: any}) => ({
-            ...category,
-            value: category.id,
-            label: category.categoryName,
-          }),
-        );
-        setCategoriesData(categoriesArray);
-      } catch (error) {
-        logMessage.error(error);
-      } finally {
-        setIsLoading(false);
-      }
-    };
     fetchCategoryData();
   }, []);
   const handleEventTypeChange = (
@@ -216,6 +214,7 @@ const useAdditems = () => {
     subOutfitCategoriesData,
     fetchSubCategoryData,
     fetchCategoriesData,
+    fetchCategoryData,
     formik,
     gender,
     eventType,

@@ -145,11 +145,15 @@ describe('AddAddress screen', () => {
         </NavigationContainer>
       </Provider>,
     ); // Render the component
+    act(() => {
+      // Simulate a press on the 'HOME' radio button
+      fireEvent.press(getByTestId('home-radio-button'));
 
-    // Simulate a press on the 'HOME' radio button
-    fireEvent.press(getByTestId('home-radio-button'));
+      // Simulate a press on the 'OFFICE' radio button
+      fireEvent.press(getByTestId('office-radio-button'));
+    });
 
-    // Simulate a press on the 'OFFICE' radio button
-    fireEvent.press(getByTestId('office-radio-button'));
+    expect(getByTestId('home-radio-button')).toBeDefined();
+    expect(getByTestId('office-radio-button')).toBeDefined();
   });
 });

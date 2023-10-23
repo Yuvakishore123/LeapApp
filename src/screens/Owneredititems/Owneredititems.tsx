@@ -1,6 +1,6 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useContext, useState, useEffect} from 'react';
+import React, {useContext, useEffect} from 'react';
 import {
   SafeAreaView,
   View,
@@ -28,7 +28,6 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import styles from '../OwnerHomepage/OwnerHomestyle';
 import DropdownComponent from '../../components/atoms/DropDownComponent/DropDown';
 import useAdditems from '../Additems/useAdditems';
-import ImageComponent from 'components/atoms/ImageComponent';
 
 const App = () => {
   const {

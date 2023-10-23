@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {act, renderHook} from '@testing-library/react-native';
-import {logMessage} from '../../../src/helpers/helper';
 import {useDispatch, useSelector} from 'react-redux';
 import useOwnerEditProfileCustomHook from 'screens/Ownereditprofile/useOwnerEditProfileCustomHook';
 
@@ -37,7 +36,7 @@ jest.mock('@react-navigation/native', () => {
 });
 const configureDispatch = () => {
   const dispatch = jest.fn();
-  useDispatch.mockReturnValue(dispatch);
+  (useDispatch as jest.Mock).mockReturnValue(dispatch);
   return dispatch;
 };
 describe('useOwnerEditprofile', () => {
@@ -60,8 +59,8 @@ describe('useOwnerEditprofile', () => {
     }),
   );
   beforeEach(() => {
-    useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockImplementation(
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useSelector as jest.Mock).mockImplementation(
       (selector: (arg0: {profileData: {data: {}}}) => any) =>
         selector({
           profileData: {data: {}},

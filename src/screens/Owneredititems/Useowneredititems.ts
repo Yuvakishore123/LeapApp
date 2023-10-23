@@ -37,7 +37,7 @@ const Useowneredititems = () => {
   const [pref, setPrefill] = useState([]);
   const [price, setPrice] = useState('');
   const [quantity, setQuantity] = useState('');
-  const [selectedItem, setSelectedItem] = useState(null);
+  const [selectedItem] = useState(null);
   const [visible, setViisble] = useState(false);
   const [showModal, setShowModal] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
@@ -259,10 +259,11 @@ const Useowneredititems = () => {
         `${baseUrl}/product/update/${editProductId}`,
         data,
       );
+      logMessage.info('response', response);
       dispatch(addsize(selectedsize));
       navigation.navigate('OwnerProfile');
     } catch (error) {
-      logMessage.error(error);
+      logMessage.error('Error in product update');
     }
   };
   const RemoveProducts = async (productId: any) => {
@@ -361,6 +362,7 @@ const Useowneredititems = () => {
     setGender,
     name,
     handleedit,
+    _hideId,
     description,
     setEventType,
     setOutfitType,

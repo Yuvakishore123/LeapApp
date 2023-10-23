@@ -62,7 +62,7 @@ describe('signup slice', () => {
   });
 
   it('should handle fetchCategoriesProducts.fulfilled action', () => {
-    jest.spyOn(ApiService, 'post').mockResolvedValue(credentials);
+    jest.spyOn(ApiService, 'post').mockResolvedValue(credentials as any);
 
     return store.dispatch(postSignup(credentials)).then(() => {
       const state = store.getState().SignUp as SigninDataState;

@@ -160,20 +160,4 @@ describe('axios request interceptor', () => {
     // Check if Axios.get was called with the correct URL
     expect(instance.delete).toHaveBeenCalledWith('/some-url');
   });
-
-  // it('should handle non-401 error', async () => {
-  //   const error = {
-  //     response: {
-  //       status: 403, // Example of a non-401 error status
-  //     },
-  //   };
-
-  //   // Call the response interceptor
-  //   const result = await instance.interceptors.response.handlers[0].rejected(
-  //     error,
-  //   );
-
-  //   // Check if the error was rejected as expected
-  //   expect(result).toEqual(Promise.reject(error));
-  // });
 });

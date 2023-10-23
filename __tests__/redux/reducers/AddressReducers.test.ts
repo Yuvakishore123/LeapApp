@@ -28,7 +28,7 @@ describe('AddressReducers', () => {
       type: REMOVE_ADDRESS,
       payload: 1,
     };
-    const newState = AddressReducers(initialState, action);
+    const newState = AddressReducers(initialState as any, action);
     expect(newState).toEqual([12345, 54321]);
   });
 
@@ -38,7 +38,7 @@ describe('AddressReducers', () => {
       type: 'UNKNOWN_ACTION',
       payload: 123,
     };
-    const newState = AddressReducers(initialState, action);
+    const newState = AddressReducers(initialState as any, action);
     expect(newState).toEqual(initialState);
   });
 
@@ -48,7 +48,7 @@ describe('AddressReducers', () => {
       type: undefined,
       payload: undefined,
     };
-    const newState = AddressReducers(initialState, action);
+    const newState = AddressReducers(initialState as any, action as any);
     expect(newState).toEqual(initialState);
   });
 });

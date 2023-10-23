@@ -1,11 +1,9 @@
 import {renderHook} from '@testing-library/react-native';
 import ApiService from 'network/network';
 import {Alert} from 'react-native';
-import {useDispatch, useSelector} from 'react-redux';
+import {useSelector} from 'react-redux';
 import {act} from 'react-test-renderer';
 import useAddAddress from 'screens/Owneraddaddress/useAddAddress';
-import {AddressAdd} from '../../../src/redux/slice/AddressAddSlice';
-import {ListAddress} from '../../../src/redux/slice/listAddressSlice';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -53,7 +51,7 @@ jest.mock('@react-navigation/native', () => {
 
 describe('useAddress', () => {
   beforeEach(() => {
-    useSelector.mockImplementation(
+    (useSelector as jest.Mock).mockImplementation(
       (selector: (arg0: {listAddress: {data: {}}}) => any) =>
         selector({
           listAddress: {data: {}},
@@ -78,7 +76,7 @@ describe('useAddress', () => {
         ],
       },
     ];
-    ApiService.get.mockResolvedValue(mockResult);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResult);
 
     // Render the custom hook
     const {result} = renderHook(() => useAddAddress());
@@ -105,7 +103,9 @@ describe('useAddress', () => {
   });
   it('handles error correctly', async () => {
     // Mock ApiService.get to simulate an error
-    ApiService.get.mockRejectedValue(new Error('Test error message'));
+    (ApiService.get as jest.Mock).mockRejectedValue(
+      new Error('Test error message'),
+    );
 
     // Render the custom hook
     const {result} = renderHook(() => useAddAddress());

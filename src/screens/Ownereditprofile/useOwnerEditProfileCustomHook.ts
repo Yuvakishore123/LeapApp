@@ -3,7 +3,6 @@ import {useEffect, useState} from 'react';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateProfile} from '../../redux/slice/editProfileSlice';
-import {logMessage} from 'helpers/helper';
 const useOwnerEditProfileCustomHook = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');
@@ -39,18 +38,14 @@ const useOwnerEditProfileCustomHook = () => {
     dispatch(getProfileData() as any);
   }, [dispatch]);
   const handleUpdate = async () => {
-    try {
-      const data = {
-        firstName: firstName,
-        lastName: lastName,
-        email: email,
-        phoneNumber: phoneNumber,
-      };
-      dispatch(updateProfile(data) as any);
-      openModal();
-    } catch (error) {
-      logMessage.error(error);
-    }
+    const data = {
+      firstName: firstName,
+      lastName: lastName,
+      email: email,
+      phoneNumber: phoneNumber,
+    };
+    dispatch(updateProfile(data) as any);
+    openModal();
   };
   return {
     firstName,

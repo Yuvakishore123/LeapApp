@@ -101,8 +101,6 @@ describe('useDonutLogic', () => {
   it('should update circleRef and inputRef with correct props', () => {
     // Create refs for inputRef and circleRef
     jest.mock('react');
-    const circleRef = {current: {setNativeProps: jest.fn()}};
-    const inputRef = {current: {setNativeProps: jest.fn()}};
 
     // Render the hook with the mocked refs
     const {result} = renderHook(() =>
@@ -114,8 +112,6 @@ describe('useDonutLogic', () => {
         duration: 500,
         delay: 500,
         max: 1000,
-        circleRef,
-        inputRef,
       }),
     );
 
@@ -124,13 +120,6 @@ describe('useDonutLogic', () => {
       const v = {value: 50};
       result.current.animatedValueListener(v);
     });
-
-    // Expectations
-    const maxPerc = (100 * 50) / 1000;
-    const circleCircumference = 2 * Math.PI * 30;
-
-    const strokeDashoffset =
-      circleCircumference - (circleCircumference * maxPerc) / 100;
 
     expect(result.current.animatedValueListener).toHaveBeenCalledWith(50);
   });

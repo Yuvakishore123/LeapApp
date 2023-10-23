@@ -42,9 +42,7 @@ const OwnerEditProfile = () => {
     email,
     showModal,
     closeModal,
-    setEmail,
     phoneNumber,
-    setPhoneNumber,
     handleUpdate,
     isLoading,
   } = useOwnerProfile();

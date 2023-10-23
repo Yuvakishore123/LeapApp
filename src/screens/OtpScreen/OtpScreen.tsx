@@ -9,9 +9,7 @@ import {
 import LottieAnimation from '../../components/molecules/LottieAnimation/LottieAnimation';
 import Styles from '../../screens/OtpScreen/otpStyles';
 import Useotp from './useOtp';
-import useCart from '../Cart/useCart';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import Colors from '../../constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 const OTPScreen = (): React.JSX.Element => {
@@ -25,8 +23,7 @@ const OTPScreen = (): React.JSX.Element => {
     closeModal,
     showModal,
   } = Useotp();
-  const {colorScheme} = useCart();
-  const {getContainerStyle, getTextColor, getTextInputStyle} =
+  const {getContainerStyle, getTextColor, getTextInputStyle, PlaceholderColor} =
     useContext(ColorSchemeContext);
   return (
     <ScrollView style={[Styles.mainContainer, getContainerStyle()]}>
@@ -46,9 +43,7 @@ const OTPScreen = (): React.JSX.Element => {
           <TextInput
             style={[Styles.textinputphone, getTextInputStyle(), getTextColor()]}
             placeholder="Enter phone number"
-            placeholderTextColor={
-              colorScheme === 'dark' ? Colors.Textinput : Colors.black
-            }
+            placeholderTextColor={PlaceholderColor()}
             value={phoneNo}
             autoCapitalize="none"
             keyboardType="numeric"
@@ -60,9 +55,7 @@ const OTPScreen = (): React.JSX.Element => {
           <TextInput
             style={[Styles.textinputOTP, getTextInputStyle(), getTextColor()]}
             placeholder="Enter Otp"
-            placeholderTextColor={
-              colorScheme === 'dark' ? Colors.Textinput : Colors.black
-            }
+            placeholderTextColor={PlaceholderColor()}
             value={otp}
             secureTextEntry={true}
             onChangeText={handlePasswordChange}

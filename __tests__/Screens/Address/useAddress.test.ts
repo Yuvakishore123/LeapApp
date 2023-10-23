@@ -1,5 +1,4 @@
 import {renderHook} from '@testing-library/react-native';
-import {logMessage} from 'helpers/helper';
 import {useSelector} from 'react-redux';
 import {act} from 'react-test-renderer';
 import useAddress from 'screens/Owneraddaddress/useAddress';
@@ -55,7 +54,7 @@ jest.mock('@react-navigation/native', () => {
 
 describe('useAddress', () => {
   beforeEach(() => {
-    useSelector.mockImplementation(
+    (useSelector as jest.Mock).mockImplementation(
       (selector: (arg0: {listAddress: {data: {}}}) => any) =>
         selector({
           listAddress: {data: {}},

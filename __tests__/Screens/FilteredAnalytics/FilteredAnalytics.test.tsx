@@ -74,33 +74,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 }));
 describe('FilteredAnalytics Page', () => {
   const mockDispatch = jest.fn();
-  const sampleData = {
-    '2023-01': [
-      {
-        borrowerId: '123',
-        borrowerName: 'John Doe',
-        rentalCost: 500,
-        name: 'Product 1',
-        quantity: 2,
-        borrowerPhoneNumber: '1234567890',
-        imageUrl: 'https://example.com/image1.jpg',
-      },
-      // Add more items as needed for this month
-    ],
-    '2023-02': [
-      {
-        borrowerId: '456',
-        borrowerName: 'Jane Doe',
-        rentalCost: 700,
-        name: 'Product 2',
-        quantity: 1,
-        borrowerPhoneNumber: '9876543210',
-        imageUrl: 'https://example.com/image2.jpg',
-      },
-      // Add more items as needed for this month
-    ],
-    // Add more months as needed
-  };
   beforeEach(() => {
     AsyncStorage.clear();
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);

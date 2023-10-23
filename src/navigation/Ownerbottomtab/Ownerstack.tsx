@@ -27,7 +27,6 @@ import DashboardDetails from '../../screens/OwnerHomepage/DashboardDetails';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
 import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRentalScreen';
-import ApiErrorScreen from '../../screens/ApiErrorScreen/ApiErrorScreen';
 import AddImages from '../../screens/OwnerImage/AddImages';
 
 // Creating a native stack navigator and a bottom tab navigator

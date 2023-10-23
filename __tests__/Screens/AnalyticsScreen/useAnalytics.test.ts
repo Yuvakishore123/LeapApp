@@ -485,49 +485,7 @@ describe('useAnalytics', () => {
 
     // After toggling, showModel should be true
     expect(result.current.showModel).toBe(true);
-
-    // Check if filterOrderData is called
-    // expect(result.current.filterOrderData).toBeCalled();
   });
-  // it('should filterOrderData correctly', async () => {
-  //   const mockOrderItems = {
-  //     '2023-05': {
-  //       Dresses: {
-  //         orderItems: [
-  //           {
-  //             name: 'GUCCI PRINTED SHIRT',
-  //             quantity: 1,
-  //             rentalStartDate: '2023-05-29T06:30:00',
-  //             rentalEndDate: '2023-05-30T06:30:00',
-  //             rentalCost: 8999,
-  //             imageUrl:
-  //               'https://7fdb-106-51-70-135.ngrok-free.app/api/v1/file/view?image=1685304417406_image.png',
-  //             productId: 19,
-  //             borrowerId: 5,
-  //             borrowerName: 'Bala Pranay reddy Reddy',
-  //             borrowerEmail: 'p.pranayreddy699@gmail.com',
-  //             borrowerPhoneNumber: '9505180888',
-  //           },
-  //         ],
-  //         totalOrders: 1,
-  //       },
-  //     },
-  //     // You can add more data for other months as needed.
-  //   };
-  //   (ApiService.get as jest.Mock).mockResolvedValue(mockOrderItems);
-  //   const {result} = renderHook(() => useAnalytics());
-
-  //   // Toggle modal visibility
-  //   act(() => {
-  //     result.current.filterOrderData();
-  //   });
-
-  //   // After toggling, showModel should be true
-  //   expect(jest.fn()).toBeCalledWith(result.current.handleOrders);
-
-  //   // Check if filterOrderData is called
-  //   // expect(result.current.filterOrderData).toBeCalled();
-  // });
   it('should open modal after 800ms when handleTotalOrdersClick is called', async () => {
     const {result} = renderHook(() => useAnalytics());
     expect(result.current.showModel).toBe(false);
@@ -714,15 +672,6 @@ describe('useAnalytics', () => {
     });
     expect(logMessage.error).toBeCalledTimes(6);
   });
-  it('should open modal after 800ms when handleTotalOrdersClick is called', async () => {
-    const {result} = renderHook(() => useAnalytics());
-    expect(result.current.showModel).toBe(false);
-    act(() => {
-      result.current.handleTotalOrdersClick();
-    });
-
-    expect(result.current.showModel).toBe(true);
-  });
   it('should reject to download PDF handle order details correctly', async () => {
     // Mock asyncStorageWrapper.getItem to return a token
     (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
@@ -758,7 +707,7 @@ describe('useAnalytics', () => {
 
     // Add further assertions based on your specific logic
   });
-  it('should  handle CategoriePieData successfully', async () => {
+  it('should reject handle CategoriePieData successfully', async () => {
     const mockOrderItems = {
       '2023-05': {
         Women: {

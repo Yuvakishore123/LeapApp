@@ -36,7 +36,7 @@ describe('CartRemoveThunk Slice', () => {
       reducer: {
         removefromcart: reducer, // Assuming you have a slice named 'addressAdd'
       },
-    });
+    }) as any;
   });
   it('should return the initial state', () => {
     expect(reducer(undefined, {type: undefined})).toEqual({

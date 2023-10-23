@@ -109,7 +109,9 @@ describe('removeAddress action', () => {
   });
   it('should dispatch Init function', async () => {
     const dispatch = jest.fn();
-    asyncStorageWrapper.getItem.mockResolvedValue('mocked_token');
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(
+      'mocked_token',
+    );
     await Init()(dispatch);
 
     expect(dispatch).toHaveBeenCalledWith({
@@ -123,7 +125,9 @@ describe('removeAddress action', () => {
   it('should handle errors dispatch Init function', async () => {
     const dispatch = jest.fn();
 
-    asyncStorageWrapper.getItem.mockRejectedValue('mocked_token');
+    (asyncStorageWrapper.getItem as jest.Mock).mockRejectedValue(
+      'mocked_token',
+    );
 
     await Init()(dispatch);
     expect(dispatch).not.toHaveBeenCalledWith({
@@ -178,10 +182,14 @@ describe('removeAddress action', () => {
   });
   it('should dispatch Logout function', async () => {
     const dispatch = jest.fn();
-    asyncStorageWrapper.getItem.mockResolvedValue('refresh_token');
+    (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(
+      'refresh_token',
+    );
     (ApiService.post as jest.Mock).mockResolvedValue({});
     await Logout()(dispatch);
-    asyncStorageWrapper.removeItem.mockResolvedValue('refresh_token');
+    (asyncStorageWrapper.removeItem as jest.Mock).mockResolvedValue(
+      'refresh_token',
+    );
     expect(axios.post).toHaveBeenCalledWith(`${url}/user/logout`, null, {
       headers: {Authorization: 'Bearer refresh_token'},
     });

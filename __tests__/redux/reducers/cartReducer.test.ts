@@ -13,7 +13,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 
 describe('CartReducer', () => {
   test('should add item to the cart', () => {
-    const initialState = [];
+    const initialState = [] as any;
     const action = {
       type: ADD_TO_CART,
       payload: {id: 1, name: 'Item 1'},
@@ -33,7 +33,7 @@ describe('CartReducer', () => {
       payload: 1,
     };
 
-    const newState = CartReducer(initialState, action);
+    const newState = CartReducer(initialState as any, action);
     expect(newState).toEqual([{id: 1, name: 'Item 1'}]);
   });
 
@@ -44,7 +44,7 @@ describe('CartReducer', () => {
       payload: null,
     };
 
-    const newState = CartReducer(initialState, action);
+    const newState = CartReducer(initialState as any, action);
     expect(newState).toEqual(initialState);
   });
 });

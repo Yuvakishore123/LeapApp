@@ -48,7 +48,7 @@ describe('AddressAddThunk Slice', () => {
       reducer: {
         addressAdd: reducer, // Assuming you have a slice named 'addressAdd'
       },
-    });
+    }) as any;
   });
 
   it('should return the initial state', () => {

@@ -2,7 +2,6 @@ import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
 import reducer, {
   fetchCategoriesProductsdata,
-  setData,
   setError,
   CategoryProductState,
 } from '../../../src/redux/slice/categoryProductsSlice';
@@ -86,32 +85,6 @@ describe('categoryproducts', () => {
       expect(state.error).toEqual(mockError);
     });
   });
-  // it('should handle setData correctly', () => {
-  //   const newState = reducer(
-  //     undefined,
-  //     setData({
-  //       availableQuantities: 10,
-  //       brand: 'Sample Brand',
-  //       categoryIds: [1, 2],
-  //       color: 'Sample Color',
-  //       description: 'Sample Description',
-  //       disabled: false,
-  //       disabledQuantities: 2,
-  //       id: 1,
-  //       imageUrl: ['sample-image-1.jpg', 'sample-image-2.jpg'],
-  //       material: 'Sample Material',
-  //       name: 'Sample Product',
-  //       price: 99.99,
-  //       rentedQuantities: 3,
-  //       size: 'Sample Size',
-  //       subcategoryIds: [3, 4],
-  //       totalQuantity: 15,
-  //     }),
-  //   );
-
-  //   expect(newState.data.availableQuantities).toBe(10);
-  //   expect(newState.data.status).toBe('OK');
-  // });
   it('should handle setError', () => {
     const payload = {message: 'Error message', status: 'ERROR'};
     const action = setError(payload);

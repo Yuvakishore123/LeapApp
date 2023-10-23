@@ -7,7 +7,6 @@ import OwnerRentalSwitch from 'components/atoms/OwnerRentalSwitch';
 import useOwnerorderproducts from './useOwnerorderproducts';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import ImageComponent from 'components/atoms/ImageComponent';
 const OwnerRentalScreen = () => {
   const {getTextColor} = useContext(ColorSchemeContext);
   const {ownerrentalproducts} = useOwnerorderproducts();

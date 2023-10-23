@@ -142,7 +142,6 @@ const useAnalytics = () => {
     handleAnalytics();
     HandlePiechart();
     Dashboardyeardata();
-    // handleOrders();
     filterOrderData();
     const currentDate = new Date();
     const currentMonth = currentDate.getMonth();

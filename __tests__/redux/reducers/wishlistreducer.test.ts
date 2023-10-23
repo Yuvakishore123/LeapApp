@@ -26,7 +26,7 @@ describe('WishlistReducer', () => {
   });
 
   it('should add an item to the wishlist', () => {
-    const initialState = [];
+    const initialState = [] as any;
     const action = {
       type: ADD_TO_WISHLIST,
       payload: 'item1',
@@ -38,7 +38,7 @@ describe('WishlistReducer', () => {
   });
 
   it('should remove an item from the wishlist', () => {
-    const initialState = ['item1', 'item2', 'item3'];
+    const initialState = ['item1', 'item2', 'item3'] as any;
     const action = {
       type: REMOVE_FROM_WISHLIST,
       payload: 1, // index of item2
@@ -50,7 +50,7 @@ describe('WishlistReducer', () => {
   });
 
   it('should return the same state for unknown action types', () => {
-    const initialState = ['item1', 'item2', 'item3'];
+    const initialState = ['item1', 'item2', 'item3'] as any;
     const action = {
       type: 'UNKNOWN_ACTION',
       payload: null,

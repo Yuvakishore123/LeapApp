@@ -49,21 +49,17 @@ const useProductdetails = (product: {
     setIsMinusDisabled(false);
   };
   const handleSubmit = () => {
-    try {
-      const Item = {
-        productId: product.id,
-        quantity: quantity,
-        rentalEndDate: rentalEndDate.toISOString(),
-        rentalStartDate: rentalStartDate.toISOString(),
-      };
-      dispatch(CartAdd(Item) as any);
-      if (isData.status === HTTP_STATUS_CODES.BAD_REQUEST) {
-        opennModal();
-      } else {
-        openModal();
-      }
-    } catch (error) {
-      logMessage.error('error in adding product to cart', error);
+    const Item = {
+      productId: product.id,
+      quantity: quantity,
+      rentalEndDate: rentalEndDate.toISOString(),
+      rentalStartDate: rentalStartDate.toISOString(),
+    };
+    dispatch(CartAdd(Item) as any);
+    if (isData.status === HTTP_STATUS_CODES.BAD_REQUEST) {
+      opennModal();
+    } else {
+      openModal();
     }
   };
   const openModal = () => {

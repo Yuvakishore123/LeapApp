@@ -62,7 +62,7 @@ const Profile = ({navigation}: Props) => {
       );
     } else if (data?.profileImageUrl) {
       return (
-        <View testID="avatar-container">
+        <View testID="avatarprofileId">
           <Avatar.Image
             size={100}
             source={{uri: data.profileImageUrl}}

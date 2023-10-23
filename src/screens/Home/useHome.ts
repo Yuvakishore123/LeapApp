@@ -71,13 +71,8 @@ const useHome = () => {
   };
 
   const wishlistremove = async (productId: any) => {
-    try {
-      await dispatch(wishListRemove(productId) as any);
-      setError(''); // Clear any previous errors on success
-    } catch (error) {
-      setError('Something went wrong. Please try again.');
-      logMessage.error(error);
-    }
+    await dispatch(wishListRemove(productId) as any);
+    setError(''); // Clear any previous errors on success
   };
 
   const handleEndReached = async () => {

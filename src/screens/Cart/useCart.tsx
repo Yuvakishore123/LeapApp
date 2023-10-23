@@ -79,16 +79,12 @@ const useCart = () => {
   }, [navigation, refreshing]);
 
   const handleUpdate = async (newQuantity: number, productId: string) => {
-    try {
-      const data = {
-        productId: productId,
-        quantity: newQuantity,
-      };
-      dispatch(updateCart(data) as any);
-      setRefreshing(true);
-    } catch (error) {
-      logMessage.error('error in handleupdate', error);
-    }
+    const data = {
+      productId: productId,
+      quantity: newQuantity,
+    };
+    dispatch(updateCart(data) as any);
+    setRefreshing(true);
   };
 
   const handleCheckout = async () => {
@@ -96,13 +92,9 @@ const useCart = () => {
   };
 
   const handleRemove = async (productId: number) => {
-    try {
-      dispatch(removefromCart(productId) as any);
-      dispatch(fetchCartProducts as any);
-      openModal();
-    } catch (error) {
-      logMessage.error('error in handleremove', error);
-    }
+    dispatch(removefromCart(productId) as any);
+    dispatch(fetchCartProducts as any);
+    openModal();
   };
 
   const handleIncrement = (item: any) => {

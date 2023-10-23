@@ -1,13 +1,6 @@
 import React from 'react';
-import {
-  act,
-  fireEvent,
-  render,
-  renderHook,
-} from '@testing-library/react-native';
+import {fireEvent, render} from '@testing-library/react-native';
 import PaymentSuccessScreen from '../../../src/screens/PaymentScreens/PaymentSuccessScreen';
-import usePayment from 'screens/PaymentScreens/usePayment';
-import {useNavigation} from '@react-navigation/native';
 
 jest.mock('@react-navigation/native', () => ({
   useNavigation: () => ({

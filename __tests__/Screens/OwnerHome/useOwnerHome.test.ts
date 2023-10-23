@@ -64,15 +64,15 @@ jest.mock('@react-navigation/native', () => {
 
 const configureDispatch = () => {
   const dispatch = jest.fn();
-  useDispatch.mockReturnValue(dispatch);
+  (useDispatch as jest.Mock).mockReturnValue(dispatch);
   return dispatch;
 };
 const HandlePiechart = jest.fn();
 describe('Checkout Screen', () => {
   const mockDispatch = configureDispatch();
   beforeEach(() => {
-    useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockImplementation(
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useSelector as jest.Mock).mockImplementation(
       (
         selector: (arg0: {
           profileData: {data: {}};
@@ -134,7 +134,7 @@ describe('Checkout Screen', () => {
     act(() => {
       result.current.fetchRecentlyAdded();
     });
-    ApiService.get.mockResolvedValue(mockData);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockData);
     waitFor(() => {
       expect(result.current.recentyAdded).toBe(mockData);
     });
@@ -149,7 +149,7 @@ describe('Checkout Screen', () => {
     act(() => {
       result.current.fetchDashboardData();
     });
-    ApiService.get.mockResolvedValue(data);
+    (ApiService.get as jest.Mock).mockResolvedValue(data);
     waitFor(() => {
       expect(result.current.setRentedItems).toBe(data.totalrentedItems);
     });

@@ -40,7 +40,7 @@ describe('CartAddThunk Slice', () => {
       reducer: {
         cartadd: reducer, // Assuming you have a slice named 'cartadd'
       },
-    });
+    }) as any;
   });
   it('should return the initial state', () => {
     expect(reducer(undefined, {type: undefined})).toEqual({
@@ -73,7 +73,7 @@ describe('CartAddThunk Slice', () => {
       rentalStartDate: '2023-09-30',
     };
 
-    jest.spyOn(ApiService, 'post').mockResolvedValue(mockResponse);
+    jest.spyOn(ApiService, 'post').mockResolvedValue(mockResponse as any);
 
     await store.dispatch(CartAdd(mockData));
 

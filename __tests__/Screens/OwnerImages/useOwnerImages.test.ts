@@ -16,12 +16,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/helpers/helper', () => ({
-  logMessage: {
-    error: jest.fn(),
-    info: jest.fn(),
-  },
-}));
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
@@ -78,13 +72,8 @@ jest.mock(
     },
   }),
 );
-const configureDispatch = () => {
-  const dispatch = jest.fn();
-  (useDispatch as jest.Mock).mockReturnValue(dispatch);
-  return dispatch;
-};
 describe('useAddimages', () => {
-  const mockDispatch = configureDispatch();
+  const mockDispatch = jest.fn();
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
     (useSelector as jest.Mock).mockImplementation(
@@ -353,6 +342,12 @@ describe('useAddimages', () => {
     expect(result.current.imageUrls).toEqual(['mockImageUrl']);
   });
   it('should reject didCancel is true upload images and set image URLs', async () => {
+    jest.mock('../../../src/helpers/helper', () => ({
+      logMessage: {
+        error: jest.fn(),
+        info: jest.fn(),
+      },
+    }));
     // Mock token and image response
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
@@ -381,6 +376,12 @@ describe('useAddimages', () => {
     });
   });
   it('should reject when error message when upload images and set image URLs', async () => {
+    jest.mock('../../../src/helpers/helper', () => ({
+      logMessage: {
+        error: jest.fn(),
+        info: jest.fn(),
+      },
+    }));
     // Mock token and image response
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
@@ -411,6 +412,12 @@ describe('useAddimages', () => {
   });
   it('should reject  upload images and set image URLs', async () => {
     // Mock token and image response
+    jest.mock('../../../src/helpers/helper', () => ({
+      logMessage: {
+        error: jest.fn(),
+        info: jest.fn(),
+      },
+    }));
     global.fetch = jest.fn().mockResolvedValue({
       ok: false,
       json: jest.fn().mockResolvedValue({urls: ['mockImageUrl']}),
@@ -438,6 +445,12 @@ describe('useAddimages', () => {
     });
   });
   it('should reject  response of launchImageLibrary', async () => {
+    jest.mock('../../../src/helpers/helper', () => ({
+      logMessage: {
+        error: jest.fn(),
+        info: jest.fn(),
+      },
+    }));
     // Mock token and image response
     global.fetch = jest.fn().mockRejectedValue({
       ok: false,

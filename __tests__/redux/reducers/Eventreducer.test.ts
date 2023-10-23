@@ -34,7 +34,7 @@ describe('eventReducer', () => {
     };
     const action = {type: 'SELECT_OUTFIT', payload: 'Outfit 1'};
 
-    const newState = eventReducer(initialState, action);
+    const newState = eventReducer(initialState as any, action);
 
     expect(newState).toEqual({
       selectedEvent: 'Event 1',
@@ -49,7 +49,7 @@ describe('eventReducer', () => {
     };
     const action = {type: 'UNKNOWN_ACTION', payload: null};
 
-    const newState = eventReducer(initialState, action);
+    const newState = eventReducer(initialState as any, action);
 
     expect(newState).toEqual(initialState);
   });

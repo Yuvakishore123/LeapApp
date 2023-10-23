@@ -48,13 +48,9 @@ const AddImages = () => {
     <ScrollView
       style={[
         {height: '100%', backgroundColor: Colors.black},
-        colorScheme === 'dark' ? styles.blacktheme : styles.whiteTheme,
+        getContainerStyle(),
       ]}>
-      <View
-        style={[
-          OwnerImagestyles.Scroll,
-          colorScheme === 'dark' ? styles.blacktheme : styles.whiteTheme,
-        ]}>
+      <View style={[OwnerImagestyles.Scroll, getContainerStyle()]}>
         <HeadingText message="Add products" />
         <View style={[OwnerImagestyles.form]}>
           <View style={[OwnerImagestyles.ImageBox]}>
@@ -70,12 +66,7 @@ const AddImages = () => {
                     <View key={image} style={[OwnerImagestyles.ImageContainer]}>
                       <Image
                         testID={`image-${index}`}
-                        style={[
-                          OwnerImagestyles.image,
-                          colorScheme === 'dark'
-                            ? styles.cardColor
-                            : styles.whiteTheme,
-                        ]}
+                        style={[OwnerImagestyles.image, getTextInputStyle()]}
                         source={{uri: image}}
                       />
                       <TouchableOpacity
@@ -146,7 +137,7 @@ const AddImages = () => {
               style={[
                 OwnerImagestyles.Price,
                 {paddingLeft: 25},
-                colorScheme === 'dark' ? styles.cardColor : styles.whiteTheme,
+                getContainerStyle(),
                 colorScheme === 'dark' ? styles.placeholder : styles.blackText,
               ]}
               placeholder="Select price"
@@ -167,7 +158,7 @@ const AddImages = () => {
               style={[
                 OwnerImagestyles.quantity,
                 {paddingLeft: 25},
-                colorScheme === 'dark' ? styles.cardColor : styles.whiteTheme,
+                getContainerStyle(),
                 colorScheme === 'dark' ? styles.placeholder : styles.blackText,
               ]}
               onChangeText={handleQuantityChange}

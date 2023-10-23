@@ -36,15 +36,15 @@ jest.mock('@react-navigation/native', () => {
 
 const configureDispatch = () => {
   const dispatch = jest.fn();
-  useDispatch.mockReturnValue(dispatch);
+  (useDispatch as jest.Mock).mockReturnValue(dispatch);
   return dispatch;
 };
 
 describe('Checkout Screen', () => {
   const mockDispatch = configureDispatch();
   beforeEach(() => {
-    useDispatch.mockReturnValue(mockDispatch);
-    useSelector.mockImplementation(
+    (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    (useSelector as jest.Mock).mockImplementation(
       (selector: (arg0: {editAddressData: {data: {}}}) => any) =>
         selector({
           editAddressData: {data: {}},

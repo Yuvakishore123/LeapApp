@@ -7,6 +7,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {Provider} from 'react-redux';
 import {store} from '../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
+import useOwnerEditProfileCustomHook from 'screens/Ownereditprofile/useOwnerEditProfileCustomHook';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -19,7 +20,7 @@ jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
 }));
 jest.mock(
   '../../../src/screens/Ownereditprofile/useOwnerEditProfileCustomHook',
-  () => () => ({
+  () => ({
     firstName: 'John',
     setFirstName: jest.fn(),
     lastName: 'Doe',
@@ -32,11 +33,27 @@ jest.mock(
     setPhoneNumber: jest.fn(),
     handleUpdate: jest.fn(),
     isLoading: false,
+    default: jest.fn(),
+    __esModule: true,
   }),
 );
 describe('OwnerEditProfile', () => {
   beforeEach(() => {
     // Clear AsyncStorage before each test
+    (useOwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      firstName: 'John',
+      setFirstName: jest.fn(),
+      lastName: 'Doe',
+      setLastName: jest.fn(),
+      email: 'john.doe@example.com',
+      showModal: false,
+      closeModal: jest.fn(),
+      setEmail: jest.fn(),
+      phoneNumber: '1234567890',
+      setPhoneNumber: jest.fn(),
+      handleUpdate: jest.fn(),
+      isLoading: false,
+    });
     AsyncStorage.clear();
   });
   afterEach(() => {
@@ -72,6 +89,35 @@ describe('OwnerEditProfile', () => {
   });
   it('should render skeleton loader correctly', () => {
     const {getByTestId} = render(<SkeletonLoader />);
+
+    // Query for elements you expect to be rendered by the skeleton loader
+    const input1 = getByTestId('loading-component');
+
+    // Now you can make assertions about these elements
+    expect(input1).toBeDefined();
+  });
+  it('should render  loading state correctly', () => {
+    (useOwnerEditProfileCustomHook as jest.Mock).mockReturnValue({
+      firstName: 'John',
+      setFirstName: jest.fn(),
+      lastName: 'Doe',
+      setLastName: jest.fn(),
+      email: 'john.doe@example.com',
+      showModal: false,
+      closeModal: jest.fn(),
+      setEmail: jest.fn(),
+      phoneNumber: '1234567890',
+      setPhoneNumber: jest.fn(),
+      handleUpdate: jest.fn(),
+      isLoading: true,
+    });
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <OwnerEditProfile />
+        </NavigationContainer>
+      </Provider>,
+    );
 
     // Query for elements you expect to be rendered by the skeleton loader
     const input1 = getByTestId('loading-component');

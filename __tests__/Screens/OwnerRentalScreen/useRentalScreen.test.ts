@@ -38,7 +38,7 @@ jest.mock('@react-navigation/native', () => {
 });
 describe('useAdditems', () => {
   beforeEach(() => {
-    useSelector.mockImplementation(
+    (useSelector as jest.Mock).mockImplementation(
       (
         selector: (arg0: {
           OwnerRentalproducts: {data: {}; isLoader: null};

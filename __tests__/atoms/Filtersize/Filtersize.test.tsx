@@ -71,9 +71,6 @@ describe('FilterSelectSize', () => {
     expect(onSelectSize).toHaveBeenCalledWith('Small');
   });
   it('closes the dropdown when handleToggle is called', () => {
-    const sizes = ['Small', 'Medium', 'Large'];
-    const onSelectSize = jest.fn();
-
     const {getByTestId} = render(
       <FilterSelectSize
         sizes={sizes}

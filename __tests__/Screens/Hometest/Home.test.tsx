@@ -7,7 +7,6 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Homescreen from 'screens/Home/Homescreen';
 import useHome from 'screens/Home/useHome';
-import {postProductToAPI} from '../../../src/redux/actions/actions';
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),

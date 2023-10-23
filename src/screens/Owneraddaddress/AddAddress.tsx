@@ -22,8 +22,6 @@ import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import {logMessage} from 'helpers/helper';
 const AddAddress = () => {
   const {
-    setStateName,
-    setCity,
     addressLine2,
     FetchAddress,
     addressLine1,
@@ -37,7 +35,6 @@ const AddAddress = () => {
     handlePostalCodeChange,
     postalCode,
     country,
-    setCountry,
     isLoading,
     formik,
     handleAddressLine1,
