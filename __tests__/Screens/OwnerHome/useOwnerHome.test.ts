@@ -67,7 +67,6 @@ const configureDispatch = () => {
   (useDispatch as jest.Mock).mockReturnValue(dispatch);
   return dispatch;
 };
-const HandlePiechart = jest.fn();
 describe('Checkout Screen', () => {
   const mockDispatch = configureDispatch();
   beforeEach(() => {
@@ -125,25 +124,23 @@ describe('Checkout Screen', () => {
       result.current.handleAnalatyics();
     });
     waitFor(() => {
-      expect(HandlePiechart).toBeCalled();
       expect(mockNav).toHaveBeenCalledWith('DashboardDetails');
     });
   });
-  it('handles fetchRecentlyAdded correctly', () => {
+  it('handles fetchRecentlyAdded correctly', async () => {
     const {result} = renderHook(() => useOwnerHome());
     act(() => {
       result.current.fetchRecentlyAdded();
     });
     (ApiService.get as jest.Mock).mockResolvedValue(mockData);
     waitFor(() => {
-      expect(result.current.recentyAdded).toBe(mockData);
+      expect(result.current.recentyAdded).toEqual(mockData);
     });
   });
   it('handles fetchDashboardData correctly', () => {
     const data = {
       totalEarnings: 190203,
       totalrentedItems: 20,
-      // ... (more products)
     };
     const {result} = renderHook(() => useOwnerHome());
     act(() => {

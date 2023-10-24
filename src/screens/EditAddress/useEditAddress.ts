@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import colors from '../../constants/colors';
+import Colors from '../../constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
@@ -61,9 +61,9 @@ const useEditAddress = () => {
       openModal();
     }
   };
-  const PlaceholderColor = () => {
-    return colorScheme === 'dark' ? colors.Textinput : colors.black;
-  };
+  const [placeholderTextColor, _setPlaceholderTextColor] = useState(
+    colorScheme === 'dark' ? Colors.white : Colors.black,
+  );
   return {
     handleUpdateAddress,
     handlePostalcode,
@@ -86,7 +86,7 @@ const useEditAddress = () => {
     setAddressLine1,
     setAddressLine2,
     isLoading,
-    PlaceholderColor,
+    placeholderTextColor,
   };
 };
 export default useEditAddress;

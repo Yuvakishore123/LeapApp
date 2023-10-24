@@ -115,42 +115,28 @@ describe('SearchResultScreen', () => {
     await act(() => {
       result.current.handleFilterButtonPress();
     });
-    waitFor(() => {
-      expect(result.current.SubcategoryData).toBeCalled();
-
+    await waitFor(() => {
       expect(result.current.modalVisible).toBe(true);
     });
   });
-  test('should handle suCategoryData function ', async () => {
-    const mockData = {
-      id: 1,
-      name: 'Product 1',
-      price: 10,
-      imageUrl: ['https://example.com/image1.jpg'],
-    };
-    const subcategorydata = [
-      {
-        value: 1,
-        label: 'Product 1',
-      },
-    ];
-    // Mock ApiService.get to throw an error
-    apiGetMock.mockResolvedValue([
-      {value: 1, label: 'Product 1'},
-      {value: 2, label: 'Product 2'},
-    ]);
-
+  it('should fetch subcategory data correctly', async () => {
+    const mockResponse = [
+      {id: 1, subcategoryName: 'Category A'},
+      {id: 2, subcategoryName: 'Category B'},
+    ]; // Mocked response data
     const {result} = renderHook(() => useSearchresults());
 
-    // Wait for the asynchronous function to complete
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResponse);
+    const asyncOperation = () =>
+      new Promise(resolve => setTimeout(resolve as any, 100));
+
     await act(() => {
       result.current.SubcategoryData();
     });
-    waitFor(() => {
-      expect(result.current.subcategoriesData).toEqual([
-        {value: 1, label: 'Product 1'},
-        {value: 2, label: 'Product 2'},
-      ]);
-    });
+    await asyncOperation();
+    expect(result.current.subcategoriesData).toEqual([
+      {value: 1, label: 'Category A'},
+      {value: 2, label: 'Category B'},
+    ]);
   });
 });

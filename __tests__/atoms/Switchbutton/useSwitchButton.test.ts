@@ -4,6 +4,7 @@ import {url} from 'constants/Apis';
 import {setRole} from '../../../src/redux/actions/actions';
 import {logMessage} from '../../../src/helpers/helper';
 import ApiService from 'network/network';
+import {useSelector} from 'react-redux';
 
 const mockDispatch = jest.fn();
 jest.mock('react-redux', () => ({
@@ -37,6 +38,13 @@ jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
   setItem: jest.fn(),
 }));
 describe('useSwitchButton', () => {
+  beforeEach(() => {
+    (useSelector as jest.Mock).mockImplementation(selector =>
+      selector({
+        Rolereducer: {role: ''},
+      }),
+    );
+  });
   it('should toggle options visibility and animate button/options', () => {
     const {result} = renderHook(() => useSwitchButton());
 
@@ -83,10 +91,36 @@ describe('useSwitchButton', () => {
         require('constants/asyncStorageWrapper').setItem,
       ).toHaveBeenCalledWith('token', 'newToken');
       expect(mockDispatch).toHaveBeenCalledWith(setRole(mockOption));
-      expect(result.current.accountType).toBe('BORROWER'); // Assuming 'setAccountType' updates the 'accountType' state
+      expect(result.current.accountType).toBe('Borrower'); // Assuming 'setAccountType' updates the 'accountType' state
+    });
+  });
+  it('should handle the handleOptionPress for owner option', async () => {
+    const mockResponse = {
+      status: 200,
+      headers: {
+        access_token: 'newToken',
+      },
+    };
+
+    require('network/network').post.mockResolvedValue(mockResponse);
+    const {result} = renderHook(() => useSwitchButton());
+    const mockOption = 'OWNER';
+    act(() => {
+      result.current.handleOptionPress(mockOption);
+    });
+
+    expect(result.current.showOptions).toBe(false);
+    await waitFor(() => {
+      expect(mockDispatch).toHaveBeenCalledWith(setRole(mockOption));
+      expect(result.current.accountType).toBe('Owner'); // Assuming 'setAccountType' updates the 'accountType' state
     });
   });
   it('should reject the handleOptionPress', () => {
+    (useSelector as jest.Mock).mockImplementation(selector =>
+      selector({
+        Rolereducer: {role: 'BORROWER'},
+      }),
+    );
     const mockResponse = {
       status: 404,
       headers: {
@@ -104,20 +138,24 @@ describe('useSwitchButton', () => {
     expect(result.current.showOptions).toBe(false);
     waitFor(() => {
       expect(logMessage.error).toHaveBeenCalledWith(
-        'error in switching of user',
+        'Request failed to switch user',
       );
     });
   });
   it('should reject when post api rejected in the handleOptionPress', () => {
+    (useSelector as jest.Mock).mockImplementation(selector =>
+      selector({
+        Rolereducer: {role: 'OWNER'},
+      }),
+    );
     const mockResponse = {
       status: 404,
       headers: {
         access_token: '',
       },
     };
-
-    require('network/network').post.mockRejectedValue(mockResponse);
     const {result} = renderHook(() => useSwitchButton());
+    require('network/network').post.mockRejectedValue(mockResponse);
     const mockOption = 'BORROWER';
     act(() => {
       result.current.handleOptionPress(mockOption);
@@ -126,7 +164,7 @@ describe('useSwitchButton', () => {
     expect(result.current.showOptions).toBe(false);
     waitFor(() => {
       expect(logMessage.error).toHaveBeenCalledWith(
-        'error in switching of user',
+        'Request failed to switch user',
       );
     });
   });

@@ -243,4 +243,146 @@ describe('ColorSchemeProvider', () => {
 
     expect(container.props.style).toBe(Styles.whiteTheme);
   });
+  it('returns the correct Placeholder color for light scheme', () => {
+    const {getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({PlaceholderColor, toggleColorScheme}) => (
+            <>
+              <Text testID="text" style={PlaceholderColor()} />
+              <Button
+                testID="toggleButton"
+                onPress={toggleColorScheme}
+                title="Toggle Scheme"
+              />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const text = getByTestId('text');
+    const toggleButton = getByTestId('toggleButton');
+
+    expect(text.props.style).toEqual('rgba(255, 255, 255, 0.5)');
+
+    // Simulate toggling the color scheme
+    fireEvent.press(toggleButton);
+
+    expect(text.props.style).toEqual('#000');
+  });
+  it('returns the correct getPlaceholderText color for light scheme', () => {
+    const {getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({getPlaceholderTextColor, toggleColorScheme}) => (
+            <>
+              <Text testID="text" style={getPlaceholderTextColor()} />
+              <Button
+                testID="toggleButton"
+                onPress={toggleColorScheme}
+                title="Toggle Scheme"
+              />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const text = getByTestId('text');
+    const toggleButton = getByTestId('toggleButton');
+
+    expect(text.props.style).toEqual({color: 'rgba(255, 255, 255, 0.5)'});
+
+    // Simulate toggling the color scheme
+    fireEvent.press(toggleButton);
+
+    expect(text.props.style).toEqual({color: '#000'});
+  });
+  it('returns the correct getplaceholdercolor color for light scheme', () => {
+    const {getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({getplaceholdercolor, toggleColorScheme}) => (
+            <>
+              <Text testID="text" style={getplaceholdercolor()} />
+              <Button
+                testID="toggleButton"
+                onPress={toggleColorScheme}
+                title="Toggle Scheme"
+              />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const text = getByTestId('text');
+    const toggleButton = getByTestId('toggleButton');
+
+    expect(text.props.style).toEqual({color: 'rgba(255, 255, 255, 0.5)'});
+
+    // Simulate toggling the color scheme
+    fireEvent.press(toggleButton);
+
+    expect(text.props.style).toEqual({color: '#666'});
+  });
+  it('returns the correct getButtonColor color for light scheme', () => {
+    const {getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({getButtonColor, toggleColorScheme}) => (
+            <>
+              <Text testID="text" style={getButtonColor()} />
+              <Button
+                testID="toggleButton"
+                onPress={toggleColorScheme}
+                title="Toggle Scheme"
+              />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const text = getByTestId('text');
+    const toggleButton = getByTestId('toggleButton');
+
+    expect(text.props.style).toEqual({color: '#9747FF'});
+
+    // Simulate toggling the color scheme
+    fireEvent.press(toggleButton);
+
+    expect(text.props.style).toEqual({color: '#000'});
+  });
+  it('returns the correct getTextInputStyle color for light scheme', () => {
+    const {getByTestId} = render(
+      <ColorSchemeProvider>
+        <ColorSchemeContext.Consumer>
+          {({getTextInputStyle, toggleColorScheme}) => (
+            <>
+              <Text testID="text" style={getTextInputStyle()} />
+              <Button
+                testID="toggleButton"
+                onPress={toggleColorScheme}
+                title="Toggle Scheme"
+              />
+            </>
+          )}
+        </ColorSchemeContext.Consumer>
+      </ColorSchemeProvider>,
+    );
+
+    const text = getByTestId('text');
+    const toggleButton = getByTestId('toggleButton');
+
+    expect(text.props.style).toEqual({
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    });
+
+    // Simulate toggling the color scheme
+    fireEvent.press(toggleButton);
+
+    expect(text.props.style).toEqual({backgroundColor: '#fff'});
+  });
 });

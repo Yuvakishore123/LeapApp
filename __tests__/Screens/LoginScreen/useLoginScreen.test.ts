@@ -4,7 +4,6 @@ import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
 import {postLogin} from '../../../src/redux/slice/loginSlice';
 import {fetchUserProducts} from '../../../src/redux/slice/userProductSlice';
-import firebase from '../../../src/utils/firebase';
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-firebase/analytics', () => {
   return () => ({
@@ -101,31 +100,6 @@ describe('useLoginScreen', () => {
     // After opening the modal, showModal should be true
     expect(result.current.showModal).toBe(false);
   });
-  it('handles storeFCMToken correctly', () => {
-    const {result} = renderHook(() => useLoginscreen());
-    const mockToken = 'mocked_token';
-
-    act(() => {
-      result.current.storeFCMToken(mockToken);
-    });
-
-    waitFor(() => {
-      expect(asyncStorageWrapper.setItem).toBeCalledWith(mockToken);
-    });
-  });
-  it('handles onRefreshToken correctly', () => {
-    const {result} = renderHook(() => useLoginscreen());
-    const mockToken = 'mocked_token';
-
-    act(() => {
-      result.current.onTokenRefresh(mockToken);
-    });
-
-    waitFor(() => {
-      expect(asyncStorageWrapper.getItem).toBeCalledWith(mockToken);
-      expect(result.current.storeFCMToken).toBeCalled();
-    });
-  });
   it('should handle login screen correctly', async () => {
     const {result} = renderHook(() => useLoginscreen());
     const pageSize = 20;
@@ -158,17 +132,6 @@ describe('useLoginScreen', () => {
 
     waitFor(() => {
       expect(result.current.openModal).toBeCalled();
-    });
-  });
-  it('handles requestFCMToken correctly', async () => {
-    const {result} = renderHook(() => useLoginscreen());
-
-    await act(() => {
-      result.current.requestFCMPermission();
-    });
-    const token = await firebase.messaging()?.getToken();
-    waitFor(() => {
-      expect(result.current.onTokenRefresh).toBeCalledWith('mockedToken');
     });
   });
 });

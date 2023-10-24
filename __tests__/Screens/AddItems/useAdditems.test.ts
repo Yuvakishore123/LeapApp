@@ -36,12 +36,12 @@ describe('useAdditems', () => {
     (useSelector as jest.Mock).mockImplementation(
       (
         selector: (arg0: {
-          category: {data: {}};
+          category: {data: null};
           GenderReducer: {genderData: null};
         }) => any,
       ) =>
         selector({
-          category: {data: {}},
+          category: {data: null},
           GenderReducer: {genderData: null},
         }),
     );
@@ -162,6 +162,31 @@ describe('useAdditems', () => {
     await asyncOperation();
 
     expect(result.current.isLoading).toBe(true);
+  });
+  it('should fetch the categories data', () => {
+    const mockcategoryData = [
+      {id: 1, subcategoryName: 'Subcategory 1'},
+      {id: 2, subcategoryName: 'Subcategory 2'},
+    ];
+
+    const {result} = renderHook(() => useAdditems());
+    act(() => {
+      result.current.setCategoriesData([]);
+    });
+    act(() => {
+      result.current.fetchSubCategoryData();
+    });
+
+    (useSelector as jest.Mock).mockImplementation(selector =>
+      selector({
+        category: {data: mockcategoryData},
+        GenderReducer: {data: null},
+      }),
+    );
+    act(() => {
+      result.current.setCategoriesData(mockcategoryData as any);
+    });
+    expect(result.current.categoriesData).toStrictEqual(mockcategoryData);
   });
   it('should handle the when test input is touched ', () => {
     const {result} = renderHook(() => useAdditems());

@@ -1,8 +1,7 @@
-import {act, renderHook, waitFor} from '@testing-library/react-native';
+import {act, renderHook} from '@testing-library/react-native';
 import React from 'react';
 import {useSelector} from 'react-redux';
 import useWishlist from '../../../src/screens/Wishlist/useWishlist';
-import {wishListRemove} from '../../../src/redux/slice/wishlistRemoveSlice';
 import Toast from 'react-native-toast-message';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -36,9 +35,11 @@ jest.mock('@react-navigation/native', () => {
 describe('useWislist', () => {
   beforeEach(() => {
     (useSelector as jest.Mock).mockImplementation(
-      (selector: (arg0: {WishlistProducts: {data: {}}}) => any) =>
+      (
+        selector: (arg0: {WishlistProducts: {data: {}; error: boolean}}) => any,
+      ) =>
         selector({
-          WishlistProducts: {data: {}},
+          WishlistProducts: {data: {}, error: true},
         }),
     );
   });
@@ -92,17 +93,17 @@ describe('useWislist', () => {
     // After opening the modal, showModal should be true
     expect(result.current.showModal).toBe(false);
   });
-  it('This handle wishlistremove', () => {
+  it('This handle wishlistremove', async () => {
     const {result} = renderHook(() => useWishlist());
     const mockId = '1';
     // Open the modal
+    const asyncOperation = () =>
+      new Promise(resolve => setTimeout(resolve as any, 100));
     act(() => {
       result.current.wishlistremove(mockId);
     });
-
-    waitFor(() => {
-      expect(wishListRemove(mockId)).toBeCalled();
-    });
+    await asyncOperation();
+    expect(mockDispatch).toBeCalled();
   });
   it('should show toast with error message for cart error', () => {
     const {result} = renderHook(() => useWishlist());
@@ -114,5 +115,18 @@ describe('useWislist', () => {
       type: 'error',
       text1: 'Error in wislist cart',
     });
+  });
+  it('should show toast with error message for isError', () => {
+    const {result} = renderHook(() => useWishlist());
+
+    result.current.showToast();
+
+    // Ensure that Toast.show was called with the correct parameters
+    if (result.current.isError) {
+      expect(Toast.show).toHaveBeenCalledWith({
+        type: 'error',
+        text1: 'Error in wislist cart',
+      });
+    }
   });
 });

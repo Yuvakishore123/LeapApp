@@ -38,6 +38,8 @@ const useCategoryProducts = (subcategoryId: number) => {
   return {
     subcategories,
     wishlistList,
+    setWishlistList,
+    setSubcategories,
     colorScheme,
     toggleWishlist,
     getContainerStyle,

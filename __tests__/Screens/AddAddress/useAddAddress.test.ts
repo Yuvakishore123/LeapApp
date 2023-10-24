@@ -101,6 +101,33 @@ describe('useAddress', () => {
     );
     expect(Alert.alert).not.toHaveBeenCalled();
   });
+  it('fetches address correctly with emmpty values', async () => {
+    // Set up mock data for ApiService.get
+    const mockResult = [
+      {
+        PostOffice: [],
+      },
+    ];
+    (ApiService.get as jest.Mock).mockResolvedValue(mockResult);
+
+    // Render the custom hook
+    const {result} = renderHook(() => useAddAddress());
+
+    // Set postalCode (assuming you have a way to do this in your hook)
+    act(() => {
+      result.current.setpostalCode('123456');
+    });
+
+    // Call FetchAddress function
+    await act(async () => {
+      await result.current.FetchAddress();
+    });
+
+    // Check if state values are set correctly
+    expect(result.current.country).toBe('');
+    expect(result.current.city).toBe('');
+    expect(result.current.state).toBe('');
+  });
   it('handles error correctly', async () => {
     // Mock ApiService.get to simulate an error
     (ApiService.get as jest.Mock).mockRejectedValue(
@@ -196,5 +223,15 @@ describe('useAddress', () => {
     });
     expect(mockDispatch).toHaveBeenCalledTimes(2);
     expect(result.current.showModal).toBe(true);
+  });
+  it('handles handleCheckboxChange correctly', () => {
+    const {result} = renderHook(() => useAddAddress());
+
+    // Assuming you have set your addressLine1, addressLine2, selectedOption, city, country, postalCode, state, and isChecked values.
+
+    act(() => {
+      result.current.handleCheckboxChange();
+    });
+    expect(result.current.isChecked).toBe(true);
   });
 });

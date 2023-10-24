@@ -637,13 +637,13 @@ describe('useCart', () => {
       subcategoryIds: ['mockItemType', 'mockOutfitType', 'mockEventType'],
     };
     const {result} = renderHook(() => Useowneredititems()); // Render the hook
+    (ApiService.put as jest.Mock).mockRejectedValue(data);
     act(() => {
       result.current.handleedit();
     });
 
-    (ApiService.put as jest.Mock).mockRejectedValue(data);
     waitFor(() => {
-      expect(logMessage.error).toBeCalled();
+      expect(logMessage.error).toHaveBeenCalledWith('Error in product update');
     });
   });
   it('should  handlemodalVisible correctly', () => {
@@ -651,9 +651,7 @@ describe('useCart', () => {
     act(() => {
       result.current.handleVisibleModal();
     });
-    waitFor(() => {
-      expect(result.current.setViisble).toBe(false);
-      expect(result.current.setHideId).toBe(null);
-    });
+    expect(result.current.visible).toBe(true);
+    expect(result.current._hideId).toBe(null);
   });
 });

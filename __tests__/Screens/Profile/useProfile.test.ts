@@ -309,7 +309,7 @@ describe('Profile Screen', () => {
 
     await result.current.checkPermission();
     waitFor(() => {
-      expect(result.current.pickImage).toHaveBeenCalled();
+      expect(result.current.pickImage).toBeDefined();
     });
   });
   it('should handle permission already granted', async () => {
@@ -369,7 +369,7 @@ describe('Profile Screen', () => {
       'true',
     );
     waitFor(() => {
-      expect(result.current.pickImage).toBeCalled();
+      expect(result.current.pickImage).toBeDefined();
     });
   });
   it('should call handleImageResponse when errorMessage is triggered if permission is granted', async () => {

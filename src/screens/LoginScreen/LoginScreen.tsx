@@ -56,7 +56,11 @@ const LoginScreen = () => {
           onBlur={formik.handleBlur('email')}
         />
         {formik.touched.email && formik.errors.email && (
-          <Animatable.View animation="shake" duration={500} easing="linear">
+          <Animatable.View
+            animation="shake"
+            duration={500}
+            easing="linear"
+            testID="emailerror">
             <Text style={styles.errorText}>{formik.errors.email} </Text>
           </Animatable.View>
         )}
@@ -83,7 +87,9 @@ const LoginScreen = () => {
           </TouchableOpacity>
           {formik.touched.password && formik.errors.password && (
             <Animatable.View animation="shake" duration={500} easing="linear">
-              <Text style={styles.errorText}>{formik.errors.password}</Text>
+              <Text style={styles.errorText} testID="passworderror">
+                {formik.errors.password}
+              </Text>
             </Animatable.View>
           )}
         </View>

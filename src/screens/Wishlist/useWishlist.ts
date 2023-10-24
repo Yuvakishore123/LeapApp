@@ -74,6 +74,7 @@ const useWishlist = () => {
     setRefreshing,
     onRefresh,
     allWishlistProducts,
+    isError,
     isLoading,
     closeModal,
     showModal,

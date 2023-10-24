@@ -10,7 +10,6 @@ import React, {useContext} from 'react';
 import style from '../Owneraddaddress/AddressStyles';
 import useAddAddress from '../Owneraddaddress/useAddAddress';
 import {CheckBox} from 'react-native-elements';
-import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {RadioButton} from 'react-native-paper';
 import useEditaddress from './useEditAddress';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
@@ -64,11 +63,10 @@ const EditAddress = () => {
     postalCode,
     state,
     setCity,
-    PlaceholderColor,
+    placeholderTextColor,
   } = useEditaddress();
 
   const {
-    colorScheme,
     getContainerStyle,
     getTextColor,
     getTextInputStyle,
@@ -79,7 +77,9 @@ const EditAddress = () => {
     <ScrollView style={[style.headercontainer, getContainerStyle()]}>
       {isLoading ? (
         <>
-          <SkeletonLoader />
+          <View testID="loading">
+            <SkeletonLoader />
+          </View>
         </>
       ) : (
         <>
@@ -122,7 +122,7 @@ const EditAddress = () => {
                   getPlaceholderTextColor(),
                 ]}
                 onChangeText={text => setStateName(text)}
-                placeholderTextColor={PlaceholderColor()}
+                placeholderTextColor={placeholderTextColor}
               />
               <View style={style.textContainer}>
                 <Text style={[styles.textField, getTextColor()]}>City</Text>
@@ -134,7 +134,7 @@ const EditAddress = () => {
                 <TextInput
                   value={city}
                   testID="City"
-                  placeholderTextColor={PlaceholderColor()}
+                  placeholderTextColor={placeholderTextColor}
                   style={[
                     styles.smalltextInputs,
                     getTextInputStyle(),
@@ -151,7 +151,7 @@ const EditAddress = () => {
                     getPlaceholderTextColor(),
                   ]}
                   testID="Pincode"
-                  placeholderTextColor={PlaceholderColor()}
+                  placeholderTextColor={placeholderTextColor}
                   value={postalCode}
                   onChangeText={setPostalCode}
                 />
@@ -166,7 +166,7 @@ const EditAddress = () => {
                     testID="Radio-Home"
                     status={selectedOption === 'HOME' ? 'checked' : 'unchecked'}
                     onPress={() => handleOptionChange('HOME')}
-                    color={colorScheme === 'dark' ? Colors.white : Colors.black}
+                    color={placeholderTextColor}
                   />
                   <Text style={[style.textRadio, getTextColor()]}>Home</Text>
                 </View>
@@ -178,7 +178,7 @@ const EditAddress = () => {
                       selectedOption === 'OFFICE' ? 'checked' : 'unchecked'
                     }
                     onPress={() => handleOptionChange('OFFICE')}
-                    color={colorScheme === 'dark' ? Colors.white : Colors.black}
+                    color={placeholderTextColor}
                   />
                   <Text style={[style.textRadio, getTextColor()]}>Office</Text>
                 </View>

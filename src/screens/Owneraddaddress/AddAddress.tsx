@@ -71,9 +71,6 @@ const AddAddress = () => {
         <View style={style.innerContainer}>
           <TextInput
             placeholder="Flat no / Building"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
             value={addressLine1}
             onChangeText={handleAddressLine1}
             onBlur={() => handleBlur('addressLine1')}
@@ -93,9 +90,6 @@ const AddAddress = () => {
         <View style={style.innerContainer}>
           <TextInput
             placeholder="Street name"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
             value={addressLine2}
             onChangeText={handleAddressLine2}
             onBlur={() => handleBlur('addressLine2')}
@@ -110,9 +104,6 @@ const AddAddress = () => {
         <View style={style.cityContainer}>
           <TextInput
             placeholder="Pincode"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
             style={[style.smalltextInput, getTextInputStyle(), getTextColor()]}
             value={postalCode}
             onChangeText={handlePostalCodeChange}
@@ -122,9 +113,6 @@ const AddAddress = () => {
           <TextInput
             placeholder="City"
             testID="city-input"
-            placeholderTextColor={
-              colorScheme === 'dark' ? colors.Textinput : colors.black
-            }
             value={city}
             editable={false}
             selectTextOnFocus={false}
@@ -138,17 +126,11 @@ const AddAddress = () => {
           placeholder="State "
           value={state}
           editable={false}
-          placeholderTextColor={
-            colorScheme === 'dark' ? colors.Textinput : colors.black
-          }
           style={[style.inputAddress, getTextInputStyle(), getTextColor()]}
           // onChangeText={text => setStateName(text)}
         />
         <TextInput
           placeholder="Country "
-          placeholderTextColor={
-            colorScheme === 'dark' ? colors.Textinput : colors.black
-          }
           value={country}
           editable={false}
           selectTextOnFocus={false}

@@ -78,23 +78,19 @@ const useAddAddress = () => {
   };
 
   const handleSaveAddress = () => {
-    try {
-      const addressData = {
-        addressLine1: addressLine1,
-        addressLine2: addressLine2,
-        addressType: selectedOption,
-        city: city,
-        country: country,
-        postalCode: postalCode,
-        state: state,
-        defaultType: isChecked,
-      };
-      dispatch(AddressAdd(addressData));
-      dispatch(ListAddress());
-      openModal();
-    } catch (error) {
-      logMessage.error('error in handlesaveaddress', error);
-    }
+    const addressData = {
+      addressLine1: addressLine1,
+      addressLine2: addressLine2,
+      addressType: selectedOption,
+      city: city,
+      country: country,
+      postalCode: postalCode,
+      state: state,
+      defaultType: isChecked,
+    };
+    dispatch(AddressAdd(addressData));
+    dispatch(ListAddress());
+    openModal();
   };
   const formik = useFormik({
     initialValues: {

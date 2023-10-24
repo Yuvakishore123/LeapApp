@@ -26,9 +26,6 @@ export const FliterAnalyticslist = createAsyncThunk(
   'FliterAnalyticslist',
   async (item: {formattedStartDate: string; formattedEndDate: string}) => {
     try {
-      if (!item.formattedStartDate || !item.formattedEndDate) {
-        throw new Error('Invalid date range');
-      }
       const response = await ApiService.get(
         `${url}/dashboard/date-selector?endDate=${item.formattedEndDate}&startDate=${item.formattedStartDate}`,
       );

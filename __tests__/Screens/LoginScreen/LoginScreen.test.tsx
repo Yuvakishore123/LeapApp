@@ -11,9 +11,12 @@ import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
-jest.mock('@react-native-firebase/messaging', () =>
-  require('@react-native-firebase'),
-);
+jest.mock('@react-native-firebase/messaging', () => {
+  return () => ({
+    requestPermission: jest.fn(),
+    getToken: jest.fn(),
+  });
+});
 jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -203,5 +206,46 @@ describe('LoginScreen', () => {
     });
 
     expect(mockNav).toHaveBeenCalledWith('SignupScreen');
+  });
+  test('Password text input should show error when it is empty  ', () => {
+    const Stack = createNativeStackNavigator();
+
+    const {getByPlaceholderText, getByTestId, findByText} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const passwordInput = getByPlaceholderText('Enter password');
+    act(() => {
+      fireEvent.changeText(passwordInput, '');
+      fireEvent(passwordInput, 'onBlur', {target: {value: ''}});
+    });
+    // const emailError = getByTestId('passworderror');
+    const PasswordError = findByText('Please enter password');
+    expect(PasswordError).toBeTruthy();
+  });
+  test('email text input should show error when it is empty  ', () => {
+    const Stack = createNativeStackNavigator();
+
+    const {getByPlaceholderText, findByText} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={LoginScreen} />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    const passwordInput = getByPlaceholderText('Email Address');
+    act(() => {
+      fireEvent.changeText(passwordInput, '');
+      fireEvent(passwordInput, 'onBlur', {target: {value: ''}});
+    });
+    const PasswordError = findByText('Enter valid email');
+    expect(PasswordError).toBeTruthy();
   });
 });

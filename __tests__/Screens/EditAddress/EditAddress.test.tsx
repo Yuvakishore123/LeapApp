@@ -6,6 +6,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import EditAddress, {SkeletonLoader} from 'screens/EditAddress/EditAddress';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useEditAddress from 'screens/EditAddress/useEditAddress';
+import useAddAddress from 'screens/Owneraddaddress/useAddAddress';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -47,6 +48,12 @@ jest.mock('screens/EditAddress/useEditAddress', () => ({
     PlaceholderColor: jest.fn(),
   })),
 }));
+jest.mock('screens/Owneraddaddress/useAddAddress', () => ({
+  __esModule: true,
+  default: jest.fn(() => ({
+    isLoading: false,
+  })),
+}));
 jest.mock('@react-navigation/native', () => ({
   ...jest.requireActual('@react-navigation/native'),
   useRoute: () => ({
@@ -77,6 +84,9 @@ describe('EditAddress Screen', () => {
       state: '',
       setCity: jest.fn(),
       PlaceholderColor: jest.fn(),
+    });
+    (useAddAddress as jest.Mock).mockReturnValue({
+      isLoading: false,
     });
   });
   it('should render EditAddress Page', () => {
@@ -274,5 +284,25 @@ describe('EditAddress Screen', () => {
 
     // Now you can make assertions about these elements
     expect(input1).toBeDefined();
+  });
+  it('should render loading state ', () => {
+    const handleupdate = jest.fn();
+    (useEditAddress as jest.Mock).mockReturnValue({
+      handleUpdateAddress: handleupdate,
+      PlaceholderColor: jest.fn(),
+    });
+    (useAddAddress as jest.Mock).mockReturnValue({
+      isLoading: true,
+    });
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <EditAddress />
+        </NavigationContainer>
+      </Provider>,
+    );
+
+    const updateButton = getByTestId('loading');
+    expect(updateButton).toBeDefined();
   });
 });

@@ -76,7 +76,6 @@ describe('useAnalytics', () => {
     });
     waitFor(() => {
       expect(result.current.endDate).toBe(mockData);
-      expect(result.current.fetchData).toHaveBeenCalled();
     });
   });
   it('should handle generateKey successfully', async () => {

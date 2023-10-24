@@ -45,7 +45,7 @@ export const AddressAdd = createAsyncThunk(
       return response;
     } catch (error: any) {
       dispatch(error);
-      throw error;
+      return error;
     }
   },
 );

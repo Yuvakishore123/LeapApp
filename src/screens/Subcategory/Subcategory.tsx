@@ -8,7 +8,6 @@ import styles from './subcategoryStyles';
 import {useSubcategory} from './useSubcategory';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
 
 interface Subcategory {
   id: string;
@@ -29,27 +28,20 @@ const Subcategory = ({
 
   const {subcategories, loading, handleSubcategoryPress} =
     useSubcategory(categoryId);
-  const {colorScheme, getContainerStyle, getTextColor, getTextInputStyle} =
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
     useContext(ColorSchemeContext);
 
   if (loading) {
     return (
       <View
-        style={[
-          styles.lottieView,
-          colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-        ]}
+        style={[styles.lottieView, getContainerStyle()]}
         testID="loading-animation">
         <Lottie
           source={require('../../../assets/loading2.json')}
           autoPlay
           style={styles.lottieStyles}
         />
-        <Text
-          style={[
-            styles.Lottietext,
-            colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-          ]}>
+        <Text style={[styles.Lottietext, getTextColor()]}>
           The Items are Loading...
         </Text>
       </View>

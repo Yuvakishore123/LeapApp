@@ -128,9 +128,7 @@ describe('useAddimages', () => {
     act(() => {
       result.current.handleSizeTypeChange('XXL');
     });
-    waitFor(() => {
-      expect(result.current.selectedsize).toBe('XXL');
-    });
+    expect(result.current.selectedsize).toBe('XXL');
   });
   it('should set PriceChange state correctly', () => {
     const {result} = renderHook(() => useAddImages()); // Render the hook
@@ -138,9 +136,7 @@ describe('useAddimages', () => {
     act(() => {
       result.current.handlePriceChange('1285');
     });
-    waitFor(() => {
-      expect(result.current.setPrice).toBe('1285');
-    });
+    expect(result.current.price).toBe('1285');
   });
   it('should set selectedImage state correctly', () => {
     const {result} = renderHook(() => useAddImages()); // Render the hook
@@ -148,9 +144,7 @@ describe('useAddimages', () => {
     act(() => {
       result.current.handleSelectedImage('sampleImage1.png');
     });
-    waitFor(() => {
-      expect(result.current.selectedImage).toBe('sampleImage1.png');
-    });
+    expect(result.current.selectedImage).toBe('sampleImage1.png');
   });
   it('should set handleQuantity state correctly', () => {
     const {result} = renderHook(() => useAddImages()); // Render the hook
@@ -158,9 +152,7 @@ describe('useAddimages', () => {
     act(() => {
       result.current.handleQuantityChange('5');
     });
-    waitFor(() => {
-      expect(result.current.setQuantity).toBe('5');
-    });
+    expect(result.current.quantity).toBe('5');
   });
   it('should dispatch the correct actions and call openModal', async () => {
     const {result} = renderHook(() => useAddImages());

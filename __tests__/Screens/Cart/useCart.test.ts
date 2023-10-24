@@ -69,6 +69,43 @@ describe('useCart', () => {
     // After opening the modal, showModal should be true
     expect(result.current.showModal).toBe(false);
   });
+  it('should call CartToast with the correct parameters when cartError is true', () => {
+    const {result} = renderHook(() => useCart());
+
+    act(() => {
+      result.current.CartToast();
+    });
+
+    expect(Toast.show).toHaveBeenCalledWith({
+      type: 'error',
+      text1: 'Error in cart',
+    });
+  });
+  it('should call Show error with the correct parameters when cartError is true', () => {
+    (useSelector as jest.Mock).mockImplementation(
+      (
+        selector: (arg0: {
+          CartProducts: {error: number};
+          cartUpdate: {error: number; isLoader: null};
+        }) => any,
+      ) =>
+        selector({
+          CartProducts: {error: 403},
+          cartUpdate: {error: 404, isLoader: null},
+        }),
+    );
+
+    const {result} = renderHook(() => useCart());
+
+    act(() => {
+      result.current.showToast();
+    });
+
+    expect(Toast.show).toHaveBeenCalledWith({
+      type: 'error',
+      text1: 'Error in updating cart',
+    });
+  });
   it('should navigate to CheckoutScreen', () => {
     const {result} = renderHook(() => useCart());
 

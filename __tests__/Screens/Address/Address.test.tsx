@@ -6,6 +6,7 @@ import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Owneraddresspage from '../../../src/screens/Owneraddaddress/Address';
+import useAddress from 'screens/Owneraddaddress/useAddress';
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
@@ -21,7 +22,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/screens/Owneraddaddress/useAddress', () => () => ({
+jest.mock('../../../src/screens/Owneraddaddress/useAddress', () => ({
   handleOwnerAddAddress: jest.fn(),
   handleDeleteAddress: jest.fn(),
   closeModal: jest.fn(),
@@ -40,10 +41,32 @@ jest.mock('../../../src/screens/Owneraddaddress/useAddress', () => () => ({
     },
     // Add more sample address data if needed
   ],
+  __esModule: true,
+  default: jest.fn(),
 }));
 describe('Address Page', () => {
   beforeEach(() => {
     AsyncStorage.clear();
+    (useAddress as jest.Mock).mockReturnValue({
+      handleOwnerAddAddress: jest.fn(),
+      handleDeleteAddress: jest.fn(),
+      closeModal: jest.fn(),
+      showModal: false,
+      handleEditItems: jest.fn(),
+      isloading: false,
+      addressdata: [
+        {
+          id: 1,
+          addressLine1: '123 Main Street',
+          addressLine2: '',
+          postalCode: '12345',
+          city: 'Cityville',
+          state: 'CA',
+          country: 'USA',
+        },
+        // Add more sample address data if needed
+      ],
+    });
   });
   test('renders correctly', () => {
     const Stack = createNativeStackNavigator();
@@ -98,5 +121,66 @@ describe('Address Page', () => {
     act(() => {
       fireEvent.press(getByTestId('delete-button'));
     });
+  });
+  it('should loading state render', () => {
+    (useAddress as jest.Mock).mockReturnValue({
+      handleOwnerAddAddress: jest.fn(),
+      handleDeleteAddress: jest.fn(),
+      closeModal: jest.fn(),
+      showModal: false,
+      handleEditItems: jest.fn(),
+      isloading: true,
+      addressdata: [
+        {
+          id: 1,
+          addressLine1: '123 Main Street',
+          addressLine2: '',
+          postalCode: '12345',
+          city: 'Cityville',
+          state: 'CA',
+          country: 'USA',
+        },
+        // Add more sample address data if needed
+      ],
+    });
+    const Stack = createNativeStackNavigator();
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Owneraddresspage"
+              component={Owneraddresspage}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    expect(getByTestId('loading-container')).toBeDefined();
+  });
+  it('should empty state render when addressdata is empty', () => {
+    (useAddress as jest.Mock).mockReturnValue({
+      handleOwnerAddAddress: jest.fn(),
+      handleDeleteAddress: jest.fn(),
+      closeModal: jest.fn(),
+      showModal: false,
+      handleEditItems: jest.fn(),
+      isloading: false,
+      addressdata: [],
+    });
+    const Stack = createNativeStackNavigator();
+    const {getByTestId} = render(
+      <Provider store={store}>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen
+              name="Owneraddresspage"
+              component={Owneraddresspage}
+            />
+          </Stack.Navigator>
+        </NavigationContainer>
+      </Provider>,
+    );
+    expect(getByTestId('empty-state')).toBeDefined();
   });
 });

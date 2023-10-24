@@ -7,7 +7,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {removeAddress} from '../../redux/actions/actions';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
 
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {useThunkDispatch} from '../../helpers/helper';
 
 type RootStackParamList = {
   EditAddress: {address: any};
@@ -47,21 +47,16 @@ const useAddress = () => {
   };
   const fetchData = useCallback(async () => {
     setIsLoading(true);
-    try {
-      dispatch(ListAddress() as any);
-      const data = addressdata;
-      setIsLoading(false);
-      setAddress(data);
-      setCity(data.city);
-      setId(data.id);
-      setStateName(data.state);
-      setaddressLine1(data.addressLine1);
-      setaddressLine2(data.addressLine2);
-      setpostalCode(data.postalCode);
-    } catch (error) {
-      logMessage.error('Error in fetching address ', error);
-      setIsLoading(true);
-    }
+    dispatch(ListAddress() as any);
+    const data = addressdata;
+    setIsLoading(false);
+    setAddress(data);
+    setCity(data.city);
+    setId(data.id);
+    setStateName(data.state);
+    setaddressLine1(data.addressLine1);
+    setaddressLine2(data.addressLine2);
+    setpostalCode(data.postalCode);
   }, [id, city, state, country, postalCode, addressLine1, addressLine2]);
 
   useEffect(() => {

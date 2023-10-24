@@ -13,11 +13,9 @@ import colors from 'constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import firebase from '../../utils/firebase';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 import {logger} from 'react-native-logs';
 import {defaultConfig} from '../../helpers/helper';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   OtpScreen: undefined;
@@ -49,44 +47,13 @@ const useLoginscreen = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-
-  const storeFCMToken = async (Dtoken: string) => {
-    try {
-      await asyncStorageWrapper.setItem('fcmToken', Dtoken);
-    } catch (error) {
-      logMessage.error('Error storing FCM token:', error);
-    }
-  };
-  const onTokenRefresh = async (DnewToken: string) => {
-    try {
-      const storedToken = await asyncStorageWrapper.getItem('fcmToken');
-      if (storedToken !== DnewToken) {
-        await storeFCMToken(DnewToken);
-      }
-    } catch (error) {
-      logMessage.error('Error handling FCM token refresh:', error);
-    }
-  };
-  const requestFCMPermission = async () => {
-    try {
-      await firebase?.messaging()?.requestPermission();
-      const Dtoken = await firebase?.messaging()?.getToken();
-      onTokenRefresh(Dtoken);
-    } catch (error) {
-      logMessage.error('Error requesting FCM permission:', error);
-    }
-  };
-  const backgroundMessageHandler = async (remoteMessage: string) => {
-    logMessage.error('FCM background message:', remoteMessage);
+  let Fcm_token: string;
+  const getFCMToken = async () => {
+    Fcm_token = await messaging()?.getToken();
   };
   useEffect(() => {
-    requestFCMPermission();
-    firebase?.messaging()?.onTokenRefresh(onTokenRefresh);
-    firebase
-      ?.messaging()
-      ?.setBackgroundMessageHandler(backgroundMessageHandler);
+    getFCMToken();
   }, []);
-
   const handleErrorResponse = (error: number) => {
     if (error === 401) {
       logMessage.error('error triggered with 401');
@@ -99,22 +66,16 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
-    const Fcm_token = await messaging().getToken();
-    await asyncStorageWrapper.setItem('device_token', Fcm_token);
-    try {
-      const token = await asyncStorageWrapper.getItem('fcmToken');
-      const credentials = {
-        email: formik.values.email,
-        password: formik.values.password,
-        deviceToken: token,
-      };
-      const response = await dispatch(postLogin(credentials));
-      logMessage.info('response of HandleLogin', response);
-      loginEvent();
-      dispatch(fetchUserProducts({pageSize}));
-    } catch (error) {
-      logMessage.error('error recieved during login');
-    }
+    console.log(Fcm_token);
+    const credentials = {
+      email: formik.values.email,
+      password: formik.values.password,
+      deviceToken: Fcm_token,
+    };
+    const response = await dispatch(postLogin(credentials));
+    logMessage.info('response of HandleLogin', response);
+    loginEvent();
+    dispatch(fetchUserProducts({pageSize}));
   };
   const handleOtpScreen = () => {
     navigation.navigate('OtpScreen');
@@ -148,9 +109,6 @@ const useLoginscreen = () => {
     setPasswordError,
     colorScheme,
     handleOtpScreen,
-    storeFCMToken,
-    onTokenRefresh,
-    requestFCMPermission,
     handleSignUp,
     handleLoginScreen,
     passwordVisible,

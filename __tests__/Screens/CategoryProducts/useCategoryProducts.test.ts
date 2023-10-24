@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {renderHook} from '@testing-library/react-native';
-import {useDispatch, useSelector} from 'react-redux';
-import useCategory from 'screens/Category/useCategory';
+import {act, renderHook} from '@testing-library/react-native';
+import {useDispatch} from 'react-redux';
+import useCategoryProducts from 'screens/CategoryProducts/useCategoryProducts';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -18,6 +18,7 @@ jest.mock('../../../src/helpers/helper', () => ({
     error: jest.fn(),
   },
 }));
+jest.mock('network/network');
 jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
@@ -41,50 +42,95 @@ const configureDispatch = () => {
 };
 describe('useOwnerEditprofile', () => {
   const mockDispatch = configureDispatch();
-  jest.mock(
-    '../../../src/screens/Ownereditprofile/useOwnerEditProfileCustomHook',
-    () => () => ({
-      firstName: 'John',
-      setFirstName: jest.fn(),
-      lastName: 'Doe',
-      setLastName: jest.fn(),
-      email: 'john.doe@example.com',
-      showModal: false,
-      closeModal: jest.fn(),
-      setEmail: jest.fn(),
-      phoneNumber: '1234567890',
-      setPhoneNumber: jest.fn(),
-      handleUpdate: jest.fn(),
-      isLoading: false,
-    }),
-  );
+  const mockedData = [
+    {
+      availableQuantities: 0,
+      brand: 'MockBrand',
+      categoryIds: [1],
+      color: 'MockColor',
+      description: 'MockDescription',
+      disabled: true,
+      disabledQuantities: 0,
+      id: 1,
+      imageUrl: ['https://example.com/mock-image.jpg'],
+      material: 'MockMaterial',
+      name: 'MockProduct',
+      price: 10.99,
+      rentedQuantities: 0,
+      size: 'MockSize',
+      subcategoryIds: [2],
+      totalQuantity: 100,
+    },
+    {
+      availableQuantities: 3,
+      brand: 'MockBrand 2',
+      categoryIds: [1],
+      color: 'MockColor 2',
+      description: 'MockDescription2',
+      disabled: true,
+      disabledQuantities: 0,
+      id: 1,
+      imageUrl: ['https://example.com/mock-image.jpg'],
+      material: 'MockMaterial',
+      name: 'MockProduct 2',
+      price: 10.99,
+      rentedQuantities: 0,
+      size: 'MockSize',
+      subcategoryIds: [2],
+      totalQuantity: 100,
+    },
+  ];
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
-    (useSelector as jest.Mock).mockImplementation(
-      (selector: (arg0: {category: {data: {}; loading: boolean}}) => any) =>
-        selector({
-          category: {data: {}, loading: false},
-        }),
-    );
-    // Clear AsyncStorage before each test
     AsyncStorage.clear();
   });
   afterEach(() => {
     jest.resetAllMocks();
   });
-  it('should navigate to Subcategory and dispatch getsubcategoryData', () => {
-    const {result} = renderHook(() => useCategory());
+  it('should remove an item from the wishlist', () => {
+    const {result} = renderHook(() => useCategoryProducts(1)); // Provide an initial subcategoryId
+    const initialWishlist = [1, 2, 3]; // An initial wishlist with items 1, 2, and 3
 
-    // Mock categoryId
-    const categoryId = '123';
+    // Set the initial wishlist
+    act(() => {
+      result.current.setWishlistList(initialWishlist);
+    });
 
-    // Call the handleCategoryData function
-    result.current.handleCategoryData(categoryId);
+    act(() => {
+      result.current.setSubcategories(mockedData as any);
+    });
 
-    // Check if navigation.navigate is called correctly
-    expect(mockNav).toHaveBeenCalledWith('Subcategory', {categoryId});
+    const itemIdToRemove = 2; // Item to remove from the wishlist
 
-    // Check if dispatch is called with the correct action and payload
-    expect(mockDispatch).toHaveBeenCalledTimes(2);
+    // Call toggleWishlist to remove the item
+    act(() => {
+      result.current.toggleWishlist(itemIdToRemove);
+    });
+
+    // Verify that the item has been removed from the wishlist
+    expect(result.current.wishlistList).not.toContain(itemIdToRemove);
+  });
+  it('should add an item to the wishlist', () => {
+    const {result} = renderHook(() => useCategoryProducts(1)); // Provide an initial subcategoryId
+    const initialWishlist = [2, 3]; // An initial wishlist with items 2 and 3
+
+    // Set the initial wishlist
+    act(() => {
+      result.current.setWishlistList(initialWishlist);
+    });
+
+    const itemIdToAdd = 1; // Item to add to the wishlist
+    act(() => {
+      result.current.setSubcategories(mockedData as any);
+    });
+
+    // Call toggleWishlist to add the item
+    act(() => {
+      result.current.toggleWishlist(itemIdToAdd);
+    });
+
+    // Verify that the item has been added to the wishlist
+    expect(result.current.wishlistList).toContain(itemIdToAdd);
+    expect(mockDispatch).toHaveBeenCalled();
   });
 });

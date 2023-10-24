@@ -95,9 +95,7 @@ const Homescreen = ({navigation}: Props) => {
                 style={[style.searchInputContainer, getTextColor()]}>
                 <TextInput
                   placeholder="Search"
-                  placeholderTextColor={
-                    colorScheme === 'dark' ? Colors.white : Colors.black
-                  }
+                  placeholderTextColor={placeholderTextColor}
                   style={{
                     borderRadius: 40,
                     fontFamily: 'Poppins-Regular',

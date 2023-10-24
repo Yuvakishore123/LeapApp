@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useContext} from 'react';
 import {View, Text, TouchableOpacity, FlatList} from 'react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
@@ -8,11 +8,9 @@ import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
 
 import useAddress from 'screens/Owneraddaddress/useAddress';
-import useCart from 'screens/Cart/useCart';
 
-import Colors from 'constants/colors';
-import Styles from 'constants/themeColors';
 import style from './AddressStyles';
+import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 const Address = () => {
   const {
@@ -24,28 +22,15 @@ const Address = () => {
     isloading,
     addressdata,
   } = useAddress();
-  const {colorScheme} = useCart();
+  const {getContainerStyle, getTextColor, getTextInputStyle} =
+    useContext(ColorSchemeContext);
   const renderAddressItem = ({item}: {item: any; index: number}) => {
     return (
-      <View
-        style={[
-          style.card,
-          colorScheme === 'dark' ? Styles.cardColor : Styles.main,
-        ]}>
+      <View style={[style.card, getTextInputStyle()]}>
         <View>
-          <Text
-            style={[
-              style.city,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
-            Address:
-          </Text>
+          <Text style={[style.city, getTextColor()]}>Address:</Text>
           <View style={style.AdresstextContainer}>
-            <Text
-              style={[
-                style.input,
-                colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-              ]}>
+            <Text style={[style.input, getTextColor()]}>
               {item.addressLine1}, {item.addressLine2}, {item.postalCode},{' '}
               {item.city}, {item.state}, {item.country}
             </Text>
@@ -55,11 +40,7 @@ const Address = () => {
           <TouchableOpacity
             onPress={() => handleEditItems(item)}
             testID="edit-button">
-            <MaterialIcons
-              name="edit"
-              size={25}
-              color={colorScheme === 'dark' ? Colors.white : Colors.black}
-            />
+            <MaterialIcons name="edit" size={25} color={getTextColor()} />
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => handleDeleteAddress(item.id)}
@@ -77,14 +58,10 @@ const Address = () => {
   };
 
   return (
-    <View
-      style={[
-        style.maincontainer,
-        colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-      ]}>
+    <View style={[style.maincontainer, getContainerStyle()]}>
       <HeadingText message="Address" navigation={undefined} />
       {isloading ? (
-        <View>
+        <View testID="loading-container">
           <Lottie
             source={require('../../../assets/addressloadingstatetwo.json')}
             autoPlay
@@ -105,7 +82,7 @@ const Address = () => {
             <Text style={style.btnaddText}>Add Address</Text>
           </TouchableOpacity>
           {addressdata && addressdata.length === 0 ? (
-            <View style={style.noAddressContainer1}>
+            <View style={style.noAddressContainer1} testID="empty-state">
               <View style={style.titleTextContainer1}>
                 <Lottie
                   autoPlay

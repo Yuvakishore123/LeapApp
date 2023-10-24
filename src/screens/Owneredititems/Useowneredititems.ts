@@ -311,20 +311,16 @@ const Useowneredititems = () => {
     }
   };
   const handleDisablebutton = async (id: any, disableQuantity: number) => {
-    try {
-      if (disableQuantity <= productQuantity) {
-        const response = await ApiService.get(
-          `${disableProductUrl}${id}&quantity=${disableQuantity}`,
-        );
-        logMessage.info('handleDisablebutton in useOwneritems', response);
-        setOutofstock(true);
-        fetchData();
-        setRefreshData(true);
-      } else {
-        logMessage.error('Invalid disable quantity');
-      }
-    } catch (error) {
-      logMessage.error('product enable Error', error);
+    if (disableQuantity <= productQuantity) {
+      const response = await ApiService.get(
+        `${disableProductUrl}${id}&quantity=${disableQuantity}`,
+      );
+      logMessage.info('handleDisablebutton in useOwneritems', response);
+      setOutofstock(true);
+      fetchData();
+      setRefreshData(true);
+    } else {
+      logMessage.error('Invalid disable quantity');
     }
     setIsModalVisible(false);
   };
@@ -334,20 +330,16 @@ const Useowneredititems = () => {
     enableQuantity: number,
     disabledQuantity: number,
   ) => {
-    try {
-      if (enableQuantity <= disabledQuantity) {
-        const response = await ApiService.get(
-          `${enableProductUrl}${id}&quantity=${enableQuantity}`,
-        );
-        logMessage.info('handleEnablebutton in useOwneritems', response);
-        setOutofstock(true);
-        fetchData();
-        setRefreshData(prevRefreshData => !prevRefreshData);
-      } else {
-        logMessage.error('Invalid enable quantity');
-      }
-    } catch (error) {
-      logMessage.error('product disable Error', error);
+    if (enableQuantity <= disabledQuantity) {
+      const response = await ApiService.get(
+        `${enableProductUrl}${id}&quantity=${enableQuantity}`,
+      );
+      logMessage.info('handleEnablebutton in useOwneritems', response);
+      setOutofstock(true);
+      fetchData();
+      setRefreshData(prevRefreshData => !prevRefreshData);
+    } else {
+      logMessage.error('Invalid enable quantity');
     }
 
     setIsModalVisible(false);
