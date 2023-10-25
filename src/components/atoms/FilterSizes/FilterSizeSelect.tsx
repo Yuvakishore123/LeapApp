@@ -5,7 +5,6 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Colors from '../../../constants/colors';
-import Styles from '../../../constants/themeColors';
 import styles from './filterstyles';
 
 type FilterSelectSizeProps = {
@@ -20,7 +19,7 @@ const FilterSelectSize = ({
 }: FilterSelectSizeProps) => {
   const [open, setOpen] = useState(false); // State for dropdown open/close
   const dropdownHeight = useRef(new Animated.Value(0)).current; // Animated value for dropdown height
-  const {colorScheme} = useContext(ColorSchemeContext); // Accessing color scheme from context
+  const {getTextColor} = useContext(ColorSchemeContext); // Accessing color scheme from context
   // Function to handle dropdown toggle
   const handleToggle = () => {
     setOpen(!open);
@@ -57,23 +56,14 @@ const FilterSelectSize = ({
       {/* Button to trigger dropdown */}
       <TouchableOpacity
         testID="button"
-        style={[
-          styles.button,
-          colorScheme === 'dark' ? Styles.blacktheme : Styles.whiteTheme,
-        ]}
+        style={[styles.button, getTextColor()]}
         onPress={handleToggle}>
         <View
           style={[
             styles.buttonContainer,
             // colorScheme === 'dark' ? Styles.whiteTheme : Styles.whiteTheme,
           ]}>
-          <Text
-            style={[
-              styles.text,
-              colorScheme === 'dark' ? Styles.whitetext : Styles.blackText,
-            ]}>
-            {selectedSize}
-          </Text>
+          <Text style={[styles.text, getTextColor()]}>{selectedSize}</Text>
           <Ionicons
             name={open ? 'chevron-up-outline' : 'chevron-down-outline'}
             size={20}
