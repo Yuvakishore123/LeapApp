@@ -59,7 +59,7 @@ test('should select the selectDate', () => {
 });
 test('should open toggle Picker ', () => {
   const startDate = new Date('2023-01-01');
-  const endDate = new Date('2023-01-05');
+  const endDate = null;
   const onStartDateChange = jest.fn();
   const onEndDateChange = jest.fn();
   const {getByTestId} = render(
@@ -78,4 +78,25 @@ test('should open toggle Picker ', () => {
   const visibleModal = getByTestId('done-button');
   fireEvent.press(visibleModal);
   expect(visibleModal).toBeDefined();
+});
+test('should clear the dates Picker ', () => {
+  const startDate = new Date('2023-01-02');
+  const endDate = new Date('2023-01-05');
+  const onStartDateChange = jest.fn();
+  const onEndDateChange = jest.fn();
+  const {getByTestId} = render(
+    <AnalyticsDatePicker
+      startDate={startDate}
+      endDate={endDate}
+      onStartDateChange={onStartDateChange}
+      onEndDateChange={onEndDateChange}
+    />,
+  );
+  const togglePicker = getByTestId('end-date-button');
+  expect(togglePicker).toBeDefined();
+  fireEvent.press(togglePicker);
+
+  // After pressing the toggle picker, the modal should be visible
+  const visible = getByTestId('clear-dates');
+  fireEvent.press(visible);
 });

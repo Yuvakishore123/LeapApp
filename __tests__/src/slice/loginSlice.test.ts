@@ -9,6 +9,7 @@ import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import axios from 'axios';
 import AsyncStorageWrapper from '../../../src/utils/asyncStorage';
+import ApiService from 'network/network';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -129,13 +130,23 @@ describe('loginSlice Slice', () => {
     });
   });
   it('should set an error in the state when `setError` action is dispatched', async () => {
-    const error = 'An error occurred while adding the address';
-    store.dispatch(setError(error));
+    const errorMessage = 'Sample error message'; // Replace with the actual error message
+    const errorStatus = 404; // Replace with the desired HTTP error status
+    const mockCredentials = {}; // Replace with your mock credentials if needed
 
-    await store.dispatch(postLogin(credentials)).catch(() => {
+    // Mock the postSignup function to reject with the error object
+    const errorResponse = {
+      response: {
+        status: errorStatus,
+      },
+    };
+    (axios.post as jest.Mock).mockRejectedValue(errorResponse);
+    store.dispatch(setError(errorResponse));
+
+    await store.dispatch(postLogin(mockCredentials)).catch(() => {
       const state = store.getState();
       expect(state.isError).toBe(true); // Error occurred
-      expect(state.error).toEqual(error); // Check the error message
+      expect(state.error).toEqual(errorMessage); // Check the error message
       expect(state.data).toEqual({
         message: '', // You may want to verify the message field too
         status: '',

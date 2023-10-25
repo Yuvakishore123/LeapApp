@@ -9,7 +9,6 @@ import ApiService from '../../network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/apiRoutes';
 import {logMessage, useThunkDispatch} from '../../helpers/helper';
-import AsyncStorageWrapper from '../../utils/asyncStorage';
 
 type RootStackParamList = {
   Additems: undefined;

@@ -89,68 +89,6 @@ describe('Use Login Screens', () => {
     const {result} = renderHook(() => useLoginscreen());
     expect(result).toBeDefined();
   });
-  it('should store fcm Token during login', async () => {
-    // Mock the AsyncStorage getItem and setItem functions
-    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(null);
-    (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue(null);
-
-    const mockToken = 'newToken';
-
-    // Render the hook
-    const {result} = renderHook(() => useLoginscreen());
-
-    // Trigger the onTokenRefresh function
-    await act(async () => {
-      result.current.onTokenRefresh(mockToken);
-    });
-
-    // Verify that getItem and setItem were called with the correct arguments
-    expect(AsyncStorageWrapper.getItem).toHaveBeenCalledWith('fcmToken');
-    expect(AsyncStorageWrapper.setItem).toHaveBeenCalledWith(
-      'fcmToken',
-      mockToken,
-    );
-  });
-  it('should throw error fcm Token during login', async () => {
-    // Mock the AsyncStorageWrapper getItem function to throw an error
-    (AsyncStorageWrapper.getItem as jest.Mock).mockRejectedValue(
-      new Error('AsyncStorage error'),
-    );
-
-    const mockToken = 'newToken';
-
-    // Render the hook
-    const {result} = renderHook(() => useLoginscreen());
-
-    // Trigger the onTokenRefresh function
-    await act(async () => {
-      result.current.onTokenRefresh(mockToken);
-    });
-
-    // Verify that getItem and setItem were called with the correct arguments
-    expect(AsyncStorageWrapper.getItem).toHaveBeenCalledWith('fcmToken');
-    expect(AsyncStorageWrapper.setItem).not.toHaveBeenCalled(); // Ensure setItem is not called
-  });
-  it('should store fcm Token  login', async () => {
-    // Mock the AsyncStorage getItem and setItem functions
-    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue(null);
-    (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue(null);
-
-    const mockToken = 'newToken';
-
-    // Render the hook
-    const {result} = renderHook(() => useLoginscreen());
-
-    // Trigger the onTokenRefresh function
-    await act(async () => {
-      result.current.storeFCMToken(mockToken);
-    });
-
-    expect(AsyncStorageWrapper.setItem).toHaveBeenCalledWith(
-      'fcmToken',
-      mockToken,
-    );
-  });
 
   it('should show modal when incorrect details are given', async () => {
     const isError = 401;
@@ -188,43 +126,5 @@ describe('Use Login Screens', () => {
     act(() => {
       result.current.handleLoginScreen(); // You need to call the initialization function
     });
-  });
-  it('should request permission from the Firebase', async () => {
-    const {result} = renderHook(() => useLoginscreen());
-
-    // Verify that Firebase initialization was called
-    act(() => {
-      result.current.requestFCMPermission(); // You need to call the initialization function
-    });
-    (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue('fcmToken');
-  });
-  it('should handle Messsages backGround messages', async () => {
-    const {result} = renderHook(() => useLoginscreen());
-    const message = 'mesage recieved';
-
-    // Verify that Firebase initialization was called
-    act(() => {
-      result.current.backgroundMessageHandler(message); // You need to call the initialization function
-    });
-  });
-  it('should remove if not getting', async () => {
-    // Mock the AsyncStorage getItem and setItem functions
-    (AsyncStorageWrapper.getItem as jest.Mock).mockRejectedValue(null);
-    (AsyncStorageWrapper.setItem as jest.Mock).mockRejectedValue(null);
-
-    const mockToken = '';
-
-    // Render the hook
-    const {result} = renderHook(() => useLoginscreen());
-
-    // Trigger the onTokenRefresh function
-    await act(async () => {
-      result.current.storeFCMToken(mockToken);
-    });
-
-    expect(AsyncStorageWrapper.setItem).toHaveBeenCalledWith(
-      'fcmToken',
-      mockToken,
-    );
   });
 });

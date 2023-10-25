@@ -10,7 +10,6 @@ import {
 import styles from 'screens/Home/homeStyles';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from 'constants/themeColors';
 
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchCategoriesData} from '../../redux/slice/categorySlice';
@@ -19,7 +18,7 @@ import {useNavigationProp} from '../../helpers/helper';
 const Carousal = () => {
   const {navigation} = useNavigationProp();
   const SCREEN_WIDTH = Dimensions.get('window').width;
-  const {colorScheme, getTextColor} = useContext(ColorSchemeContext);
+  const {getTextColor} = useContext(ColorSchemeContext);
   const data = useSelector(
     (state: {category: {data: any}}) => state.category.data,
   );

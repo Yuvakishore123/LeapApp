@@ -2,6 +2,7 @@ import reducer, {
   CategoryProductState,
   fetchCategoriesProductsdata,
   setData,
+  setError,
 } from '../../../src/redux/slice/categoryProductsSlice';
 
 import {ThunkMiddleware} from 'redux-thunk';
@@ -84,6 +85,7 @@ describe('Category ProductsSlice', () => {
 
     // Dispatch the FliterAnalyticslist action with your mockItem
     await store.dispatch(fetchCategoriesProductsdata(mockId));
+    store.dispatch(setData(mockData));
 
     // Get the state after the action is fulfilled
     const state = store.getState().categoryProduct as CategoryProductState;
@@ -116,6 +118,7 @@ describe('Category ProductsSlice', () => {
   it('should set an error in the state when `setError` action is dispatched', () => {
     const error = 'An error occurred while fetching Data';
     jest.spyOn(ApiService, 'get').mockRejectedValueOnce(error);
+    store.dispatch(setError(error));
     store.dispatch(fetchCategoriesProductsdata(mockId)).catch(() => {
       const state = store.getState().categoryProduct as CategoryProductState;
       expect(state.isLoader).toBe(false);

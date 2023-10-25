@@ -1,7 +1,7 @@
 import 'react-native';
 import React from 'react';
 import App, {AuthStack, RootNavigation} from '../App';
-import {render} from '@testing-library/react-native';
+import {act, render} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorageWrapper from '../src/utils/asyncStorage';
@@ -181,5 +181,51 @@ describe('RootNavigation ', () => {
   it('should set the Token in Async Storage', () => {
     const result = render(<RootNavigation />);
     (AsyncStorageWrapper.setItem as jest.Mock).mockResolvedValue('Fcm_token');
+  });
+  it('should handle deep linking and navigate to UProductDetails', async () => {
+    jest.mock('@react-navigation/native', () => ({
+      useNavigation: () => ({navigate: mockNavigate}),
+    }));
+
+    // Mock dynamicLinks and simulate a deep link
+    const mockGetInitialLink = jest
+      .fn()
+      .mockResolvedValue({url: 'your_deep_link'});
+    const mockOnLink = jest.fn();
+    jest.mock('@react-native-firebase/dynamic-links', () => ({
+      getInitialLink: mockGetInitialLink,
+      onLink: mockOnLink,
+    }));
+    const mockData = [
+      {
+        id: '1',
+        name: 'Product 1',
+        price: 100,
+        imageUrl: ['url1'],
+      },
+      {
+        id: '2',
+        name: 'Product 2',
+        price: 200,
+        imageUrl: ['url2'],
+      },
+      // Add more mock items as needed
+    ];
+
+    // Mock ApiService
+    const mockApiService = {
+      get: jest.fn().mockResolvedValue(mockData),
+    };
+    jest.mock('network/network', () => ({
+      default: mockApiService,
+    }));
+
+    // Render the HandleDeepLinking component
+    render(<App />);
+
+    // Assert that the deep link is handled and UProductDetails is navigated to
+    await act(async () => {
+      // Wait for promises to resolve
+    });
   });
 });

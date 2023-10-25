@@ -18,6 +18,9 @@ const useProductdetails = (product: {
   const isData = useSelector(
     (state: {cartAdd: {data: any}}) => state.cartAdd.data,
   );
+  const isError = useSelector(
+    (state: {cartAdd: {isError: boolean}}) => state.cartAdd.isError,
+  );
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -56,12 +59,8 @@ const useProductdetails = (product: {
       rentalStartDate: rentalStartDate.toISOString(),
     };
     dispatch(CartAdd(Item));
-    if (isData.status === 400) {
-      opennModal();
-    } else {
-      openModal();
-    }
   };
+
   const openModal = () => {
     setShowModal(true);
   };
@@ -107,18 +106,13 @@ const useProductdetails = (product: {
     }
   };
   const shareProduct = async () => {
-    try {
-      const getLink = await generateLink();
-      if (getLink) {
-        Share.share({
-          message: getLink,
-        });
-      } else {
-        showToast();
-      }
-    } catch (error) {
-      console.log(error);
-      errorToast();
+    const getLink = await generateLink();
+    if (getLink) {
+      Share.share({
+        message: getLink,
+      });
+    } else {
+      showToast();
     }
   };
   const scrollToNextImage = useCallback(() => {
@@ -159,6 +153,14 @@ const useProductdetails = (product: {
       text1: 'An error occurred while sharing the product. Please try again.',
       type: 'error',
     });
+  };
+  useEffect(() => {
+    handleError();
+  }, [isError]);
+  const handleError = () => {
+    if (isError) {
+      opennModal();
+    }
   };
 
   const handleScroll = () => {
@@ -203,7 +205,9 @@ const useProductdetails = (product: {
     handlegoBack,
     openModal,
     opennModal,
+    handleError,
     isData,
+    errorToast,
   };
 };
 

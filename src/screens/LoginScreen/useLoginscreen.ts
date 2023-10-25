@@ -12,11 +12,11 @@ import colors from 'constants/colors';
 import {postLogin} from '../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
 
-import messaging, {firebase} from '@react-native-firebase/messaging';
+import messaging from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 
 import {logMessage} from '../../helpers/helper';
-import AsyncStorageWrapper from '../..//utils/asyncStorage';
+
 import {StatusCodes} from '../../utils/statusCodes';
 
 type RootStackParamList = {
@@ -51,55 +51,14 @@ const useLoginscreen = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  const onTokenRefresh = async (DnewToken: string) => {
-    try {
-      const storedToken = await AsyncStorageWrapper.getItem('fcmToken');
-      if (storedToken !== DnewToken) {
-        await storeFCMToken(DnewToken);
-      }
-    } catch (error) {
-      log.error('Error handling FCM token refresh:', error);
-    }
-  };
-  const storeFCMToken = async (Dtoken: string) => {
-    try {
-      await AsyncStorageWrapper.setItem('fcmToken', Dtoken);
-    } catch (error) {
-      log.error('Error storing FCM token:', error);
-    }
-  };
-  const requestFCMPermission = async () => {
-    try {
-      await firebase.messaging().requestPermission();
-      const Dtoken = await firebase.messaging().getToken();
-      onTokenRefresh(Dtoken);
-    } catch (error) {
-      log.error('Error requesting FCM permission:', error);
-    }
-  };
-  const backgroundMessageHandler = async (remoteMessage: string) => {
-    log.info('FCM background message:', remoteMessage);
+
+  let Fcm_token: string;
+  const getToken = async () => {
+    Fcm_token = await messaging()?.getToken();
   };
 
   useEffect(() => {
-    const googleApiKey = process.env.GOOGLE_API_KEY;
-
-    if (firebase?.apps?.length === 0) {
-      firebase.initializeApp({
-        apiKey: googleApiKey,
-        authDomain: 'In-App Messaging.firebase.com',
-        databaseURL:
-          'https://in-app-messaging-feed0-default-rtdb.firebaseio.com/',
-        projectId: 'in-app-messaging-feed0',
-        storageBucket: 'in-app-messaging-feed0.appspot.com',
-        messagingSenderId: '280824523367',
-        appId: '1:280824523367:android:5d9cfd3fae3dc9e65b02c2',
-      });
-    }
-
-    requestFCMPermission();
-    firebase?.messaging()?.onTokenRefresh(onTokenRefresh);
-    firebase?.messaging().setBackgroundMessageHandler(backgroundMessageHandler);
+    getToken();
   }, []);
 
   const handleErrorResponse = (error: number) => {
@@ -113,13 +72,12 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
-    const Fcm_token = await messaging()?.getToken();
-    await AsyncStorageWrapper.setItem('device_token', Fcm_token);
-    const token = await AsyncStorageWrapper.getItem('fcmToken');
+    console.log(Fcm_token, 'hello');
+
     const credentials = {
       email: formik.values.email,
       password: formik.values.password,
-      deviceToken: token,
+      deviceToken: Fcm_token,
     };
     dispatch(postLogin(credentials) as any);
     loginEvent();
@@ -165,12 +123,12 @@ const useLoginscreen = () => {
 
     setPasswordVisible,
 
-    onTokenRefresh,
-    storeFCMToken,
+    // onTokenRefresh,
+    // storeFCMToken,
     loginEvent,
     handleErrorResponse,
-    backgroundMessageHandler,
-    requestFCMPermission,
+    // backgroundMessageHandler,
+    // requestFCMPermission,
   };
 };
 export default useLoginscreen;

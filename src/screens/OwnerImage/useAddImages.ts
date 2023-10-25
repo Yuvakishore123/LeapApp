@@ -1,7 +1,7 @@
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import * as Yup from 'yup';
-import {SetStateAction, useEffect, useState} from 'react';
+import {SetStateAction, useState} from 'react';
 
 import {useFormik} from 'formik';
 

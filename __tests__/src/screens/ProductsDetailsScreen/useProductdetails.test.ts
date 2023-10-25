@@ -3,6 +3,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import useProductdetails from '../../../../src/screens/UProductDetails/useProductdetails';
+import Toast from 'react-native-toast-message';
 
 const mockNav = jest.fn();
 
@@ -119,30 +120,6 @@ describe('useProductdetails', () => {
     expect(result.current.quantity).toBe(6);
     expect(result.current.isMinusDisabled).toBe(false);
   });
-  it('should  add data to the cart', () => {
-    const mockSelector = state => ({CartAdd: {data: mockedData}});
-    useSelector.mockImplementation(mockSelector);
-
-    const {result} = renderHook(() => useProductdetails(mockProduct));
-    act(() => {
-      result.current.handleSubmit();
-    });
-    expect(dispatchMock).toBeCalled();
-    const data = result.current.isData;
-
-    if (data?.status === 400) {
-      expect(result.current.opennModal).toBeCalled();
-    }
-  });
-  it('should open modal', () => {
-    const {result} = renderHook(() => useProductdetails(mockProduct));
-    expect(result.current.showwModal).toBe(false);
-    act(() => {
-      result.current.opennModal();
-    });
-
-    expect(result.current.showwModal).toBe(true);
-  });
   it('should close modal', () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));
     expect(result.current.showwModal).toBe(false);
@@ -160,6 +137,23 @@ describe('useProductdetails', () => {
 
     expect(result.current.showModal).toBe(false);
   });
+  it('should  add data to the cart', () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    act(() => {
+      result.current.handleSubmit();
+    });
+    expect(dispatchMock).toBeCalled();
+  });
+  it('should open modal', () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    expect(result.current.showwModal).toBe(false);
+    act(() => {
+      result.current.opennModal();
+    });
+
+    expect(result.current.showwModal).toBe(true);
+  });
+
   it('should generate a short link', async () => {
     // Create a mock link
     const mockLink = 'https://mocked-short-link.com';
@@ -233,5 +227,41 @@ describe('useProductdetails', () => {
       result.current.handlegoBack();
     });
     expect(mockGoBack).toBeCalled();
+  });
+  it('should handle the error  ', async () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    useSelector.mockImplementation(selector =>
+      selector({
+        cartAdd: {
+          data: [],
+          isError: true,
+        },
+      }),
+    );
+
+    await act(async () => {
+      result.current.handleError();
+    });
+    expect(result.current.showwModal).toBe(true);
+  });
+  it('should show toast  ', async () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    const toastShowMock = jest.spyOn(Toast, 'show');
+
+    await act(async () => {
+      result.current.errorToast();
+    });
+    await waitFor(() => {
+      expect(toastShowMock).toHaveBeenCalledWith({
+        type: 'error',
+        text1: 'An error occurred while sharing the product. Please try again.',
+      });
+    });
+  });
+  it('Should open the modal', () => {
+    const {result} = renderHook(() => useProductdetails(mockProduct));
+    act(() => {
+      result.current.openModal();
+    });
   });
 });

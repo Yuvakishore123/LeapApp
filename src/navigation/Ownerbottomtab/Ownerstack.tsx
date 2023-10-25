@@ -192,6 +192,7 @@ const Ownerstack = () => {
             backgroundColor: tabBarBackgroundColor,
             height: '7%',
           },
+          tabBarTestID: 'AddItems',
           tabBarIcon: ({focused, color}) => {
             if (!isFocused) return null;
 
@@ -255,6 +256,7 @@ const Ownerstack = () => {
             backgroundColor: tabBarBackgroundColor,
             height: '7%',
           },
+          tabBarTestID: 'RentalStatus',
           tabBarIcon: ({focused, color}) => {
             if (!isFocused) return null;
 

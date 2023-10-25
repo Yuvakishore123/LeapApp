@@ -4,7 +4,7 @@ import ApiService from '../../network/network';
 import {rentedProductsUrl} from '../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 export interface ProductsState {
-  data: any | null; // You can replace 'any' with a specific data type
+  data: null; // You can replace 'any' with a specific data type
   isLoader: boolean;
   isError: boolean;
 }

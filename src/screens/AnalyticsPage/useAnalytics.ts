@@ -1,7 +1,7 @@
 import {useState} from 'react';
 
 import RNFetchBlob from 'rn-fetch-blob';
-import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 
 import {
   Dashboardyearlydata,
@@ -88,7 +88,6 @@ const useAnalytics = () => {
       body: 'PDF file downloaded successfully.',
       android: {
         channelId,
-        // largeIcon: require('../../../assets/Leaps-1.png'),
 
         progress: {
           max: 10,

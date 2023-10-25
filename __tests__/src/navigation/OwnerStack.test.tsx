@@ -114,6 +114,12 @@ describe('MyStack Component', () => {
         Rolereducer: {
           role: 'string',
         },
+        OwnerRentalproducts: {
+          data: [],
+        },
+        GenderReducer: {
+          genderData: 'male',
+        },
       }),
     );
   });
@@ -161,15 +167,37 @@ describe('MyStack Component', () => {
     fireEvent.press(categoryScreen);
     expect(categoryScreen).toBeTruthy();
   });
-  it('renders Wishlist stack without errors', () => {
+  it('renders profileScreen stack without errors', () => {
     const {getByTestId, getByText} = render(
       <NavigationContainer>
         <Ownerstack />
       </NavigationContainer>,
     );
 
-    const WishlistScreen = getByTestId('Profile'); // You can set a testID in your CategoryScreen component
-    fireEvent.press(WishlistScreen);
-    expect(WishlistScreen).toBeTruthy();
+    const profileScreen = getByTestId('Profile'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(profileScreen);
+    expect(profileScreen).toBeTruthy();
+  });
+  it('renders AddItems stack without errors', () => {
+    const {getByTestId, getByText} = render(
+      <NavigationContainer>
+        <Ownerstack />
+      </NavigationContainer>,
+    );
+
+    const AddItem = getByTestId('AddItems'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(AddItem);
+    expect(AddItem).toBeTruthy();
+  });
+  it('renders ownerRental Screen stack without errors', () => {
+    const {getByTestId, getByText} = render(
+      <NavigationContainer>
+        <Ownerstack />
+      </NavigationContainer>,
+    );
+
+    const Rentalstatus = getByTestId('RentalStatus'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(Rentalstatus);
+    expect(Rentalstatus).toBeTruthy();
   });
 });

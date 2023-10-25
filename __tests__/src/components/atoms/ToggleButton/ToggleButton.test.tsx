@@ -4,8 +4,9 @@ import {render, fireEvent} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import Togglebutton from 'components/atoms/Colorscheme/Togglebutton';
-import {ColorSchemeContext} from '../../../../../ColorSchemeContext';
+
 import {ColorSchemeContext as ColorSchemeContextMock} from '../../../../__mocks__/ColorSchemeMock';
+
 jest.mock('../../../../../src/utils/asyncStorage', () => ({
   setItem: jest.fn(),
   getItem: jest.fn(),

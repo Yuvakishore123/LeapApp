@@ -90,17 +90,31 @@ describe('Signup Slice', () => {
       expect(state.error).toEqual(errorMessage);
     });
   });
-  it('should set an error in the state when `setError` action is dispatched', () => {
-    const errorMessage = 404;
-    store.dispatch(setError(errorMessage));
+  it('should set an error in the state when `setError` action is dispatched', async () => {
+    const errorMessage = 'Sample error message'; // Replace with the actual error message
+    const errorStatus = 404; // Replace with the desired HTTP error status
+    const mockCredentials = {}; // Replace with your mock credentials if needed
 
-    store.dispatch(postSignup(mockCredentials)).catch(() => {
+    // Mock the postSignup function to reject with the error object
+    const errorResponse = {
+      response: {
+        status: errorStatus,
+      },
+    };
+    (ApiService.post as jest.Mock).mockRejectedValue(errorResponse);
+
+    // Dispatch the setError action
+    store.dispatch(setError(errorResponse));
+
+    // Dispatch the postSignup action, which should trigger the setError action
+    await store.dispatch(postSignup(mockCredentials)).catch(() => {
       const state = store.getState().postSignup as SigninDataState;
+
       expect(state.isError).toBe(true); // Error occurred
       expect(state.error).toEqual(errorMessage); // Check the error message
       expect(state.data).toEqual({
         message: '', // You may want to verify the message field too
-        status: '',
+        status: errorStatus, // Check the status
       });
       expect(state.isLoader).toBe(false);
     });

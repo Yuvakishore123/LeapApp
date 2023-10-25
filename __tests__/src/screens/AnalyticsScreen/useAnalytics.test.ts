@@ -471,6 +471,18 @@ describe('useAnalytics Screen', () => {
       'base64',
     );
   });
+  it('handle error during exporting Pdf', async () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
+    const {result} = renderHook(() => useAnalytics());
+    const mockError = 'erroor during Api call';
+
+    (axios.get as jest.Mock).mockRejectedValue(mockError);
+
+    // Call the HandleNotification function
+    await act(async () => {
+      await result.current.handleExportpdf();
+    });
+  });
   it('should get the error during fetching Category Data', async () => {
     const {result} = renderHook(() => useAnalytics());
     const mockError = 'error during fetching data';

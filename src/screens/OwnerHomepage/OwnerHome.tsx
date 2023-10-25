@@ -14,7 +14,7 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './OwnerHomestyle';
-import Donut from '../../components/atoms/DonutChart';
+import Donut from '../../components/atoms/DonutChart/DonutChart';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import useOwnerHome from './useOwnerHome';
 

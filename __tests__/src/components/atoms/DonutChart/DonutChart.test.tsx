@@ -1,5 +1,5 @@
-import {act, fireEvent, render, waitFor} from '@testing-library/react-native';
-import Donut from 'components/atoms/DonutChart';
+import {act, fireEvent, render} from '@testing-library/react-native';
+import Donut from 'components/atoms/DonutChart/DonutChart';
 import colors from 'constants/colors';
 
 import React from 'react';
@@ -93,7 +93,16 @@ describe('DonutChart', () => {
     });
 
     // Render the Donut component
-    const {getByTestId} = render(<Donut refreshTrigger={undefined} />);
+    const {getByTestId} = render(
+      <Donut
+        refreshTrigger={undefined}
+        percentage={100}
+        color={colors.white}
+        delay={1000}
+        max={200}
+        textValue="10"
+      />,
+    );
 
     // Perform some action that triggers the animation
     // For example, you might simulate user interaction or component updates
@@ -127,6 +136,7 @@ describe('DonutChart', () => {
         max={200}
         refreshTrigger={true}
         textcolor={colors.white}
+        textValue="10"
       />,
     );
 

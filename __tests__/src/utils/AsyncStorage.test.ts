@@ -1,6 +1,5 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import AsyncStorageWrapper from '../../../src/utils/asyncStorage';
-import {logger} from 'react-native-logs';
 
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),

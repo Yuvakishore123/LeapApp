@@ -211,9 +211,68 @@ describe('MyStack Component', () => {
 
     // Act
     fireEvent.press(categoryTab);
+    expect(categoryTab).toBeDefined();
 
     // Assert
     // Ensure that the tabBarIcon is not in the DOM when not focused
     expect(queryByTestId('categoryTabBarIcon')).toBeNull();
+  });
+  it('renders Home tab with icon ', () => {
+    // Arrange
+    const {getByTestId, queryByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+
+    // Simulate clicking on the Category tab
+    const home = getByTestId('Home-tab'); // Adjust testID as needed
+
+    // Act
+    fireEvent.press(home);
+
+    expect(home).toBeDefined();
+  });
+  it('renders Category stack ', () => {
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+    const categoryScreen = getByTestId('categoryTab'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(categoryScreen);
+    expect(categoryScreen).toBeTruthy();
+  });
+  it('renders Cart stack', () => {
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+    // Simulate clicking on the CategoryScreen tab
+    // Check if the CategoryScreen component renders correctly
+    const categoryScreen = getByTestId('Cart-tab'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(categoryScreen);
+    expect(categoryScreen).toBeTruthy();
+  });
+  it('renders Wishlist stack ', () => {
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+    const WishlistScreen = getByTestId('Wishlits-Tab'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(WishlistScreen);
+    expect(WishlistScreen).toBeTruthy();
+  });
+  it('renders ProfileScreen stack ', () => {
+    const {getByTestId} = render(
+      <NavigationContainer>
+        <MyStack />
+      </NavigationContainer>,
+    );
+    const WishlistScreen = getByTestId('Profile-tab'); // You can set a testID in your CategoryScreen component
+    fireEvent.press(WishlistScreen);
+    expect(WishlistScreen).toBeTruthy();
   });
 });

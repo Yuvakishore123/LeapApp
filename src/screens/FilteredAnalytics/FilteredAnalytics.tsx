@@ -13,12 +13,11 @@ const FilteredAnalytics = () => {
     chartData,
     data,
     isLoading,
-    fetchData,
+
     generateKey,
     startDate,
     setStartDate,
     endDate,
-    setEndDate,
 
     navigation,
     handleEndDateChange,

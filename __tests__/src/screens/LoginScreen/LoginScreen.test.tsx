@@ -211,10 +211,10 @@ describe('Login Screen', () => {
     );
     const passwordInput = getByPlaceholderText('Enter password');
     fireEvent.changeText(passwordInput, '');
-    const emailError = getByTestId('password');
+    const passwordError = getByTestId('password');
     fireEvent.changeText(passwordInput, '');
     fireEvent(passwordInput, 'onBlur', {target: {value: ''}});
-    expect(emailError).toBeTruthy();
+    expect(passwordError).toBeTruthy();
   });
   test('Should show the password on clicking eye symbol ', () => {
     const {getByTestId, getByPlaceholderText} = render(

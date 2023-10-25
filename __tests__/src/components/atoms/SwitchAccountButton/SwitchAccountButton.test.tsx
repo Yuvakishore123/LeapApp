@@ -1,7 +1,7 @@
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react-native';
 
-import SwitchAccountButton from 'components/atoms/SwtichAccountButton';
+import SwitchAccountButton from 'components/atoms/SwitchAccountButton/SwtichAccountButton';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import ApiService from 'network/network';
 import AsyncStorageWrapper from '../../../../../src/utils/asyncStorage';
@@ -61,7 +61,7 @@ describe('SwitchAccountButton', () => {
   it('should toggle the option to Owner is pressed', () => {
     useSelector.mockImplementation(selector =>
       selector({
-        Rolereducer: 'Owner',
+        Rolereducer: 'OWNER',
       }),
     );
     const {getByTestId} = render(<SwitchAccountButton />);

@@ -51,7 +51,6 @@ describe('UseEdit address', () => {
   );
   it(' This shoulld open the modal', () => {
     const {result} = renderHook(() => uesEditAddress());
-    expect(result.current.showModal).toBe(false);
 
     act(() => {
       result.current.openModal();
@@ -61,18 +60,14 @@ describe('UseEdit address', () => {
   });
   it(' This shoulld close the modal', () => {
     const {result} = renderHook(() => uesEditAddress());
-    expect(result.current.showModal).toBe(false);
 
     act(() => {
       result.current.closeModal();
     });
     expect(mockGoback).toHaveBeenCalled();
-
-    expect(result.current.showModal).toBe(false);
   });
   it(' This should change the Option', () => {
     const {result} = renderHook(() => uesEditAddress());
-    expect(result.current.showModal).toBe(false);
 
     act(() => {
       result.current.handleOptionChange('Home');

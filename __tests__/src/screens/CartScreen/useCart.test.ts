@@ -1,6 +1,6 @@
 import {renderHook, act} from '@testing-library/react-native';
 
-import {useDispatch} from 'react-redux';
+import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import useCart from '../../../../src/screens/Cart/useCart';
 
 import {fetchCartProducts} from '../../../../src/redux/slice/cartSlice';
@@ -40,8 +40,15 @@ jest.mock('../../../../src/utils/asyncStorage', () => ({
 }));
 describe('useCart', () => {
   const mockDispatch = jest.fn();
+  const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(mockDispatch);
+    useSelector.mockImplementation(selector =>
+      selector({
+        CartProducts: {error: 403},
+        cartUpdate: {error: 404, isLoader: null},
+      }),
+    );
   });
   afterEach(() => {
     jest.clearAllMocks();
@@ -203,7 +210,12 @@ describe('useCart', () => {
     });
   });
   it('should call Show error with the correct parameters when cartError is true', () => {
-    const cartError = true;
+    useSelector.mockImplementation(selector =>
+      selector({
+        CartProducts: {error: 403},
+        cartUpdate: {error: 404, isLoader: null},
+      }),
+    );
 
     const {result} = renderHook(() => useCart());
 

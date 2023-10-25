@@ -254,10 +254,10 @@ describe('AddItems Screen', () => {
   it('should cancel to be called  ', () => {
     (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockedToken');
 
-    const mockResponse = {urls: ['new-image.jpg']};
-    globalThis.fetch = jest.fn().mockResolvedValue({
+    const mockResponse = 'error during uploading';
+    globalThis.fetch = jest.fn().mockRejectedValue({
       json: () => Promise.resolve(mockResponse),
-      ok: true,
+      ok: false,
     });
 
     // Store the initial imageUrls
@@ -280,5 +280,35 @@ describe('AddItems Screen', () => {
 
     // Verify that imageUrls have been updated
     expect(result.current.imageUrls).not.toEqual(initialImageUrls);
+  });
+  it('should cancel to be loading when error is occured  ', () => {
+    (AsyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockedToken');
+
+    const mockResponse = 'error during uploading';
+    globalThis.fetch = jest.fn().mockResolvedValue({
+      json: () => Promise.resolve(mockResponse),
+      ok: false,
+    });
+
+    // Store the initial imageUrls
+
+    const {result} = renderHook(() => useAddImages());
+    const initialImageUrls = result.current.imageUrls;
+    act(() => {
+      result.current.setImageUrls(['image1.jpg', 'image2.jpg', 'image3.jpg']);
+    });
+
+    expect(result.current.imageUrls).toEqual([
+      'image1.jpg',
+      'image2.jpg',
+      'image3.jpg',
+    ]);
+
+    act(() => {
+      result.current.pickImages();
+    });
+
+    // Verify that imageUrls have been updated
+    expect(result.current.isLoading).toBe(true);
   });
 });

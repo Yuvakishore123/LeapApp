@@ -169,8 +169,6 @@ const MyStack = () => {
                   />
                 </View>
               );
-            } else {
-              iconComponent = null;
             }
 
             return iconComponent;
@@ -222,10 +220,7 @@ const MyStack = () => {
                   />
                 </View>
               );
-            } else {
-              iconComponent = null;
             }
-
             return iconComponent;
           },
         })}
@@ -275,10 +270,7 @@ const MyStack = () => {
                   />
                 </View>
               );
-            } else {
-              iconComponent = null;
             }
-
             return iconComponent;
           },
         })}
@@ -328,8 +320,6 @@ const MyStack = () => {
                   />
                 </View>
               );
-            } else {
-              iconComponent = null;
             }
 
             return iconComponent;
@@ -381,8 +371,6 @@ const MyStack = () => {
                   />
                 </View>
               );
-            } else {
-              iconComponent = null;
             }
 
             return iconComponent;

@@ -6,7 +6,7 @@ import {fetchOrderProducts} from '../../redux/slice/orderSlice';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
-import notifee, {AndroidImportance, AndroidColor} from '@notifee/react-native';
+import notifee from '@notifee/react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import {url} from '../../constants/Apis';
 import AsyncStorageWrapper from '../../utils/asyncStorage';
@@ -79,9 +79,8 @@ const useMyOrder = () => {
       id: 'pdf_download_channel1',
       name: 'PDF Download Channel1',
       sound: 'default',
-      // importance: AndroidImportance.HIGH,
+
       lights: true,
-      // lightColor: AndroidColor.RED,
     });
     await notifee.displayNotification({
       title: 'Leaps',
@@ -89,7 +88,7 @@ const useMyOrder = () => {
       android: {
         channelId,
         largeIcon: require('../../../assets/Leaps-1.png'),
-        // lights: [AndroidColor.RED, 300, 600],
+
         progress: {
           max: 10,
           current: 10,

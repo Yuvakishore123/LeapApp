@@ -16,7 +16,7 @@ import {Avatar} from 'react-native-paper';
 
 import style from './ownerProfileStyle';
 import ProfileData from '../Profile/useProfile';
-import SwitchAccountButton from '../../components/atoms/SwtichAccountButton';
+import SwitchAccountButton from '../../components/atoms/SwitchAccountButton/SwtichAccountButton';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 

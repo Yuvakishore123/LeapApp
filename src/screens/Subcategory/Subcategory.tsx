@@ -8,7 +8,6 @@ import styles from './subcategoryStyles';
 import useSubcategory from './useSubcategory';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Styles from '../../constants/themeColors';
 
 interface Subcategory {
   id: string;

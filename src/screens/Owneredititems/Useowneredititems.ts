@@ -286,20 +286,17 @@ const Useowneredititems = () => {
     }
   };
   const handleDisablebutton = async (id: any, disableQuantity: number) => {
-    try {
-      if (disableQuantity <= productQuantity) {
-        await ApiService.get(
-          `${disableProductUrl}${id}&quantity=${disableQuantity}`,
-        );
-        setOutofstock(true);
-        fetchData();
-        setRefreshData(true);
-      } else {
-        log.error('error during fetching disabling quantity');
-      }
-    } catch (error) {
-      log.error('error in disabling quantity');
+    if (disableQuantity <= productQuantity) {
+      await ApiService.get(
+        `${disableProductUrl}${id}&quantity=${disableQuantity}`,
+      );
+      setOutofstock(true);
+      fetchData();
+      setRefreshData(true);
+    } else {
+      log.error('error during fetching disabling quantity');
     }
+
     setIsModalVisible(false);
   };
 
@@ -308,21 +305,16 @@ const Useowneredititems = () => {
     enableQuantity: number,
     disabledQuantity: number,
   ) => {
-    try {
-      if (enableQuantity <= disabledQuantity) {
-        await ApiService.get(
-          `${enableProductUrl}${id}&quantity=${enableQuantity}`,
-        );
-        setOutofstock(true);
-        fetchData();
-        setRefreshData(prevRefreshData => !prevRefreshData);
-      } else {
-        log.error('error in enabling quantity');
-      }
-    } catch (error) {
+    if (enableQuantity <= disabledQuantity) {
+      await ApiService.get(
+        `${enableProductUrl}${id}&quantity=${enableQuantity}`,
+      );
+      setOutofstock(true);
+      fetchData();
+      setRefreshData(prevRefreshData => !prevRefreshData);
+    } else {
       log.error('error in enabling quantity');
     }
-
     setIsModalVisible(false);
   };
 

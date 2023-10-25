@@ -3,6 +3,8 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import useAdditems from 'screens/Additems/useAdditems';
 import {addGenderData} from '../../../../src/redux/actions/actions';
+import ApiService from 'network/network';
+import {setSubcategoryData} from 'src/redux/slice/subcategorySlice';
 
 jest.mock('react-native-skeleton-placeholder', () => {
   const mockSkeletonPlaceholder = jest.fn();
@@ -20,6 +22,7 @@ jest.mock('@react-native-firebase/messaging', () =>
 jest.mock('@react-native-firebase/crashlytics', () =>
   require('react-native-firebase-mock'),
 );
+jest.mock('network/network');
 jest.mock('@react-native-firebase/messaging', () => {
   return {
     __esModule: true,
@@ -53,14 +56,18 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 describe('AddItems Screen', () => {
+  const mockSubcategoryData = [
+    {id: 1, subcategoryName: 'Subcategory 1'},
+    {id: 2, subcategoryName: 'Subcategory 2'},
+  ];
   const dispatchMock = jest.fn(); // Create a mock function
   const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {
     (useDispatch as jest.Mock).mockReturnValue(dispatchMock);
     useSelector.mockImplementation(selector =>
       selector({
-        category: {data: {}},
-        GenderReducer: {data: {}},
+        category: {data: null},
+        GenderReducer: {data: null},
       }),
     );
   });
@@ -130,5 +137,30 @@ describe('AddItems Screen', () => {
     expect(dispatchMock).toHaveBeenCalled();
 
     expect(mockNav).toHaveBeenCalledWith('OwnerImage');
+  });
+  it('should fetch the categories data', () => {
+    const mockcategoryData = [
+      {id: 1, subcategoryName: 'Subcategory 1'},
+      {id: 2, subcategoryName: 'Subcategory 2'},
+    ];
+
+    const {result} = renderHook(() => useAdditems());
+    act(() => {
+      result.current.setCategoriesData([]);
+    });
+    act(() => {
+      result.current.fetchSubCategoryData();
+    });
+
+    useSelector.mockImplementation(selector =>
+      selector({
+        category: {data: mockcategoryData},
+        GenderReducer: {data: null},
+      }),
+    );
+    act(() => {
+      result.current.setCategoriesData(mockcategoryData);
+    });
+    expect(result.current.categoriesData).toStrictEqual(mockSubcategoryData);
   });
 });

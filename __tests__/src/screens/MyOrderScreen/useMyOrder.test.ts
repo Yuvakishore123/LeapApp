@@ -176,9 +176,8 @@ describe('useCheckout', () => {
       id: 'pdf_download_channel1',
       name: 'PDF Download Channel1',
       sound: 'default',
-      //   importance: AndroidImportance.HIGH, // Access directly
+
       lights: true,
-      //   lightColor: AndroidColor.RED, // Access directly
     });
   });
   it('should export the pdf', async () => {

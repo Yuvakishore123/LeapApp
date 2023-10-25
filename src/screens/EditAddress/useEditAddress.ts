@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
 import colors from '../../constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
@@ -7,7 +7,7 @@ import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {editAddressData} from '../../redux/slice/editAddressSlice';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
-import {logMessage} from 'helpers/helper';
+
 const useEditAddress = () => {
   const navigation = useNavigation();
 
@@ -32,7 +32,7 @@ const useEditAddress = () => {
     colorScheme === 'dark' ? colors.white : colors.black,
   );
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
-  const {log} = logMessage();
+
   const openModal = () => {
     dispatch(ListAddress());
     setShowModal(true);
@@ -63,12 +63,16 @@ const useEditAddress = () => {
       defaultType: isChecked,
     };
     dispatch(editAddressData({updateaddress, addressid}));
-
+  };
+  const handleResponse = () => {
     if (response) {
       setIsLoading(false);
       openModal();
     }
   };
+  useEffect(() => {
+    handleResponse();
+  });
 
   const [PlaceholderColor, _setPlaceholderColor] = useState(
     colorScheme === 'dark' ? colors.Textinput : colors.black,

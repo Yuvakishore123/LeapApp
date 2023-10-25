@@ -8,7 +8,6 @@ import {
   ImageBackground,
   TouchableOpacity,
   ScrollView,
-  Image,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Share from 'react-native-vector-icons/MaterialCommunityIcons';
@@ -21,7 +20,6 @@ import useProductdetails from './useProductdetails';
 import * as Animatable from 'react-native-animatable';
 import {RouteProp} from '@react-navigation/native';
 
-import Colors from 'constants/colors';
 import styles from './UProductDetailsStyle';
 import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
 import Toast from 'react-native-toast-message';
@@ -54,8 +52,7 @@ export default function UDetailScreen({route}: Props) {
     isPlusDisabled,
     handleDecrement,
     handleIncrement,
-    imageLoaded,
-    setImageLoaded,
+
     handleSubmit,
     closeModal,
     closeeModal,

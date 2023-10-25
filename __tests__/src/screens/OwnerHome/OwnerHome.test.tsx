@@ -8,7 +8,7 @@ import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import OwnerHome from 'screens/OwnerHomepage/OwnerHome';
 import useOwnerHome from 'screens/OwnerHomepage/useOwnerHome';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
-import Donut from 'components/atoms/DonutChart';
+import Donut from 'components/atoms/DonutChart/DonutChart';
 
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));

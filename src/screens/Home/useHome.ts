@@ -9,7 +9,6 @@ import Colors from 'constants/colors';
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../helpers/helper';
-import inAppMessaging from '@react-native-firebase/in-app-messaging';
 
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);

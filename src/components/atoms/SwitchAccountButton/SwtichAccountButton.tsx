@@ -1,69 +1,19 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
-import {setRole} from '../../redux/actions/actions';
-import {useDispatch, useSelector} from 'react-redux';
-import {StyleSheet, Text, TouchableOpacity, View, Animated} from 'react-native';
-import Colors from '../../constants/colors';
-import IonIcon from 'react-native-vector-icons/Ionicons';
+import React from 'react';
 
-import {url} from '../../constants/Apis';
-import ApiService from '../../network/network';
-import {logMessage} from 'helpers/helper';
-import AsyncStorageWrapper from '../../utils/asyncStorage';
+import {StyleSheet, Text, TouchableOpacity, View, Animated} from 'react-native';
+import Colors from '../../../constants/colors';
+import IonIcon from 'react-native-vector-icons/Ionicons';
+import useSwitchButton from './useSwitchAccontButton';
 
 const SwitchAccountButton = () => {
-  const [showOptions, setShowOptions] = useState(false);
-  const dispatch = useDispatch();
-  const userType = useSelector((state: any) => state.Rolereducer.role);
-  const [accountType, setAccountType] = useState('');
-  const {log} = logMessage();
-  console.log(userType);
-
-  const buttonAnimation = useState(new Animated.Value(0))[0];
-  const optionsAnimation = useState(new Animated.Value(0))[0];
-
-  useEffect(() => {
-    setAccountType(userType === 'OWNER' ? 'Owner' : 'Borrower');
-  }, [userType]);
-
-  const handlePress = () => {
-    setShowOptions(!showOptions);
-    Animated.timing(buttonAnimation, {
-      toValue: showOptions ? 0 : 1,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-    Animated.timing(optionsAnimation, {
-      toValue: showOptions ? 0 : 1,
-      duration: 300,
-      useNativeDriver: false,
-    }).start();
-  };
-
-  const handleOptionPress = async (option: string) => {
-    try {
-      setShowOptions(false);
-
-      const response = await ApiService.post(
-        `${url}/user/switch?profile=${option}`,
-        null,
-      );
-
-      if (response.status === 200) {
-        const newToken = response.headers.access_token;
-        await AsyncStorageWrapper.removeItem('token');
-        await AsyncStorageWrapper.setItem('token', newToken);
-
-        dispatch(setRole(option));
-        setAccountType(option === 'OWNER' ? 'Owner' : 'Borrower');
-      } else {
-        log.error('error during switching profile', error);
-      }
-    } catch (error) {
-      log.error('error during switching profile', error);
-    }
-  };
-
+  const {
+    handleOptionPress,
+    handlePress,
+    accountType,
+    showOptions,
+    optionsAnimation,
+  } = useSwitchButton();
   return (
     <View>
       <TouchableOpacity

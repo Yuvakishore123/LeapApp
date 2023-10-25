@@ -22,8 +22,6 @@ import CustomModal from 'components/atoms/CustomModel/CustomModel';
 
 const AddAddress = () => {
   const {
-    setStateName,
-    setCity,
     addressLine2,
 
     addressLine1,
@@ -37,7 +35,7 @@ const AddAddress = () => {
     handlePostalCodeChange,
     postalCode,
     country,
-    setCountry,
+
     isLoading,
 
     handleAddressLine1,

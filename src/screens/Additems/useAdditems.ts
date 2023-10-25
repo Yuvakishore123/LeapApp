@@ -128,7 +128,6 @@ const useAdditems = () => {
   const fetchCategoryData = async () => {
     try {
       await dispatch(fetchCategoriesData() as any);
-
       const categoriesArray = Data.map(
         (category: {id: any; categoryName: any}) => ({
           value: category.id,
@@ -208,6 +207,9 @@ const useAdditems = () => {
     eventType,
     outfitType,
     itemType,
+    fetchSubCategoryData,
+    fetchCategoryData,
+    setSubCategoriesData,
   };
 };
 export default useAdditems;
