@@ -1,4 +1,3 @@
-/* eslint-disable radix */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
@@ -108,21 +107,13 @@ const useAnalytics = () => {
   };
 
   const CategoriePieData = async () => {
-    try {
-      const results = await ApiService.get(categoriyPiechart);
-      setCategoriesData(results);
-    } catch (error) {
-      logMessage.error(error);
-    }
+    const results = await ApiService.get(categoriyPiechart);
+    setCategoriesData(results);
   };
 
   const Dashboardyeardata = async () => {
-    try {
-      const yearlyData = await ApiService.get(Dashboardyearlydata);
-      setDashboardYearlydata(yearlyData);
-    } catch (error) {
-      logMessage.error('Error in Dashboardyearlydata', error);
-    }
+    const yearlyData = await ApiService.get(Dashboardyearlydata);
+    setDashboardYearlydata(yearlyData);
   };
   const [showModel, setShowModel] = useState(false);
   const [selectedBarIndex, setSelectedBarIndex] = useState(null);

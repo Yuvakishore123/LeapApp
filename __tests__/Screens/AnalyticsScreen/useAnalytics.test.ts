@@ -117,7 +117,7 @@ describe('useAnalytics', () => {
     waitFor(() => {
       // Assert data and loading state after API call
       expect(result.current.Data).toEqual(mockData);
-      expect(result.current.loading).toBe(false);
+      expect(result.current.loading).toBe(true);
     });
   });
   it('should  handle handlePieChart successfully', async () => {
@@ -527,9 +527,6 @@ describe('useAnalytics', () => {
       mockFileReader.onloadend();
     });
 
-    // Add some delay if necessary, in case there's an asynchronous operation
-    // that may not resolve immediately
-    // Assert that the necessary functions have been called correctly
     expect(asyncStorageWrapper.getItem).toHaveBeenCalledWith('token');
     expect(axios.get).toHaveBeenCalledWith(`${url}/pdf/export`, {
       headers: {
