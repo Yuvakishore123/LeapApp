@@ -12,14 +12,7 @@ const style = StyleSheet.create({
 
     margin: 10,
   },
-  dheader: {
-    marginTop: 3,
 
-    justifyContent: 'space-between',
-    paddingHorizontal: 20,
-    zIndex: 1,
-    marginLeft: -50,
-  },
   imageContainer: {
     width: '100%',
     height: '30%',
@@ -39,7 +32,7 @@ const style = StyleSheet.create({
     color: Colors.black,
   },
   addButton: {
-    borderColor: '#3E54AC',
+    borderColor: Colors.iconscolor,
     borderWidth: 1,
     borderRadius: 4,
 
@@ -47,7 +40,7 @@ const style = StyleSheet.create({
 
     height: 18,
     width: 18,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
   },
   price: {
     fontSize: 10,
@@ -59,11 +52,11 @@ const style = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 4,
 
-    borderColor: '#3E54AC',
+    borderColor: Colors.iconscolor,
 
     width: 57,
     height: 18,
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     alignItems: 'center',
     justifyContent: 'center',
     marginTop: 3,
@@ -74,7 +67,7 @@ const style = StyleSheet.create({
     borderRadius: 20,
 
     position: 'absolute',
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: Colors.Textinput,
     top: 5,
     marginLeft: 110,
     justifyContent: 'center',
@@ -83,30 +76,7 @@ const style = StyleSheet.create({
   textContainer: {
     marginTop: 5,
   },
-  rentText: {color: '#3E54AC', fontWeight: 'bold', fontSize: 10},
 
-  searchInputContainer: {
-    height: 50,
-    width: 350,
-    backgroundColor: 'white',
-    marginTop: 15,
-    marginLeft: 20,
-    borderColor: '#3E54AC',
-    borderWidth: 2,
-    borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  backBtn: {
-    marginTop: 10,
-    marginLeft: 25,
-    color: 'black',
-    backgroundColor: 'black',
-    borderRadius: 100,
-    width: '9%',
-    height: 35,
-    flexDirection: 'row',
-  },
   Cartcontents: {
     marginTop: 25,
   },
@@ -116,15 +86,7 @@ const style = StyleSheet.create({
     padding: 6,
     marginLeft: 5,
   },
-  textConatiner: {marginLeft: 63, marginTop: 20, flexDirection: 'row'},
 
-  textStyle: {
-    color: Colors.black,
-    fontSize: 24,
-    fontFamily: 'Poppins-Bold',
-    marginTop: 20,
-    marginLeft: 30,
-  },
   loadtextStyle: {
     color: Colors.white,
     fontSize: 17,
@@ -138,10 +100,7 @@ const style = StyleSheet.create({
 
     backgroundColor: Colors.main,
   },
-  listContainer: {
-    paddingHorizontal: 10,
-    paddingTop: 10,
-  },
+
   viewS: {
     alignItems: 'center',
     flexDirection: 'row',

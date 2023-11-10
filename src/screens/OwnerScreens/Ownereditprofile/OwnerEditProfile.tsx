@@ -15,12 +15,14 @@ export function SkeletonLoader() {
   const {colorScheme} = useContext(ColorSchemeContext);
   return (
     <SkeletonPlaceholder
-      highlightColor="#e0e0e0"
-      backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
+      highlightColor={Colors.highlightcolor}
+      backgroundColor={
+        colorScheme === 'dark' ? Colors.loadingcolor : Colors.sliver
+      }>
       <View testID="skeleton-loader">
         <TextInput
           style={style.input}
-          placeholderTextColor="#999"
+          placeholderTextColor={Colors.gray}
           testID="input1"
         />
         <TextInput style={style.input} testID="input-2" />

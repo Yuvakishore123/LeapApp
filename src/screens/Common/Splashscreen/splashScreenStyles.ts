@@ -20,7 +20,7 @@ const style = StyleSheet.create({
   },
   title: {
     fontFamily: 'Poppins-Bold',
-    color: 'black',
+    color: Colors.black,
     marginTop: 400,
     fontSize: 25,
     marginVertical: 20,
@@ -28,12 +28,12 @@ const style = StyleSheet.create({
   desc: {
     fontSize: 17,
     fontFamily: 'Poppins-Regular',
-    color: 'black',
+    color: Colors.black,
     paddingHorizontal: 20,
     textAlign: 'center',
   },
   touchableText: {
-    color: 'white',
+    color: Colors.white,
     fontFamily: 'Poppins-Bold',
     fontSize: 16,
     justifyContent: 'center',
@@ -41,7 +41,7 @@ const style = StyleSheet.create({
   touchablebtn: {
     height: 59,
     width: 320,
-    backgroundColor: '#9747FF',
+    backgroundColor: Colors.buttonColor,
     borderRadius: 100,
     justifyContent: 'center',
     flexDirection: 'row',

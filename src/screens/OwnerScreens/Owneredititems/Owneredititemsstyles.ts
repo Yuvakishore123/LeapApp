@@ -32,10 +32,10 @@ const OwnerEditItemstyles = StyleSheet.create({
     borderRadius: 10,
     opacity: 2,
     justifyContent: 'center',
-    backgroundColor: '#000',
+    backgroundColor: Colors.black,
   },
   text: {
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     fontWeight: 'bold',
     flexDirection: 'column',
     marginLeft: 8,
@@ -70,7 +70,7 @@ const OwnerEditItemstyles = StyleSheet.create({
   },
   textContainer: {
     flexDirection: 'column',
-    backgroundColor: '#3E54AC1A',
+    backgroundColor: Colors.containerColor,
     marginTop: 10,
     width: 145,
     borderRadius: 10,
@@ -98,8 +98,8 @@ const OwnerEditItemstyles = StyleSheet.create({
   priceContainer: {
     width: '89%',
     height: 60,
-    // backgroundColor: 'rgba(5, 5, 5, 0.3)',
-    backgroundColor: '#FFFFFF',
+
+    backgroundColor: Colors.white,
     padding: 8,
     borderRadius: 5,
     marginLeft: 20,
@@ -108,8 +108,7 @@ const OwnerEditItemstyles = StyleSheet.create({
     borderTopRightRadius: 0,
   },
   nameContainer: {
-    // backgroundColor: 'rgba(5, 5, 5, 0.3)',
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     width: 100,
     padding: 8,
     borderRadius: 5,
@@ -131,23 +130,13 @@ const OwnerEditItemstyles = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
     marginTop: 25,
-    // marginLeft: '-0%',
   },
   backContainer: {
     flexDirection: 'row',
     alignItems: 'center',
     backgroundColor: Colors.main,
   },
-  backButtonCircle: {
-    marginTop: -30,
-    marginLeft: 25,
-    color: 'black',
-    backgroundColor: Colors.white,
-    borderRadius: 100,
-    width: '75%',
-    height: 38,
-    flexDirection: 'row',
-  },
+
   backButtonText: {
     fontSize: 24,
     color: Colors.black,
@@ -180,14 +169,7 @@ const OwnerEditItemstyles = StyleSheet.create({
     borderRadius: 10,
     alignItems: 'center',
   },
-  // Price: {
-  //   width: 255,
-  //   height: 48,
-  //   backgroundColor: Colors.white,
-  //   elevation: 4,
-  //   marginTop: 10,
-  //   borderRadius: 15,
-  // },
+
   Price: {
     fontSize: 16,
     // fontWeight: '400',

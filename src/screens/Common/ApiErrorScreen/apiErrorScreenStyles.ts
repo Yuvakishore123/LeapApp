@@ -1,3 +1,4 @@
+import colors from 'constants/colors';
 import {StyleSheet} from 'react-native';
 
 const styles = StyleSheet.create({
@@ -5,13 +6,13 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: 'black',
+    backgroundColor: colors.black,
   },
   errorText: {
     display: 'flex',
     justifyContent: 'center',
     fontSize: 20,
-    color: 'white',
+    color: colors.white,
   },
   LottieStyle: {
     height: 250,

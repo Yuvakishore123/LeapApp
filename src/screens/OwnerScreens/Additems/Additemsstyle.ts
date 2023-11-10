@@ -10,7 +10,7 @@ const Ownerstyles = StyleSheet.create({
   Titletext: {
     fontSize: 18,
     fontWeight: '700',
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     marginTop: 40,
     marginLeft: 40,
   },
@@ -51,7 +51,7 @@ const Ownerstyles = StyleSheet.create({
     justifyContent: 'center',
   },
   Itemname: {
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     fontSize: 18,
     fontFamily: 'poppins',
     // marginLeft: 35,
@@ -107,13 +107,13 @@ const Ownerstyles = StyleSheet.create({
     fontSize: 16,
     // fontWeight: '700',
     fontFamily: 'Poppins-medium',
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     marginTop: 26,
     alignItems: 'center',
   },
   dropdowntext: {
     justifyContent: 'center',
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     fontSize: 16,
     fontFamily: 'Poppins-medium',
     // fontWeight: '700',

@@ -1,20 +1,9 @@
 import {StyleSheet} from 'react-native';
 import Colors from '../../../constants/colors';
 const styles = StyleSheet.create({
-  productSizeBox: {
-    marginTop: 10,
-    borderWidth: 2,
-    borderColor: '#3E54AC',
-    borderRadius: 10,
-    backgroundColor: Colors.iconscolor,
-    width: 50,
-    height: 30,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
   disabledButton: {
     opacity: 0.5,
-    backgroundColor: 'gray',
+    backgroundColor: Colors.gray,
   },
   detailsdescription: {
     marginTop: 10,
@@ -52,18 +41,9 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     color: Colors.black,
   },
-  buttonQuantity: {
-    backgroundColor: '#fff',
-    paddingHorizontal: 2,
-    paddingVertical: 2,
-    height: 28,
-    width: 28,
-    borderRadius: 5,
-    borderColor: '#3E54AC',
-    borderWidth: 1,
-  },
+
   paginationContainer: {
-    marginTop: -24,
+    marginBottom: 20,
     paddingVertical: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -74,7 +54,7 @@ const styles = StyleSheet.create({
     height: 10,
     borderRadius: 4,
     marginHorizontal: 1,
-    backgroundColor: 'gray',
+    backgroundColor: Colors.gray,
   },
   pagingActiveText: {
     width: 10,
@@ -83,18 +63,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8,
     backgroundColor: Colors.buttonColor,
   },
-  buttonTextDecrement: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    top: 2,
-    left: 9,
-  },
-  buttonTextIncrement: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    top: 2,
-    left: 9,
-  },
+
   quantityText: {
     fontSize: 14,
     marginHorizontal: 10,
@@ -103,7 +72,7 @@ const styles = StyleSheet.create({
   },
   input: {
     height: 40,
-    borderColor: 'gray',
+    borderColor: Colors.gray,
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
@@ -115,7 +84,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 20,
     width: '100%',
-    backgroundColor: 'rgba(255, 255, 255, 0.13)',
+    backgroundColor: Colors.lightgray,
     borderRadius: 50,
     paddingHorizontal: 10,
     height: 50,
@@ -136,7 +105,7 @@ const styles = StyleSheet.create({
     width: 30,
   },
   quantityButtonText: {
-    color: 'white',
+    color: Colors.white,
     fontSize: 15,
     fontWeight: 'bold',
     justifyContent: 'center',
@@ -148,38 +117,9 @@ const styles = StyleSheet.create({
     width: '100%',
     height: '100%',
   },
-  btnfield: {
-    position: 'relative',
-    width: 330,
-    height: 59,
-    left: 26,
-    top: 650,
-    backgroundColor: '#3E54AC',
-    borderRadius: 8,
-  },
-  dbtnfield: {
-    position: 'absolute',
-    width: 330,
-    height: 59,
-    left: 26,
-    top: 370,
-    backgroundColor: '#3E54AC',
-    borderRadius: 8,
-    elevation: 10,
-  },
-  btntext: {
-    position: 'absolute',
-    left: 120,
-    top: 15,
-    height: 29,
-    width: 104,
-    fontWeight: 'bold',
-    fontFamily: 'Poppins',
-    fontSize: 20,
-    color: 'white',
-  },
+
   dheader: {
-    marginTop: -30,
+    marginBottom: 30,
     top: 90,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -188,7 +128,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   sharebutton: {
-    marginTop: -30,
+    marginBottom: 30,
     top: 89,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -196,22 +136,7 @@ const styles = StyleSheet.create({
     zIndex: 1,
     marginLeft: '80%',
   },
-  errorContainer: {
-    backgroundColor: 'gray',
-    elevation: 20,
-    width: '60%',
-    padding: 10,
-    marginVertical: 10,
-    marginLeft: '19%',
-    marginTop: '-20%',
-    zIndex: 1,
-    borderRadius: 50,
-  },
-  errorMessage: {
-    color: 'white',
-    textAlign: 'center',
-    fontFamily: 'Poppins-SemiBold',
-  },
+
   detailsContainer: {
     zIndex: 1,
     paddingVertical: 20,
@@ -220,33 +145,7 @@ const styles = StyleSheet.create({
     flex: 1,
     height: '100%',
   },
-  iconContainer: {
-    height: 60,
-    width: 60,
-    position: 'absolute',
-    top: -30,
-    backgroundColor: 'white',
-    borderRadius: 30,
-    right: 20,
-    elevation: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  headTxt: {
-    width: 276,
-    top: 265,
-    left: 95,
-    fontSize: 64,
-    fontFamily: 'Poppins-Redular',
-    fontWeight: 'bold',
-    color: '#3E54AC',
-  },
-  headphoto: {
-    width: 186,
-    height: 173,
-    left: 95,
-    top: 288,
-  },
+
   headingtext: {
     fontSize: 16,
     marginLeft: 10,
@@ -275,13 +174,7 @@ const styles = StyleSheet.create({
     marginLeft: '60%',
     justifyContent: 'center',
   },
-  textContainer: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.5)', // Adjust the opacity and color as desired
-    padding: 10,
-  },
+
   startext: {
     marginTop: -125,
     color: Colors.white,
@@ -289,17 +182,9 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     zIndex: 1,
     fontSize: 35,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)', // Shadow color
-    textShadowOffset: {width: -1, height: 1}, // Shadow offset
+    textShadowColor: Colors.shadowcolor, // Shadow color
+    textShadowOffset: {width: 1, height: 1}, // Shadow offset
     textShadowRadius: 5, // Shadow blur radius
-  },
-  title: {
-    fontFamily: '800',
-    fontSize: 28,
-    marginBottom: 10,
-    color: '#493d8a',
-    textAlign: 'center',
-    fontWeight: 'bold',
   },
 
   sizelabel: {
@@ -308,113 +193,6 @@ const styles = StyleSheet.create({
     fontSize: 16,
     color: Colors.black,
     fontFamily: 'Poppins-Regular',
-  },
-  sizebutton: {
-    width: 60,
-    height: 40,
-    backgroundColor: '#FFFFFF',
-    borderWidth: 1,
-    borderColor: 'rgba(62, 84, 172, 0.65)',
-    borderRadius: 3,
-    marginHorizontal: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  sizebuttontext: {
-    textAlign: 'center',
-  },
-  description: {
-    fontWeight: '300',
-    color: '#62656b',
-    textAlign: 'center',
-    paddingHorizontal: 64,
-  },
-  dateContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginTop: 10,
-  },
-  dateText: {
-    fontWeight: 'bold',
-    fontSize: 20,
-    color: '#3E54AC',
-  },
-  datePicker: {
-    borderWidth: 1,
-    borderColor: '#ccc',
-    borderRadius: 5,
-    paddingHorizontal: 9,
-  },
-  dateInput: {
-    fontSize: 16,
-  },
-  categoriesslidescontainer: {
-    flex: 1,
-    backgroundColor: '#fff',
-  },
-  card: {
-    marginTop: 20,
-    width: 350,
-    height: 100,
-    margin: 10,
-    marginLeft: 20,
-    backgroundColor: '#fff',
-    shadowColor: '#000',
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  cardImage: {
-    width: '100%',
-    height: '110%',
-  },
-  cardImagetextView: {
-    position: 'absolute',
-    top: '90%',
-    left: '55%',
-    transform: [{translateX: -50}, {translateY: -50}],
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  cardtext: {
-    color: '#fff',
-    fontSize: 20,
-    fontWeight: 'bold',
-    fontFamily: 'poppins',
-  },
-  searchContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: '#fff',
-    marginHorizontal: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    borderRadius: 10,
-    paddingLeft: 45,
-    paddingRight: 20,
-    marginLeft: 20,
-    marginRight: 20,
-    borderWidth: 1,
-    borderColor: '#3E54AC',
-  },
-  searchInput: {
-    flex: 1,
-    height: 40,
-    backgroundColor: '#fff',
-    borderRadius: 20,
-    paddingLeft: 100,
-    color: '#3E54AC',
-  },
-  searchIcon: {
-    position: 'absolute',
-    top: 12.5,
-    left: 35,
-    zIndex: 1,
-    opacity: 0.5,
   },
 
   touchableText: {
@@ -430,7 +208,7 @@ const styles = StyleSheet.create({
     backgroundColor: Colors.buttonColor,
     flexDirection: 'row',
     borderRadius: 50,
-    color: '#FFFFFF',
+    color: Colors.white,
     justifyContent: 'center',
     alignItems: 'center',
   },

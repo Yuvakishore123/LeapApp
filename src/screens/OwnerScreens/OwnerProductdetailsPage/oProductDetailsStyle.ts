@@ -45,8 +45,8 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     zIndex: 1,
     fontSize: 35,
-    textShadowColor: 'rgba(0, 0, 0, 0.75)',
-    textShadowOffset: {width: -1, height: 1},
+    textShadowColor: Colors.shadowcolor,
+    textShadowOffset: {width: 1, height: 1},
     textShadowRadius: 5,
   },
 
@@ -61,8 +61,8 @@ const styles = StyleSheet.create({
   imgBack: {
     height: 500,
     width: 405,
-    backgroundColor: 'green',
-    marginLeft: -5,
+    backgroundColor: Colors.black,
+    marginLeft: 5,
   },
   titleText: {marginTop: 20},
 });

@@ -14,7 +14,7 @@ const styles = StyleSheet.create({
   },
   cardContainer: {
     flexDirection: 'row',
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: Colors.cardcontainer,
     borderRadius: 8,
     marginLeft: 23,
     marginTop: 15,
@@ -152,7 +152,7 @@ const styles = StyleSheet.create({
   },
 
   container: {
-    backgroundColor: '#ECF2FF',
+    backgroundColor: Colors.lavander,
     paddingHorizontal: 20,
     paddingVertical: 30,
   },
@@ -169,7 +169,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   PaymentButtonText: {
-    color: 'white',
+    color: Colors.white,
     fontSize: 16,
     marginRight: 20,
     fontFamily: 'Poppins-Medium',
@@ -197,10 +197,10 @@ const styles = StyleSheet.create({
   },
 
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.7)',
+    backgroundColor: Colors.cardcontainer,
     width: '90%',
     height: 120,
-    borderColor: '#8E8E8E',
+    borderColor: Colors.borderColor,
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',

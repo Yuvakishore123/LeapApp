@@ -33,12 +33,7 @@ const OwnerRentalstyles = StyleSheet.create({
     marginBottom: 15,
     marginLeft: 60,
   },
-  imageS1: {
-    width: 300,
-    height: 300,
-    borderRadius: 130,
-    marginLeft: -25,
-  },
+
   textContainer1: {
     alignItems: 'center',
   },
@@ -47,7 +42,7 @@ const OwnerRentalstyles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 10,
-    color: 'white',
+    color: Colors.white,
   },
   cardContainer: {
     flexDirection: 'row',
@@ -118,7 +113,7 @@ const OwnerRentalstyles = StyleSheet.create({
   },
   name: {
     fontSize: 12,
-    color: 'black',
+    color: Colors.black,
     fontFamily: 'Poppins-SemiBold',
     marginRight: 10,
   },
@@ -138,7 +133,7 @@ const OwnerRentalstyles = StyleSheet.create({
   },
   sizeText: {
     fontSize: 12,
-    color: 'black',
+    color: Colors.black,
     fontFamily: 'Poppins-SemiBold',
     marginHorizontal: 5,
   },
@@ -154,10 +149,10 @@ const OwnerRentalstyles = StyleSheet.create({
     marginLeft: 10,
   },
   card: {
-    backgroundColor: 'rgba(255, 255, 255, 0.2)',
+    backgroundColor: Colors.Inputtext,
     width: '90%',
     height: 120,
-    borderColor: '#8E8E8E',
+    borderColor: Colors.borderColor,
     alignSelf: 'center',
     justifyContent: 'space-between',
     flexDirection: 'row',
@@ -177,7 +172,7 @@ const OwnerRentalstyles = StyleSheet.create({
     // justifyContent: 'space-between',
   },
   orderPlaced: {
-    color: 'green', // You can customize this color
+    color: Colors.green, // You can customize this color
   },
 
   returned: {

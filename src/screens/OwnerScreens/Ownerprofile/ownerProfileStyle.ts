@@ -8,7 +8,7 @@ const style = StyleSheet.create({
     height: '100%',
     marginTop: 0,
     marginLeft: 45,
-    backgroundColor: '#3E54AC',
+    backgroundColor: Colors.iconscolor,
     borderRadius: 13,
   },
   btntext: {
@@ -18,7 +18,7 @@ const style = StyleSheet.create({
     fontSize: 20,
     marginLeft: '37%',
     marginTop: -40,
-    color: '#FB6565',
+    color: Colors.primary,
   },
   uploadButton: {
     width: 100,
@@ -47,7 +47,7 @@ const style = StyleSheet.create({
     height: 50,
     borderRadius: 50,
     borderColor: 'red',
-    shadowColor: '#3E54AC',
+    shadowColor: Colors.iconscolor,
     shadowOffset: {
       width: 0,
       height: 4,
@@ -76,7 +76,7 @@ const style = StyleSheet.create({
     marginLeft: 15,
     width: '87%',
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
     fontFamily: 'Poppins-SemiBold',
     fontSize: 16,
   },
@@ -88,17 +88,17 @@ const style = StyleSheet.create({
   editprofileicon: {
     marginLeft: 30,
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
   },
   addressicon: {
     marginLeft: 30,
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
   },
   producticon: {
     marginLeft: 30,
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
   },
   editprofile: {
     backgroundColor: Colors.white,
@@ -141,24 +141,24 @@ const style = StyleSheet.create({
     fontFamily: 'Poppins-Regular',
     fontSize: 16,
 
-    color: 'hsla(0, 0%, 2%, 1)',
+    color: Colors.black,
 
     alignItems: 'center',
   },
   forwardios: {
     marginLeft: '5%',
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
   },
   addressforwardios: {
     marginLeft: '68%',
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
   },
   productforwardios: {
     marginLeft: '5%',
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
   },
   AddressbtnPText: {
     position: 'absolute',
@@ -166,7 +166,7 @@ const style = StyleSheet.create({
     fontWeight: '700',
     fontFamily: 'Poppins',
     fontSize: 16,
-    color: 'hsla(0, 0%, 2%, 1)',
+    color: Colors.black,
 
     alignItems: 'center',
   },
@@ -174,15 +174,15 @@ const style = StyleSheet.create({
   button: {
     flexDirection: 'row',
     alignItems: 'center',
-    backgroundColor: '#fff',
+    backgroundColor: Colors.white,
     borderWidth: 1,
-    borderColor: '#000',
+    borderColor: Colors.black,
     borderRadius: 5,
     paddingVertical: 10,
     paddingHorizontal: 15,
   },
   icon: {
-    backgroundColor: '#3E54AC',
+    backgroundColor: Colors.iconscolor,
     borderRadius: 50,
     width: 30,
     height: 30,
@@ -191,7 +191,7 @@ const style = StyleSheet.create({
     marginRight: 10,
   },
   text: {
-    color: '#fff',
+    color: Colors.white,
     fontWeight: 'bold',
     fontSize: 16,
   },

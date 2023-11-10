@@ -19,13 +19,16 @@ import HeadingText from '../../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 
 import styles from './editAddressStyles';
+import colors from 'constants/colors';
 
 export const SkeletonLoader = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
   return (
     <SkeletonPlaceholder
-      highlightColor="#e0e0e0"
-      backgroundColor={colorScheme === 'dark' ? '#373737' : '#f2f2f2'}>
+      highlightColor={colors.highlightcolor}
+      backgroundColor={
+        colorScheme === 'dark' ? colors.loadingcolor : colors.sliver
+      }>
       <View testID="Loading-Container" style={style.subContainer}>
         <View>
           <TextInput style={style.inputAddress} />

@@ -10,7 +10,7 @@ const style = StyleSheet.create({
     marginRight: '5%',
     marginTop: 10,
     marginBottom: 10,
-    shadowColor: '#3E54AC1A',
+    shadowColor: Colors.containerColor,
     shadowOffset: {
       width: 1,
       height: 1,
@@ -23,7 +23,7 @@ const style = StyleSheet.create({
     width: '100%',
   },
   errorContainer: {
-    backgroundColor: 'gray',
+    backgroundColor: Colors.gray,
     elevation: 20,
     width: '60%',
     padding: 10,
@@ -33,7 +33,7 @@ const style = StyleSheet.create({
     borderRadius: 50,
   },
   errorMessage: {
-    color: 'white',
+    color: Colors.white,
     textAlign: 'center',
     fontFamily: 'Poppins-SemiBold',
   },
@@ -85,7 +85,7 @@ const style = StyleSheet.create({
     marginBottom: 5,
   },
   imageContainer: {
-    backgroundColor: '#3E54AC1A',
+    backgroundColor: Colors.containerColor,
     width: '100%',
     height: 150,
   },
@@ -106,7 +106,7 @@ const style = StyleSheet.create({
     height: 20,
   },
   addButton: {
-    borderColor: '#3E54AC',
+    borderColor: Colors.iconscolor,
     borderWidth: 1,
     borderRadius: 4,
     alignItems: 'center',
@@ -120,17 +120,7 @@ const style = StyleSheet.create({
     marginLeft: 10,
     marginTop: 5,
   },
-  rentButton: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: '#3E54AC',
-    width: 57,
-    height: 18,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 3,
-  },
+
   wishlistButton: {
     width: 30,
     height: 30,
@@ -146,7 +136,7 @@ const style = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
   },
-  rentText: {color: '#3E54AC', fontWeight: 'bold', fontSize: 10},
+
   searchInputContainer: {
     height: 45,
     width: '90%',
@@ -220,17 +210,10 @@ const style = StyleSheet.create({
     marginLeft: 15,
     opacity: 1,
   },
-  pagination: {
-    flexDirection: 'row',
-    position: 'absolute',
-    bottom: 0,
-    alignSelf: 'center',
-  },
+
   card: {
     flex: 1,
     justifyContent: 'flex-end',
   },
-  pagingText: {color: '#fff', margin: 3},
-  pagingActiveText: {color: '#3E54AC', margin: 3},
 });
 export default style;

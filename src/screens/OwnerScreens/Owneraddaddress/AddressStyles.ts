@@ -5,7 +5,6 @@ const OwnerAddressStyles = StyleSheet.create({
   maincontainer: {
     height: '100%',
     width: '100%',
-    // backgroundColor: '#000000',
     backgroundColor: Colors.main,
   },
   textField: {
@@ -24,9 +23,6 @@ const OwnerAddressStyles = StyleSheet.create({
     marginLeft: 40,
     marginTop: 10,
     fontFamily: 'Poppins-Medium',
-    // alignItems: 'center',
-    // marginBottom: 10,
-    // marginRight: -48,
   },
   texttypeField: {
     color: Colors.white,
@@ -41,7 +37,7 @@ const OwnerAddressStyles = StyleSheet.create({
     marginTop: 25,
     marginLeft: 25,
     fontSize: 20,
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     flexDirection: 'row',
     fontWeight: '600',
   },
@@ -52,7 +48,7 @@ const OwnerAddressStyles = StyleSheet.create({
     marginRight: 20,
     borderWidth: 0.2,
     padding: 8,
-    backgroundColor: '#3E54AC',
+    backgroundColor: Colors.iconscolor,
     borderRadius: 8,
   },
   btnText: {
@@ -61,17 +57,15 @@ const OwnerAddressStyles = StyleSheet.create({
     fontSize: 14,
     marginTop: 26,
     marginRight: 45,
-    // color: 'hsla(266, 100%, 64%, 1)',
+
     color: Colors.black,
   },
   card: {
-    // height: '100%',
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
     backgroundColor: Colors.white,
     width: '90%',
     height: 100,
     // borderWidth: 0.2,
-    borderColor: '#8E8E8E',
+    borderColor: Colors.borderColor,
     // backgroundColor: 'pink',
     alignSelf: 'center',
     justifyContent: 'space-between',
@@ -91,7 +85,7 @@ const OwnerAddressStyles = StyleSheet.create({
     padding: 7,
     borderWidth: 0.2,
     marginRight: 20,
-    backgroundColor: '#3E54AC',
+    backgroundColor: Colors.iconscolor,
     borderRadius: 10,
     marginTop: 5,
     alignItems: 'center',
@@ -103,23 +97,15 @@ const OwnerAddressStyles = StyleSheet.create({
     marginTop: 20,
     marginRight: 40,
     opacity: 0.8,
-    // fontSize: 12,
-    // color: 'hsla(266, 100%, 64%, 1)',
   },
-  editBtnText: {
-    fontWeight: '700',
-    fontFamily: 'Poppins',
-    fontSize: 12,
-    marginLeft: 6,
-    color: 'hsla(266, 100%, 64%, 1)',
-  },
+
   btnfield: {
     alignItems: 'center',
     alignSelf: 'center',
     width: 60,
     height: 59,
     marginTop: 30,
-    backgroundColor: '#3E54AC',
+    backgroundColor: Colors.iconscolor,
     borderRadius: 8,
   },
   btntext: {
@@ -132,7 +118,7 @@ const OwnerAddressStyles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Poppins',
     fontSize: 18,
-    color: 'white',
+    color: Colors.white,
   },
   input: {
     marginLeft: 15,
@@ -144,10 +130,9 @@ const OwnerAddressStyles = StyleSheet.create({
   stateName: {
     marginLeft: 15,
     marginBottom: 10,
-    // color: '#FFFFFF',
+
     fontSize: 24,
     fontFamily: 'Poppins-Regular',
-    // fontWeight: '500',
   },
   liststyle: {
     height: '100%',
@@ -166,7 +151,7 @@ const OwnerAddressStyles = StyleSheet.create({
   addAddressHeader: {flexDirection: 'row'},
   backBtn: {
     marginTop: 17,
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
+
     backgroundColor: Colors.black,
     marginLeft: 23,
     borderRadius: 100,
@@ -181,34 +166,18 @@ const OwnerAddressStyles = StyleSheet.create({
     width: '100%',
     backgroundColor: Colors.black,
   },
-  subContainer: {
-    // backgroundColor: '#FFFFFF',
-    height: 740,
-    width: '85%',
-    // alignItems: 'center',
-    // borderRadius: 10,
-    // justifyContent: 'center',
-    // marginLeft: 40,
-    marginTop: -15,
-  },
+
   headercontainer: {
     backgroundColor: Colors.main,
     height: '100%',
   },
-  addAddressText: {
-    marginTop: 65,
-    fontSize: 20,
-    marginLeft: -20,
-    color: 'hsla(0, 0%, 2%, 1)',
-    fontWeight: '900',
-  },
+
   AdresstextContainer: {
     width: '100%',
     // backgroundColor: Colors.black,
     // marginLeft: 10,
   },
   inputAddress: {
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
     backgroundColor: Colors.white,
     marginLeft: 30,
     marginTop: 30,
@@ -216,18 +185,17 @@ const OwnerAddressStyles = StyleSheet.create({
     width: '100%',
     height: 56,
     fontSize: 18,
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
     alignItems: 'center',
     fontWeight: '700',
     borderRadius: 5,
 
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     elevation: 5,
   },
   inputAddres: {
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
     backgroundColor: Colors.white,
     marginLeft: 30,
     marginTop: 30,
@@ -242,7 +210,7 @@ const OwnerAddressStyles = StyleSheet.create({
 
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     elevation: 5,
   },
   StreetInput: {
@@ -260,7 +228,7 @@ const OwnerAddressStyles = StyleSheet.create({
 
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     elevation: 5,
   },
   btnfieldAddress: {
@@ -270,7 +238,7 @@ const OwnerAddressStyles = StyleSheet.create({
     width: '85%',
     height: 59,
     marginTop: 20,
-    backgroundColor: '#9747FF',
+    backgroundColor: Colors.buttonColor,
     borderRadius: 100,
     marginBottom: 20,
   },
@@ -286,7 +254,7 @@ const OwnerAddressStyles = StyleSheet.create({
     height: 59,
     marginTop: 10,
     marginLeft: '19%',
-    backgroundColor: '#9747FF',
+    backgroundColor: Colors.buttonColor,
     borderRadius: 100,
   },
   btntextAddress: {
@@ -302,8 +270,7 @@ const OwnerAddressStyles = StyleSheet.create({
     flexDirection: 'row',
     justifyContent: 'center',
     height: 45,
-    // backgroundColor: 'red',
-    // width: 300,
+
     width: '80%',
     marginLeft: 70,
     borderRadius: 5,
@@ -319,29 +286,29 @@ const OwnerAddressStyles = StyleSheet.create({
   smalltextInputs: {
     height: 56,
     width: '58%',
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
+
     backgroundColor: Colors.white,
     paddingHorizontal: 10,
     marginRight: 20,
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     elevation: 5,
     fontSize: 18,
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
     // fontWeight: '700',
     borderRadius: 5,
   },
   smalltextInput: {
     height: 56,
     width: '58%',
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
+
     backgroundColor: Colors.white,
     paddingHorizontal: 10,
     marginRight: 20,
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     elevation: 5,
     fontSize: 18,
     color: Colors.black,
@@ -406,7 +373,7 @@ const OwnerAddressStyles = StyleSheet.create({
     color: Colors.black,
   },
   textCheckbox: {
-    color: '#000000',
+    color: Colors.black,
     fontSize: 19,
     fontFamily: 'poppins',
     fontWeight: '700',
@@ -414,7 +381,7 @@ const OwnerAddressStyles = StyleSheet.create({
     // marginTop: -10,
   },
   checkboxContainer: {
-    borderColor: 'black',
+    borderColor: Colors.black,
     marginLeft: 30,
     margin: 0,
     padding: 0,
@@ -423,18 +390,13 @@ const OwnerAddressStyles = StyleSheet.create({
     borderWidth: 0,
   },
   noAddressText: {
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     fontSize: 18,
     textAlign: 'center',
 
     fontWeight: 'bold',
   },
-  line2: {
-    color: '#3E54AC',
-    fontSize: 14,
-    textAlign: 'center',
-    marginLeft: -90,
-  },
+
   titleTextContainer: {
     marginTop: 20,
     justifyContent: 'center',

@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Poppins',
     fontSize: 20,
-    color: 'white',
+    color: Colors.white,
   },
   obtnfield: {
     alignItems: 'center',
@@ -56,7 +56,7 @@ const styles = StyleSheet.create({
     height: 59,
     marginTop: 40,
     // marginLeft: 10,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 50,
   },
   obtntext: {

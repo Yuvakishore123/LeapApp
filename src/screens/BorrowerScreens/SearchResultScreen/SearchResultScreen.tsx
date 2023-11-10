@@ -52,7 +52,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
     filteredProducts?.length > 0 ? filteredProducts : searchResults;
   return (
     <View style={[getContainerStyle(), style.outerStyle]}>
-      <View style={style.addAddressHeader}>
+      <View style={style.HeaderView}>
         <TouchableOpacity
           style={style.backBtn}
           onPress={goBackButton}
@@ -60,9 +60,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
           <MaterialIcons color={Colors.black} size={20} name="arrow-back-ios" />
         </TouchableOpacity>
         <View style={style.viewStyle1}>
-          <Text style={[style.addAddressText, getTextColor()]}>
-            Search results
-          </Text>
+          <Text style={[style.TitleText, getTextColor()]}>Search results</Text>
           <MaterialIcons
             testID="filter-apply-button"
             onPress={handleFilterButtonPress}

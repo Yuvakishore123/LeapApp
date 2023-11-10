@@ -1,14 +1,6 @@
 import {StyleSheet} from 'react-native';
 import Colors from '../../../constants/colors';
 const style = StyleSheet.create({
-  textStyle: {
-    color: Colors.black,
-    fontSize: 20,
-    fontFamily: 'Poppins-Bold',
-
-    marginTop: 20,
-    marginLeft: 30,
-  },
   Lottietext: {
     color: Colors.white,
     fontSize: 15,
@@ -17,18 +9,9 @@ const style = StyleSheet.create({
   productforwardios: {
     marginLeft: 120,
 
-    color: 'black',
+    color: Colors.black,
   },
-  backBtn: {
-    marginTop: 10,
-    marginLeft: 25,
-    color: 'black',
-    backgroundColor: 'white',
-    borderRadius: 100,
-    width: '9%',
-    height: 35,
-    flexDirection: 'row',
-  },
+
   maincontainer: {
     height: '100%',
     width: '100%',
@@ -59,7 +42,7 @@ const style = StyleSheet.create({
   },
   MainView: {
     width: '90%',
-    backgroundColor: 'black',
+    backgroundColor: Colors.black,
   },
   categoryImage: {
     height: 40,
@@ -68,7 +51,7 @@ const style = StyleSheet.create({
     alignSelf: 'center',
   },
   categoryText: {
-    color: 'black',
+    color: Colors.black,
     width: '100%',
 
     fontSize: 20,

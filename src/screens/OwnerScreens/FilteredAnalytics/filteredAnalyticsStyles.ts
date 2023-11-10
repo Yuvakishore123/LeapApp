@@ -23,7 +23,7 @@ const styles = StyleSheet.create({
   },
 
   titleStyle: {
-    color: 'black',
+    color: Colors.black,
     fontSize: 24,
     fontFamily: 'Poppins-SemiBold',
 
@@ -86,14 +86,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 10,
-    color: 'black',
+    color: Colors.black,
   },
   noAddressText2: {
     fontFamily: 'Poppins-SemiBold',
     fontSize: 20,
     marginTop: 3,
     marginBottom: 10,
-    color: 'black',
+    color: Colors.black,
   },
   overlay: {
     height: 163,
@@ -131,6 +131,6 @@ const styles = StyleSheet.create({
   xAxisS: {marginLeft: 20, marginBottom: 10, marginTop: 5},
   animationS: {height: 300, width: 400},
   textDirection: {flexDirection: 'column', marginLeft: 5},
-  spinnerS: {color: '#FFF'},
+  spinnerS: {color: Colors.white},
 });
 export default styles;

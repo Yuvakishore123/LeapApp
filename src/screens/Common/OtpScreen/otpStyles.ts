@@ -12,8 +12,8 @@ const Styles = StyleSheet.create({
   titleText: {
     marginTop: '30%',
     fontSize: 30,
-    fontWeight: '900',
-    color: '#FFFFFF',
+
+    color: Colors.white,
     marginLeft: 30,
     alignSelf: 'flex-start',
   },
@@ -24,15 +24,7 @@ const Styles = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  card: {
-    backgroundColor: '#3E54AC26',
-    width: '75%',
-    padding: 30,
-    borderRadius: 10,
-    justifyContent: 'center',
-    shadowColor: '#52006A',
-    marginTop: 40,
-  },
+
   Textphonenumber: {
     color: Colors.black,
     fontSize: 16,
@@ -42,22 +34,15 @@ const Styles = StyleSheet.create({
     fontWeight: '400',
   },
   TextOTP: {
-    color: 'black',
+    color: Colors.black,
     fontSize: 16,
     marginTop: '5%',
     marginLeft: '11%',
     fontFamily: 'Poppins-Medium',
   },
-  cardTextOTP: {
-    color: '#FFFFFF',
-    fontSize: 14,
-    marginTop: 20,
-    marginLeft: 20,
-    fontFamily: 'poppins',
-    fontWeight: '400',
-  },
+
   textinputphone: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     marginTop: '3%',
     marginLeft: 33,
     width: '85%',
@@ -65,7 +50,7 @@ const Styles = StyleSheet.create({
     padding: 10,
   },
   textinputOTP: {
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     marginTop: '3%',
     marginLeft: 33,
     width: '85%',
@@ -73,7 +58,7 @@ const Styles = StyleSheet.create({
     padding: 10,
   },
   touchableTextOTP: {
-    color: 'hsla(266, 100%, 64%, 1)',
+    color: Colors.darkpurple,
     fontSize: 18,
     fontWeight: '400',
     marginLeft: '50%',
@@ -81,7 +66,7 @@ const Styles = StyleSheet.create({
     justifyContent: 'center',
   },
   touchableTextcontinue: {
-    color: '#FFFFFF',
+    color: Colors.white,
     fontSize: 18,
     fontWeight: '500',
     justifyContent: 'center',
@@ -97,7 +82,7 @@ const Styles = StyleSheet.create({
   touchablebtn: {
     height: 59,
     width: '85%',
-    backgroundColor: '#9747FF',
+    backgroundColor: Colors.buttonColor,
     margin: 35,
     marginTop: '10%',
     borderRadius: 100,
@@ -107,46 +92,12 @@ const Styles = StyleSheet.create({
   touchablebtnContainer: {
     justifyContent: 'center',
   },
-  subTitileText: {
-    color: '#FFFFFF',
-    fontSize: 20,
-  },
-  signuptext: {
-    marginTop: 20,
-    alignItems: 'center',
-    color: '#3E54AC',
-  },
-  sign: {
-    color: '#3E54AC',
-    fontSize: 14,
-    opacity: 3,
-    flexDirection: 'row',
-  },
-  guest: {
-    color: '#3E54AC',
-    fontSize: 14,
-    marginRight: 15,
-    marginTop: 10,
-    margin: 15,
-  },
-  orText: {
-    marginLeft: 1,
-    fontSize: 14,
-  },
-  dontText: {
-    margin: 25,
-    marginTop: 5,
-    marginRight: 2,
-    marginBottom: 10,
-  },
+
   image: {
     width: '100%',
     height: 235,
     marginTop: '10%',
     marginRight: 90,
-  },
-  errorText: {
-    color: 'red',
   },
 });
 export default Styles;

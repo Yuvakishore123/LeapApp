@@ -12,7 +12,7 @@ const OwnerImagestyles = StyleSheet.create({
   overlay: {
     height: 163,
     width: '150%',
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
+
     backgroundColor: Colors.Textinput,
     borderRadius: 15,
     justifyContent: 'center',
@@ -84,7 +84,7 @@ const OwnerImagestyles = StyleSheet.create({
   Addimage: {
     height: 163,
     width: '150%',
-    // backgroundColor: 'rgba(255, 255, 255, 0.2)',
+
     backgroundColor: Colors.white,
     borderRadius: 15,
     justifyContent: 'center',
@@ -182,7 +182,7 @@ const OwnerImagestyles = StyleSheet.create({
   mainTouchable: {
     height: 48,
     width: 250,
-    backgroundColor: '#3E54AC',
+    backgroundColor: Colors.iconscolor,
     marginTop: 30,
     borderRadius: 13,
     color: Colors.white,

@@ -6,6 +6,7 @@ import styles from '../OwnerHomepage/OwnerHomestyle';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Usemyrental from './Usemyrental';
 import {useNavigation} from '@react-navigation/native';
+import colors from 'constants/colors';
 
 export default function OwnerHome() {
   const {products} = Usemyrental();
@@ -40,13 +41,14 @@ export default function OwnerHome() {
             name="arrow-back-ios"
             testID="Back-Button"
             size={23}
-            color="#3E54AC"
+            color={colors.iconscolor}
             onPress={() => navigation.goBack()}
           />
           <Text style={styles.headertxt}>My Rentals</Text>
         </View>
         <View>
-          <View style={{flex: 1, backgroundColor: '#ECF2FF', flexWrap: 'wrap'}}>
+          <View
+            style={{flex: 1, backgroundColor: colors.main, flexWrap: 'wrap'}}>
             <View
               style={{
                 marginTop: 20,

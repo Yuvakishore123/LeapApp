@@ -79,32 +79,13 @@ const style = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     color: Colors.black,
   },
-  addButton: {
-    borderColor: '#3E54AC',
-    borderWidth: 1,
-    borderRadius: 4,
-    alignItems: 'center',
-    height: 18,
-    width: 18,
-    backgroundColor: '#fff',
-  },
+
   price: {
     fontSize: 12,
     color: Colors.buttonColor,
     fontFamily: 'Poppins-SemiBold',
   },
-  rentButton: {
-    borderWidth: 1,
-    borderRadius: 4,
 
-    borderColor: '#3E54AC',
-    width: 57,
-    height: 18,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 3,
-  },
   wishlistButton: {
     width: 35,
     height: 35,
@@ -117,21 +98,7 @@ const style = StyleSheet.create({
     justifyContent: 'center',
     alignItems: 'center',
   },
-  rentText: {color: '#3E54AC', fontWeight: 'bold', fontSize: 10},
 
-  searchInputContainer: {
-    height: 50,
-    width: 350,
-    backgroundColor: 'white',
-    marginTop: 15,
-    marginLeft: 20,
-    borderColor: '#3E54AC',
-    borderWidth: 2,
-    borderRadius: 12,
-
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
   cardTextContainer: {
     width: '100%',
 

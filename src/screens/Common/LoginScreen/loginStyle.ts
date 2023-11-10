@@ -12,17 +12,7 @@ const loginStyle = StyleSheet.create({
     marginTop: 15,
     alignItems: 'center',
   },
-  mainTouchable: {
-    height: 48,
-    width: '145%',
-    backgroundColor: '#3E54AC',
-    marginTop: 30,
-    borderRadius: 14,
-    color: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginLeft: '50%',
-  },
+
   image: {
     height: 150,
     width: '50%',
@@ -48,7 +38,7 @@ const loginStyle = StyleSheet.create({
   touchablebtn: {
     height: 60,
     width: '90%',
-    backgroundColor: '#9747FF',
+    backgroundColor: Colors.buttonColor,
     marginLeft: 15,
 
     borderRadius: 30,
@@ -56,14 +46,14 @@ const loginStyle = StyleSheet.create({
     alignItems: 'center',
   },
   touchableText: {
-    color: 'white',
+    color: Colors.white,
     fontFamily: 'Poppins-Bold',
     fontSize: 18,
 
     justifyContent: 'center',
   },
   errorText: {
-    color: 'red',
+    color: Colors.red,
     marginLeft: 20,
   },
   otp: {

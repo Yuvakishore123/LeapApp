@@ -10,7 +10,7 @@ const styles = StyleSheet.create({
     borderRadius: 10,
   },
   backButton: {
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.black,
     borderRadius: 20,
     width: 40,
     height: 40,
@@ -27,7 +27,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     height: 100,
     width: '96%',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     height: '70%',
     width: '91%',
-    shadowColor: '#000',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -86,17 +86,12 @@ const styles = StyleSheet.create({
   name: {
     fontSize: 10,
     fontWeight: 'bold',
-    color: '#3E54AC',
+    color: Colors.iconscolor,
     fontFamily: 'poppins',
     marginTop: 5,
     marginLeft: 2,
   },
-  rentedname: {
-    fontSize: 7,
-    fontWeight: 'bold',
-    color: 'white',
-    fontFamily: 'poppins',
-  },
+
   productname: {
     fontSize: 14,
 
@@ -159,164 +154,16 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  addButton: {
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#3E54AC',
-  },
-  rentButton: {
-    backgroundColor: '#3E54AC',
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    borderRadius: 5,
-  },
-  quantityContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#3E54AC',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
 
-    backgroundColor: '#3E54AC',
-    width: 40,
-    height: 25,
-    justifyContent: 'space-between',
-  },
-  DateContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#3E54AC',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-
-    width: 80,
-    height: 20,
-    marginTop: 10,
-    marginBottom: 10,
-    justifyContent: 'space-between',
-  },
-  quantityButton: {
-    borderRadius: 5,
-  },
-  quantityText: {
-    fontSize: 16,
-    color: '#3E54AC',
-    fontWeight: 'bold',
-  },
-  sizeContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderWidth: 1,
-    borderColor: '#3E54AC',
-    borderRadius: 5,
-    paddingHorizontal: 10,
-    paddingVertical: 5,
-  },
-  sizeButton: {
-    backgroundColor: '#fff',
-    borderRadius: 5,
-    padding: 5,
-    borderWidth: 1,
-    borderColor: '#3E54AC',
-  },
-  sizeText: {
-    fontSize: 16,
-    color: '#3E54AC',
-    fontWeight: 'bold',
-    marginHorizontal: 5,
-  },
-  errorContainer: {
-    backgroundColor: '#FDD',
-    padding: 10,
-    borderRadius: 5,
-  },
-  errorText: {
-    color: '#F00',
-    fontWeight: 'bold',
-    fontSize: 16,
-  },
   container: {
     height: '100%',
-    backgroundColor: '#ECF2FF',
+    backgroundColor: Colors.lavander,
     paddingHorizontal: 20,
   },
   scrollContainer: {
     height: '100%',
   },
-  TextTotal: {
-    fontWeight: 'semibold',
-    height: 29,
-    width: 130,
-    top: 5,
-    color: '#3E54AC',
-  },
-  TextGrand: {
-    fontWeight: 'semibold',
-    height: 29,
-    width: 130,
-    top: -20,
-    left: 20,
-    color: '#3E54AC',
-    fontSize: 18,
-  },
-  RemoveButton: {
-    height: 20,
-    width: 40,
-    backgroundColor: '#3E54AC',
 
-    borderRadius: 3,
-    color: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  UpdateButton: {
-    height: 20,
-    width: 40,
-    backgroundColor: 'white',
-
-    marginLeft: 30,
-    borderRadius: 3,
-    color: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  PaymentButton: {
-    height: 60,
-    width: 320,
-    backgroundColor: '#3E54AC',
-
-    marginTop: 5,
-
-    borderRadius: 8,
-    color: '#FFFFFF',
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
-  PaymentButtonText: {
-    color: 'white',
-    fontSize: 18,
-    fontWeight: '700',
-    justifyContent: 'center',
-  },
-  RemoveButtonText: {
-    color: 'white',
-    fontSize: 9,
-    fontWeight: '500',
-    justifyContent: 'center',
-  },
-  UpdateButtonText: {
-    color: Colors.iconscolor,
-    fontSize: 9,
-    fontWeight: '900',
-    justifyContent: 'center',
-  },
   titleContainer: {
     width: '70%',
     height: 80,
@@ -330,7 +177,7 @@ const styles = StyleSheet.create({
   titleText: {
     fontSize: 24,
 
-    color: 'white',
+    color: Colors.white,
     fontFamily: 'Poppins-SemiBold',
   },
 
@@ -348,13 +195,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
     color: 'green',
     marginRight: 35,
-  },
-
-  buttonTextDecrement: {
-    fontSize: 12,
-    fontWeight: 'bold',
-    top: -3,
-    left: 3,
   },
 
   noAddressContainer1: {
@@ -382,7 +222,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     marginTop: 20,
     marginBottom: 10,
-    color: '#3E54AC',
+    color: Colors.iconscolor,
   },
 
   viewStyle: {backgroundColor: Colors.main, width: '100%', height: '120%'},

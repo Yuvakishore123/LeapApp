@@ -15,7 +15,7 @@ const style = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 4,
   },
-  addAddressText: {
+  TitleText: {
     marginTop: 15,
     marginLeft: 80,
     fontSize: 20,
@@ -25,7 +25,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     justifyContent: 'center',
   },
-  addAddressHeader: {
+  HeaderView: {
     flexDirection: 'row',
   },
   backBtn: {
@@ -51,12 +51,7 @@ const style = StyleSheet.create({
     // backgroundColor: Colors.black,
   },
   textConatiner: {marginLeft: 25, marginTop: 20},
-  textStyle: {
-    color: '#3E54AC',
-    fontSize: 18,
-    fontFamily: 'poppins',
-    fontWeight: 'bold',
-  },
+
   imageContainer: {
     // backgroundColor: 'green',
     width: '100%',
@@ -70,8 +65,6 @@ const style = StyleSheet.create({
     height: 145,
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    // borderBottomRightRadius: 8,
-    // borderBottomLeftRadius: 8,
   },
   name: {
     fontSize: 12,
@@ -157,20 +150,7 @@ const style = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Poppins-SemiBold',
   },
-  applyButtonText: {
-    color: '#FFFFFF',
-    fontSize: 16,
-    fontWeight: 'bold',
-  },
-  addButton: {
-    borderColor: '#3E54AC',
-    borderWidth: 1,
-    borderRadius: 4,
-    alignItems: 'center',
-    height: 18,
-    width: 18,
-    backgroundColor: '#fff',
-  },
+
   FilterText: {color: Colors.black},
   price: {
     fontSize: 10,
@@ -179,45 +159,13 @@ const style = StyleSheet.create({
     color: Colors.buttonColor,
     marginTop: 5,
   },
-  rentButton: {
-    borderWidth: 1,
-    borderRadius: 4,
-    borderColor: '#3E54AC',
-    width: 57,
-    height: 18,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-    marginTop: 3,
-  },
-  wishlistButton: {
-    width: 35,
-    height: 35,
-    borderRadius: 20,
-    position: 'absolute',
-    top: 10,
-    right: 10,
-    justifyContent: 'center',
-    alignItems: 'center',
-  },
+
   textContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
   },
-  rentText: {color: '#3E54AC', fontWeight: 'bold', fontSize: 10},
-  searchInputContainer: {
-    height: 50,
-    width: 350,
-    backgroundColor: 'white',
-    marginTop: 15,
-    marginLeft: 20,
-    borderColor: '#3E54AC',
-    borderWidth: 2,
-    borderRadius: 12,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
+
   cardTextContainer: {
     // height: 40,
     width: '100%',

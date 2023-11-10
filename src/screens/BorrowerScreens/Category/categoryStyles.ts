@@ -27,7 +27,7 @@ const style = StyleSheet.create({
   },
   MainView: {
     width: '90%',
-    backgroundColor: '#F0F0F0',
+    backgroundColor: Colors.main,
   },
   categoryImage: {
     height: 40,
@@ -57,13 +57,13 @@ const style = StyleSheet.create({
     marginLeft: 120,
     // justifyContent:'flex-end',
     // flexDirection:'row',
-    color: 'black',
+    color: Colors.black,
   },
   backBtn: {
     marginTop: 10,
     marginLeft: 25,
     color: 'black',
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 100,
     width: '9%',
     height: 35,
@@ -72,7 +72,6 @@ const style = StyleSheet.create({
   maincontainer: {
     height: '100%',
     width: '100%',
-    // backgroundColor: '#F0F0F0',
   },
   loaderContainer: {
     flex: 1,

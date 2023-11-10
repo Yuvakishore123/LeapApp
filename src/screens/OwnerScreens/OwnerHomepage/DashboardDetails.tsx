@@ -235,7 +235,7 @@ const DashboardDetails = () => {
           />
         </View>
       ) : (
-        <ScrollView style={{backgroundColor: '#C4B0FF', flex: 1}}>
+        <ScrollView style={{backgroundColor: Colors.lightviolet, flex: 1}}>
           <>
             <StatusBar translucent backgroundColor={'rgba(0,0,0,0)'} />
             <View style={{flexDirection: 'row', marginTop: 50, marginLeft: 10}}>

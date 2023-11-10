@@ -11,6 +11,7 @@ import RazorpayCheckout from 'react-native-razorpay';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {ListAddress} from '../../../redux/slice/listAddressSlice';
 import analtyics from '@react-native-firebase/analytics';
+import colors from 'constants/colors';
 type RootStackParamList = {
   CheckoutScreen: undefined;
   PaymentSuccessScreen: undefined;
@@ -68,7 +69,7 @@ const useChectout = () => {
   const handlePayment = () => {
     const options = {
       order_id: '',
-      description: 'Payment for food items',
+      description: 'Payment for renting items',
       image: 'https://i.imgur.com/3g7nmJC.png',
       currency: 'INR',
       key: 'rzp_test_TvqBgZuxwM7H00',
@@ -80,28 +81,28 @@ const useChectout = () => {
         name: 'John',
       },
       theme: {
-        color: '#3E54AC',
-        background: '#F6F6F6',
+        color: colors.iconscolor,
+        background: colors.main,
         'card[name]': {
-          color: '#3E54AC',
+          color: colors.iconscolor,
           'font-size': '16px',
           'font-weight': 'bold',
           'font-family': 'Arial, sans-serif',
         },
         'card[number]': {
-          color: '#3E54AC',
+          color: colors.iconscolor,
           'font-size': '16px',
           'font-weight': 'bold',
           'font-family': 'Arial, sans-serif',
         },
         'card[expiry]': {
-          color: '#3E54AC',
+          color: colors.iconscolor,
           'font-size': '16px',
           'font-weight': 'bold',
           'font-family': 'Arial, sans-serif',
         },
         'card[cvc]': {
-          color: '#3E54AC',
+          color: colors.iconscolor,
           'font-size': '16px',
           'font-weight': 'bold',
           'font-family': 'Arial, sans-serif',

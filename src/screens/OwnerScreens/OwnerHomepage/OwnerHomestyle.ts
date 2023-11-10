@@ -24,11 +24,11 @@ const Styles = StyleSheet.create({
     marginLeft: 20,
   },
   Viewmore: {
-    backgroundColor: 'rgba(0,0,0,0.2)',
+    backgroundColor: Colors.blacklight,
     height: 20,
     width: '30%',
     marginLeft: '36%',
-    marginTop: -10,
+
     marginBottom: 20,
     borderRadius: 20,
     flexDirection: 'row',
@@ -144,7 +144,7 @@ const Styles = StyleSheet.create({
     marginTop: 20,
   },
   okButtonText: {
-    color: 'black',
+    color: Colors.black,
     fontSize: 16,
     padding: 10,
     borderRadius: 30,
@@ -191,12 +191,10 @@ const Styles = StyleSheet.create({
     marginTop: 5,
     alignItems: 'center',
     justifyContent: 'center',
-    // marginLeft: 90,
-    // marginTop: -40,
   },
   enableButton: {
     width: '20%',
-    backgroundColor: 'pink',
+    backgroundColor: Colors.pink,
     borderRadius: 5,
     marginLeft: 90,
     marginTop: 20,
@@ -244,11 +242,7 @@ const Styles = StyleSheet.create({
     // width: '40%',
     // marginTop: 10,
   },
-  row: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    marginBottom: -15,
-  },
+
   recentlyaddedimage: {
     width: '159%',
     height: 150,
@@ -266,7 +260,7 @@ const Styles = StyleSheet.create({
     color: Colors.iconscolor,
   },
   cardText: {
-    color: 'black',
+    color: Colors.black,
     // textAlign: 'left',
     // fontWeight: '500',
     fontFamily: 'Poppins-Medium',
@@ -277,7 +271,7 @@ const Styles = StyleSheet.create({
     fontSize: 14,
   },
   cardTextPrice: {
-    color: '#9747FF',
+    color: Colors.buttonColor,
     textAlign: 'left',
     fontFamily: 'Poppins-Medium',
     marginLeft: 10,
@@ -286,7 +280,7 @@ const Styles = StyleSheet.create({
     // fontWeight: '700',
   },
   disabledText: {
-    color: 'white',
+    color: Colors.white,
     // textAlign: 'left',
     fontFamily: 'Poppins-Medium',
     // marginLeft: 10,
@@ -298,14 +292,14 @@ const Styles = StyleSheet.create({
   cardContainer: {
     width: '67%',
     height: 150,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     alignSelf: 'center',
   },
   cardTextContainer: {
     width: '107%',
     height: 55,
     alignSelf: 'center',
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 8,
     borderTopLeftRadius: 0,
     borderTopRightRadius: 0,
@@ -317,7 +311,7 @@ const Styles = StyleSheet.create({
   Rentalhistory: {
     fontWeight: 'bold',
     fontSize: 20,
-    backgroundColor: '#000000',
+    backgroundColor: Colors.black,
     color: Colors.iconscolor,
     marginLeft: 25,
   },

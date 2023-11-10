@@ -18,22 +18,7 @@ const style = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  ScardStyle: {
-    height: '100%',
-    marginTop: 30,
-    marginLeft: 20,
-    marginRight: 20,
-    backgroundColor: '#3E54AC9B',
-    shadowColor: 'black',
-    borderRadius: 50,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
+
   text: {
     marginLeft: 38,
 
@@ -72,7 +57,7 @@ const style = StyleSheet.create({
 
     fontSize: 18,
 
-    color: 'rgba(5, 5, 5, 0.5)',
+    color: Colors.blacklight,
     fontWeight: '500',
     borderRadius: 10,
 
@@ -84,7 +69,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     width: '85%',
     height: 59,
-    backgroundColor: '#9747FF',
+    backgroundColor: Colors.buttonColor,
     borderRadius: 100,
     marginLeft: 28,
     top: 40,
@@ -93,7 +78,7 @@ const style = StyleSheet.create({
     alignItems: 'center',
     width: 160,
     height: 59,
-    backgroundColor: '#FFFFFF',
+    backgroundColor: Colors.white,
     borderRadius: 8,
     top: 40,
   },
@@ -116,7 +101,7 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Poppins',
     fontSize: 20,
-    color: '#3E54AC',
+    color: Colors.iconscolor,
   },
   buttons: {
     flexDirection: 'row',
@@ -130,10 +115,10 @@ const style = StyleSheet.create({
     textAlign: 'center',
     width: 300,
     height: 59,
-    backgroundColor: 'white',
+    backgroundColor: Colors.white,
     borderRadius: 8,
     marginBottom: 15,
-    shadowColor: 'black',
+    shadowColor: Colors.black,
     shadowOffset: {
       width: 0,
       height: 2,
@@ -151,22 +136,22 @@ const style = StyleSheet.create({
     fontWeight: 'bold',
     fontFamily: 'Poppins',
     fontSize: 20,
-    color: '#3E54AC',
+    color: Colors.iconscolor,
   },
   radioChecked: {
     width: 16,
     height: 16,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: 'black',
-    backgroundColor: 'black',
+    borderColor: Colors.black,
+    backgroundColor: Colors.black,
   },
   radioUnchecked: {
     width: 16,
     height: 16,
     borderRadius: 8,
     borderWidth: 2,
-    borderColor: 'black',
+    borderColor: Colors.black,
   },
   radioContainer: {
     flexDirection: 'row',
@@ -190,7 +175,7 @@ const style = StyleSheet.create({
   },
   radioText2: {
     marginLeft: 8,
-    color: 'blue',
+    color: Colors.blue,
     fontSize: 18,
     fontFamily: 'poppins',
     fontWeight: '900',
@@ -201,7 +186,7 @@ const style = StyleSheet.create({
   backBtn: {
     marginTop: 10,
     marginLeft: 25,
-    color: 'black',
+    color: Colors.black,
 
     backgroundColor: Colors.black,
     borderRadius: 100,
