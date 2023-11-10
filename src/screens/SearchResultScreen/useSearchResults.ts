@@ -70,6 +70,7 @@ const useSearchresults = () => {
     selectedSubCategory,
     setSelectedSubCategory,
     subcategoriesData,
+    setSubcategoriesData,
   };
 };
 export default useSearchresults;

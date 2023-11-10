@@ -188,18 +188,16 @@ const useProfile = () => {
   };
 
   const uploadImage = async (imageurl: string) => {
-    const response = await ApiService.post(`${profileUpload}=${imageurl}`, {});
+    await ApiService.post(`${profileUpload}=${imageurl}`, {});
     fetchProfileData();
-    log.debug('image uploaded successfully', response);
   };
 
   const handleRemoveProfilePic = async () => {
-    const response = await ApiService.post(`${profileUpload}=${null}`, {});
+    await ApiService.post(`${profileUpload}=${null}`, {});
     dispatch(getProfileData());
 
     setProfileImage('');
     openModal1();
-    log.debug('image removed successfully', response);
   };
   const showToast = () => {
     Toast.show({

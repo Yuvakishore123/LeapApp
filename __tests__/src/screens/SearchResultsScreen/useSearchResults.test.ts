@@ -1,4 +1,4 @@
-import {renderHook, act, waitFor} from '@testing-library/react-native';
+import {renderHook, act} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
@@ -46,7 +46,7 @@ jest.mock('react-native-razorpay', () => {
 jest.mock('@react-native-firebase/analytics', () =>
   require('react-native-firebase-mock'),
 );
-describe('useCheckout', () => {
+describe('useSearchResults', () => {
   const mockDispatch = jest.fn();
   const useSelector = useSelectorOriginal as jest.Mock;
   beforeEach(() => {
@@ -86,9 +86,8 @@ describe('useCheckout', () => {
     await act(() => {
       result.current.filterData();
     });
-    await waitFor(() => {
-      expect(result.current.filteredProducts).toBe(searchResults);
-    });
+
+    expect(result.current.filteredProducts).toBe(searchResults);
   });
   it('should get the data empty when nodata', () => {
     const mockErrorData: any[] = [];
@@ -97,9 +96,8 @@ describe('useCheckout', () => {
     act(() => {
       result.current.filterData();
     });
-    waitFor(() => {
-      expect(result.current.filteredProducts).toBe(mockErrorData);
-    });
+
+    expect(result.current.filteredProducts).toStrictEqual(mockErrorData);
   });
   it('should fetch subcategory data and set subcategoriesData', async () => {
     // Mock ApiService.get to return some sample data
@@ -107,6 +105,10 @@ describe('useCheckout', () => {
       {id: 1, subcategoryName: 'Subcategory 1'},
       {id: 2, subcategoryName: 'Subcategory 2'},
     ]);
+    const subcategoryData = [
+      {label: 'Subcategory 1', value: 1},
+      {label: 'Subcategory 2', value: 2},
+    ];
 
     // Render the hook
     const {result} = renderHook(() => useSearchResults());
@@ -116,13 +118,7 @@ describe('useCheckout', () => {
       result.current.SubCategoryData();
     });
 
-    // Wait for the hook to update state
-    await waitFor(() => {
-      expect(result.current.subcategoriesData).toEqual([
-        {value: 1, label: 'Subcategory 1'},
-        {value: 2, label: 'Subcategory 2'},
-      ]);
-    });
+    expect(result.current.subcategoriesData).toStrictEqual(subcategoryData);
 
     // Verify that ApiService.get was called with the correct arguments
     expect(ApiService.get).toHaveBeenCalledWith(categoriesData);
@@ -134,9 +130,6 @@ describe('useCheckout', () => {
       result.current.handleFilterButtonPress();
     });
     expect(result.current.modalVisible).toBe(true);
-    waitFor(() => {
-      expect(result.current.SubCategoryData()).toBeCalled();
-    });
   });
   it('should call fetch data', async () => {
     const {result} = renderHook(() => useSearchResults());
@@ -145,8 +138,5 @@ describe('useCheckout', () => {
       result.current.handleFilterapply();
     });
     expect(result.current.modalVisible).toBe(true);
-    waitFor(() => {
-      expect(result.current.filterData()).toBeCalled();
-    });
   });
 });

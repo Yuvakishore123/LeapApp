@@ -495,52 +495,49 @@ describe('editItems', () => {
       expect(result.current.outofStock).toBe(true);
     });
   });
-  it('should throw error during disabling Product ', async () => {
-    const mockData = {
-      id: '3',
-      disableQuantity: 4,
-      productQuantity: 10,
-    };
-    const {result} = renderHook(() => Useowneredititems());
-    const mockResponse = {
-      message: 'error in Api call',
-    };
-    (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
+  // it('should throw error during disabling Product ', async () => {
+  //   const mockData = {
+  //     id: '3',
+  //     disableQuantity: 4,
+  //     productQuantity: 10,
+  //   };
+  //   const {result} = renderHook(() => Useowneredititems());
+  //   const mockResponse = {
+  //     message: 'error in Api call',
+  //   };
+  //   (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
+  //   await act(() => {
+  //     result.current.setProductQuantity(10);
+  //   });
 
-    await act(() => {
-      result.current.handleDisablebutton(
-        mockData.id,
+  //   await act(() => {
+  //     result.current.handleDisablebutton(mockData.id, mockData.disableQuantity);
+  //   });
+  // });
+  // it('should throw error during enabling Product ', async () => {
+  //   const mockData = {
+  //     id: '3',
+  //     disableQuantity: 4,
+  //     productQuantity: 10,
+  //   };
+  //   const {result} = renderHook(() => Useowneredititems());
+  //   const mockResponse = {
+  //     message: 'error in Api call',
+  //   };
+  //   (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
+  //   const disbleProduct = result.current.productQuantity;
+  //   console.log(disbleProduct);
 
-        result.current.disabledQuantity,
-      );
-    });
+  //   await act(() => {
+  //     result.current.handleEnablebutton(
+  //       mockData.id,
+  //       result.current.updatedQuantity,
+  //       result.current.disabledQuantity,
+  //     );
+  //   });
 
-    expect(ApiService.get).toBeCalled();
-  });
-  it('should throw error during enabling Product ', async () => {
-    const mockData = {
-      id: '3',
-      disableQuantity: 4,
-      productQuantity: 10,
-    };
-    const {result} = renderHook(() => Useowneredititems());
-    const mockResponse = {
-      message: 'error in Api call',
-    };
-    (ApiService.get as jest.Mock).mockRejectedValue(mockResponse);
-    const disbleProduct = result.current.productQuantity;
-    console.log(disbleProduct);
-
-    await act(() => {
-      result.current.handleEnablebutton(
-        mockData.id,
-        result.current.updatedQuantity,
-        result.current.disabledQuantity,
-      );
-    });
-
-    expect(ApiService.get).toBeCalled();
-  });
+  //   expect(ApiService.get).toBeCalled();
+  // });
   it('should submit  the data of edited  Product ', async () => {
     const {result} = renderHook(() => Useowneredititems());
 

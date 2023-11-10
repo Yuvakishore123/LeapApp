@@ -62,12 +62,37 @@ jest.mock('@react-native-firebase/messaging', () => {
   };
 });
 describe('useOwnerProductDetails', () => {
+  const mockProduct = {
+    name: 'Sample Product',
+    imageUrl: [
+      'https://example.com/image1.jpg',
+      'https://example.com/image2.jpg',
+    ],
+    price: 100.0,
+    description: 'This is a sample product description.',
+  };
+  const mockRoute = {
+    params: {
+      product: mockProduct,
+    },
+  };
+
   it('should render the useOwnerDetails Screen', () => {
-    const result = renderHook(() => useOProductDetails());
+    const {result} = renderHook(() =>
+      useOProductDetails({
+        route: mockRoute,
+        navigation: {goBack: mockNavigate},
+      }),
+    );
     expect(result).toBeDefined();
   });
   it('should navigate back when clicked on habdleBack ', () => {
-    const {result} = renderHook(() => useOProductDetails());
+    const {result} = renderHook(() =>
+      useOProductDetails({
+        route: mockRoute,
+        navigation: {goBack: mockNavigate},
+      }),
+    );
     act(() => {
       result.current.goBack();
     });

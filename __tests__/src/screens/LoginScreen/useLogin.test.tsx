@@ -1,10 +1,9 @@
 import {act, renderHook} from '@testing-library/react-native';
-import analytics from '@react-native-firebase/analytics';
+
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import {firebase} from '@react-native-firebase/messaging';
-import {logMessage} from 'helpers/helper';
+
 jest.mock('../../../../src/utils/asyncStorage');
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),
@@ -126,5 +125,6 @@ describe('Use Login Screens', () => {
     act(() => {
       result.current.handleLoginScreen(); // You need to call the initialization function
     });
+    expect(mockDispatch).toBeCalled();
   });
 });

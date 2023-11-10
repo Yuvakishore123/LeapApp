@@ -235,7 +235,7 @@ describe('DashBoard details', () => {
     },
     // You can add more data for other months and categories as needed.
   };
-  const selectedMonth = '2023-10';
+  const selectedMonth = '2023-11';
   const mockOrderData = {
     [selectedMonth]: [
       {
@@ -543,7 +543,7 @@ describe('DashBoard details', () => {
       Dashboardyeardata: jest.fn(),
     });
 
-    const {getByTestId} = render(
+    const {getByTestId, getByText} = render(
       <NavigationContainer>
         <DashboardDetails />
       </NavigationContainer>,
@@ -564,6 +564,9 @@ describe('DashBoard details', () => {
     expect(modalButton).toBeDefined();
     const close = getByTestId('Close-button');
     expect(close).toBeDefined();
+
+    expect(getByText('John Doe')).toBeDefined();
+    expect(getByText('123-456-7890')).toBeTruthy();
     fireEvent.press(close);
     expect(mockSetModel).toBeCalledWith(false);
   });
@@ -593,7 +596,7 @@ describe('DashBoard details', () => {
     );
     const monthText = getByTestId('Month-Text');
     expect(monthText).toBeDefined();
-    const currentMonth = getByText('Oct');
+    const currentMonth = getByText('Nov');
     expect(currentMonth).toBeTruthy();
     const SelectedMonth = getByTestId('Selected-Month');
     fireEvent(SelectedMonth, 'valueChange', 'November');
@@ -629,7 +632,7 @@ describe('DashBoard details', () => {
     );
     const monthText = getByTestId('Month-Text');
     expect(monthText).toBeDefined();
-    const currentMonth = getByText('Oct');
+    const currentMonth = getByText('Nov');
     expect(currentMonth).toBeTruthy();
 
     const totalOrders = getByTestId('Total-Orders');
