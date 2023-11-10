@@ -5,8 +5,8 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import AddAddress from 'screens/Owneraddaddress/AddAddress';
-import useAddAddress from 'screens/Owneraddaddress/useAddAddress';
+import AddAddress from 'screens/OwnerScreens/Owneraddaddress/AddAddress';
+import useAddAddress from 'screens/OwnerScreens/Owneraddaddress/useAddAddress';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -39,7 +39,7 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/Owneraddaddress/useAddAddress', () => ({
+jest.mock('screens/OwnerScreens/Owneraddaddress/useAddAddress', () => ({
   setStateName: jest.fn(),
   setCity: jest.fn(),
   addressLine2: 'mockedAddressLine2',

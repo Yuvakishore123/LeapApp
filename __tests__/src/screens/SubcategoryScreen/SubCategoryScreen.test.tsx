@@ -2,9 +2,9 @@ import React from 'react';
 import {fireEvent, render} from '@testing-library/react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
-import Subcategory from 'screens/Subcategory/Subcategory';
+import Subcategory from 'screens/BorrowerScreens/Subcategory/Subcategory';
 import {useDispatch} from 'react-redux';
-import useSubcategory from 'screens/Subcategory/useSubcategory';
+import useSubcategory from 'screens/BorrowerScreens/Subcategory/useSubcategory';
 const mockNavigate = jest.fn();
 
 jest.mock('@react-navigation/native', () => {
@@ -22,7 +22,7 @@ jest.mock('@react-native-community/netinfo', () => ({
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
-jest.mock('screens/Subcategory/useSubcategory', () => ({
+jest.mock('screens/BorrowerScreens/Subcategory/useSubcategory', () => ({
   subcategories: null,
   loading: true, // Set loading as needed
   handleSubcategoryPress: jest.fn(), // Mock the handleSubcategoryPress function

@@ -1,5 +1,5 @@
 import {act, renderHook} from '@testing-library/react-native';
-import useOProductDetails from 'screens/OwnerProductdetailsPage/useOProductDetails';
+import useOProductDetails from 'screens/OwnerScreens/OwnerProductdetailsPage/useOProductDetails';
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
 jest.mock('@react-native-community/netinfo', () => ({

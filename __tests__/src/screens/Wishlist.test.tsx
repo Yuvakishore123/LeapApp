@@ -2,8 +2,8 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import Wishlist from 'screens/Wishlist/Wishlist';
-import useWishlist from 'screens/Wishlist/useWishlist';
+import Wishlist from 'screens/BorrowerScreens/Wishlist/Wishlist';
+import useWishlist from 'screens/BorrowerScreens/Wishlist/useWishlist';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -52,7 +52,7 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/Wishlist/useWishlist', () => ({
+jest.mock('screens/BorrowerScreens/Wishlist/useWishlist', () => ({
   WishlistProducts: [],
   wishlistremove: jest.fn(),
   closeModal: jest.fn(),

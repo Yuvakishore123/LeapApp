@@ -1,10 +1,10 @@
 import {renderHook, act} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import useCart from '../../../../src/screens/Cart/useCart';
 
 import {fetchCartProducts} from '../../../../src/redux/slice/cartSlice';
 import * as ToastModule from 'react-native-toast-message'; // Import the module correctly
+import useCart from 'screens/BorrowerScreens/Cart/useCart';
 
 // Mock the module and the show function
 jest.mock('react-native-toast-message', () => ({

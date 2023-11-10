@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useProductdetails from '../../../../src/screens/UProductDetails/useProductdetails';
+import useProductdetails from '../../../../src/screens/BorrowerScreens/UProductDetails/useProductdetails';
 import Toast from 'react-native-toast-message';
 
 const mockNav = jest.fn();

@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useSignup from '../../../../src/screens/SignUp/useSignup';
+import useSignup from '../../../../src/screens/Common/SignUp/useSignup';
 import {boolean} from 'yup';
 import Toast from 'react-native-toast-message';
 

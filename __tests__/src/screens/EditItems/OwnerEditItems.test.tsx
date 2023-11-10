@@ -5,8 +5,8 @@ import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import EditItem from 'screens/Owneredititems/Owneredititems';
-import Useowneredititems from 'screens/Owneredititems/Useowneredititems';
+import EditItem from 'screens/OwnerScreens/Owneredititems/Owneredititems';
+import Useowneredititems from 'screens/OwnerScreens/Owneredititems/Useowneredititems';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -35,7 +35,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(),
 }));
 
-jest.mock('screens/Owneredititems/Useowneredititems', () => ({
+jest.mock('screens/OwnerScreens/Owneredititems/Useowneredititems', () => ({
   data: [],
   setGender: jest.fn(),
   visible: false,

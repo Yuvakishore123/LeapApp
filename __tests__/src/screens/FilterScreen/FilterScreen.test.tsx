@@ -4,8 +4,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import FilterScreen from 'screens/FilterScreen/FilterScreen';
-import useFilterScreen from 'screens/FilterScreen/useFilterScreen';
+import FilterScreen from 'screens/BorrowerScreens/FilterScreen/FilterScreen';
+import useFilterScreen from 'screens/BorrowerScreens/FilterScreen/useFilterScreen';
 import {useDispatch} from 'react-redux';
 
 jest.mock('@react-native-community/netinfo', () => ({
@@ -37,7 +37,7 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/FilterScreen/useFilterScreen', () => ({
+jest.mock('screens/BorrowerScreens/FilterScreen/useFilterScreen', () => ({
   FilterData: jest.fn(), // Mocked OrderProducts array
   minimumPrice: 100, // Mocked orderData object
   maximumPrice: 1000,

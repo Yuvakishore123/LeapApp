@@ -2,9 +2,9 @@ import React from 'react';
 import {act, fireEvent, render} from '@testing-library/react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
-import DashboardDetails from 'screens/OwnerHomepage/DashboardDetails';
+import DashboardDetails from 'screens/OwnerScreens/OwnerHomepage/DashboardDetails';
 import {useDispatch} from 'react-redux';
-import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
+import useAnalytics from 'screens/OwnerScreens/AnalyticsPage/useAnalytics';
 jest.mock('rn-fetch-blob', () => ({
   fetch: jest.fn(), // Mock the fetch method
 }));
@@ -43,7 +43,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('screens/AnalyticsPage/useAnalytics', () => ({
+jest.mock('screens/OwnerScreens/AnalyticsPage/useAnalytics', () => ({
   handleAnalytics: jest.fn(),
   handleOrders: jest.fn(),
   orderData: [{}],

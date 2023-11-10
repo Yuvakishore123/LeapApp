@@ -1,6 +1,6 @@
 import {act, renderHook} from '@testing-library/react-native';
 
-import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
+import useLoginscreen from 'screens/Common/LoginScreen/useLoginscreen';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 

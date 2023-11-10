@@ -3,7 +3,7 @@ import {renderHook} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {act} from 'react-test-renderer';
 
-import useFilteredAnalytics from 'screens/FilteredAnalytics/useFilteredAnalytics';
+import useFilteredAnalytics from 'screens/OwnerScreens/FilteredAnalytics/useFilteredAnalytics';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

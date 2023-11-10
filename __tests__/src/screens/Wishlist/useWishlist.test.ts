@@ -1,7 +1,7 @@
 import {act, renderHook, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import useWishlist from 'screens/Wishlist/useWishlist';
+import useWishlist from 'screens/BorrowerScreens/Wishlist/useWishlist';
 
 import Toast from 'react-native-toast-message';
 

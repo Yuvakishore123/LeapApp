@@ -2,9 +2,11 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {useDispatch} from 'react-redux';
 
-import OwnerProfile, {SkeletonLoader} from 'screens/Ownerprofile/OwnerProfile';
-import UseOwnerprofile from 'screens/Ownerprofile/useOwnerProfile';
-import ProfileData from 'screens/Profile/useProfile';
+import OwnerProfile, {
+  SkeletonLoader,
+} from 'screens/OwnerScreens/Ownerprofile/OwnerProfile';
+import UseOwnerprofile from 'screens/OwnerScreens/Ownerprofile/useOwnerProfile';
+import ProfileData from 'screens/BorrowerScreens/Profile/useProfile';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -37,14 +39,14 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/Profile/useProfile', () => ({
+jest.mock('screens/BorrowerScreens/Profile/useProfile', () => ({
   isloading: false,
   data: [],
   handleLogout: jest.fn(),
   default: jest.fn(),
   __esModule: true,
 }));
-jest.mock('screens/Ownerprofile/useOwnerProfile', () => ({
+jest.mock('screens/OwnerScreens/Ownerprofile/useOwnerProfile', () => ({
   loading: false,
   data: [],
   handleLogout: jest.fn(),

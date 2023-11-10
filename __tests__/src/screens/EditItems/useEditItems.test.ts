@@ -1,7 +1,7 @@
 import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import Useowneredititems from '../../../../src/screens/Owneredititems/Useowneredititems';
+import Useowneredititems from '../../../../src/screens/OwnerScreens/Owneredititems/Useowneredititems';
 import {
   addGenderData,
   removeproducts,

@@ -1,6 +1,6 @@
 import React from 'react';
 import {render, fireEvent} from '@testing-library/react-native';
-import SplashScreen from '../../../src/screens/Splashscreen/Splashscreen';
+import SplashScreen from '../../../src/screens/Common/Splashscreen/Splashscreen';
 
 // Mock navigation
 const mockNavigate = jest.fn();

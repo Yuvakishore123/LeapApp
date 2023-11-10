@@ -1,7 +1,7 @@
 import {render} from '@testing-library/react-native';
 import React from 'react';
 
-import OTPScreen from 'screens/OtpScreen/OtpScreen';
+import OTPScreen from 'screens/Common/OtpScreen/OtpScreen';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 jest.mock('@react-native-community/netinfo', () =>

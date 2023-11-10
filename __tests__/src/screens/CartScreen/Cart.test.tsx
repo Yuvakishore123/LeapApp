@@ -3,13 +3,12 @@ import React from 'react';
 
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Cart from 'screens/Cart/Cart';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
+import useCart from 'screens/BorrowerScreens/Cart/useCart';
+import Cart from 'screens/BorrowerScreens/Cart/Cart';
 
-import useCart from 'screens/Cart/useCart';
-
-jest.mock('screens/Cart/useCart', () => ({
+jest.mock('screens/BorrowerScreens/Cart/useCart', () => ({
   handleCheckout: jest.fn(),
   handleRemove: jest.fn(),
   setRentalStartDate: jest.fn(),

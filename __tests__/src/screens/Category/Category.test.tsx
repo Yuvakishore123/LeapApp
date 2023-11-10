@@ -2,8 +2,8 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import Category from 'screens/Category/Category';
-import useCategory from 'screens/Category/useCategory';
+import Category from 'screens/BorrowerScreens/Category/Category';
+import useCategory from 'screens/BorrowerScreens/Category/useCategory';
 
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),
@@ -29,7 +29,7 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/Category/useCategory', () => ({
+jest.mock('screens/BorrowerScreens/Category/useCategory', () => ({
   data: [],
   loading: false,
   handleCategoryData: [],

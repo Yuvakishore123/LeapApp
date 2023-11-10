@@ -2,9 +2,9 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import EditAddress from 'screens/EditAddress/EditAddress';
-import useEditAddress from 'screens/EditAddress/useEditAddress';
-import useAddAddress from 'screens/Owneraddaddress/useAddAddress';
+import EditAddress from 'screens/Common/EditAddress/EditAddress';
+import useEditAddress from 'screens/Common/EditAddress/useEditAddress';
+import useAddAddress from 'screens/OwnerScreens/Owneraddaddress/useAddAddress';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -52,12 +52,12 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('screens/Owneraddaddress/useAddAddress', () => ({
+jest.mock('screens/OwnerScreens/Owneraddaddress/useAddAddress', () => ({
   isLoading: false,
   default: jest.fn(),
   __esModule: true,
 }));
-jest.mock('screens/EditAddress/useEditAddress', () => ({
+jest.mock('screens/Common/EditAddress/useEditAddress', () => ({
   handleUpdateAddress: jest.fn(),
   handleOptionChange: jest.fn(),
   selectedOption: 'mockSelectedOption',

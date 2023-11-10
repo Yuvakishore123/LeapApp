@@ -2,8 +2,8 @@ import React, {useContext, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 
-import Ownerstyles from '../../screens/Additems/Additemsstyle';
-import Useadditems from '../../screens/Additems/useAdditems';
+import Ownerstyles from '../../screens/OwnerScreens/Additems/Additemsstyle';
+import Useadditems from '../../screens/OwnerScreens/Additems/useAdditems';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import Colors from '../../constants/colors';

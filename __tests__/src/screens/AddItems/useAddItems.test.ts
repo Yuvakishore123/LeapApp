@@ -1,7 +1,7 @@
 import {act, renderHook} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useAdditems from 'screens/Additems/useAdditems';
+import useAdditems from 'screens/OwnerScreens/Additems/useAdditems';
 import {addGenderData} from '../../../../src/redux/actions/actions';
 import ApiService from 'network/network';
 import {setSubcategoryData} from 'src/redux/slice/subcategorySlice';

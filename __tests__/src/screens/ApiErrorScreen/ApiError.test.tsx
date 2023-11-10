@@ -2,7 +2,7 @@ import {render} from '@testing-library/react-native';
 import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
+import ApiErrorScreen from 'screens/Common/ApiErrorScreen/ApiErrorScreen';
 
 import {StatusCodes} from '../../../../src/utils/statusCodes';
 

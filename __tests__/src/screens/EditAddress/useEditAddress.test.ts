@@ -2,7 +2,7 @@ import {renderHook, act} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import uesEditAddress from '../../../../src/screens/EditAddress/useEditAddress';
+import uesEditAddress from '../../../../src/screens/Common/EditAddress/useEditAddress';
 
 const mockNav = jest.fn();
 const mockGoback = jest.fn();

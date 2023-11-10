@@ -1,5 +1,5 @@
 import {renderHook, act, waitFor} from '@testing-library/react-native';
-import useProfile from '../../../../src/screens/Profile/useProfile';
+import useProfile from '../../../../src/screens/BorrowerScreens/Profile/useProfile';
 import {Alert, Linking, PermissionsAndroid} from 'react-native';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import Toast from 'react-native-toast-message';

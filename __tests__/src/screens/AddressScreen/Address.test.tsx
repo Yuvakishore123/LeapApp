@@ -2,8 +2,8 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 import {useDispatch} from 'react-redux';
 
-import Address from 'screens/Owneraddaddress/Address';
-import useAddress from 'screens/Owneraddaddress/useAddress';
+import Address from 'screens/OwnerScreens/Owneraddaddress/Address';
+import useAddress from 'screens/OwnerScreens/Owneraddaddress/useAddress';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -51,7 +51,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('screens/Owneraddaddress/useAddress', () => ({
+jest.mock('screens/OwnerScreens/Owneraddaddress/useAddress', () => ({
   handleDeleteAddress: jest.fn(),
   handleOwnerAddAddress: jest.fn(),
   handleEditItems: jest.fn(),

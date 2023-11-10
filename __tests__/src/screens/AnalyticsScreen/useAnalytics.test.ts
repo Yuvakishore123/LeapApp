@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useDispatch} from 'react-redux';
 
-import useAnalytics from '../../../../src/screens/AnalyticsPage/useAnalytics';
+import useAnalytics from '../../../../src/screens/OwnerScreens/AnalyticsPage/useAnalytics';
 
 import notifee, {AndroidColor, AndroidImportance} from '@notifee/react-native';
 import axios from 'axios';

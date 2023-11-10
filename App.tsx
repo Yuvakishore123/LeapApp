@@ -9,27 +9,27 @@ import {
 
 import {LogBox, StatusBar, View} from 'react-native';
 
-import LoginScreen from 'screens/LoginScreen/LoginScreen';
+import LoginScreen from 'screens/Common/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from './src/redux/store';
 import {Init} from './src/redux/actions/actions';
-import OtpScreen from 'screens/OtpScreen/OtpScreen';
+import OtpScreen from 'screens/Common/OtpScreen/OtpScreen';
 import OwnerNavigation from './src/navigation/OwnerNavigation';
-import SplashScreen from 'screens/Splashscreen/Splashscreen';
+import SplashScreen from 'screens/Common/Splashscreen/Splashscreen';
 import {ColorSchemeProvider} from './ColorSchemeContext';
 import Lottie from 'lottie-react-native';
-import SignupScreen from 'screens/SignUp/SignupScreen';
+import SignupScreen from 'screens/Common/SignUp/SignupScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import ApiService from 'network/network';
 
 import * as Sentry from '@sentry/react-native';
 
 import messaging from '@react-native-firebase/messaging';
-import Homescreen from 'screens/Home/Homescreen';
+import Homescreen from 'screens/BorrowerScreens/Home/Homescreen';
 
 import {listProductsById} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
-import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
+import ApiErrorScreen from 'screens/Common/ApiErrorScreen/ApiErrorScreen';
 import {setNavigationReference} from '../LeapApp/src/network/network';
 import AsyncStorageWrapper from '../LeapApp/src/utils/asyncStorage';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';

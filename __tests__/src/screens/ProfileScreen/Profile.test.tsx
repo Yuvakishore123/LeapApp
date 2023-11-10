@@ -3,8 +3,8 @@ import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import Profile from 'screens/Profile/Profile';
-import useProfile from 'screens/Profile/useProfile';
+import Profile from 'screens/BorrowerScreens/Profile/Profile';
+import useProfile from 'screens/BorrowerScreens/Profile/useProfile';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -48,7 +48,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('screens/Profile/useProfile', () => ({
+jest.mock('screens/BorrowerScreens/Profile/useProfile', () => ({
   isloading: false,
   ImageUpload: jest.fn(),
   showModall: jest.fn(),

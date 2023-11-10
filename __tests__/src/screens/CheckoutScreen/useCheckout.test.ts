@@ -1,7 +1,7 @@
 import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import useCheckout from '../../../../src/screens/CheckoutScreen/useCheckout';
+import useCheckout from '../../../../src/screens/BorrowerScreens/CheckoutScreen/useCheckout';
 
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {

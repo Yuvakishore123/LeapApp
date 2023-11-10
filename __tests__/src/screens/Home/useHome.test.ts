@@ -4,7 +4,7 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import {boolean} from 'yup';
 
-import useHome from '../../../../src/screens/Home/useHome';
+import useHome from '../../../../src/screens/BorrowerScreens/Home/useHome';
 
 import ApiService from 'network/network';
 

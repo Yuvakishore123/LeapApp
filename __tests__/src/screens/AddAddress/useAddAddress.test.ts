@@ -2,7 +2,7 @@ import {renderHook, act} from '@testing-library/react-native';
 
 import {useDispatch} from 'react-redux';
 
-import useAddAddress from '../../../../src/screens/Owneraddaddress/useAddAddress';
+import useAddAddress from '../../../../src/screens/OwnerScreens/Owneraddaddress/useAddAddress';
 import ApiService from 'network/network';
 import {Alert} from 'react-native';
 

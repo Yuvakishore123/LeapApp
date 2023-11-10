@@ -2,7 +2,7 @@ import {renderHook, act} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useAddress from '../../../../src/screens/Owneraddaddress/useAddress';
+import useAddress from '../../../../src/screens/OwnerScreens/Owneraddaddress/useAddress';
 
 jest.mock('react-native', () => ({
   Alert: {

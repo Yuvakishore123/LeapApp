@@ -5,8 +5,8 @@ import {NavigationContainer} from '@react-navigation/native';
 
 import {useDispatch} from 'react-redux';
 
-import AddImages from 'screens/OwnerImage/AddImages';
-import useAddImages from 'screens/OwnerImage/useAddImages';
+import AddImages from 'screens/OwnerScreens/OwnerImage/AddImages';
+import useAddImages from 'screens/OwnerScreens/OwnerImage/useAddImages';
 
 declare const global: any;
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
@@ -40,7 +40,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('screens/OwnerImage/useAddImages', () => ({
+jest.mock('screens/OwnerScreens/OwnerImage/useAddImages', () => ({
   postData: jest.fn(),
   handleRemoveImage: jest.fn(),
   handleSizeTypeChange: jest.fn(),

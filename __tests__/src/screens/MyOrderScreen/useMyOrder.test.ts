@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useMyOrder from '../../../../src/screens/MyOrder/useMyOrder';
+import useMyOrder from '../../../../src/screens/BorrowerScreens/MyOrder/useMyOrder';
 import notifee from '../../../__mocks__/notifee-mocks';
 import RNFetchBlob from 'rn-fetch-blob';
 import axios from 'axios';

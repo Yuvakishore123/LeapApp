@@ -3,8 +3,8 @@ import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import Additems from 'screens/Additems/Additems';
-import useAdditems from 'screens/Additems/useAdditems';
+import Additems from 'screens/OwnerScreens/Additems/Additems';
+import useAdditems from 'screens/OwnerScreens/Additems/useAdditems';
 jest.mock('react-native-skeleton-placeholder', () => {
   const mockSkeletonPlaceholder = jest.fn();
   return mockSkeletonPlaceholder;
@@ -44,7 +44,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('screens/Additems/useAdditems', () => ({
+jest.mock('screens/OwnerScreens/Additems/useAdditems', () => ({
   name: '',
   description: '',
   setGender: jest.fn(),

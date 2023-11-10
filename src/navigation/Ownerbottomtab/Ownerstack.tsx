@@ -1,33 +1,33 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import OwnerEditProfile from '../../screens/Ownereditprofile/OwnerEditProfile';
+import OwnerEditProfile from '../../screens/OwnerScreens/Ownereditprofile/OwnerEditProfile';
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Owneraddresspage from '../../screens/Owneraddaddress/Address';
-import Owneraddaddress from '../../screens/Owneraddaddress/AddAddress';
-import OwnerProfile from '../../screens/Ownerprofile/OwnerProfile';
-import MyRentals from '../../screens/My Rentals/MyRentals';
-import OwnerHome from '../../screens/OwnerHomepage/OwnerHome';
-import Additems from '../../screens/Additems/Additems';
+import Owneraddresspage from '../../screens/OwnerScreens/Owneraddaddress/Address';
+import Owneraddaddress from '../../screens/OwnerScreens/Owneraddaddress/AddAddress';
+import OwnerProfile from '../../screens/OwnerScreens/Ownerprofile/OwnerProfile';
+import MyRentals from '../../screens/OwnerScreens/My Rentals/MyRentals';
+import OwnerHome from '../../screens/OwnerScreens/OwnerHomepage/OwnerHome';
+import Additems from '../../screens/OwnerScreens/Additems/Additems';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   Route,
   getFocusedRouteNameFromRoute,
   useIsFocused,
 } from '@react-navigation/native';
-import OwnerImage from '../../screens/OwnerImage/AddImages';
+import OwnerImage from '../../screens/OwnerScreens/OwnerImage/AddImages';
 
-import OproductDetails from '../../screens/OwnerProductdetailsPage/OproductDetails';
-import Owneredititems from '../../screens/Owneredititems/Owneredititems';
+import OproductDetails from '../../screens/OwnerScreens/OwnerProductdetailsPage/OproductDetails';
+import Owneredititems from '../../screens/OwnerScreens/Owneredititems/Owneredititems';
 import Colors from '../../constants/colors';
-import EditAddress from '../../screens/EditAddress/EditAddress';
+import EditAddress from '../../screens/Common/EditAddress/EditAddress';
 import {View} from 'react-native';
-import DashboardDetails from '../../screens/OwnerHomepage/DashboardDetails';
+import DashboardDetails from '../../screens/OwnerScreens/OwnerHomepage/DashboardDetails';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
-import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRentalScreen';
+import FilteredAnalytics from '../../screens/OwnerScreens/FilteredAnalytics/FilteredAnalytics';
+import OwnerRentalScreen from '../../screens/OwnerScreens/ownerRentalStatusScreen/ownerRentalScreen';
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();

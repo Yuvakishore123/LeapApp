@@ -2,8 +2,8 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
 import {useDispatch} from 'react-redux';
-import FilteredAnalytics from 'screens/FilteredAnalytics/FilteredAnalytics';
-import useFilteredAnalytics from 'screens/FilteredAnalytics/useFilteredAnalytics';
+import FilteredAnalytics from 'screens/OwnerScreens/FilteredAnalytics/FilteredAnalytics';
+import useFilteredAnalytics from 'screens/OwnerScreens/FilteredAnalytics/useFilteredAnalytics';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -37,22 +37,25 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(),
 }));
 
-jest.mock('screens/FilteredAnalytics/useFilteredAnalytics', () => ({
-  chartData: [], // Set your mock chartData data here
-  data: [], // Set your mock data here
-  isLoading: false, // Set your mock isLoading value here
-  fetchData: jest.fn(), // Mock the fetchData function
-  generateKey: jest.fn(), // Mock the generateKey function
-  startDate: new Date(), // Set your mock startDate here
-  setStartDate: jest.fn(), // Mock the setStartDate function
-  endDate: new Date(), // Set your mock endDate here
-  setEndDate: jest.fn(), // Mock the setEndDate function
-  navigation: {}, // Set your mock navigation object here
-  handleEndDateChange: jest.fn(),
+jest.mock(
+  'screens/OwnerScreens/FilteredAnalytics/useFilteredAnalytics',
+  () => ({
+    chartData: [], // Set your mock chartData data here
+    data: [], // Set your mock data here
+    isLoading: false, // Set your mock isLoading value here
+    fetchData: jest.fn(), // Mock the fetchData function
+    generateKey: jest.fn(), // Mock the generateKey function
+    startDate: new Date(), // Set your mock startDate here
+    setStartDate: jest.fn(), // Mock the setStartDate function
+    endDate: new Date(), // Set your mock endDate here
+    setEndDate: jest.fn(), // Mock the setEndDate function
+    navigation: {}, // Set your mock navigation object here
+    handleEndDateChange: jest.fn(),
 
-  default: jest.fn(),
-  __esModule: true,
-}));
+    default: jest.fn(),
+    __esModule: true,
+  }),
+);
 
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {

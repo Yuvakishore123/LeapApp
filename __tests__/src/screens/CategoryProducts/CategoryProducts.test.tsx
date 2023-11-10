@@ -6,8 +6,8 @@ import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import CategoryProducts from 'screens/CategoryProducts/CategoryProducts';
-import useCategoryProducts from 'screens/CategoryProducts/useCategoryProducts';
+import CategoryProducts from 'screens/BorrowerScreens/CategoryProducts/CategoryProducts';
+import useCategoryProducts from 'screens/BorrowerScreens/CategoryProducts/useCategoryProducts';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -36,14 +36,17 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/CategoryProducts/useCategoryProducts', () => ({
-  subcategories: [], // Mocked OrderProducts array
-  wishlistList: [], // Mocked orderData object
-  toggleWishlist: jest.fn(),
-  getContainerStyle: jest.fn(),
-  default: jest.fn(),
-  __esModule: true,
-}));
+jest.mock(
+  'screens/BorrowerScreens/CategoryProducts/useCategoryProducts',
+  () => ({
+    subcategories: [], // Mocked OrderProducts array
+    wishlistList: [], // Mocked orderData object
+    toggleWishlist: jest.fn(),
+    getContainerStyle: jest.fn(),
+    default: jest.fn(),
+    __esModule: true,
+  }),
+);
 
 const Stack = createNativeStackNavigator();
 const mockNav = jest.fn();

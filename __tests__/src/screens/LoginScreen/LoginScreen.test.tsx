@@ -7,11 +7,11 @@ import {
 import React from 'react';
 import {Provider} from 'react-redux';
 
-import LoginScreen from 'screens/LoginScreen/LoginScreen';
+import LoginScreen from 'screens/Common/LoginScreen/LoginScreen';
 import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
+import useLoginscreen from 'screens/Common/LoginScreen/useLoginscreen';
 
 jest.mock('../../../../src/utils/asyncStorage');
 jest.mock('@react-native-community/netinfo', () =>

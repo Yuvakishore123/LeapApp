@@ -2,7 +2,7 @@ import {renderHook, act} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useSearchResults from '../../../../src/screens/SearchResultScreen/useSearchResults';
+import useSearchResults from '../../../../src/screens/BorrowerScreens/SearchResultScreen/useSearchResults';
 
 import ApiService from 'network/network';
 import {categoriesData} from '../../../../src/constants/Apis';

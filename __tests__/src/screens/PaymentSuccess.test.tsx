@@ -6,7 +6,7 @@ import {store} from '../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import PaymentSuccessScreen from 'screens/PaymentScreens/PaymentSuccessScreen';
+import PaymentSuccessScreen from 'screens/Common/PaymentScreens/PaymentSuccessScreen';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

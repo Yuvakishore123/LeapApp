@@ -2,7 +2,7 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import Carousal from 'screens/Home/Carousal';
+import Carousal from 'screens/BorrowerScreens/Home/Carousal';
 
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),

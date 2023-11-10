@@ -1,39 +1,40 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import Profile from 'screens/Profile/Profile';
-import Homescreen from 'screens/Home/Homescreen';
+import Profile from 'screens/BorrowerScreens/Profile/Profile';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import CategoryIcon from 'react-native-vector-icons/AntDesign';
 import HeartIcon from 'react-native-vector-icons/FontAwesome';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
-import Wishlist from 'screens/Wishlist/Wishlist';
-import Cart from 'screens/Cart/Cart';
+import Wishlist from 'screens/BorrowerScreens/Wishlist/Wishlist';
 
-import Category from 'screens/Category/Category';
-import UProductDetails from 'screens/UProductDetails/UProductDetails';
-import Subcategory from 'screens/Subcategory/Subcategory';
-import CategoryProducts from 'screens/CategoryProducts/CategoryProducts';
+import Category from 'screens/BorrowerScreens/Category/Category';
+import UProductDetails from 'screens/BorrowerScreens/UProductDetails/UProductDetails';
+import Subcategory from 'screens/BorrowerScreens/Subcategory/Subcategory';
+import CategoryProducts from 'screens/BorrowerScreens/CategoryProducts/CategoryProducts';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import CheckoutScreen from 'screens/CheckoutScreen/CheckoutScreen';
-import SearchResultsScreen from 'screens/SearchResultScreen/SearchResultScreen';
-import Owneraddresspage from 'screens/Owneraddaddress/Address';
-import Owneraddaddress from 'screens/Owneraddaddress/AddAddress';
-import Ownereditprofile from 'screens/Ownereditprofile/OwnerEditProfile';
-import PaymentSuccessScreen from 'screens/PaymentScreens/PaymentSuccessScreen';
-import PaymentFailScreen from 'screens/PaymentScreens/PaymentFailScreen';
+import CheckoutScreen from 'screens/BorrowerScreens/CheckoutScreen/CheckoutScreen';
+import SearchResultsScreen from 'screens/BorrowerScreens/SearchResultScreen/SearchResultScreen';
+import Owneraddresspage from 'screens/OwnerScreens/Owneraddaddress/Address';
+import Owneraddaddress from 'screens/OwnerScreens/Owneraddaddress/AddAddress';
+import Ownereditprofile from 'screens/OwnerScreens/Ownereditprofile/OwnerEditProfile';
+import PaymentSuccessScreen from 'screens/Common/PaymentScreens/PaymentSuccessScreen';
+import PaymentFailScreen from 'screens/Common/PaymentScreens/PaymentFailScreen';
 import {
   Route,
   getFocusedRouteNameFromRoute,
   useIsFocused,
 } from '@react-navigation/native';
-import MyOrder from 'screens/MyOrder/MyOrder';
-import EditAddress from 'screens/EditAddress/EditAddress';
+import MyOrder from 'screens/BorrowerScreens/MyOrder/MyOrder';
+import EditAddress from 'screens/Common/EditAddress/EditAddress';
 import Colors from 'constants/colors';
 import {View} from 'react-native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';
+import ApiErrorScreen from 'screens/Common/ApiErrorScreen/ApiErrorScreen';
+import Homescreen from 'screens/BorrowerScreens/Home/Homescreen';
+import Cart from 'screens/BorrowerScreens/Cart/Cart';
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 

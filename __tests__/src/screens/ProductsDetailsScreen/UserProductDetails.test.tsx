@@ -5,8 +5,8 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {NavigationContainer, useRoute} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import UDetailScreen from 'screens/UProductDetails/UProductDetails';
-import useProductdetails from 'screens/UProductDetails/useProductdetails';
+import UDetailScreen from 'screens/BorrowerScreens/UProductDetails/UProductDetails';
+import useProductdetails from 'screens/BorrowerScreens/UProductDetails/useProductdetails';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -44,7 +44,7 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/UProductDetails/useProductdetails', () => ({
+jest.mock('screens/BorrowerScreens/UProductDetails/useProductdetails', () => ({
   rentalStartDate: new Date(), // Mock rental start date
   setRentalStartDate: jest.fn(), // Mock setRentalStartDate function
   rentalEndDate: new Date(), // Mock rental end date

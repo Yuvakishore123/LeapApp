@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import UseOwnerprofile from '../../../../src/screens/Ownerprofile/useOwnerProfile';
+import UseOwnerprofile from '../../../../src/screens/OwnerScreens/Ownerprofile/useOwnerProfile';
 import {Logout} from '../../../../src/redux/actions/actions';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));

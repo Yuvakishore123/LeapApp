@@ -2,11 +2,11 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useSearchResults from '../../../../src/screens/SearchResultScreen/useSearchResults';
+import useSearchResults from '../../../../src/screens/BorrowerScreens/SearchResultScreen/useSearchResults';
 
 import ApiService from 'network/network';
 import {categoriesData} from '../../../../src/constants/Apis';
-import useAddImages from 'screens/OwnerImage/useAddImages';
+import useAddImages from 'screens/OwnerScreens/OwnerImage/useAddImages';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
 const mockNav = jest.fn();

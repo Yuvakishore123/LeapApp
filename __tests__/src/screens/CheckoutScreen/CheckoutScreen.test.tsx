@@ -4,8 +4,8 @@ import React from 'react';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import CheckoutScreen from 'screens/CheckoutScreen/CheckoutScreen';
-import useChectout from 'screens/CheckoutScreen/useCheckout';
+import CheckoutScreen from 'screens/BorrowerScreens/CheckoutScreen/CheckoutScreen';
+import useChectout from 'screens/BorrowerScreens/CheckoutScreen/useCheckout';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -42,7 +42,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('screens/CheckoutScreen/useCheckout', () => ({
+jest.mock('screens/BorrowerScreens/CheckoutScreen/useCheckout', () => ({
   selectedAddressIndex: 0,
   handlePayment: jest.fn(),
   handleCheckboxChange: jest.fn(),

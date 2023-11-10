@@ -2,7 +2,7 @@ import {renderHook} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import Usemyrental from 'screens/My Rentals/Usemyrental';
+import Usemyrental from 'screens/OwnerScreens/My Rentals/Usemyrental';
 jest.mock('network/network');
 
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));

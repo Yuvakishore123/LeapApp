@@ -3,8 +3,8 @@ import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import SearchResultsScreen from 'screens/SearchResultScreen/SearchResultScreen';
-import useSearchresults from 'screens/SearchResultScreen/useSearchResults';
+import SearchResultsScreen from 'screens/BorrowerScreens/SearchResultScreen/SearchResultScreen';
+import useSearchresults from 'screens/BorrowerScreens/SearchResultScreen/useSearchResults';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -38,7 +38,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 const mockUseSearchresults = jest.fn();
-jest.mock('screens/SearchResultScreen/useSearchResults', () => {
+jest.mock('screens/BorrowerScreens/SearchResultScreen/useSearchResults', () => {
   return {
     __esModule: true,
     default: jest.fn(),

@@ -1,7 +1,7 @@
 import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useDispatch} from 'react-redux';
-import useFilterScreen from '../../../../src/screens/FilterScreen/useFilterScreen';
+import useFilterScreen from '../../../../src/screens/BorrowerScreens/FilterScreen/useFilterScreen';
 import ApiService from 'network/network';
 
 const mockNav = jest.fn();

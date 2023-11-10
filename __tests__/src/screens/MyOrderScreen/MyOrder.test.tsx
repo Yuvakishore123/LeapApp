@@ -3,9 +3,11 @@ import {fireEvent, render} from '@testing-library/react-native';
 
 import {NavigationContainer} from '@react-navigation/native';
 
-import MyOrder, {OrderDetailsModal} from 'screens/MyOrder/MyOrder';
+import MyOrder, {
+  OrderDetailsModal,
+} from 'screens/BorrowerScreens/MyOrder/MyOrder';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import useMyOrder from 'screens/MyOrder/useMyOrder';
+import useMyOrder from 'screens/BorrowerScreens/MyOrder/useMyOrder';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
 jest.mock('rn-fetch-blob', () => ({
@@ -21,7 +23,7 @@ jest.mock('@react-native-community/netinfo', () => ({
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
 
-jest.mock('screens/MyOrder/useMyOrder', () => ({
+jest.mock('screens/BorrowerScreens/MyOrder/useMyOrder', () => ({
   OrderProducts: [], // Mocked OrderProducts array
   orderData: {}, // Mocked orderData object
   refreshing: false, // Mocked refreshing value

@@ -2,7 +2,7 @@ import {renderHook, act} from '@testing-library/react-native';
 
 import {useDispatch} from 'react-redux';
 
-import useCategory from '../../../../src/screens/Category/useCategory';
+import useCategory from '../../../../src/screens/BorrowerScreens/Category/useCategory';
 
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {

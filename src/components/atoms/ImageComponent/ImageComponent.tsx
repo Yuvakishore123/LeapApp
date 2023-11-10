@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, View} from 'react-native';
 import React from 'react';
-import style from '../../../screens/CategoryProducts/categoryStyles';
+import style from '../../../screens/BorrowerScreens/CategoryProducts/categoryStyles';
 
 const ImageComponent = ({imageUrl, imageLoaded, setImageLoaded}) => {
   // Define a placeholder image source

@@ -2,7 +2,7 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import Useotp from '../../../../src/screens/OtpScreen/useOtp';
+import Useotp from '../../../../src/screens/Common/OtpScreen/useOtp';
 import {boolean} from 'yup';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));

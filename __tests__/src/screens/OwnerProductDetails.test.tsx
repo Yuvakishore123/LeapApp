@@ -6,7 +6,7 @@ import {store} from '../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import OproductDetails from 'screens/OwnerProductdetailsPage/OproductDetails';
+import OproductDetails from 'screens/OwnerScreens/OwnerProductdetailsPage/OproductDetails';
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));
 jest.mock('@react-native-community/netinfo', () => ({

@@ -2,8 +2,8 @@ import {fireEvent, render} from '@testing-library/react-native';
 import React from 'react';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import Homescreen from 'screens/Home/Homescreen';
-import useHome from 'screens/Home/useHome';
+import Homescreen from 'screens/BorrowerScreens/Home/Homescreen';
+import useHome from 'screens/BorrowerScreens/Home/useHome';
 
 jest.mock('@react-native-community/netinfo', () =>
   require('react-native-netinfo'),
@@ -54,7 +54,7 @@ jest.mock('@react-native-firebase/messaging', () => {
     })),
   };
 });
-jest.mock('screens/Home/useHome', () => ({
+jest.mock('screens/BorrowerScreens/Home/useHome', () => ({
   __esModule: true,
   default: jest.fn(),
   wishlistremove: jest.fn(),

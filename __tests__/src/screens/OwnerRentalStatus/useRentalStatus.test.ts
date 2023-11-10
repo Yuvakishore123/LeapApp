@@ -1,7 +1,7 @@
 import {renderHook} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useOwnerorderproducts from 'screens/ownerRentalStatusScreen/useOwnerorderproducts';
+import useOwnerorderproducts from 'screens/OwnerScreens/ownerRentalStatusScreen/useOwnerorderproducts';
 import {boolean} from 'yup';
 
 jest.mock('react-native-skeleton-placeholder', () => {

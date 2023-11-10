@@ -4,7 +4,7 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
 import {boolean} from 'yup';
 import Toast from 'react-native-toast-message';
-import OwnerEditProfileCustomHook from '../../../../src/screens/Ownereditprofile/useOwnerProfile';
+import OwnerEditProfileCustomHook from '../../../../src/screens/OwnerScreens/Ownereditprofile/useOwnerProfile';
 import {updateProfile} from '../../../../src/redux/slice/editProfileSlice';
 
 jest.mock('@notifee/react-native', () => require('notifee-mocks'));

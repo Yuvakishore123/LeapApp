@@ -5,8 +5,8 @@ import {useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import OwnerRentalScreen from 'screens/ownerRentalStatusScreen/ownerRentalScreen';
-import useOwnerorderproducts from 'screens/ownerRentalStatusScreen/useOwnerorderproducts';
+import OwnerRentalScreen from 'screens/OwnerScreens/ownerRentalStatusScreen/ownerRentalScreen';
+import useOwnerorderproducts from 'screens/OwnerScreens/ownerRentalStatusScreen/useOwnerorderproducts';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -39,11 +39,14 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('screens/ownerRentalStatusScreen/useOwnerorderproducts', () => ({
-  ownerrentalproducts: [],
-  default: jest.fn(),
-  __esModule: true,
-}));
+jest.mock(
+  'screens/OwnerScreens/ownerRentalStatusScreen/useOwnerorderproducts',
+  () => ({
+    ownerrentalproducts: [],
+    default: jest.fn(),
+    __esModule: true,
+  }),
+);
 
 const Stack = createNativeStackNavigator();
 const mockNav = jest.fn();

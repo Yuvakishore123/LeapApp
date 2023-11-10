@@ -3,9 +3,9 @@ import React from 'react';
 
 import OwnerEditProfile, {
   SkeletonLoader,
-} from 'screens/Ownereditprofile/OwnerEditProfile';
+} from 'screens/OwnerScreens/Ownereditprofile/OwnerEditProfile';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
-import OwnerEditProfileCustomHook from 'screens/Ownereditprofile/useOwnerProfile';
+import OwnerEditProfileCustomHook from 'screens/OwnerScreens/Ownereditprofile/useOwnerProfile';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
@@ -47,7 +47,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('screens/Ownereditprofile/useOwnerProfile', () => ({
+jest.mock('screens/OwnerScreens/Ownereditprofile/useOwnerProfile', () => ({
   isLoading: false,
   closeModal: jest.fn(),
   showModal: jest.fn(),

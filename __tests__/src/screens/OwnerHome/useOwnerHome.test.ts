@@ -2,7 +2,7 @@ import {act, renderHook, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useOwnerHome from 'screens/OwnerHomepage/useOwnerHome';
+import useOwnerHome from 'screens/OwnerScreens/OwnerHomepage/useOwnerHome';
 
 import ApiService from 'network/network';
 jest.mock('network/network');

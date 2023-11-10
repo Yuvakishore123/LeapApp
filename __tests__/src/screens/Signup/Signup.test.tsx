@@ -5,7 +5,7 @@ import {Provider} from 'react-redux';
 import {store} from '../../../../src/redux/store';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import SignUpScreen from 'screens/SignUp/SignupScreen';
+import SignUpScreen from 'screens/Common/SignUp/SignupScreen';
 import {configureStore} from '@reduxjs/toolkit';
 import signupSlice, {postSignup} from '../../../../src/redux/slice/signupSlice';
 import thunk from 'redux-thunk';

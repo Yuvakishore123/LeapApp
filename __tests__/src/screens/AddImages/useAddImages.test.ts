@@ -1,7 +1,7 @@
 import {act, renderHook} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import useAddImages from 'screens/OwnerImage/useAddImages';
+import useAddImages from 'screens/OwnerScreens/OwnerImage/useAddImages';
 import {ProductAdd} from '../../../../src/redux/slice/ProductAddSlice';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import * as ImagePicker from 'react-native-image-picker';

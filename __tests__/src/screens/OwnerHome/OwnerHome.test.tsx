@@ -5,9 +5,9 @@ import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 
-import OwnerHome from 'screens/OwnerHomepage/OwnerHome';
-import useOwnerHome from 'screens/OwnerHomepage/useOwnerHome';
-import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
+import OwnerHome from 'screens/OwnerScreens/OwnerHomepage/OwnerHome';
+import useOwnerHome from 'screens/OwnerScreens/OwnerHomepage/useOwnerHome';
+import useAnalytics from 'screens/OwnerScreens/AnalyticsPage/useAnalytics';
 import Donut from 'components/atoms/DonutChart/DonutChart';
 
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blob-mock'));
@@ -43,7 +43,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('screens/OwnerHomepage/useOwnerHome', () => ({
+jest.mock('screens/OwnerScreens/OwnerHomepage/useOwnerHome', () => ({
   products: [], // Mock products data
   name: 'Mocked Name',
   isLoading: false, // Mock loading state
@@ -58,7 +58,7 @@ jest.mock('screens/OwnerHomepage/useOwnerHome', () => ({
   default: jest.fn(),
   __esModule: true,
 }));
-jest.mock('screens/AnalyticsPage/useAnalytics', () => ({
+jest.mock('screens/OwnerScreens/AnalyticsPage/useAnalytics', () => ({
   handleOrders: jest.fn(), // Mock handleOrders function
   CategoriePieData: jest.fn(), // Mock data for CategoriePieData
   Dashboardyeardata: jest.fn(),

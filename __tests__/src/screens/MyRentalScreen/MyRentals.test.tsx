@@ -5,8 +5,8 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 
-import OwnerHome from 'screens/My Rentals/MyRentals';
-import Usemyrental from 'screens/My Rentals/Usemyrental';
+import OwnerHome from 'screens/OwnerScreens/My Rentals/MyRentals';
+import Usemyrental from 'screens/OwnerScreens/My Rentals/Usemyrental';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -34,7 +34,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('screens/My Rentals/Usemyrental', () => ({
+jest.mock('screens/OwnerScreens/My Rentals/Usemyrental', () => ({
   products: {},
   default: jest.fn(),
   __esModule: true,
