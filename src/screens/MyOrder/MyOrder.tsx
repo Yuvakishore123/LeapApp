@@ -12,12 +12,12 @@ import React, {useContext} from 'react';
 import Icon from 'react-native-vector-icons/Ionicons';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
-import style from './myOrderStyles';
+import style from './MyOrderStyles';
 import useMyOrder from './useMyOrder';
 import styles from 'screens/OwnerHomepage/OwnerHomestyle';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from 'constants/colors';
+import Colors from 'constants/Colors';
 
 type OrderDetailsModalProps = {
   order: any;

@@ -1,4 +1,4 @@
-import asyncStorageWrapper from '../../../src/constants/asyncStorageWrapper';
+import asyncStorageWrapper from '../../../src/constants/AsyncStorageWrapper';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 // Mock AsyncStorage methods

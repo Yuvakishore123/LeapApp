@@ -13,7 +13,7 @@ import {CheckBox} from 'react-native-elements';
 import useCheckout from './useCheckout';
 
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import style from './CheckoutScreenStyle';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import ImageComponent from 'components/atoms/ImageComponent';

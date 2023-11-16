@@ -4,7 +4,7 @@ import reducer, {
   getsubcategoryData,
   setError,
   setSubcategoryData,
-} from '../../../src/redux/slice/subcategorySlice';
+} from '../../../src/redux/slice/SubcategorySlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
 jest.mock('@react-native-community/netinfo', () => ({

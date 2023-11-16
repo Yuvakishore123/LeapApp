@@ -5,11 +5,11 @@ import {
   addGenderData,
   addsize,
   removeproducts,
-} from '../../redux/actions/actions';
+} from '../../redux/actions/Actions';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import ApiService from '../../network/network';
+import ApiService from '../../network/Network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {
   categoryDataUrl,
@@ -17,9 +17,9 @@ import {
   editItemsDataUrl,
   editProductsByIdUrl,
   enableProductUrl,
-} from '../../constants/apiRoutes';
-import {logMessage} from 'helpers/helper';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+} from '../../constants/ApiRoutes';
+import {logMessage} from 'helpers/Helper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 type RootStackParamList = {
   OwnerProfile: undefined;
 };

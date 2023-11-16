@@ -5,7 +5,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 
 // Import custom hooks and constants
 import useSearchresults from '../../../screens/SearchResultScreen/useSearchResults';
-import Colors from '../../../constants/colors';
+import Colors from '../../../constants/Colors';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 
 const SubCategoryDropdown = ({

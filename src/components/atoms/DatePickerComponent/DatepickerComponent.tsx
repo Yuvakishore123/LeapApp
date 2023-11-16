@@ -3,8 +3,8 @@ import React, {useState} from 'react';
 import moment from 'moment';
 import {View, Text, TouchableOpacity, Modal} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import Colors from '../../../constants/colors';
-import styles from './datepickerStyles';
+import Colors from '../../../constants/Colors';
+import styles from './DatepickerStyles';
 
 interface DatePickerProps {
   startDate: Date;

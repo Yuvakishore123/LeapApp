@@ -1,7 +1,7 @@
 import {useEffect, useState} from 'react';
 import {FilterProduct, categoriesData} from '../../constants/Apis';
-import ApiService from '../../network/network';
-import {logMessage} from 'helpers/helper';
+import ApiService from '../../network/Network';
+import {logMessage} from 'helpers/Helper';
 
 const useSearchresults = () => {
   const [minimumPrice, setMinimumPrice] = useState('');

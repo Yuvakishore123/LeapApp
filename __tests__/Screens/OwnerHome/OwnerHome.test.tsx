@@ -91,7 +91,7 @@ describe('OwnerHome', () => {
   });
   it('renders correctly', () => {
     const Stack = createNativeStackNavigator();
-
+    jest.useFakeTimers();
     const result = render(
       <Provider store={store}>
         <NavigationContainer>
@@ -131,6 +131,7 @@ describe('OwnerHome', () => {
       rentedItemsPercentage: 50,
       totalEarningsPercentage: 70,
     });
+    jest.useFakeTimers();
     const {getByText} = render(
       <OwnerHome
         route={{
@@ -183,6 +184,7 @@ describe('OwnerHome', () => {
       Dashboardyeardata: mockDashboardyeardata,
       default: jest.fn(),
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <OwnerHome
         route={{
@@ -229,6 +231,7 @@ describe('OwnerHome', () => {
       rentedItemsPercentage: 50,
       totalEarningsPercentage: 70,
     });
+    jest.useFakeTimers();
     const {getByText} = render(
       <OwnerHome
         route={{
@@ -271,6 +274,7 @@ describe('OwnerHome', () => {
       rentedItemsPercentage: 50,
       totalEarningsPercentage: 70,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <OwnerHome
         route={{
@@ -314,6 +318,7 @@ describe('OwnerHome', () => {
       rentedItemsPercentage: 50,
       totalEarningsPercentage: 70,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <OwnerHome
         route={{
@@ -345,6 +350,7 @@ describe('OwnerHome', () => {
         totalEarningsPercentage: 70,
       });
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <OwnerHome
         route={{
@@ -369,6 +375,7 @@ describe('OwnerHome', () => {
       rentedItemsPercentage: 50,
       totalEarningsPercentage: 70,
     });
+    jest.useFakeTimers();
     const {getByTestId} = render(
       <OwnerHome
         route={{

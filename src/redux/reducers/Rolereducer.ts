@@ -1,4 +1,4 @@
-import {SET_ROLE} from '../actions/actionTypes';
+import {SET_ROLE} from '../actions/ActionTypes';
 
 const initialState = {
   role: 'borrower', // Default role is set to 'borrower'

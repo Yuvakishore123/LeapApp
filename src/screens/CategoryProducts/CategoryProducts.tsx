@@ -8,7 +8,7 @@ import useCategoryProducts from './useCategoryProducts';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import style from './categoryStyles';
+import style from './CategoryStyles';
 import ImageComponent from 'components/atoms/ImageComponent';
 
 type RootStackParamList = {

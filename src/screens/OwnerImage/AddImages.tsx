@@ -15,14 +15,14 @@ import Lottie from 'lottie-react-native';
 import Useownerimage from './useAddImages';
 import Sizeselection from '../../components/atoms/Sizeselect';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import {addImages} from '../../constants/languages/en';
+import {addImages} from '../../constants/languages/En';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
-import Styles from '../LoginScreen/loginStyle';
-import styles from '../../constants/themeColors';
+import Styles from '../LoginScreen/LoginStyle';
+import styles from '../../constants/ThemeColors';
 import OwnerImagestyles from './OwnerImagestyles';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 
 const AddImages = () => {
   const {

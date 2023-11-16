@@ -5,13 +5,13 @@ import {
   addGenderData,
   addsize,
   removeproducts,
-} from '../../../src/redux/actions/actions';
+} from '../../../src/redux/actions/Actions';
 import {useDispatch} from 'react-redux';
 import ApiService from 'network/network';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {logMessage} from 'helpers/helper';
-import {disableProductUrl} from 'constants/apiRoutes';
+import {logMessage} from 'helpers/Helper';
+import {disableProductUrl} from 'constants/ApiRoutes';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

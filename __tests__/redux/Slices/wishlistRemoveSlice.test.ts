@@ -4,7 +4,7 @@ import reducer, {
   setData,
   setError,
   wishListRemove,
-} from '../../../src/redux/slice/wishlistRemoveSlice';
+} from '../../../src/redux/slice/WishlistRemoveSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
 jest.mock('@react-native-community/netinfo', () => ({

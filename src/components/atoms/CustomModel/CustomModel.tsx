@@ -2,7 +2,7 @@
 import {Modal, Text, TouchableOpacity, View} from 'react-native';
 import React from 'react';
 import style from './CustomModelStyles';
-import Colors from '../../../constants/colors';
+import Colors from '../../../constants/Colors';
 
 // Define the props that the component accepts
 interface CustomModalProps {

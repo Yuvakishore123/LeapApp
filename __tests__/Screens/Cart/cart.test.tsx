@@ -3,7 +3,7 @@ import Cart from '../../../src/screens/Cart/Cart';
 import React from 'react';
 import {Provider} from 'react-redux';
 import {store} from '../../../src/redux/store';
-import ApiService from '../../../src/network/network';
+import ApiService from '../../../src/network/Network';
 jest.mock('../../../src/network/network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),

@@ -118,6 +118,7 @@
     "transformIgnorePatterns": [
       "node_modules/(?!((jest-)?react-native(-.*)?|@react-native(- community)?)|@sentry/react-native|@react-navigation/(.*)/)"
     ],
+    "maxWorkers": 4,
     "moduleFileExtensions": [
       "ts",
       "tsx",

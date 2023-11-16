@@ -5,7 +5,7 @@ import reducer, {
   removefromCart,
   setData,
   setError,
-} from '../../../src/redux/slice/cartRemoveSlice';
+} from '../../../src/redux/slice/CartRemoveSlice';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),

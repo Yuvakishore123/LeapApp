@@ -2,7 +2,7 @@
 import React, {useState} from 'react';
 import {View, Text, TouchableOpacity, Modal, StyleSheet} from 'react-native';
 import CalendarPicker from 'react-native-calendar-picker';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import moment from 'moment';
 
 const AnalyticsDatePicker = ({

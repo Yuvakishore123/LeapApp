@@ -5,7 +5,7 @@ import reducer, {
   setError,
   CategoryProductState,
   setData,
-} from '../../../src/redux/slice/categoryProductsSlice';
+} from '../../../src/redux/slice/CategoryProductsSlice';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

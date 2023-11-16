@@ -1,7 +1,7 @@
 import {
   ADD_ADDRESS,
   REMOVE_ADDRESS,
-} from '../../../src/redux/actions/actionTypes';
+} from '../../../src/redux/actions/ActionTypes';
 import {AddressReducers} from '../../../src/redux/reducers/AddressReducers';
 
 // Mock AsyncStorage

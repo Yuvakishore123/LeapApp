@@ -23,6 +23,9 @@ describe('AddAddress screen', () => {
   beforeEach(() => {
     AsyncStorage.clear();
   });
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
   it('renders correctly AddAddress Screen', () => {
     const Stack = createNativeStackNavigator();
 
@@ -132,6 +135,7 @@ describe('AddAddress screen', () => {
       fireEvent.changeText(getByPlaceholderText('Pincode'), '');
       fireEvent(getByPlaceholderText('Pincode'), 'blur');
     });
+    expect(getByPlaceholderText('Pincode').props.value).toBe('');
   });
   test('should handle option change', () => {
     const Stack = createNativeStackNavigator();

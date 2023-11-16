@@ -6,7 +6,7 @@ import reducer, {
   setData,
   setError,
   updateCart,
-} from '../../../src/redux/slice/cartUpdateSlice';
+} from '../../../src/redux/slice/CartUpdateSlice';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

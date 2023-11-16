@@ -1,7 +1,7 @@
 import {waitFor} from '@testing-library/react-native';
 import axios from 'axios';
 import {url} from 'constants/Apis';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import ApiService, {instance, setNavigationReference} from 'network/network';
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

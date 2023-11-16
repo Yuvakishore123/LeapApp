@@ -18,7 +18,7 @@ import {
   login,
   owner,
   signup,
-} from '../../constants/languages/en';
+} from '../../constants/languages/En';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import Styles from './Signupstyle';

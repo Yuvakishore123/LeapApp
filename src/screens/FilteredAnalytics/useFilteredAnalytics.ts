@@ -5,8 +5,8 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {logMessage} from 'helpers/helper';
-import {FliterAnalyticslist} from '../../redux/slice/fliterAnalyticsDataSlice';
+import {logMessage} from 'helpers/Helper';
+import {FliterAnalyticslist} from '../../redux/slice/FliterAnalyticsDataSlice';
 
 const useFilteredAnalytics = () => {
   const [chartData, setChartData] = useState<

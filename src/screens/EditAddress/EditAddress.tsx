@@ -17,7 +17,7 @@ import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
-import styles from './editAddressStyles';
+import styles from './EditAddressStyles';
 
 export const SkeletonLoader = () => {
   const {colorScheme} = useContext(ColorSchemeContext);

@@ -12,12 +12,12 @@ import {
   url,
 } from '../../constants/Apis';
 
-import ApiService from '../../network/network';
+import ApiService from '../../network/Network';
 import axios from 'axios';
-import Colors from '../../constants/colors';
-import {onclickDasboardUrl} from '../../constants/apiRoutes';
-import {logMessage} from 'helpers/helper';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import Colors from '../../constants/Colors';
+import {onclickDasboardUrl} from '../../constants/ApiRoutes';
+import {logMessage} from 'helpers/Helper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 const useAnalytics = () => {
   const [Data, setData] = useState('');
   const monthNames = [
@@ -60,50 +60,46 @@ const useAnalytics = () => {
   };
 
   const handleExportpdf = async () => {
-    try {
-      const token = await asyncStorageWrapper.getItem('token');
-      const response = await axios.get(`${url}/pdf/export`, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-        responseType: 'blob',
+    const token = await asyncStorageWrapper.getItem('token');
+    const response = await axios.get(`${url}/pdf/export`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      responseType: 'blob',
+    });
+    const blob = response.data;
+    const reader = new FileReader();
+    reader.onloadend = async () => {
+      const base64String = (reader.result as string).replace(
+        /^data:.+;base64,/,
+        '',
+      );
+      const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/report.pdf`;
+      await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
+      logMessage.error('File downloaded successfully:', filePath);
+      // Push notification
+      const channelId = await notifee.createChannel({
+        id: 'pdf_download_channel1',
+        name: 'PDF Download Channel1',
+        sound: 'default',
       });
-      const blob = response.data;
-      const reader = new FileReader();
-      reader.onloadend = async () => {
-        const base64String = (reader.result as string).replace(
-          /^data:.+;base64,/,
-          '',
-        );
-        const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/report.pdf`;
-        await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
-        logMessage.error('File downloaded successfully:', filePath);
-        // Push notification
-        const channelId = await notifee.createChannel({
-          id: 'pdf_download_channel1',
-          name: 'PDF Download Channel1',
-          sound: 'default',
-        });
-        await notifee.displayNotification({
-          title: 'Leaps',
-          body: 'PDF file downloaded successfully.',
-          android: {
-            channelId,
-            largeIcon: require('../../../assets/Leaps-1.png'),
-            progress: {
-              max: 10,
-              current: 10,
-            },
+      await notifee.displayNotification({
+        title: 'Leaps',
+        body: 'PDF file downloaded successfully.',
+        android: {
+          channelId,
+          largeIcon: require('../../../assets/Leaps-1.png'),
+          progress: {
+            max: 10,
+            current: 10,
           },
-        });
-      };
-      reader.onerror = error => {
-        logMessage.error('Error reading file:', error);
-      };
-      reader.readAsDataURL(blob);
-    } catch (error) {
-      logMessage.error('Error downloading file:', error);
-    }
+        },
+      });
+    };
+    reader.onerror = error => {
+      logMessage.error('Error reading file:', error);
+    };
+    reader.readAsDataURL(blob);
   };
 
   const CategoriePieData = async () => {
@@ -112,8 +108,12 @@ const useAnalytics = () => {
   };
 
   const Dashboardyeardata = async () => {
-    const yearlyData = await ApiService.get(Dashboardyearlydata);
-    setDashboardYearlydata(yearlyData);
+    try {
+      const yearlyData = await ApiService.get(Dashboardyearlydata);
+      setDashboardYearlydata(yearlyData);
+    } catch (error) {
+      logMessage.error('error in DashboardYearly');
+    }
   };
   const [showModel, setShowModel] = useState(false);
   const [selectedBarIndex, setSelectedBarIndex] = useState(null);

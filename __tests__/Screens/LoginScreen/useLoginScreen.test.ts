@@ -1,9 +1,6 @@
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import {act, renderHook, waitFor} from '@testing-library/react-native';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {act, renderHook} from '@testing-library/react-native';
 import useLoginscreen from 'screens/LoginScreen/useLoginscreen';
-import {postLogin} from '../../../src/redux/slice/loginSlice';
-import {fetchUserProducts} from '../../../src/redux/slice/userProductSlice';
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 jest.mock('@react-native-firebase/analytics', () => {
   return () => ({
@@ -13,6 +10,13 @@ jest.mock('@react-native-firebase/analytics', () => {
 jest.mock('@react-native-firebase/dynamic-links', () =>
   require('@react-native-firebase'),
 );
+jest.mock('../../../src/helpers/helper', () => ({
+  logMessage: {
+    error: jest.fn(),
+    info: jest.fn(),
+    warn: jest.fn(),
+  },
+}));
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('network/network');
@@ -102,36 +106,16 @@ describe('useLoginScreen', () => {
   });
   it('should handle login screen correctly', async () => {
     const {result} = renderHook(() => useLoginscreen());
-    const pageSize = 20;
     await result.current.handleLoginScreen();
-    waitFor(() => {
-      expect(asyncStorageWrapper.setItem).toHaveBeenCalledWith('device_token');
-    });
-
-    const expectedCredentials = {
-      email: 'mockedEmail', // Set your expected email here
-      password: 'mockedPassword', // Set your expected password here
-      deviceToken: 'mockedFcmToken',
-    };
-    waitFor(() => {
-      expect(postLogin(expectedCredentials)).toHaveBeenCalledWith(
-        expectedCredentials,
-      );
-      expect(fetchUserProducts({pageSize})).toHaveBeenCalledWith({
-        pageSize: 'mockedPageSize',
-      }); // Set your expected pageSize here
-    });
+    expect(mockDispatch).toBeCalled();
   });
   it('handles handleErrorresponse correctly', () => {
     const {result} = renderHook(() => useLoginscreen());
-    const Error = 401;
+    const error = 401;
 
     act(() => {
-      result.current.handleErrorResponse(Error);
+      result.current.handleErrorResponse(error);
     });
-
-    waitFor(() => {
-      expect(result.current.openModal).toBeCalled();
-    });
+    expect(result.current.showModal).toBe(true);
   });
 });

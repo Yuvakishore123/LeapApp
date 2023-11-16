@@ -1,15 +1,15 @@
 import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCartProducts} from '../../redux/slice/cartSlice';
+import {fetchCartProducts} from '../../redux/slice/CartSlice';
 
-import {ADDORDER} from '../../redux/actions/actions';
+import {ADDORDER} from '../../redux/actions/Actions';
 
 import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
-import {logMessage} from 'helpers/helper';
+import {logMessage} from 'helpers/Helper';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ListAddress} from '../../redux/slice/listAddressSlice';
+import {ListAddress} from '../../redux/slice/ListAddressSlice';
 import analtyics from '@react-native-firebase/analytics';
 type RootStackParamList = {
   CheckoutScreen: undefined;

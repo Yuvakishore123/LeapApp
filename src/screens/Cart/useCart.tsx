@@ -1,16 +1,16 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useContext, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCartProducts} from '../../redux/slice/cartSlice';
+import {fetchCartProducts} from '../../redux/slice/CartSlice';
 
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {removefromCart} from '../../redux/slice/cartRemoveSlice';
-import {updateCart} from '../../redux/slice/cartUpdateSlice';
-import {logMessage} from 'helpers/helper';
+import {removefromCart} from '../../redux/slice/CartRemoveSlice';
+import {updateCart} from '../../redux/slice/CartUpdateSlice';
+import {logMessage} from 'helpers/Helper';
 type RootStackParamList = {
   CheckoutScreen: undefined;
   UserHomescreen: {screen: any};

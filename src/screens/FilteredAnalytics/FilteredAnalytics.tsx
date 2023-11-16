@@ -3,7 +3,7 @@ import {View, Text, ScrollView, Image, Dimensions} from 'react-native';
 import {LineChart} from 'react-native-chart-kit';
 import Lottie from 'lottie-react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
-import style from './filteredAnalyticsStyles';
+import style from './FilteredAnalyticsStyles';
 import useFilteredAnalytics from './useFilteredAnalytics';
 import AnalyticsDatePicker from '../../components/atoms/AnalyticsDatePicker';
 import BackButton from '../../components/atoms/BackButton/BackButton';

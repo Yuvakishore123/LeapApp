@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import ApiService from '../../network/network';
-import {cartaddUrl} from '../../constants/apiRoutes';
+import ApiService from '../../network/Network';
+import {cartaddUrl} from '../../constants/ApiRoutes';
 interface CartAddData {
   message: string;
   status: string;

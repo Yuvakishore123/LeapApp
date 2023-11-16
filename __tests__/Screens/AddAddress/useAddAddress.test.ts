@@ -18,7 +18,6 @@ jest.mock('react-native', () => ({
   Alert: {
     alert: jest.fn(),
   },
-  // Mock any other dependencies you might have (e.g., logMessage)
 }));
 
 jest.mock('react-redux', () => ({

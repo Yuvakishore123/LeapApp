@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {Avatar} from 'react-native-paper';
 
-import style from './ownerProfileStyle';
+import style from './OwnerProfileStyle';
 import ProfileData from '../Profile/useProfile';
 import SwitchAccountButton from '../../components/atoms/switchButton/SwtichAccountButton';
 

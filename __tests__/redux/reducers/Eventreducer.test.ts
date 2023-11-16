@@ -1,4 +1,4 @@
-import eventReducer from '../../../src/redux/reducers/eventReducer';
+import eventReducer from '../../../src/redux/reducers/EventReducer';
 
 describe('eventReducer', () => {
   it('should return the initial state', () => {

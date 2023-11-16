@@ -2,8 +2,8 @@ import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
 
 import {url} from '../../constants/Apis';
 
-import ApiService from '../../network/network';
-import {logMessage} from 'helpers/helper';
+import ApiService from '../../network/Network';
+import {logMessage} from 'helpers/Helper';
 
 export interface OrderData {
   message: string;

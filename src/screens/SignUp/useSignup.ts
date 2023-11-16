@@ -4,16 +4,16 @@ import {SetStateAction, useContext, useState} from 'react';
 
 import {passwordValidation, phonenumberValidation} from '../../constants/Regex';
 
-import colors from '../../constants/colors';
+import colors from '../../constants/Colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useSelector} from 'react-redux';
 
-import {postSignup} from '../../redux/slice/signupSlice';
+import {postSignup} from '../../redux/slice/SignupSlice';
 import {
   logMessage,
   useNavigationProp,
   useThunkDispatch,
-} from '../../helpers/helper';
+} from '../../helpers/Helper';
 import Toast from 'react-native-toast-message';
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);

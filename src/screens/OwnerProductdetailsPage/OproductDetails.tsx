@@ -9,7 +9,7 @@ import {
   TouchableOpacity,
 } from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import styles from '../OwnerProductdetailsPage/oProductDetailsStyle';
+import styles from './OProductDetailsStyle';
 import useOProductDetails from './useOProductDetails';
 type Props = {
   route: {params: {product: any}};

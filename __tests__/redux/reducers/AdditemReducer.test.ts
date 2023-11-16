@@ -5,7 +5,7 @@ import {
   ADD_EVENT,
   ADD_TYPE,
   ADD_OUTFIT,
-} from '../../../src/redux/actions/actionTypes';
+} from '../../../src/redux/actions/ActionTypes';
 import {ItemsReducer} from '../../../src/redux/reducers/Additemsreducers';
 describe('ItemsReducer', () => {
   it('should return the initial state', () => {

@@ -15,11 +15,11 @@ import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 import useAddAddress from './useAddAddress';
 
 import style from './AddressStyles';
-import colors from 'constants/colors';
+import colors from 'constants/Colors';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
-import {logMessage} from 'helpers/helper';
+import {logMessage} from 'helpers/Helper';
 const AddAddress = () => {
   const {
     addressLine2,

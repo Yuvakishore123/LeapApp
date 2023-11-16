@@ -1,8 +1,8 @@
 import {act, renderHook, waitFor} from '@testing-library/react-native';
 import useSwitchButton from '../../../src/components/atoms/switchButton/useSwitchbutton';
 import {url} from 'constants/Apis';
-import {setRole} from '../../../src/redux/actions/actions';
-import {logMessage} from '../../../src/helpers/helper';
+import {setRole} from '../../../src/redux/actions/Actions';
+import {logMessage} from '../../../src/helpers/Helper';
 import ApiService from 'network/network';
 import {useSelector} from 'react-redux';
 

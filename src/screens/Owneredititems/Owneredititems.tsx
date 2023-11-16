@@ -19,7 +19,7 @@ import Ownerstyles from '../Additems/Additemsstyle';
 import Sizeselection from '../../components/atoms/Sizeselect';
 import OwnerEditItemstyles from './Owneredititemsstyles';
 
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import Lottie from 'lottie-react-native';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';

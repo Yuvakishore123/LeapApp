@@ -3,10 +3,10 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import useAddImages from '../../../src/screens/OwnerImage/useAddImages';
 import {ProductAdd} from '../../../src/redux/slice/ProductAddSlice';
-import {addsize} from '../../../src/redux/actions/actions';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {addsize} from '../../../src/redux/actions/Actions';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {logMessage} from 'helpers/helper';
+import {logMessage} from 'helpers/Helper';
 import {PermissionsAndroid} from 'react-native';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));

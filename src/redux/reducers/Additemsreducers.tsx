@@ -5,7 +5,7 @@ import {
   ADD_NAME,
   ADD_OUTFIT,
   ADD_TYPE,
-} from '../actions/actionTypes';
+} from '../actions/ActionTypes';
 
 // Initial state for the ItemsReducer
 const initialState = {

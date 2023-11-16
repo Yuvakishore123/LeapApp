@@ -18,7 +18,7 @@ import {
 } from 'victory-native';
 import {PieChart, LineChart} from 'react-native-chart-kit';
 import {Picker} from '@react-native-picker/picker';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import style from '../OwnerHomepage/OwnerHomestyle';
 import BackButton from '../../components/atoms/BackButton/BackButton';

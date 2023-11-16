@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {View, Text, Animated, TouchableOpacity} from 'react-native';
 import React, {useState} from 'react';
-import colors from '../../constants/colors';
+import colors from '../../constants/Colors';
 import {useDispatch} from 'react-redux';
 import {ownerorderproducts} from '../../redux/slice/OwnerorderproductSlice';
 const OwnerRentalSwitch = () => {

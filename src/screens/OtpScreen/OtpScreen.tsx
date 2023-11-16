@@ -7,7 +7,7 @@ import {
   ScrollView,
 } from 'react-native';
 import LottieAnimation from '../../components/molecules/LottieAnimation/LottieAnimation';
-import Styles from '../../screens/OtpScreen/otpStyles';
+import Styles from './OtpStyles';
 import Useotp from './useOtp';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';

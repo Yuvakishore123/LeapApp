@@ -12,8 +12,8 @@ import styles from 'screens/Home/homeStyles';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchCategoriesData} from '../../redux/slice/categorySlice';
-import {useNavigationProp} from '../../helpers/helper';
+import {fetchCategoriesData} from '../../redux/slice/CategorySlice';
+import {useNavigationProp} from '../../helpers/Helper';
 
 const Carousal = () => {
   const {navigation} = useNavigationProp();

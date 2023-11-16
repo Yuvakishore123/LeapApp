@@ -1,5 +1,5 @@
 import Rolereducer from '../../../src/redux/reducers/Rolereducer';
-import {SET_ROLE} from '../../../src/redux/actions/actionTypes';
+import {SET_ROLE} from '../../../src/redux/actions/ActionTypes';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({

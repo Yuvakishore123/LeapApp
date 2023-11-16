@@ -129,12 +129,12 @@ describe('Checkout Screen', () => {
   });
   it('handles fetchRecentlyAdded correctly', async () => {
     const {result} = renderHook(() => useOwnerHome());
+    (ApiService.get as jest.Mock).mockResolvedValue(mockData);
     act(() => {
       result.current.fetchRecentlyAdded();
     });
-    (ApiService.get as jest.Mock).mockResolvedValue(mockData);
     waitFor(() => {
-      expect(result.current.recentyAdded).toEqual(mockData);
+      expect(result.current.recentyAdded).toBe(mockData);
     });
   });
   it('handles fetchDashboardData correctly', () => {
@@ -143,10 +143,10 @@ describe('Checkout Screen', () => {
       totalrentedItems: 20,
     };
     const {result} = renderHook(() => useOwnerHome());
+    (ApiService.get as jest.Mock).mockResolvedValue(data);
     act(() => {
       result.current.fetchDashboardData();
     });
-    (ApiService.get as jest.Mock).mockResolvedValue(data);
     waitFor(() => {
       expect(result.current.setRentedItems).toBe(data.totalrentedItems);
     });

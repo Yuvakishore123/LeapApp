@@ -3,8 +3,8 @@ import {useState, useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 
-import ApiService from '../../network/network';
-import {subCategoryUrl} from '../../constants/apiRoutes';
+import ApiService from '../../network/Network';
+import {subCategoryUrl} from '../../constants/ApiRoutes';
 
 type RootStackParamList = {
   CategoryProducts: {

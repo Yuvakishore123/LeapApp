@@ -11,7 +11,7 @@ import {LogBox, StatusBar, View} from 'react-native';
 import LoginScreen from 'screens/LoginScreen/LoginScreen';
 import {Provider, useDispatch, useSelector} from 'react-redux';
 import {store} from './src/redux/store';
-import {Init} from './src/redux/actions/actions';
+import {Init} from './src/redux/actions/Actions';
 import OtpScreen from 'screens/OtpScreen/OtpScreen';
 import OwnerNavigation from './src/navigation/OwnerNavigation';
 import SplashScreen from 'screens/Splashscreen/Splashscreen';
@@ -26,9 +26,9 @@ import * as Sentry from '@sentry/react-native';
 import messaging from '@react-native-firebase/messaging';
 import Homescreen from 'screens/Home/Homescreen';
 
-import {setNavigationReference} from '../LeapApp/src/network/network';
-import {listProductsById} from 'constants/apiRoutes';
-import {logMessage} from 'helpers/helper';
+import {setNavigationReference} from './src/network/Network';
+import {listProductsById} from 'constants/ApiRoutes';
+import {logMessage} from 'helpers/Helper';
 import NetInfo from '@react-native-community/netinfo';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 Sentry.init({

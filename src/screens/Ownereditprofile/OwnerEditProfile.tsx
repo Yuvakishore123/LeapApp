@@ -1,8 +1,8 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Text, TextInput, View, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
-import style from './ownerEditProfileStyle';
-import Colors from '../../constants/colors';
+import style from './OwnerEditProfileStyle';
+import Colors from '../../constants/Colors';
 
 import useOwnerProfile from './useOwnerEditProfileCustomHook';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';

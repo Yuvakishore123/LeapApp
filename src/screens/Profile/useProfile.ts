@@ -5,13 +5,13 @@ import {
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import ApiService from '../../network/network';
+import ApiService from '../../network/Network';
 import {useSelector} from 'react-redux';
-import {getProfileData} from '../../redux/slice/profileDataSlice';
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {getProfileData} from '../../redux/slice/ProfileDataSlice';
+import {logMessage, useThunkDispatch} from '../../helpers/Helper';
 import {PermissionsAndroid} from 'react-native';
 import Toast from 'react-native-toast-message';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 const useProfile = () => {
   const MAX_IMAGE_SIZE_BYTES = 1024 * 1024;
   const [isLoading, setIsLoading] = useState(false);

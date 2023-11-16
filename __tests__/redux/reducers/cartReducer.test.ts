@@ -1,8 +1,8 @@
 import {
   ADD_TO_CART,
   REMOVE_FROM_CART,
-} from '../../../src/redux/actions/actionTypes';
-import CartReducer from '../../../src/redux/reducers/cartReducer';
+} from '../../../src/redux/actions/ActionTypes';
+import CartReducer from '../../../src/redux/reducers/CartReducer';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

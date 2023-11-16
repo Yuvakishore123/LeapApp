@@ -1,12 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {editAddressData} from '../../redux/slice/editAddressSlice';
-import {ListAddress} from '../../redux/slice/listAddressSlice';
+import {editAddressData} from '../../redux/slice/EditAddressSlice';
+import {ListAddress} from '../../redux/slice/ListAddressSlice';
 const useEditAddress = () => {
   const navigation = useNavigation();
   const route = useRoute();

@@ -3,7 +3,7 @@ import {act, renderHook, waitFor} from '@testing-library/react-native';
 import notifee from '@notifee/react-native';
 import axios from 'axios';
 import {url} from 'constants/Apis';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import {useDispatch, useSelector} from 'react-redux';
 import RNFetchBlob from 'rn-fetch-blob';
 import useMyOrder from 'screens/MyOrder/useMyOrder';

@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {StyleSheet, Text, TouchableOpacity, View, Animated} from 'react-native';
-import Colors from '../../../constants/colors';
+import Colors from '../../../constants/Colors';
 import IonIcon from 'react-native-vector-icons/Ionicons';
 import useSwitchButton from './useSwitchbutton';
 

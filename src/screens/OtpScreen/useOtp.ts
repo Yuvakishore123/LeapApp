@@ -2,7 +2,7 @@ import {useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {getOTP, submitOTP} from '../../redux/actions/actions';
+import {getOTP, submitOTP} from '../../redux/actions/Actions';
 
 type Dispatch = ThunkDispatch<any, any, AnyAction>;
 

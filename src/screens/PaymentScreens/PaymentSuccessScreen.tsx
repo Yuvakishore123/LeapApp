@@ -4,8 +4,8 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 import usePayment from './usePayment';
-import styles from './paymentstylesheet';
-import Colors from '../../constants/colors';
+import styles from './Paymentstylesheet';
+import Colors from '../../constants/Colors';
 
 const PaymentSuccessScreen = () => {
   const {navigation, getContainerStyle, getTextColor} = usePayment();

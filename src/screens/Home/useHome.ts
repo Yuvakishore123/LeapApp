@@ -1,18 +1,18 @@
 import {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-import {fetchUserProducts} from '../../redux/slice/userProductSlice';
+import {fetchUserProducts} from '../../redux/slice/UserProductSlice';
 
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from 'constants/colors';
-import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
-import {getProfileData} from '../../redux/slice/profileDataSlice';
+import Colors from 'constants/Colors';
+import {wishListRemove} from '../../redux/slice/WishlistRemoveSlice';
+import {getProfileData} from '../../redux/slice/ProfileDataSlice';
 import {
   logMessage,
   useNavigationProp,
   useThunkDispatch,
-} from '../../helpers/helper';
+} from '../../helpers/Helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
 
 const useHome = () => {

@@ -3,10 +3,10 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
-import {fetchWishlistProducts} from '../../redux/slice/wishlistSlice';
+import {fetchWishlistProducts} from '../../redux/slice/WishlistSlice';
 
-import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
-import {useThunkDispatch} from '../../helpers/helper';
+import {wishListRemove} from '../../redux/slice/WishlistRemoveSlice';
+import {useThunkDispatch} from '../../helpers/Helper';
 import Toast from 'react-native-toast-message';
 const useWishlist = () => {
   const navigation = useNavigation();

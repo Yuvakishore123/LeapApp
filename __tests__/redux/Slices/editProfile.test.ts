@@ -4,7 +4,7 @@ import reducer, {
   setData,
   setError,
   updateProfile,
-} from '../../../src/redux/slice/editProfileSlice';
+} from '../../../src/redux/slice/EditProfileSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
 jest.mock('@react-native-community/netinfo', () => ({

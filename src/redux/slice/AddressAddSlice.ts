@@ -1,6 +1,6 @@
 import {createAsyncThunk, createSlice} from '@reduxjs/toolkit';
-import ApiService from '../../network/network';
-import {addressaddUrl} from '../../constants/apiRoutes';
+import ApiService from '../../network/Network';
+import {addressaddUrl} from '../../constants/ApiRoutes';
 
 interface AddressAddData {
   message: string;

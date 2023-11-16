@@ -1,4 +1,4 @@
-import {ADD_ADDRESS, REMOVE_ADDRESS} from '../actions/actionTypes';
+import {ADD_ADDRESS, REMOVE_ADDRESS} from '../actions/ActionTypes';
 
 export const AddressReducers = (
   // Initial state is an empty array of addresses

@@ -3,7 +3,7 @@ import reducer, {
   OrderdataState,
   fetchInvoiceDetails,
   fetchOrderProducts,
-} from '../../../src/redux/slice/orderSlice';
+} from '../../../src/redux/slice/OrderSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
 jest.mock('@react-native-community/netinfo', () => ({

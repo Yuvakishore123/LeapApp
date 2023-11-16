@@ -1,4 +1,4 @@
-import SizeReducer from '../../../src/redux/reducers/sizeReducer';
+import SizeReducer from '../../../src/redux/reducers/SizeReducer';
 type SizeAction = {
   type: string;
   payload: string;

@@ -1,13 +1,13 @@
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {fetchProducts} from '../../redux/slice/productSlice';
+import {fetchProducts} from '../../redux/slice/ProductSlice';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {url} from '../../constants/Apis';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
-import ApiService from '../../network/network';
+import ApiService from '../../network/Network';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {recentyAddedUrl} from '../../constants/apiRoutes';
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {recentyAddedUrl} from '../../constants/ApiRoutes';
+import {logMessage, useThunkDispatch} from '../../helpers/Helper';
 
 type RootStackParamList = {
   Additems: undefined;

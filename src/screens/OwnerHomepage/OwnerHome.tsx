@@ -17,7 +17,7 @@ import Donut from '../../components/atoms/DonutChart/DonutChart';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import useOwnerHome from './useOwnerHome';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import ImageComponent from 'components/atoms/ImageComponent';
 
 type Props = {

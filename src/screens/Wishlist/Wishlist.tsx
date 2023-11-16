@@ -12,8 +12,8 @@ import Lottie from 'lottie-react-native';
 
 import useWishlist from './useWishlist';
 
-import Colors from '../../constants/colors';
-import Styles from '../../constants/themeColors';
+import Colors from '../../constants/Colors';
+import Styles from '../../constants/ThemeColors';
 import style from './wishlistStyles';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 import Toast from 'react-native-toast-message';

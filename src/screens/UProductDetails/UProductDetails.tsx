@@ -18,7 +18,7 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import useProductdetails from './useProductdetails';
 
 import * as Animatable from 'react-native-animatable';
-import Colors from 'constants/colors';
+import Colors from 'constants/Colors';
 import styles from './UProductDetailsStyle';
 import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
 import {Toast} from 'react-native-toast-message/lib/src/Toast';

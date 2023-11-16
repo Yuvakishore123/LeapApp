@@ -14,12 +14,12 @@ import {
   otp,
   signin,
   signup,
-} from '../../constants/languages/en';
+} from '../../constants/languages/En';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // Styles and assets
-import styles from './loginStyle';
-import Colors from '../../constants/colors';
+import styles from './LoginStyle';
+import Colors from '../../constants/Colors';
 
 const LoginScreen = () => {
   const {

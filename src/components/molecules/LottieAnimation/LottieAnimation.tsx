@@ -1,7 +1,7 @@
 import {View, StyleProp, ViewStyle} from 'react-native';
 import React from 'react';
 import Lottie from 'lottie-react-native';
-import styles from './lottieAnimationStyles';
+import styles from './LottieAnimationStyles';
 
 interface LottieAnimationProps {
   source: any;

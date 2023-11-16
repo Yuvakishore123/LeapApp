@@ -2,8 +2,8 @@ import React, {useState} from 'react';
 import {View, Text, TouchableOpacity} from 'react-native';
 import Lottie from 'lottie-react-native';
 import {RouteProp} from '@react-navigation/native';
-import styles from './apiErrorScreenStyles';
-import {Network_Error} from 'constants/errorCodes';
+import styles from './ApiErrorScreenStyles';
+import {Network_Error} from 'constants/ErrorCodes';
 type RootStackParamList = {
   ApiErrorScreen: {status: number | null};
 };

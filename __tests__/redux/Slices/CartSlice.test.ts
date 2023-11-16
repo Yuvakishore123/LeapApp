@@ -2,7 +2,7 @@ import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import CartReducer, {
   fetchCartProducts,
   setError,
-} from '../../../src/redux/slice/cartSlice'; // Update the path to CartSlice
+} from '../../../src/redux/slice/CartSlice'; // Update the path to CartSlice
 
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';

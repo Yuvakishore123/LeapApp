@@ -20,13 +20,13 @@ import {
 } from '@react-navigation/native';
 import OproductDetails from '../../screens/OwnerProductdetailsPage/OproductDetails';
 import Owneredititems from '../../screens/Owneredititems/Owneredititems';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 import EditAddress from '../../screens/EditAddress/EditAddress';
 import {View} from 'react-native';
 import DashboardDetails from '../../screens/OwnerHomepage/DashboardDetails';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import FilteredAnalytics from '../../screens/FilteredAnalytics/FilteredAnalytics';
-import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/ownerRentalScreen';
+import OwnerRentalScreen from '../../screens/ownerRentalStatusScreen/OwnerRentalScreen';
 import AddImages from '../../screens/OwnerImage/AddImages';
 
 // Creating a native stack navigator and a bottom tab navigator

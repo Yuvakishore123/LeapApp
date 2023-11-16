@@ -9,13 +9,13 @@ import {AnyAction} from 'redux';
 import {passwordValidation} from '../../constants/Regex';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
-import colors from 'constants/colors';
-import {postLogin} from '../../redux/slice/loginSlice';
+import colors from 'constants/Colors';
+import {postLogin} from '../../redux/slice/LoginSlice';
 import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
-import {fetchUserProducts} from '../../redux/slice/userProductSlice';
+import {fetchUserProducts} from '../../redux/slice/UserProductSlice';
 import {logger} from 'react-native-logs';
-import {defaultConfig} from '../../helpers/helper';
+import {defaultConfig} from '../../helpers/Helper';
 
 type RootStackParamList = {
   OtpScreen: undefined;

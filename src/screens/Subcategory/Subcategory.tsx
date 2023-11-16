@@ -4,7 +4,7 @@ import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {RouteProp} from '@react-navigation/native';
 
-import styles from './subcategoryStyles';
+import styles from './SubcategoryStyles';
 import {useSubcategory} from './useSubcategory';
 import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';

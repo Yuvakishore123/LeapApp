@@ -7,7 +7,7 @@ import {Dropdown} from 'react-native-element-dropdown';
 import Ownerstyles from '../../screens/Additems/Additemsstyle';
 import Useadditems from '../../screens/Additems/useAdditems';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 
 // Defining the prop types for the GenderDropdown component
 type GenderDropdownProps = {

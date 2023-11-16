@@ -1,8 +1,8 @@
 import {useEffect, useState} from 'react';
 
-import {getProfileData} from '../../redux/slice/profileDataSlice';
+import {getProfileData} from '../../redux/slice/ProfileDataSlice';
 import {useDispatch, useSelector} from 'react-redux';
-import {updateProfile} from '../../redux/slice/editProfileSlice';
+import {updateProfile} from '../../redux/slice/EditProfileSlice';
 const useOwnerEditProfileCustomHook = () => {
   const [firstName, setFirstName] = useState('');
   const [lastName, setLastName] = useState('');

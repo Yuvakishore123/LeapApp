@@ -1,14 +1,14 @@
 import {useState, useEffect} from 'react';
-import {setRole} from '../../../redux/actions/actions';
+import {setRole} from '../../../redux/actions/Actions';
 import {useDispatch, useSelector} from 'react-redux';
 import {Animated} from 'react-native';
 
 import {url} from '../../../constants/Apis';
-import ApiService from '../../../network/network';
-import {logMessage} from 'helpers/helper';
+import ApiService from '../../../network/Network';
+import {logMessage} from 'helpers/Helper';
 import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
-import {Request_SwitchError, Switchrole_Error} from 'constants/errorCodes';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {Request_SwitchError, Switchrole_Error} from 'constants/ErrorCodes';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 const useSwitchButton = () => {
   const [showOptions, setShowOptions] = useState(false);
   const dispatch = useDispatch();

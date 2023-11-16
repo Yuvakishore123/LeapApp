@@ -1,7 +1,7 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import React, {useMemo} from 'react';
-import Styles from './src/constants/themeColors';
-import Colors from './src/constants/colors';
+import Styles from './src/constants/ThemeColors';
+import Colors from './src/constants/Colors';
 
 export const ColorSchemeContext = React.createContext({
   colorScheme: 'dark',

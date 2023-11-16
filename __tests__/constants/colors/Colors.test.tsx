@@ -1,4 +1,4 @@
-import colors from '../../../src/constants/colors';
+import colors from '../../../src/constants/Colors';
 
 describe('Colors', () => {
   it('should have the correct value for "main"', () => {

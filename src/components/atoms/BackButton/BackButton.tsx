@@ -1,7 +1,7 @@
 import {View} from 'react-native';
 import React from 'react';
 import Icon from 'react-native-vector-icons/MaterialIcons';
-import style from './backButtonstyles';
+import style from './BackButtonstyles';
 
 // Defining the type of the Props for this component
 type Props = {

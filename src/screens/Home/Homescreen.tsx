@@ -16,11 +16,11 @@ import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lottie from 'lottie-react-native';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-import Colors from 'constants/colors';
+import Colors from 'constants/Colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import style from 'screens/Home/homeStyles';
+import style from 'screens/Home/HomeStyles';
 import Carousal from './Carousal';
-import {postProductToAPI} from '../../redux/actions/actions';
+import {postProductToAPI} from '../../redux/actions/Actions';
 import useHome from 'screens/Home/useHome';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';

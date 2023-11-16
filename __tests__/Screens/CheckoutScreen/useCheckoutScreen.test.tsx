@@ -4,7 +4,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import useChectout from '../../../src/screens/CheckoutScreen/useCheckout';
 import React from 'react';
 import useCheckout from '../../../src/screens/CheckoutScreen/useCheckout';
-import {ADDORDER} from '../../../src/redux/actions/actions';
+import {ADDORDER} from '../../../src/redux/actions/Actions';
 import RazorpayCheckout from 'react-native-razorpay';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));

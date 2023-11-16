@@ -2,15 +2,15 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AnyAction} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
-import {fetchOrderProducts} from '../../redux/slice/orderSlice';
+import {fetchOrderProducts} from '../../redux/slice/OrderSlice';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
 import notifee from '@notifee/react-native';
 import RNFetchBlob from 'rn-fetch-blob';
 import {url} from '../../constants/Apis';
-import {logMessage} from 'helpers/helper';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {logMessage} from 'helpers/Helper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 
 interface Order {
   id: string;

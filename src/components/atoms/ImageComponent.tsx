@@ -1,7 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import {Image, View} from 'react-native';
 import React, {useState} from 'react';
-import style from '../../../src/screens/CategoryProducts/categoryStyles';
+import style from '../../screens/CategoryProducts/CategoryStyles';
 
 const ImageComponent = ({imageUrl}) => {
   const [imageLoaded, setImageLoaded] = useState(false);

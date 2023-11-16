@@ -17,9 +17,9 @@ import {
   removeproducts,
   setRole,
   submitOTP,
-} from '../../../src/redux/actions/actions';
+} from '../../../src/redux/actions/Actions';
 import ApiService from 'network/network';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import axios from 'axios';
 import {Orderreducer} from '../../../src/redux/reducers/Orderreducer';
 

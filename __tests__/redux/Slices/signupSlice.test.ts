@@ -6,7 +6,7 @@ import reducer, {
   postSignup,
   setError,
   setSignupData,
-} from '../../../src/redux/slice/signupSlice';
+} from '../../../src/redux/slice/SignupSlice';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

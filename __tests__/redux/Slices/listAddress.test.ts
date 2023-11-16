@@ -2,10 +2,10 @@ import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import reducer, {
   ListAddress,
   setData,
-} from '../../../src/redux/slice/listAddressSlice';
+} from '../../../src/redux/slice/ListAddressSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
-import {ListAddressState} from 'src/redux/slice/listAddressSlice';
+import {ListAddressState} from 'src/redux/slice/ListAddressSlice';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),

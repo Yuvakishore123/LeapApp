@@ -4,7 +4,7 @@ import ApiService from 'network/network';
 import reducer, {
   ProductDataState,
   fetchProducts,
-} from '../../../src/redux/slice/productSlice';
+} from '../../../src/redux/slice/ProductSlice';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),

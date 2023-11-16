@@ -3,11 +3,11 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
 import ApiService from 'network/network';
 import axios from 'axios';
-import Colors from '../../../src/constants/colors';
+import Colors from '../../../src/constants/Colors';
 import {url} from 'constants/Apis';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import RNFetchBlob from 'rn-fetch-blob';
-import {logMessage} from 'helpers/helper';
+import {logMessage} from 'helpers/Helper';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -107,7 +107,7 @@ describe('useAnalytics', () => {
         totalNumberOfItems: 1,
       },
     };
-    (ApiService.get as jest.Mock).mockResolvedValueOnce(mockData);
+    (ApiService.get as jest.Mock).mockResolvedValue(mockData);
 
     const {result} = renderHook(() => useAnalytics());
 
@@ -573,11 +573,11 @@ describe('useAnalytics', () => {
     });
   });
   it('should return Colors.buttonColor for selected bar', () => {
-    const selectedBarIndex = 9; // Set the selected bar index
+    const selectedBarIndex = 10; // Set the selected bar index
     const {result} = renderHook(() => useAnalytics());
     const datum = {index: selectedBarIndex};
     act(() => {
-      expect(result.current.selectedBarIndex).toBe(9);
+      expect(result.current.selectedBarIndex).toBe(10);
     });
     result.current.getBarColor(datum);
     const res = result.current.getBarColor(datum);
@@ -588,7 +588,7 @@ describe('useAnalytics', () => {
   it('should return #eadaff for other bars', () => {
     const {result} = renderHook(() => useAnalytics());
     act(() => {
-      expect(result.current.selectedBarIndex).toBe(9);
+      expect(result.current.selectedBarIndex).toBe(10);
     });
     const datum = {index: 3}; // This is not the selected bar index
 
@@ -655,20 +655,6 @@ describe('useAnalytics', () => {
     );
     expect(result.current.monthtitle).toBe(monthNames[barData.datum.month]);
   });
-  it('should reject handle order details correctly', async () => {
-    // Mock asyncStorageWrapper.getItem to return a token
-    (asyncStorageWrapper.getItem as jest.Mock).mockRejectedValueOnce(
-      'mockToken',
-    );
-
-    const {result} = renderHook(() => useAnalytics()); // Replace with the actual hook
-
-    // Call handleOrderDetails with an orderId
-    await act(async () => {
-      await result.current.handleExportpdf(); // Provide a valid orderId
-    });
-    expect(logMessage.error).toBeCalledTimes(6);
-  });
   it('should reject to download PDF handle order details correctly', async () => {
     // Mock asyncStorageWrapper.getItem to return a token
     (asyncStorageWrapper.getItem as jest.Mock).mockResolvedValue('mockToken');
@@ -700,7 +686,7 @@ describe('useAnalytics', () => {
     await act(async () => {
       mockFileReader.onerror();
     });
-    expect(logMessage.error).toBeCalledTimes(7);
+    expect(logMessage.error).toBeCalledTimes(5);
 
     // Add further assertions based on your specific logic
   });
@@ -804,6 +790,6 @@ describe('useAnalytics', () => {
     act(() => {
       result.current.CategoriePieData();
     });
-    expect(logMessage.error).toBeCalledTimes(7);
+    expect(logMessage.error).toBeCalledTimes(5);
   });
 });

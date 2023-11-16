@@ -14,7 +14,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {Avatar} from 'react-native-paper';
-import {Logout} from '../../redux/actions/actions';
+import {Logout} from '../../redux/actions/Actions';
 import Toast from 'react-native-toast-message';
 import useProfile from './useProfile';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
@@ -22,7 +22,7 @@ import SwitchAccountButton from '../../components/atoms/switchButton/SwtichAccou
 import Togglebutton from '../../components/atoms/Colorscheme/Togglebutton';
 import CustomModal from '../../components/atoms/CustomModel/CustomModel';
 
-import style from '../Ownerprofile/ownerProfileStyle';
+import style from '../Ownerprofile/OwnerProfileStyle';
 
 type Props = {
   navigation: any;

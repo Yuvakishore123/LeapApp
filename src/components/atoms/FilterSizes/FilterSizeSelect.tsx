@@ -4,8 +4,8 @@ import {View, Text, TouchableOpacity, Animated} from 'react-native';
 import Ionicons from 'react-native-vector-icons/Ionicons';
 
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
-import Colors from '../../../constants/colors';
-import styles from './filterstyles';
+import Colors from '../../../constants/Colors';
+import styles from './Filterstyles';
 
 type FilterSelectSizeProps = {
   sizes: string[];

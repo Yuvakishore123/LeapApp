@@ -4,7 +4,7 @@ import React from 'react';
 import {Provider} from 'react-redux';
 import {store} from '../../../src/redux/store';
 import ApiService from 'network/network';
-
+jest.mock('network/network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
   setItem: jest.fn(),
   getItem: jest.fn(),

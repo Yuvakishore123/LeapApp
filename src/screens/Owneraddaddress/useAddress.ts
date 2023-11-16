@@ -4,10 +4,10 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
-import {removeAddress} from '../../redux/actions/actions';
-import {ListAddress} from '../../redux/slice/listAddressSlice';
+import {removeAddress} from '../../redux/actions/Actions';
+import {ListAddress} from '../../redux/slice/ListAddressSlice';
 
-import {useThunkDispatch} from '../../helpers/helper';
+import {useThunkDispatch} from '../../helpers/Helper';
 
 type RootStackParamList = {
   EditAddress: {address: any};

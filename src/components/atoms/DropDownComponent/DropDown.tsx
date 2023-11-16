@@ -3,7 +3,7 @@ import {View} from 'react-native';
 import {Dropdown} from 'react-native-element-dropdown';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Ownerstyles from '../../../screens/Additems/Additemsstyle';
-import styles from './dropdownStyles';
+import styles from './DropdownStyles';
 
 type DropdownComponentProps = {
   onSelect: (selectedValue: string) => void;

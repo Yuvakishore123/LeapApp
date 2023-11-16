@@ -3,9 +3,9 @@ import {View, Text, TouchableOpacity} from 'react-native';
 import Swiper from 'react-native-swiper';
 import Lottie from 'lottie-react-native';
 import Icons from 'react-native-vector-icons/MaterialIcons';
-import style from './splashScreenStyles';
+import style from './SplashScreenStyles';
 import {useSplashScreen} from './useSplashScreen';
-import Colors from '../../constants/colors';
+import Colors from '../../constants/Colors';
 
 const walkthroughTitleList = [
   {

@@ -1,4 +1,4 @@
-import {ADD_ORDER} from '../actions/actionTypes';
+import {ADD_ORDER} from '../actions/ActionTypes';
 // This is an action creator function. It takes a 'razorpay' parameter
 // which is a string representing the razorpay details.
 export const Orderreducer = (razorpay: string) => {

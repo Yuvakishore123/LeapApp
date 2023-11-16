@@ -2,7 +2,7 @@ import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import reducer, {
   UserproductState,
   fetchUserProducts,
-} from '../../../src/redux/slice/userProductSlice';
+} from '../../../src/redux/slice/UserProductSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import ApiService from 'network/network';
 jest.mock('@react-native-community/netinfo', () => ({

@@ -8,7 +8,7 @@ import {
 } from '@testing-library/react-native';
 import React from 'react';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import ApiService from '../../../src/network/network';
+import ApiService from '../../../src/network/Network';
 import SearchResultsScreen from '../../../src/screens/SearchResultScreen/SearchResultScreen';
 import useSearchresults from 'screens/SearchResultScreen/useSearchResults';
 jest.mock('network/network');

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import styles from './paymentstylesheet';
+import styles from './Paymentstylesheet';
 import {View, Text} from 'react-native';
 import Lottie from 'lottie-react-native';
 

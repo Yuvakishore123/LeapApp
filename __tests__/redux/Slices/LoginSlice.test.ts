@@ -4,10 +4,10 @@ import reducer, {
   postLogin,
   setError,
   setLoginData,
-} from '../../../src/redux/slice/loginSlice';
+} from '../../../src/redux/slice/LoginSlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import axios from 'axios';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),
