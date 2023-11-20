@@ -17,7 +17,7 @@ export const postLogin = createAsyncThunk(
         `${url}/login?email=${credentials.email}&password=${credentials.password}&devicetoken=${credentials.deviceToken}`,
         credentials,
       );
-      console.log('access_token', response.headers.access_token);
+
       await AsyncStorageWrapper.setItem('token', response.headers.access_token);
       await AsyncStorageWrapper.setItem(
         'refresh_token',

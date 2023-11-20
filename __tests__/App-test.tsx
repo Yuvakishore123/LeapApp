@@ -1,10 +1,12 @@
 import 'react-native';
 import React from 'react';
-import App, {AuthStack, RootNavigation} from '../App';
+import App from '../App';
 import {act, render} from '@testing-library/react-native';
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import AsyncStorageWrapper from '../src/utils/asyncStorage';
+import {AuthStack} from '../src/navigation/AuthStack/AuthStack';
+import {RootNavigation} from '../src/navigation/RootNavigation/RootNavigation';
 
 jest.mock('react-native-skeleton-placeholder', () => {
   const mockSkeletonPlaceholder = jest.fn();

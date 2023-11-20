@@ -157,7 +157,6 @@ const useAddImages = () => {
             );
             if (result.ok) {
               const res = await result.json();
-              console.log('response', res);
 
               setImageUrls(prevUrls => [...prevUrls, ...res.urls]);
               setIsLoading(false);

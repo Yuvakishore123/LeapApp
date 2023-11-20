@@ -66,8 +66,6 @@ export default function UDetailScreen({route}: Props) {
   } = useProductdetails(product);
   const Quantity = product?.quantity;
 
-  console.log(product);
-
   return (
     <ScrollView
       style={[

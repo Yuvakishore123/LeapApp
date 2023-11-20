@@ -286,7 +286,6 @@ const Useowneredititems = () => {
     }
   };
   const handleDisablebutton = async (id: any, disableQuantity: number) => {
-    console.log(disableQuantity, productQuantity);
     if (disableQuantity <= productQuantity) {
       await ApiService.get(
         `${disableProductUrl}${id}&quantity=${disableQuantity}`,

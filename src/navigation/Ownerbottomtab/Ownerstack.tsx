@@ -1,70 +1,30 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-import OwnerEditProfile from '../../screens/OwnerScreens/Ownereditprofile/OwnerEditProfile';
+
 import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import Owneraddresspage from '../../screens/OwnerScreens/Owneraddaddress/Address';
-import Owneraddaddress from '../../screens/OwnerScreens/Owneraddaddress/AddAddress';
-import OwnerProfile from '../../screens/OwnerScreens/Ownerprofile/OwnerProfile';
-import MyRentals from '../../screens/OwnerScreens/My Rentals/MyRentals';
-import OwnerHome from '../../screens/OwnerScreens/OwnerHomepage/OwnerHome';
-import Additems from '../../screens/OwnerScreens/Additems/Additems';
+
 import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
 import {
   Route,
   getFocusedRouteNameFromRoute,
   useIsFocused,
 } from '@react-navigation/native';
-import OwnerImage from '../../screens/OwnerScreens/OwnerImage/AddImages';
 
-import OproductDetails from '../../screens/OwnerScreens/OwnerProductdetailsPage/OproductDetails';
-import Owneredititems from '../../screens/OwnerScreens/Owneredititems/Owneredititems';
 import Colors from '../../constants/colors';
-import EditAddress from '../../screens/Common/EditAddress/EditAddress';
+
 import {View} from 'react-native';
-import DashboardDetails from '../../screens/OwnerScreens/OwnerHomepage/DashboardDetails';
+
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import FilteredAnalytics from '../../screens/OwnerScreens/FilteredAnalytics/FilteredAnalytics';
-import OwnerRentalScreen from '../../screens/OwnerScreens/ownerRentalStatusScreen/ownerRentalScreen';
+
+import Owneradditemsstack from '../Stacks/owner/AdditemsStack';
+import OwnerHomestack from '../Stacks/owner/HomeStack';
+import OwnerRentalStatusScreen from '../Stacks/owner/RentalStatusStack';
+import OwnerProfilestack from '../Stacks/owner/ProfileStack';
 
 const Tab = createBottomTabNavigator();
-const Stack = createNativeStackNavigator();
-const OwnerProfilestack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="Profile">
-      <Stack.Screen name="OwnerProfile" component={OwnerProfile} />
-      <Stack.Screen name="OwnerEditProfile" component={OwnerEditProfile} />
-      <Stack.Screen name="EditAddress" component={EditAddress} />
-      <Stack.Screen name="Owneredititems" component={Owneredititems} />
-      <Stack.Screen name="Owneraddresspage" component={Owneraddresspage} />
-      <Stack.Screen name="Owneraddaddress" component={Owneraddaddress} />
-      <Stack.Screen name="MyRentals" component={MyRentals} />
-      <Stack.Screen name="OproductDetails" component={OproductDetails} />
-    </Stack.Navigator>
-  );
-};
 
-const OwnerHomestack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="OwnerHome">
-      <Stack.Screen name="OwnerHome" component={OwnerHome} />
-
-      <Stack.Screen name="Additems" component={Additems} />
-      <Stack.Screen name="MyRentals" component={MyRentals} />
-
-      <Stack.Screen name="DashboardDetails" component={DashboardDetails} />
-      <Stack.Screen name="FilteredAnalytics" component={FilteredAnalytics} />
-
-      <Stack.Screen name="OproductDetails" component={OproductDetails} />
-    </Stack.Navigator>
-  );
-};
 const getRouteName = (route: Partial<Route<string>>) => {
   const routeName = getFocusedRouteNameFromRoute(route);
   if (
@@ -84,27 +44,6 @@ const getRouteName = (route: Partial<Route<string>>) => {
   return 'flex';
 };
 
-const Owneradditemsstack = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="Additems">
-      <Stack.Screen name="Additems" component={Additems} />
-      <Stack.Screen name="OwnerImage" component={OwnerImage} />
-
-      <Stack.Screen name="OwnerHome" component={OwnerHome} />
-    </Stack.Navigator>
-  );
-};
-const OwnerRentalStatusScreen = () => {
-  return (
-    <Stack.Navigator
-      screenOptions={{headerShown: false}}
-      initialRouteName="OwnerRentalScreen">
-      <Stack.Screen name="OwnerRentalScreen" component={OwnerRentalScreen} />
-    </Stack.Navigator>
-  );
-};
 const Ownerstack = () => {
   const {colorScheme, tabColor} = useContext(ColorSchemeContext);
   const isFocused = useIsFocused();

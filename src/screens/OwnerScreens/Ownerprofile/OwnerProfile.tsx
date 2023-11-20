@@ -47,7 +47,7 @@ const OwnerProfile = () => {
   const {navigation} = useNavigationProp();
   const {isloading, pickImage, handleRemoveProfilePic} = ProfileData();
   const {handleLogout, data, loading} = UseOwnerprofile();
-  console.log(data);
+
   const renderProfileImage = () => {
     if (isloading) {
       return (

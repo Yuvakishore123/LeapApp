@@ -51,7 +51,6 @@ export const fetchSubcategoryList = createAsyncThunk(
     const {log} = logMessage();
     try {
       const response = await ApiService.get(subCategoryList);
-
       return response;
     } catch (error) {
       log.error('error during fetchong subcategory data');

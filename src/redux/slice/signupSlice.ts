@@ -39,7 +39,6 @@ export const postSignup = createAsyncThunk(
   ) => {
     const {log} = logMessage();
     try {
-      console.log(credentials.role);
       const response = await ApiService.post(signupUrl, credentials);
 
       return response;

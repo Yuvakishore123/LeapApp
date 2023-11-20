@@ -84,7 +84,7 @@ const useProductdetails = (product: {
 
   const productsData = async () => {
     const result = await ApiService.get(`${listProductsById}/${product.id}`);
-    console.log('result is :', result);
+
     setshareData(result);
   };
   const generateLink = async () => {
@@ -99,11 +99,9 @@ const useProductdetails = (product: {
         },
         dynamicLinks.ShortLinkType.DEFAULT,
       );
-      console.log('Link: ', link);
+
       return link;
-    } catch (error) {
-      console.log('error', error);
-    }
+    } catch (error) {}
   };
   const shareProduct = async () => {
     const getLink = await generateLink();

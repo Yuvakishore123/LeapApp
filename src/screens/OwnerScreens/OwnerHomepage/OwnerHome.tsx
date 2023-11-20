@@ -48,13 +48,11 @@ const OwnerHome = () => {
     isloading,
   } = useOwnerHome();
 
-  console.log(rentedItemsPercentage);
-
   const {handleOrders, CategoriePieData, Dashboardyeardata} = useAnalytics();
   const {colorScheme, getTextColor, getContainerStyle, getTextInputStyle} =
     useContext(ColorSchemeContext);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  console.log(isloading);
+
   const renderRecentlyAddedItem = ({item}: {item: Product}) => {
     return (
       <TouchableOpacity

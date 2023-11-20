@@ -72,8 +72,6 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
-    console.log(Fcm_token, 'hello');
-
     const credentials = {
       email: formik.values.email,
       password: formik.values.password,

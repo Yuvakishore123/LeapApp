@@ -90,9 +90,6 @@ describe('useOtp', () => {
       result.current.handleLogin();
     });
     expect(mockDispatch).toBeCalled();
-    // expect(mockDispatch).toHaveBeenCalledWith(
-    //   submitOTP(credentials.phoneNumber, Number(result.current.otp)),
-    // );
   });
 
   it('should submit the signup data when clicked', async () => {
@@ -107,7 +104,6 @@ describe('useOtp', () => {
     await waitFor(() => {
       expect(mockDispatch).toBeCalled();
       expect(result.current.showModal).toBe(true);
-      //   expect(mockDispatch).toHaveBeenCalledWith(GetOtp(credentials));
     });
   });
   it('should set The selected phone number', async () => {

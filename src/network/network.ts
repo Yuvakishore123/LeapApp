@@ -43,7 +43,7 @@ const ApiService = {
       return response.data;
     } catch (error: any) {
       const status = error.response?.status;
-      console.log('status', status);
+
       if (status === StatusCodes.NOT_FOUND || StatusCodes.UNDER_MAINTAINANCE) {
         navigationRef?.navigate('ApiErrorScreen', {status});
       }

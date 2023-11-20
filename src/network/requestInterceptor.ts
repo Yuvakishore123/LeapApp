@@ -11,7 +11,6 @@ const requestInterceptor = (instance: any) => {
       return config;
     },
     (error: {response: any}) => {
-      console.log('error is', error.response);
       return Promise.reject(error);
     },
   );

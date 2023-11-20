@@ -39,7 +39,7 @@ const CheckoutScreen = () => {
   ) || {
     cartItems: [],
   };
-  console.log(!cartData);
+
   if (isLoading) {
     return (
       <View style={style.checkoutcontainer}>
