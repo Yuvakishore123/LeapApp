@@ -17,11 +17,6 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('react-navigation-shared-element', () => {
-  return {
-    createSharedElementStackNavigator: jest.fn(),
-  };
-});
 
 jest.mock('react-native-razorpay', () => {
   return {
@@ -54,9 +49,6 @@ jest.mock('@react-native-firebase/in-app-messaging', () =>
   require('@react-native-firebase'),
 );
 
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
@@ -93,7 +85,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('victory-native', () => ({
   VictoryChart: jest.fn().mockReturnValue(null), // Mock the VictoryChart component
   VictoryBar: jest.fn().mockReturnValue(null), // Mock the VictoryBar component

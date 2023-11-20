@@ -13,6 +13,12 @@ import {PermissionsAndroid} from 'react-native';
 import {logger} from 'react-native-logs';
 import {useThunkDispatch, defaultConfig} from '../../helpers/Helper';
 import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
+import {
+  ItemReducerSubcategoryId,
+  ItemreducerCategoryId,
+  ItemreducerDescription,
+  ItemreducerName,
+} from '../../../src/redux/reducers/Additemsreducers';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -33,16 +39,9 @@ const useAddImages = () => {
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {dispatch} = useThunkDispatch();
-  const name = useSelector(
-    (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
-  );
-  const description = useSelector(
-    (state: {ItemsReducer: {Description: string}}) =>
-      state.ItemsReducer.Description,
-  );
-  const categoryIds = useSelector(
-    (state: {ItemsReducer: {CategoryId: []}}) => state.ItemsReducer.CategoryId,
-  );
+  const name = useSelector(ItemreducerName);
+  const description = useSelector(ItemreducerDescription);
+  const categoryIds = useSelector(ItemreducerCategoryId);
   const openModal = () => {
     setShowModal(true);
   };
@@ -50,10 +49,7 @@ const useAddImages = () => {
     navigation.navigate('Home', {screen: 'OwnerHome'});
     setShowModal(false);
   };
-  const subcategoryIds = useSelector(
-    (state: {ItemsReducer: {subcategoryIds: []}}) =>
-      state.ItemsReducer.subcategoryIds,
-  );
+  const subcategoryIds = useSelector(ItemReducerSubcategoryId);
   const AdditemsvalidationSchema = Yup.object().shape({
     size: Yup.string().required('Size is required'),
     price: Yup.number()
@@ -178,7 +174,10 @@ const useAddImages = () => {
     const permissionGranted = await asyncStorageWrapper.getItem(
       'permissionGranted',
     );
-    if (permissionGranted === 'true') {
+    const IsPermissionGranted = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    );
+    if (permissionGranted === 'true' && IsPermissionGranted) {
       pickImages();
     } else {
       const granted = await PermissionsAndroid.request(

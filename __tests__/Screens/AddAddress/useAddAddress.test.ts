@@ -1,5 +1,5 @@
 import {renderHook} from '@testing-library/react-native';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import {Alert} from 'react-native';
 import {useSelector} from 'react-redux';
 import {act} from 'react-test-renderer';
@@ -11,7 +11,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 jest.mock('react-native', () => ({
@@ -27,7 +27,7 @@ jest.mock('react-redux', () => ({
 
 const mockDispatch = jest.fn();
 
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   useThunkDispatch: () => ({dispatch: mockDispatch}),
   logMessage: {
     error: jest.fn(),

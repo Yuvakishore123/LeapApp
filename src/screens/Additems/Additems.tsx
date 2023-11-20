@@ -14,7 +14,7 @@ import useAddItems from 'screens/Additems/useAdditems';
 
 import Colors from 'constants/Colors';
 import Ownerstyles from './Additemsstyle';
-import Styles from 'screens/LoginScreen/loginStyle';
+import Styles from 'screens/LoginScreen/LoginStyle';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import DropdownComponent from 'components/atoms/DropDownComponent/DropDown';
 

@@ -77,5 +77,7 @@ const editAddressThunk = createSlice({
       });
   },
 });
+export const editAddressDatareducer = (state: {editAddressData: {data: any}}) =>
+  state.editAddressData.data;
 export const {seteditAddressData, setError} = editAddressThunk.actions;
 export default editAddressThunk.reducer;

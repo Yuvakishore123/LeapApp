@@ -9,7 +9,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 const mockDispatch = jest.fn();
@@ -18,7 +18,7 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(() => mockDispatch),
 }));
 
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   useThunkDispatch: () => ({dispatch: mockDispatch}),
 }));
 // jest.mock('react-test-renderer', () => ({

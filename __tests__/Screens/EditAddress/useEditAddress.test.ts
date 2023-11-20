@@ -2,7 +2,7 @@ import {act, renderHook} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import useEditAddress from '../../../src/screens/EditAddress/useEditAddress';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -11,7 +11,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(),
 }));
 
-jest.mock('network/network', () => ({
+jest.mock('network/Network', () => ({
   post: jest.fn(), // This creates a Jest mock function for ApiService.post
 }));
 jest.mock('react-redux', () => ({

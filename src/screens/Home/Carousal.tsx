@@ -7,21 +7,22 @@ import {
   Dimensions,
   TouchableOpacity,
 } from 'react-native';
-import styles from 'screens/Home/homeStyles';
+import styles from 'screens/Home/HomeStyles';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import {useDispatch, useSelector} from 'react-redux';
-import {fetchCategoriesData} from '../../redux/slice/CategorySlice';
+import {
+  categoryreducer,
+  fetchCategoriesData,
+} from '../../redux/slice/CategorySlice';
 import {useNavigationProp} from '../../helpers/Helper';
 
 const Carousal = () => {
   const {navigation} = useNavigationProp();
   const SCREEN_WIDTH = Dimensions.get('window').width;
   const {getTextColor} = useContext(ColorSchemeContext);
-  const data = useSelector(
-    (state: {category: {data: any}}) => state.category.data,
-  );
+  const data = useSelector(categoryreducer);
   const dispatch = useDispatch();
 
   useEffect(() => {

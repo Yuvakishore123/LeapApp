@@ -31,9 +31,6 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('react-native-razorpay', () => {
   return {
     __esModule: true,

@@ -7,7 +7,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import Category from 'screens/Category/Category';
 import useCategory from 'screens/Category/useCategory';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),

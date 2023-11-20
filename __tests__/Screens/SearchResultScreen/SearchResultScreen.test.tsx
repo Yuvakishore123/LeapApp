@@ -15,7 +15,7 @@ import useAddImages from 'screens/OwnerImage/useAddImages';
 import useSearchresults from 'screens/SearchResultScreen/useSearchResults';
 import FilterSelectSize from 'components/atoms/FilterSizes/FilterSizeSelect';
 import SubCategoryDropdown from 'components/atoms/SubcategoryDropdown/SubcategoryDropdown';
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 jest.mock('@react-native-async-storage/async-storage', () => ({

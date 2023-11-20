@@ -19,7 +19,7 @@ jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
 jest.mock('@sentry/react-native', () => require('react-native-sentry'));
-jest.mock('../../../src/redux/actions/actions', () => ({
+jest.mock('../../../src/redux/actions/Actions', () => ({
   ADDORDER: jest.fn(), // Mock the action creator here
 }));
 jest.mock('@react-native-firebase/messaging', () =>

@@ -5,19 +5,19 @@ export const signupUrl = 'user/signup';
 export const wishListRemoveUrl = '/wishlist/remove?productId=';
 
 // URL for fetching category data
-export const categoryDataUrl = '/category/list';
+export const categoryDataUrl = '/category';
 
 // URL for removing a product from cart, requires productId as a parameter
 export const cartRemoveUrl = '/cart/delete/';
 
 // URL for fetching the list of products in the cart
-export const cartList = '/cart/list';
+export const cartList = '/cart';
 
 // URL for updating the quantity of a product in the cart
 export const cartupdateUrl = '/cart/updateQuantity';
 
 // URL for fetching the list of user addresses
-export const listAddressUrl = '/address/listAddress';
+export const listAddressUrl = '/address';
 
 // URL for fetching user profile data
 export const profileDataUrl = '/user/getUser';
@@ -26,10 +26,10 @@ export const profileDataUrl = '/user/getUser';
 export const updateProfileUrl = '/user/update';
 
 // URL for fetching sub-category data by categoryId
-export const subCategoryUrl = '/subcategory/listbyid';
+export const subCategoryUrl = '/subcategory';
 
 // URL for adding a product to the cart
-export const cartaddUrl = '/cart/add';
+export const cartaddUrl = '/cart';
 
 // URL for adding a new product
 export const productaddUrl = '/product/add';
@@ -59,7 +59,7 @@ export const enableProductUrl = '/product/enableProduct?productId=';
 export const recentyAddedUrl = '/product/listInDesc';
 
 // URL for fetching the list of sub-categories
-export const subCategoryList = '/subcategory/list';
+export const subCategoryList = '/subcategory';
 
 // URL for generating an invoice for an order
 export const generateInvoice = '/order/generate';

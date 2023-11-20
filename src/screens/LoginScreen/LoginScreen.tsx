@@ -1,4 +1,3 @@
-/* eslint-disable react-native/no-inline-styles */
 // External libraries/packages
 import React, {useContext} from 'react';
 import {View, TextInput, Text, TouchableOpacity} from 'react-native';

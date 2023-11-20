@@ -8,7 +8,7 @@ import colors from '../../constants/Colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useSelector} from 'react-redux';
 
-import {postSignup} from '../../redux/slice/SignupSlice';
+import {postSignup, signuperrorreducer} from '../../redux/slice/SignupSlice';
 import {
   logMessage,
   useNavigationProp,
@@ -22,9 +22,7 @@ const useSignup = () => {
   const {navigation} = useNavigationProp();
   const {colorScheme} = useContext(ColorSchemeContext);
   const {dispatch} = useThunkDispatch();
-  const isError = useSelector(
-    (state: {signup: {error: any}}) => state.signup.error,
-  );
+  const isError = useSelector(signuperrorreducer);
   const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required('Enter First Name'),
     lastName: Yup.string().required('Enter LastName'),

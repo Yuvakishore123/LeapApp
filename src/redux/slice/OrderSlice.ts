@@ -24,11 +24,21 @@ const initialState: OrderdataState = {
   isError: false,
   error: null,
 };
+interface RootState {
+  OrderProducts: OrderProductsState;
+}
+interface OrderProductsState {
+  data: Order[];
+}
+interface Order {
+  id: string;
+  orderItems: any[];
+}
 export const fetchOrderProducts = createAsyncThunk(
   'fetchOrderProducts',
   async () => {
     try {
-      const response = await ApiService.get(`${url}/order/list`);
+      const response = await ApiService.get(`${url}/order`);
       return response;
     } catch (error) {
       logMessage.error('error in fetchOrderProducts', error);
@@ -79,5 +89,11 @@ export const orderSlice = createSlice({
       });
   },
 });
-
+export const OrderproductsReducer = (state: RootState) =>
+  state.OrderProducts.data;
+export const orderDataReducer = (state: {OrderProducts: {data: []}}) =>
+  state.OrderProducts.data;
+export const orderLoadingreducer = (state: {
+  OrderProducts: {isLoader: boolean};
+}) => state.OrderProducts.isLoader;
 export default orderSlice.reducer;

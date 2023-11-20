@@ -32,16 +32,13 @@ jest.mock('@react-native-firebase/analytics', () =>
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('rn-fetch-blob', () => ({
   fetch: jest.fn(), // Mock the fetch method
 }));

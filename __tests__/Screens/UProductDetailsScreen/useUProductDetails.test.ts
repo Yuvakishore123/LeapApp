@@ -10,11 +10,8 @@ jest.mock('@react-native-firebase/analytics', () =>
 jest.mock('@react-native-firebase/dynamic-links', () =>
   require('@react-native-firebase'),
 );
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('@react-native-firebase/messaging', () =>
-  require('@react-native-firebase'),
-);
-jest.mock('@react-native-firebase/crashlytics', () =>
   require('@react-native-firebase'),
 );
 jest.mock('react-native-toast-message', () => {
@@ -33,7 +30,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
+jest.mock('../../../src/redux/slice/EditProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
 

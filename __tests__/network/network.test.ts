@@ -2,14 +2,14 @@ import {waitFor} from '@testing-library/react-native';
 import axios from 'axios';
 import {url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
-import ApiService, {instance, setNavigationReference} from 'network/network';
+import ApiService, {instance, setNavigationReference} from 'network/Network';
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('constants/asyncStorageWrapper', () => ({
+jest.mock('constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),

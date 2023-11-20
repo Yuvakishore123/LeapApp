@@ -7,9 +7,13 @@ import {
 } from 'react-native-image-picker';
 import ApiService from '../../network/Network';
 import {useSelector} from 'react-redux';
-import {getProfileData} from '../../redux/slice/ProfileDataSlice';
+import {
+  getProfileData,
+  profileLoadingreducer,
+  profiledatareducer,
+} from '../../redux/slice/ProfileDataSlice';
 import {logMessage, useThunkDispatch} from '../../helpers/Helper';
-import {PermissionsAndroid} from 'react-native';
+import {Linking, PermissionsAndroid} from 'react-native';
 import Toast from 'react-native-toast-message';
 import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 const useProfile = () => {
@@ -36,12 +40,8 @@ const useProfile = () => {
   useEffect(() => {
     dispatch(getProfileData());
   }, [dispatch]);
-  const data = useSelector(
-    (state: {profileData: {data: any}}) => state.profileData.data,
-  );
-  const loading = useSelector(
-    (state: {profileData: {isLoader: any}}) => state.profileData.isLoader,
-  );
+  const data = useSelector(profiledatareducer);
+  const loading = useSelector(profileLoadingreducer);
   const refreshData = () => {
     setRefreshState(true);
   };
@@ -145,7 +145,11 @@ const useProfile = () => {
       const permissionGranted = await asyncStorageWrapper.getItem(
         'permissionGranted',
       );
-      if (permissionGranted === 'true') {
+      const IsPermissionGranted = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+
+      if (permissionGranted === 'true' && IsPermissionGranted) {
         pickImage();
       } else {
         const granted = await PermissionsAndroid.request(
@@ -156,11 +160,26 @@ const useProfile = () => {
             buttonPositive: 'OK',
           },
         );
+
         if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-          await asyncStorageWrapper.setItem('permissionGranted', 'true');
-          pickImage();
+          // Double-check if the permission is really granted
+          const isPermissionGranted = await PermissionsAndroid.check(
+            PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+          );
+
+          if (isPermissionGranted) {
+            await asyncStorageWrapper.setItem('permissionGranted', 'true');
+            pickImage();
+          } else {
+            logMessage.error('Storage permission denied');
+            // Handle the case where the permission is still not granted
+            // Show a message or take appropriate action
+          }
         } else {
+          Linking.openSettings();
           logMessage.error('Storage permission denied');
+          // Handle the case where the user pressed "Cancel"
+          // Show a message or take appropriate action
         }
       }
     } catch (err) {

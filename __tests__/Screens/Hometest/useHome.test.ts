@@ -1,6 +1,6 @@
 import {act, renderHook} from '@testing-library/react-native';
 import {useSelector} from 'react-redux';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import useHome from 'screens/Home/useHome';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -17,7 +17,7 @@ jest.mock('@react-native-firebase/in-app-messaging', () => {
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 const mockDispatch = jest.fn();

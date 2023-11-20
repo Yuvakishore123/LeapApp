@@ -10,7 +10,7 @@ jest.mock('@react-native-firebase/analytics', () => {
 jest.mock('@react-native-firebase/dynamic-links', () =>
   require('@react-native-firebase'),
 );
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
     info: jest.fn(),
@@ -19,7 +19,7 @@ jest.mock('../../../src/helpers/helper', () => ({
 }));
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('@react-native-firebase/messaging', () => {
   const mockToken = 'mocked_token';
 
@@ -28,19 +28,7 @@ jest.mock('@react-native-firebase/messaging', () => {
     getToken: jest.fn().mockResolvedValue(mockToken),
   });
 });
-jest.mock('../../../src/utils/firebase', () => {
-  return {
-    messaging: jest.fn(() => ({
-      getToken: jest.fn(() => Promise.resolve('mockedToken')),
-      onTokenRefresh: jest.fn(),
-      setBackgroundMessageHandler: jest.fn(),
-    })),
-  };
-});
 
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
@@ -53,10 +41,10 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
+jest.mock('../../../src/redux/slice/EditProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),

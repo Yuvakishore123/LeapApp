@@ -6,7 +6,10 @@ import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
 import {logMessage} from 'helpers/Helper';
-import {FliterAnalyticslist} from '../../redux/slice/FliterAnalyticsDataSlice';
+import {
+  FilterAnalyticsDatareducer,
+  FliterAnalyticslist,
+} from '../../redux/slice/FliterAnalyticsDataSlice';
 
 const useFilteredAnalytics = () => {
   const [chartData, setChartData] = useState<
@@ -15,10 +18,7 @@ const useFilteredAnalytics = () => {
   const [startDate, setStartDate] = useState(new Date());
   const [endDate, setEndDate] = useState(new Date());
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
-  const response = useSelector(
-    (state: {FliterAnalyticsData: {data: any}}) =>
-      state.FliterAnalyticsData.data,
-  );
+  const response = useSelector(FilterAnalyticsDatareducer);
   const [data, setData] = useState<{[key: string]: any[]}>({});
 
   const [isLoading, setIsLoading] = useState(false);

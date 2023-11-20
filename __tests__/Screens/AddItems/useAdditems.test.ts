@@ -2,7 +2,7 @@ import {act, renderHook, waitFor} from '@testing-library/react-native';
 import {useDispatch, useSelector} from 'react-redux';
 import React from 'react';
 import useAdditems from '../../../src/screens/Additems/useAdditems';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
@@ -10,7 +10,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 const mockDispatch = jest.fn();

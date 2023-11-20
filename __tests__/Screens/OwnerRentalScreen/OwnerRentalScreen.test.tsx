@@ -5,7 +5,7 @@ import {store} from '../../../src/redux/store';
 import {Provider} from 'react-redux';
 import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import OwnerRentalScreen from 'screens/ownerRentalStatusScreen/ownerRentalScreen';
+import OwnerRentalScreen from 'screens/ownerRentalStatusScreen/OwnerRentalScreen';
 import useOwnerorderproducts from 'screens/ownerRentalStatusScreen/useOwnerorderproducts';
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),

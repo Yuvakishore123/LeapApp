@@ -1,19 +1,17 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useEffect} from 'react';
 import {useSelector} from 'react-redux';
-import {ownerorderproducts} from '../../redux/slice/OwnerorderproductSlice';
+import {
+  ownerRentalloadingreducer,
+  ownerRentalproductsreducer,
+  ownerorderproducts,
+} from '../../redux/slice/OwnerorderproductSlice';
 import {useThunkDispatch} from '../../helpers/Helper';
 const useOwnerorderproducts = () => {
   const {dispatch} = useThunkDispatch();
 
-  const ownerrentalproducts = useSelector(
-    (state: {OwnerRentalproducts: {data: any}}) =>
-      state.OwnerRentalproducts.data,
-  );
-  const isLoading = useSelector(
-    (state: {OwnerRentalproducts: {isLoader: boolean}}) =>
-      state.OwnerRentalproducts.isLoader,
-  );
+  const ownerrentalproducts = useSelector(ownerRentalproductsreducer);
+  const isLoading = useSelector(ownerRentalloadingreducer);
   useEffect(() => {
     dispatch(ownerorderproducts('Order placed') as any);
   }, [ownerorderproducts]);

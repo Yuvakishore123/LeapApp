@@ -2,7 +2,7 @@ import {renderHook, waitFor} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import {NavigationContainer} from '@react-navigation/native';
 import {useSubcategory} from '../../../src/screens/Subcategory/useSubcategory';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

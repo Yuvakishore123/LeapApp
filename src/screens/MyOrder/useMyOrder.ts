@@ -2,7 +2,12 @@ import {useEffect, useState} from 'react';
 import {useDispatch, useSelector} from 'react-redux';
 import {AnyAction} from 'redux';
 import {ThunkDispatch} from 'redux-thunk';
-import {fetchOrderProducts} from '../../redux/slice/OrderSlice';
+import {
+  OrderproductsReducer,
+  fetchOrderProducts,
+  orderDataReducer,
+  orderLoadingreducer,
+} from '../../redux/slice/OrderSlice';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
@@ -19,33 +24,19 @@ interface Order {
 type RootStackParamList = {
   Profile: undefined;
 };
-interface RootState {
-  OrderProducts: OrderProductsState;
-}
-
-interface OrderProductsState {
-  data: Order[];
-}
 
 const useMyOrder = () => {
   const dispatch = useDispatch<ThunkDispatch<any, void, AnyAction>>();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const orderData = useSelector((state: RootState) => state.OrderProducts.data);
-  const OrderProducts = useSelector(
-    (state: RootState) => state.OrderProducts.data,
-  );
+  const orderData = useSelector(OrderproductsReducer);
+  const OrderProducts = useSelector(OrderproductsReducer);
   const [showModal, setShowModal] = useState(false);
   const [refreshing, setRefreshing] = useState(false);
   const [selectedOrder, setSelectedOrder] = useState<Order | null>(null);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
-  const loading = useSelector(
-    (state: {OrderProducts: {isLoader: boolean}}) =>
-      state.OrderProducts.isLoader,
-  );
-  const invoiceData = useSelector(
-    (state: {OrderProducts: {data: []}}) => state.OrderProducts.data,
-  );
+  const loading = useSelector(orderLoadingreducer);
+  const invoiceData = useSelector(orderDataReducer);
   const onRefresh = async () => {
     setRefreshing(true);
     dispatch(fetchOrderProducts());

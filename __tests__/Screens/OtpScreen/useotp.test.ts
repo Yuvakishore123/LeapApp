@@ -10,11 +10,8 @@ jest.mock('@react-native-firebase/dynamic-links', () =>
 );
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('@react-native-firebase/messaging', () =>
-  require('@react-native-firebase'),
-);
-jest.mock('@react-native-firebase/crashlytics', () =>
   require('@react-native-firebase'),
 );
 jest.mock('@react-native-async-storage/async-storage', () => ({
@@ -29,7 +26,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
+jest.mock('../../../src/redux/slice/EditProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
 

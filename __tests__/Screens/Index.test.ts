@@ -2,19 +2,12 @@ import 'react-native';
 import {AppRegistry} from 'react-native';
 import {name as appName} from '../../app.json';
 // Mock the crashlytics and firebase functions for testing
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('react-native-crashlytics'),
-);
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
   clear: jest.fn(),
-}));
-jest.mock('../../src/utils/firebase', () => ({
-  __esModule: true,
-  default: jest.fn(),
 }));
 jest.mock('rn-fetch-blob', () => ({
   fs: {
@@ -24,7 +17,7 @@ jest.mock('rn-fetch-blob', () => ({
     writeFile: jest.fn(),
   },
 }));
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

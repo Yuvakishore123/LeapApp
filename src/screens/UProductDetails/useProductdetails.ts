@@ -5,7 +5,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/CartSlice';
 import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import {CartAdd} from '../../redux/slice/CartAddSlice';
+import {CartAdd, cartaddreducer} from '../../redux/slice/CartAddSlice';
 import {logMessage} from '../../helpers/Helper';
 import {listProductsById} from '../../constants/ApiRoutes';
 import Toast from 'react-native-toast-message';
@@ -16,9 +16,7 @@ const useProductdetails = (product: {
   imageUrl: string | any[];
   availableQuantities: number;
 }) => {
-  const isData = useSelector(
-    (state: {cartAdd: {data: any}}) => state.cartAdd.data,
-  );
+  const isData = useSelector(cartaddreducer);
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const [imageLoaded, setImageLoaded] = useState(false);

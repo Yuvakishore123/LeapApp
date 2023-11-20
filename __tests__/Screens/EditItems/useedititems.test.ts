@@ -7,7 +7,7 @@ import {
   removeproducts,
 } from '../../../src/redux/actions/Actions';
 import {useDispatch} from 'react-redux';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {logMessage} from 'helpers/Helper';
@@ -19,7 +19,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
@@ -30,13 +30,13 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(() => mockDispatch),
 }));
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
     info: jest.fn(),
   },
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
   put: jest.fn(),
 }));
@@ -44,7 +44,7 @@ jest.mock('react-native-image-picker', () => ({
   launchImageLibrary: jest.fn(),
 }));
 
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));

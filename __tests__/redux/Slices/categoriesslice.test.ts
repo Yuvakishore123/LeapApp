@@ -7,7 +7,7 @@ import reducer, {
   setError,
 } from '../../../src/redux/slice/CategorySlice';
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),

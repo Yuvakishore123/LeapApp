@@ -15,7 +15,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
+jest.mock('../../../src/redux/slice/EditProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
 jest.mock(

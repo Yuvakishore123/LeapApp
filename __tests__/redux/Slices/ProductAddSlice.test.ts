@@ -1,4 +1,4 @@
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 // Assuming this is the correct path
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
 import reducer, {

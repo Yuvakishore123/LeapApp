@@ -1,5 +1,5 @@
 import {AnyAction, ThunkMiddleware, configureStore} from '@reduxjs/toolkit';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import reducer, {
   fetchCategoriesProductsdata,
   setError,

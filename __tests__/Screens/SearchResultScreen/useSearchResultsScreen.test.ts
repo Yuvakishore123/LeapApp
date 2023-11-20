@@ -11,7 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import ApiService from '../../../src/network/Network';
 import SearchResultsScreen from '../../../src/screens/SearchResultScreen/SearchResultScreen';
 import useSearchresults from 'screens/SearchResultScreen/useSearchResults';
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),

@@ -3,14 +3,14 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 import {useDispatch, useSelector} from 'react-redux';
 import React from 'react';
 import useOwnerHome from '../../../src/screens/OwnerHomepage/useOwnerHome';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 
 jest.mock('react-native-razorpay', () => require('react-native-razorpaymock'));
 
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));

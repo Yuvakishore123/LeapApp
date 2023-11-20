@@ -5,7 +5,7 @@ import {
   ColorSchemeContext,
 } from '../../../ColorSchemeContext';
 import {Button, Text, TextInput, View} from 'react-native';
-import Styles from 'constants/themeColors';
+import Styles from 'constants/ThemeColors';
 import Colors from '../../../src/constants/Colors';
 // Mock any context providers or dependencies if necessary
 

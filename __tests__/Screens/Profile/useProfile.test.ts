@@ -4,7 +4,7 @@ import {AxiosResponse} from 'axios';
 import {profileUpload, url} from 'constants/Apis';
 import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import {logMessage} from 'helpers/Helper';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import {PermissionsAndroid} from 'react-native';
 import {launchImageLibrary} from 'react-native-image-picker';
 import {useDispatch, useSelector} from 'react-redux';
@@ -16,7 +16,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
     info: jest.fn(),
@@ -34,7 +34,7 @@ jest.mock('react-redux', () => ({
 jest.mock('react-native-toast-message', () => ({
   show: jest.fn(),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   post: jest.fn(),
 }));
 const mockRequest = jest.fn();
@@ -42,6 +42,7 @@ jest.mock(
   'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
   () => ({
     request: mockRequest,
+    check: jest.fn(),
     RESULTS: {
       GRANTED: 'granted',
       DENIED: 'denied',
@@ -52,7 +53,7 @@ jest.mock(
     },
   }),
 );
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));
@@ -113,7 +114,7 @@ describe('Profile Screen', () => {
 
     // Mock useDispatch to return mockDispatch
     jest
-      .spyOn(require('../../../src/helpers/helper'), 'useThunkDispatch')
+      .spyOn(require('../../../src/helpers/Helper'), 'useThunkDispatch')
       .mockReturnValue({
         dispatch: mockDispatch,
       });
@@ -361,12 +362,6 @@ describe('Profile Screen', () => {
         message: 'App needs access to your storage to upload images.',
         buttonPositive: 'OK',
       },
-    );
-
-    // expect(logMessage.error).toHaveBeenCalledWith('Storage permission granted');
-    expect(asyncStorageWrapper.setItem).toHaveBeenCalledWith(
-      'permissionGranted',
-      'true',
     );
     waitFor(() => {
       expect(result.current.pickImage).toBeDefined();

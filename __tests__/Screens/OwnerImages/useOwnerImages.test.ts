@@ -19,7 +19,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 jest.mock('@react-native-firebase/analytics', () =>
   require('@react-native-firebase'),
 );
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 jest.mock('react-native-image-picker', () => ({
@@ -33,7 +33,7 @@ jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),
@@ -62,6 +62,7 @@ jest.mock(
   'react-native/Libraries/PermissionsAndroid/PermissionsAndroid',
   () => ({
     request: mockRequest,
+    check: jest.fn(),
     RESULTS: {
       GRANTED: 'granted',
       DENIED: 'denied',
@@ -334,7 +335,7 @@ describe('useAddimages', () => {
     expect(result.current.imageUrls).toEqual(['mockImageUrl']);
   });
   it('should reject didCancel is true upload images and set image URLs', async () => {
-    jest.mock('../../../src/helpers/helper', () => ({
+    jest.mock('../../../src/helpers/Helper', () => ({
       logMessage: {
         error: jest.fn(),
         info: jest.fn(),
@@ -368,7 +369,7 @@ describe('useAddimages', () => {
     });
   });
   it('should reject when error message when upload images and set image URLs', async () => {
-    jest.mock('../../../src/helpers/helper', () => ({
+    jest.mock('../../../src/helpers/Helper', () => ({
       logMessage: {
         error: jest.fn(),
         info: jest.fn(),
@@ -404,7 +405,7 @@ describe('useAddimages', () => {
   });
   it('should reject  upload images and set image URLs', async () => {
     // Mock token and image response
-    jest.mock('../../../src/helpers/helper', () => ({
+    jest.mock('../../../src/helpers/Helper', () => ({
       logMessage: {
         error: jest.fn(),
         info: jest.fn(),
@@ -437,7 +438,7 @@ describe('useAddimages', () => {
     });
   });
   it('should reject  response of launchImageLibrary', async () => {
-    jest.mock('../../../src/helpers/helper', () => ({
+    jest.mock('../../../src/helpers/Helper', () => ({
       logMessage: {
         error: jest.fn(),
         info: jest.fn(),

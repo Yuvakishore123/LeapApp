@@ -1,4 +1,3 @@
-/* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
 import Profile from 'screens/Profile/Profile';
@@ -30,7 +29,7 @@ import {
 } from '@react-navigation/native';
 import MyOrder from 'screens/MyOrder/MyOrder';
 import EditAddress from 'screens/EditAddress/EditAddress';
-import Colors from 'constants/colors';
+import Colors from 'constants/Colors';
 import {View} from 'react-native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import ApiErrorScreen from 'screens/ApiErrorScreen/ApiErrorScreen';

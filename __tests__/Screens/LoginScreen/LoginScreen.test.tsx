@@ -17,7 +17,7 @@ jest.mock('@react-native-firebase/messaging', () => {
     getToken: jest.fn(),
   });
 });
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));
@@ -41,7 +41,7 @@ jest.mock('@react-navigation/native', () => {
     }),
   };
 });
-jest.mock('constants/asyncStorageWrapper', () => ({
+jest.mock('constants/AsyncStorageWrapper', () => ({
   setItem: jest.fn(() => Promise.resolve()),
   getItem: jest.fn(() => Promise.resolve('mockedFCMToken')),
 }));

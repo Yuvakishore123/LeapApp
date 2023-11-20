@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState, useRef} from 'react';
 import {
@@ -19,7 +18,7 @@ import {ColorSchemeProvider} from './ColorSchemeContext';
 import Lottie from 'lottie-react-native';
 import SignupScreen from 'screens/SignUp/SignupScreen';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import * as Sentry from '@sentry/react-native';

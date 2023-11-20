@@ -1,6 +1,6 @@
 // AddressAddThunk.test.ts
 
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import reducer, {
   AddressAdd,
   setAdressAddData,
@@ -12,7 +12,7 @@ jest.mock('@react-native-community/netinfo', () => ({
   removeEventListener: jest.fn(),
   fetch: jest.fn().mockResolvedValue({isConnected: true}), // Ensure isConnected is defined in the mock.
 }));
-jest.mock('network/network');
+jest.mock('network/Network');
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),

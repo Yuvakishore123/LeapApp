@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCartProducts} from '../../redux/slice/CartSlice';
+import {
+  cartProductsreducer,
+  fetchCartProducts,
+} from '../../redux/slice/CartSlice';
 
 import {ADDORDER} from '../../redux/actions/Actions';
 
@@ -9,7 +12,7 @@ import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import {logMessage} from 'helpers/Helper';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ListAddress} from '../../redux/slice/ListAddressSlice';
+import {ListAddress, ListaddressData} from '../../redux/slice/ListAddressSlice';
 import analtyics from '@react-native-firebase/analytics';
 type RootStackParamList = {
   CheckoutScreen: undefined;
@@ -26,17 +29,13 @@ const useChectout = () => {
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>([]);
   const dispatch = useDispatch();
 
-  const data = useSelector(
-    (state: {listAddress: {data: any}}) => state.listAddress.data,
-  );
+  const data = useSelector(ListaddressData);
   useEffect(() => {
     setRefreshing(true);
     dispatch(ListAddress() as any);
     setRefreshing(false);
   }, [dispatch]);
-  const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
+  const cartData = useSelector(cartProductsreducer) || {
     cartItems: [],
   };
   useEffect(() => {

@@ -1,7 +1,7 @@
 import {StyleSheet} from 'react-native';
 import Colors from '../../constants/Colors';
 
-const loginStyle = StyleSheet.create({
+const LoginStyle = StyleSheet.create({
   mainContainer: {
     height: '100%',
     width: '100%',
@@ -126,4 +126,4 @@ const loginStyle = StyleSheet.create({
   },
 });
 
-export default loginStyle;
+export default LoginStyle;

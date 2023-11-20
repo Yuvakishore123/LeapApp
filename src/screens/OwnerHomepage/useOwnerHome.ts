@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {fetchProducts} from '../../redux/slice/ProductSlice';
+import {
+  fetchProducts,
+  ownerproductsreducers,
+} from '../../redux/slice/ProductSlice';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 import {url} from '../../constants/Apis';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
@@ -8,6 +11,7 @@ import ApiService from '../../network/Network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {recentyAddedUrl} from '../../constants/ApiRoutes';
 import {logMessage, useThunkDispatch} from '../../helpers/Helper';
+import {profiledatareducer} from '../../../src/redux/slice/ProfileDataSlice';
 
 type RootStackParamList = {
   Additems: undefined;
@@ -61,12 +65,10 @@ const useOwnerHome = () => {
     setRefreshing(false);
   };
   const {HandlePiechart} = useAnalytics();
-  const name = useSelector(
-    (state: {profileData: {data: []}}) => state.profileData.data,
-  );
+  const name = useSelector(profiledatareducer);
   const fetchDashboardData = async () => {
     try {
-      const response = ApiService.get(`${url}/dashboard/owner-view`);
+      const response = ApiService.get(`${url}/dashboard`);
       const dashboardData = await response;
       setTotalEarnings(dashboardData.totalEarnings);
       setRentedItems(dashboardData.totalNumberOfItems);
@@ -99,9 +101,7 @@ const useOwnerHome = () => {
     });
     return unsubscribe;
   }, [navigation, refresh]);
-  const products = useSelector(
-    (state: {products: {data: any[]}}) => state.products.data,
-  );
+  const products = useSelector(ownerproductsreducers);
 
   const handleAnalatyics = () => {
     HandlePiechart();

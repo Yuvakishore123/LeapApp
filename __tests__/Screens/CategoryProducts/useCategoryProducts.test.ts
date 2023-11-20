@@ -13,13 +13,13 @@ jest.mock('react-redux', () => ({
   useDispatch: jest.fn(),
   useSelector: jest.fn(),
 }));
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
   },
 }));
-jest.mock('network/network');
-jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
+jest.mock('network/Network');
+jest.mock('../../../src/redux/slice/EditProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
 

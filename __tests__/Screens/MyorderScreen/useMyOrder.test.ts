@@ -30,16 +30,13 @@ jest.mock('rn-fetch-blob', () => ({
   },
 }));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));
@@ -54,7 +51,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('../../../src/redux/slice/editProfileSlice', () => ({
+jest.mock('../../../src/redux/slice/EditProfileSlice', () => ({
   updateProfile: jest.fn(),
 }));
 

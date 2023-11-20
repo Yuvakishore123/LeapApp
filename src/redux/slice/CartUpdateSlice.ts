@@ -69,5 +69,10 @@ const cartUpdateThunk = createSlice({
       });
   },
 });
+export const cartupdateloadingReducer = (state: {
+  cartUpdate: {isLoader: boolean};
+}) => state.cartUpdate.isLoader;
+export const cartupdateerrorReducer = (state: {cartUpdate: {error: any}}) =>
+  state.cartUpdate.error;
 export const {setData, setError} = cartUpdateThunk.actions;
 export default cartUpdateThunk.reducer;

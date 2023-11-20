@@ -1,7 +1,7 @@
 import {act, renderHook, waitFor} from '@testing-library/react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import useAnalytics from 'screens/AnalyticsPage/useAnalytics';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import axios from 'axios';
 import Colors from '../../../src/constants/Colors';
 import {url} from 'constants/Apis';
@@ -20,7 +20,7 @@ global.FileReader = jest.fn(() => ({
   onerror: jest.fn(),
   readAsDataURL: jest.fn(),
 }));
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
     info: jest.fn(),
@@ -36,7 +36,7 @@ jest.mock('rn-fetch-blob', () => ({
   },
 }));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));
@@ -45,7 +45,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(() => mockDispatch),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 const mockNav = jest.fn();

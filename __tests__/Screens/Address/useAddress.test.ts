@@ -9,7 +9,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   removeItem: jest.fn(),
   clear: jest.fn(),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 jest.mock('react-native', () => ({
@@ -18,7 +18,7 @@ jest.mock('react-native', () => ({
   },
   // Mock any other dependencies you might have (e.g., logMessage)
 }));
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
   },
@@ -31,7 +31,7 @@ jest.mock('react-redux', () => ({
 
 const mockDispatch = jest.fn();
 
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   useThunkDispatch: () => ({dispatch: mockDispatch}),
   logMessage: {
     error: jest.fn(),

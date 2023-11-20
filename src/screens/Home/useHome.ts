@@ -1,19 +1,28 @@
 import {useContext, useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
 
-import {fetchUserProducts} from '../../redux/slice/UserProductSlice';
+import {
+  UserProductsErrorReducer,
+  UserProductsLoading,
+  UserProductsreducer,
+  fetchUserProducts,
+} from '../../redux/slice/UserProductSlice';
 
 import ApiService from 'network/Network';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import Colors from 'constants/Colors';
 import {wishListRemove} from '../../redux/slice/WishlistRemoveSlice';
-import {getProfileData} from '../../redux/slice/ProfileDataSlice';
+import {
+  getProfileData,
+  profiledatareducer,
+} from '../../redux/slice/ProfileDataSlice';
 import {
   logMessage,
   useNavigationProp,
   useThunkDispatch,
 } from '../../helpers/Helper';
 import inAppMessaging from '@react-native-firebase/in-app-messaging';
+import {WishlistdataReducer} from '../../../src/redux/slice/WishlistSlice';
 
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
@@ -34,15 +43,9 @@ const useHome = () => {
 
   const {dispatch} = useThunkDispatch();
   const {navigation} = useNavigationProp();
-  const name = useSelector(
-    (state: {profileData: {data: []}}) => state.profileData.data,
-  );
-  const allProducts = useSelector(
-    (state: {UserProducts: {data: []}}) => state.UserProducts.data,
-  );
-  const IsError = useSelector(
-    (state: {UserProducts: {isError: null}}) => state.UserProducts.isError,
-  );
+  const name = useSelector(profiledatareducer);
+  const allProducts = useSelector(UserProductsreducer);
+  const IsError = useSelector(UserProductsErrorReducer);
   const searchProducts = async (query: any) => {
     try {
       const data = await ApiService.get(`/product/search?query=${query}`);
@@ -89,13 +92,8 @@ const useHome = () => {
     dispatch(fetchUserProducts({pageSize}) as any);
     dispatch(getProfileData());
   }, [dispatch, pageSize]);
-  const WishlistProducts = useSelector(
-    (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
-  );
-  const loading = useSelector(
-    (state: {UserProducts: {firstCallLoading: boolean}}) =>
-      state.UserProducts.firstCallLoading,
-  );
+  const WishlistProducts = useSelector(WishlistdataReducer);
+  const loading = useSelector(UserProductsLoading);
   return {
     WishlistProducts,
     onRefresh,

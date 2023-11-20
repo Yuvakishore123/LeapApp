@@ -5,15 +5,16 @@ import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {editAddressData} from '../../redux/slice/EditAddressSlice';
+import {
+  editAddressData,
+  editAddressDatareducer,
+} from '../../redux/slice/EditAddressSlice';
 import {ListAddress} from '../../redux/slice/ListAddressSlice';
 const useEditAddress = () => {
   const navigation = useNavigation();
   const route = useRoute();
   const address = (route.params as any)?.address;
-  const response = useSelector(
-    (state: {editAddressData: {data: any}}) => state.editAddressData.data,
-  );
+  const response = useSelector(editAddressDatareducer);
   const [city, setCity] = useState(address?.city);
   const [state, setStateName] = useState(address?.state);
   const [addressid] = useState(address?.id);

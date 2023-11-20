@@ -29,9 +29,6 @@ jest.mock('@react-native-firebase/analytics', () =>
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('react-redux', () => ({
   ...jest.requireActual('react-redux'),

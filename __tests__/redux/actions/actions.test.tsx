@@ -18,17 +18,17 @@ import {
   setRole,
   submitOTP,
 } from '../../../src/redux/actions/Actions';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import asyncStorageWrapper from 'constants/AsyncStorageWrapper';
 import axios from 'axios';
 import {Orderreducer} from '../../../src/redux/reducers/Orderreducer';
 
 // Mock the ApiService.delete function
-jest.mock('network/network', () => ({
+jest.mock('network/Network', () => ({
   delete: jest.fn(),
   post: jest.fn(),
 }));
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
   removeItem: jest.fn(),

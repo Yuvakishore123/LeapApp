@@ -5,7 +5,11 @@ import {useNavigation} from '@react-navigation/native';
 
 import {StackNavigationProp} from '@react-navigation/stack';
 import {removeAddress} from '../../redux/actions/Actions';
-import {ListAddress} from '../../redux/slice/ListAddressSlice';
+import {
+  ListAdddressloading,
+  ListAddress,
+  ListaddressData,
+} from '../../redux/slice/ListAddressSlice';
 
 import {useThunkDispatch} from '../../helpers/Helper';
 
@@ -14,12 +18,8 @@ type RootStackParamList = {
   Owneraddaddress: undefined;
 };
 const useAddress = () => {
-  const addressdata = useSelector(
-    (state: {listAddress: {data: any}}) => state.listAddress.data,
-  );
-  const isloading = useSelector(
-    (state: {listAddress: {isLoader: boolean}}) => state.listAddress.isLoader,
-  );
+  const addressdata = useSelector(ListaddressData);
+  const isloading = useSelector(ListAdddressloading);
   const {dispatch} = useThunkDispatch();
   const [addressList, setAddress] = useState([]);
   const [city, setCity] = useState('');

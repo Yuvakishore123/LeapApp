@@ -1,7 +1,11 @@
 import {useSelector} from 'react-redux';
 import {Logout} from '../../redux/actions/Actions';
 import {useEffect} from 'react';
-import {getProfileData} from '../../redux/slice/ProfileDataSlice';
+import {
+  getProfileData,
+  profileLoadingreducer,
+  profiledatareducer,
+} from '../../redux/slice/ProfileDataSlice';
 import {useThunkDispatch} from '../../helpers/Helper';
 
 const UseOwnerprofile = () => {
@@ -10,12 +14,8 @@ const UseOwnerprofile = () => {
   useEffect(() => {
     dispatch(getProfileData() as any);
   }, [dispatch]);
-  const data = useSelector(
-    (state: {profileData: {data: any}}) => state.profileData.data,
-  );
-  const loading = useSelector(
-    (state: {profileData: {isLoader: any}}) => state.profileData.isLoader,
-  );
+  const data = useSelector(profiledatareducer);
+  const loading = useSelector(profileLoadingreducer);
   const handleLogout = () => {
     dispatch(Logout() as any);
   };

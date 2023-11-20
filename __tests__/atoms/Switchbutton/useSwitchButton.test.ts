@@ -3,7 +3,7 @@ import useSwitchButton from '../../../src/components/atoms/switchButton/useSwitc
 import {url} from 'constants/Apis';
 import {setRole} from '../../../src/redux/actions/Actions';
 import {logMessage} from '../../../src/helpers/Helper';
-import ApiService from 'network/network';
+import ApiService from 'network/Network';
 import {useSelector} from 'react-redux';
 
 const mockDispatch = jest.fn();
@@ -12,7 +12,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
 }));
 
-jest.mock('../../../src/redux/actions/actions', () => ({
+jest.mock('../../../src/redux/actions/Actions', () => ({
   setRole: jest.fn(),
 }));
 
@@ -22,18 +22,18 @@ jest.mock('react-native', () => ({
     timing: jest.fn().mockReturnValue({start: jest.fn()}),
   },
 }));
-jest.mock('../../../src/helpers/helper', () => ({
+jest.mock('../../../src/helpers/Helper', () => ({
   logMessage: {
     error: jest.fn(),
     info: jest.fn(),
     warn: jest.fn(),
   },
 }));
-jest.mock('network/network', () => ({
+jest.mock('network/Network', () => ({
   post: jest.fn(),
 }));
 jest.mock('@sentry/react-native', () => require('react-native-sentry'));
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   removeItem: jest.fn(),
   setItem: jest.fn(),
 }));
@@ -71,7 +71,7 @@ describe('useSwitchButton', () => {
       },
     };
 
-    require('network/network').post.mockResolvedValue(mockResponse);
+    require('network/Network').post.mockResolvedValue(mockResponse);
     const {result} = renderHook(() => useSwitchButton());
     const mockOption = 'BORROWER';
     act(() => {
@@ -85,10 +85,10 @@ describe('useSwitchButton', () => {
         null,
       );
       expect(
-        require('constants/asyncStorageWrapper').removeItem,
+        require('constants/AsyncStorageWrapper').removeItem,
       ).toHaveBeenCalledWith('token');
       expect(
-        require('constants/asyncStorageWrapper').setItem,
+        require('constants/AsyncStorageWrapper').setItem,
       ).toHaveBeenCalledWith('token', 'newToken');
       expect(mockDispatch).toHaveBeenCalledWith(setRole(mockOption));
       expect(result.current.accountType).toBe('Borrower'); // Assuming 'setAccountType' updates the 'accountType' state
@@ -102,7 +102,7 @@ describe('useSwitchButton', () => {
       },
     };
 
-    require('network/network').post.mockResolvedValue(mockResponse);
+    require('network/Network').post.mockResolvedValue(mockResponse);
     const {result} = renderHook(() => useSwitchButton());
     const mockOption = 'OWNER';
     act(() => {
@@ -128,7 +128,7 @@ describe('useSwitchButton', () => {
       },
     };
 
-    require('network/network').post.mockResolvedValue(mockResponse);
+    require('network/Network').post.mockResolvedValue(mockResponse);
     const {result} = renderHook(() => useSwitchButton());
     const mockOption = 'BORROWER';
     act(() => {
@@ -155,7 +155,7 @@ describe('useSwitchButton', () => {
       },
     };
     const {result} = renderHook(() => useSwitchButton());
-    require('network/network').post.mockRejectedValue(mockResponse);
+    require('network/Network').post.mockRejectedValue(mockResponse);
     const mockOption = 'BORROWER';
     act(() => {
       result.current.handleOptionPress(mockOption);

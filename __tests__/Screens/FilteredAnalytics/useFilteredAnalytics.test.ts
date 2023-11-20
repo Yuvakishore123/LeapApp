@@ -11,7 +11,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
 }));
 jest.mock('@notifee/react-native', () => require('react-native-notifee'));
 jest.mock('rn-fetch-blob', () => require('rn-fetch-blobmock'));
-jest.mock('../../../src/constants/asyncStorageWrapper', () => ({
+jest.mock('../../../src/constants/AsyncStorageWrapper', () => ({
   getItem: jest.fn(),
   setItem: jest.fn(),
 }));
@@ -20,7 +20,7 @@ jest.mock('react-redux', () => ({
   useSelector: jest.fn(),
   useDispatch: jest.fn(() => mockDispatch),
 }));
-jest.mock('../../../src/network/network', () => ({
+jest.mock('../../../src/network/Network', () => ({
   get: jest.fn(),
 }));
 const mockNav = jest.fn();

@@ -17,9 +17,6 @@ jest.mock('@react-native-firebase/dynamic-links', () =>
 jest.mock('@react-native-firebase/messaging', () =>
   require('@react-native-firebase'),
 );
-jest.mock('@react-native-firebase/crashlytics', () =>
-  require('@react-native-firebase'),
-);
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),
