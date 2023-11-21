@@ -1,8 +1,9 @@
 import {useSelector} from 'react-redux';
-import {Logout} from '../../../redux/actions/actions';
+
 import {useEffect} from 'react';
 import {getProfileData} from '../../../redux/slice/profileDataSlice';
 import {useThunkDispatch} from '../../../helpers/helper';
+import {Logout} from '../../../../src/redux/reducers/LogoutReducer';
 
 const UseOwnerprofile = () => {
   const {dispatch} = useThunkDispatch();

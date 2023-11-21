@@ -1,31 +1,3 @@
-import {
-  ADDORDER,
-  ADD_NAME,
-  ADD_PRODUCT_TO_CART_STORE,
-  ADD_TO_CART,
-  Init,
-  Logout,
-  addGender,
-  addGenderData,
-  addItemToCart,
-  addItemsData,
-  addProductToCartStore,
-  addProductToStore,
-  addToWishlist,
-  addevent,
-  addname,
-  addoutfit,
-  addsize,
-  addtype,
-  getOTP,
-  postProductToAPI,
-  removeAddress,
-  removeFromCart,
-  removeFromWishlist,
-  removeproducts,
-  setRole,
-  submitOTP,
-} from '../../../../src/redux/actions/actions';
 import ApiService from 'network/network';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
@@ -54,6 +26,32 @@ import configureMockStore from 'redux-mock-store';
 import thunk from 'redux-thunk';
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import axios from 'axios';
+import {
+  addname,
+  addtype,
+  addoutfit,
+  addItemsData,
+  addGender,
+  addevent,
+  addsize,
+  addGenderData,
+} from '../../../../src/redux/actions/AddItemsActions';
+import {
+  ADD_PRODUCT_TO_CART_STORE,
+  addProductToCartStore,
+  removeFromCart,
+  removeproducts,
+} from '../../../../src/redux/actions/CartActions';
+import {addProductToStore} from '../../../../src/redux/actions/WishlistActions';
+import {addItemToCart, setRole} from '../../../../src/redux/actions/actions';
+import {removeAddress} from '../../../../src/redux/reducers/AddressRemoveReducer';
+import {postProductToAPI} from '../../../../src/redux/reducers/AddtoWishlist';
+import {Init} from '../../../../src/redux/reducers/InitializeReducer';
+import {Logout} from '../../../../src/redux/reducers/LogoutReducer';
+import {ADDORDER} from '../../../../src/redux/reducers/Orderreducer';
+import {getOTP} from '../../../../src/redux/reducers/OtpReducer';
+import {submitOTP} from '../../../../src/redux/reducers/SubmitOtp';
+import {ADD_NAME, ADD_TO_CART} from '../../../../src/redux/types';
 const middlewares = [thunk];
 const mockStore = configureMockStore(middlewares);
 describe('it should render actions', () => {
@@ -546,25 +544,6 @@ describe('Action Creators', () => {
     expect(action).toEqual(expectedAction);
   });
 
-  it('should create an action to add an item to the wishlist', () => {
-    const itemData = {id: 4, name: 'Product B'}; // Replace with your test data
-    const expectedAction = {
-      type: 'ADD_TO_WISHLIST',
-      payload: itemData,
-    };
-    const action = addToWishlist(itemData);
-    expect(action).toEqual(expectedAction);
-  });
-
-  it('should create an action to remove an item from the wishlist', () => {
-    const productId = 5; // Replace with your test data
-    const expectedAction = {
-      type: 'REMOVE_FROM_WISHLIST',
-      payload: productId,
-    };
-    const action = removeFromWishlist(productId);
-    expect(action).toEqual(expectedAction);
-  });
   it('should create an action to add gender data', () => {
     const genderData = 'Male'; // Replace with your test data
     const expectedAction = {

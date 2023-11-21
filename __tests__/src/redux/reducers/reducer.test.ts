@@ -2,7 +2,7 @@ import {
   LOGIN_FAILURE,
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
-} from '../../../../src/redux/actions/actions';
+} from '../../../../src/redux/types';
 import authReducer from '../../../../src/redux/reducers/reducers';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

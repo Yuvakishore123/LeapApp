@@ -2,8 +2,6 @@ import {useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {fetchCartProducts} from '../../../redux/slice/cartSlice';
 
-import {ADDORDER} from '../../../redux/actions/actions';
-
 import {Alert} from 'react-native';
 import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
@@ -12,6 +10,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import {ListAddress} from '../../../redux/slice/listAddressSlice';
 import analtyics from '@react-native-firebase/analytics';
 import colors from 'constants/colors';
+import {ADDORDER} from '../../../../src/redux/reducers/Orderreducer';
 type RootStackParamList = {
   CheckoutScreen: undefined;
   PaymentSuccessScreen: undefined;

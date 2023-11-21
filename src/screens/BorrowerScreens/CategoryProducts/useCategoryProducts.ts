@@ -1,9 +1,9 @@
 import {useState, useEffect} from 'react';
 import {useDispatch} from 'react-redux';
-import {postProductToAPI} from '../../../redux/actions/actions';
 
 import ApiService from '../../../network/network';
 import {categoryProductsUrl} from '../../../constants/apiRoutes';
+import {postProductToAPI} from '../../../redux/reducers/AddtoWishlist';
 
 const useCategoryProducts = (subcategoryId: number) => {
   const dispatch = useDispatch();

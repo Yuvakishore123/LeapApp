@@ -15,7 +15,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import {useDispatch} from 'react-redux';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import {Avatar} from 'react-native-paper';
-import {Logout} from '../../../redux/actions/actions';
+
 import Toast from 'react-native-toast-message';
 import useProfile from './useProfile';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
@@ -24,6 +24,7 @@ import Togglebutton from '../../../components/atoms/Colorscheme/Togglebutton';
 import CustomModal from '../../../components/atoms/CustomModel/CustomModel';
 
 import style from '../../OwnerScreens/Ownerprofile/ownerProfileStyle';
+import {Logout} from '../../../../src/redux/reducers/LogoutReducer';
 
 const Profile = () => {
   const {

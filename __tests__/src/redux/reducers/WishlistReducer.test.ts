@@ -2,7 +2,7 @@ import WishlistReducer from '../../../../src/redux/reducers/wishlistReducer';
 import {
   ADD_TO_WISHLIST,
   REMOVE_FROM_WISHLIST,
-} from '../../../../src/redux/actions/actions';
+} from '../../../../src/redux/types';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
   removeEventListener: jest.fn(),

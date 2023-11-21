@@ -18,9 +18,7 @@ const useProductdetails = (product: {
   const isData = useSelector(
     (state: {cartAdd: {data: any}}) => state.cartAdd.data,
   );
-  const isError = useSelector(
-    (state: {cartAdd: {isError: boolean}}) => state.cartAdd.isError,
-  );
+
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
   const [imageLoaded, setImageLoaded] = useState(false);
@@ -59,6 +57,8 @@ const useProductdetails = (product: {
       rentalStartDate: rentalStartDate.toISOString(),
     };
     dispatch(CartAdd(Item));
+    openModal();
+    dispatch(fetchCartProducts);
   };
 
   const openModal = () => {
@@ -152,14 +152,6 @@ const useProductdetails = (product: {
       type: 'error',
     });
   };
-  useEffect(() => {
-    handleError();
-  }, [isError]);
-  const handleError = () => {
-    if (isError) {
-      opennModal();
-    }
-  };
 
   const handleScroll = () => {
     startScrollTimer();
@@ -203,7 +195,7 @@ const useProductdetails = (product: {
     handlegoBack,
     openModal,
     opennModal,
-    handleError,
+
     isData,
     errorToast,
   };

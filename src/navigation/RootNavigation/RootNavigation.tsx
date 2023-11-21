@@ -2,12 +2,13 @@ import {logMessage} from 'helpers/helper';
 import React, {useEffect, useState} from 'react';
 import {View, StatusBar} from 'react-native';
 import {useSelector, useDispatch} from 'react-redux';
-import {Init} from '../../redux/actions/actions';
+
 import AsyncStorageWrapper from '../../utils/asyncStorage';
 import OwnerNavigation from '../OwnerNavigation';
 import Lottie from 'lottie-react-native';
 import messaging from '@react-native-firebase/messaging';
 import {AuthStack} from '../AuthStack/AuthStack';
+import {Init} from '../../../src/redux/reducers/InitializeReducer';
 
 export const RootNavigation = () => {
   const {log} = logMessage();

@@ -173,9 +173,7 @@ describe('WishList Remove Slice', () => {
     });
 
     // Verify that ApiService.delete was called with the correct URL
-    expect(deleteMock).toHaveBeenCalledWith(
-      `${wishListRemoveUrl}/${productId}`,
-    );
+    expect(deleteMock).toHaveBeenCalledWith(`${wishListRemoveUrl}${productId}`);
 
     // Clean up the mock
     deleteMock.mockRestore();

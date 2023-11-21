@@ -1,4 +1,4 @@
-import {ADD_ORDER} from '../../../../src/redux/actions/actions';
+import {ADD_ORDER} from '../../../../src/redux/types';
 import {Orderreducer} from '../../../../src/redux/reducers/Orderreducer';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 

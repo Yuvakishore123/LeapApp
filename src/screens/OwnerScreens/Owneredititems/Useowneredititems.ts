@@ -3,11 +3,7 @@
 import {SetStateAction, useEffect, useState} from 'react';
 
 import {url as baseUrl} from '../../../constants/Apis';
-import {
-  addGenderData,
-  addsize,
-  removeproducts,
-} from '../../../redux/actions/actions';
+import {addGenderData, addsize} from '../../../redux/actions/AddItemsActions';
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 
@@ -22,6 +18,7 @@ import {
 } from '../../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import AsyncStorageWrapper from '../../../utils/asyncStorage';
+import {removeproducts} from '../../../../src/redux/actions/CartActions';
 type RootStackParamList = {
   OwnerProfile: undefined;
 };

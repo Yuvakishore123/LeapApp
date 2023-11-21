@@ -5,7 +5,7 @@ import {SetStateAction, useState} from 'react';
 
 import {useFormik} from 'formik';
 
-import {addsize} from '../../../redux/actions/actions';
+import {addsize} from '../../../redux/actions/AddItemsActions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
 import {url as baseUrl} from '../../../constants/Apis';

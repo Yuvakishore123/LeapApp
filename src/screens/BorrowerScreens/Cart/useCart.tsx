@@ -60,6 +60,9 @@ const useCart = () => {
       setRefreshing(false);
     }
   }, [refreshing]);
+  useEffect(() => {
+    dispatch(fetchCartProducts() as any);
+  }, []);
 
   const handleUpdate = async (newQuantity: number, productId: string) => {
     const data = {

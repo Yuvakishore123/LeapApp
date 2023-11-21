@@ -1,4 +1,4 @@
-import {REMOVE_PRODUCT} from '../../../../src/redux/actions/actions';
+import {REMOVE_PRODUCT} from '../../../../src/redux/types';
 import CartReducer from '../../../../src/redux/reducers/EditProductsReducers';
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),

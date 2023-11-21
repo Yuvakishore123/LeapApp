@@ -7,9 +7,11 @@ export const fetchWishlistProducts = createAsyncThunk(
   async (_, {dispatch}) => {
     try {
       const res = await ApiService.get('/wishlist/list');
+      console.log(res);
       return res;
     } catch (error) {
       dispatch(setError(error));
+      console.log(error);
       throw error;
     }
   },

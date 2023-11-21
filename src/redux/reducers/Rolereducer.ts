@@ -1,4 +1,4 @@
-import {SET_ROLE} from '../actions/actions';
+import {SET_ROLE} from '../types';
 
 const initialState = {
   role: 'borrower',

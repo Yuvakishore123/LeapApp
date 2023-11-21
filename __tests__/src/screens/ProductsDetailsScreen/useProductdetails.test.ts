@@ -228,22 +228,7 @@ describe('useProductdetails', () => {
     });
     expect(mockGoBack).toBeCalled();
   });
-  it('should handle the error  ', async () => {
-    const {result} = renderHook(() => useProductdetails(mockProduct));
-    useSelector.mockImplementation(selector =>
-      selector({
-        cartAdd: {
-          data: [],
-          isError: true,
-        },
-      }),
-    );
 
-    await act(async () => {
-      result.current.handleError();
-    });
-    expect(result.current.showwModal).toBe(true);
-  });
   it('should show toast  ', async () => {
     const {result} = renderHook(() => useProductdetails(mockProduct));
     const toastShowMock = jest.spyOn(Toast, 'show');

@@ -16,6 +16,7 @@ const useWishlist = () => {
   const [showModal, setShowModal] = useState(false);
   const {dispatch} = useThunkDispatch();
   const openModal = () => {
+    dispatch(fetchWishlistProducts());
     setShowModal(true);
   };
   const closeModal = () => {

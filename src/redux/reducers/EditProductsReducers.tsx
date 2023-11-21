@@ -1,4 +1,4 @@
-import {REMOVE_PRODUCT} from '../actions/actions';
+import {REMOVE_PRODUCT} from '../types';
 
 const CartReducer = (state: any[], action: {type: string; payload: number}) => {
   if (action.type === REMOVE_PRODUCT) {

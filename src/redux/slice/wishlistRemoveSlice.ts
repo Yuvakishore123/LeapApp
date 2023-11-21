@@ -28,11 +28,11 @@ export const wishListRemove = createAsyncThunk(
   async (productId: string, {dispatch}) => {
     try {
       const response = await ApiService.delete(
-        `${wishListRemoveUrl}/${productId}`,
+        `${wishListRemoveUrl}${productId}`,
       );
-
       return response;
     } catch (error) {
+      console.log(error);
       dispatch(setError(error));
       throw error;
     }

@@ -1,4 +1,5 @@
 import authReducer from '../../../../src/redux/reducers/reducers';
+
 import {
   LOGIN_REQUEST,
   LOGIN_SUCCESS,
@@ -12,7 +13,7 @@ import {
   VERIFY_OTP_REQUEST,
   VERIFY_OTP_SUCCESS,
   VERIFY_OTP_FAILURE,
-} from '../../../../src/redux/actions/actions';
+} from '../../../../src/redux/types';
 
 jest.mock('@react-native-async-storage/async-storage', () => ({
   getItem: jest.fn(),

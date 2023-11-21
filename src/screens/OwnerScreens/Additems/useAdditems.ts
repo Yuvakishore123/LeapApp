@@ -17,7 +17,7 @@ import {
   addGenderData,
   addtype,
   addoutfit,
-} from '../../../redux/actions/actions';
+} from '../../../redux/actions/AddItemsActions';
 import {fetchCategoriesData} from '../../../redux/slice/categorySlice';
 import {subCategoryUrl} from '../../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';

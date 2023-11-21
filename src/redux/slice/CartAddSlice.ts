@@ -34,11 +34,9 @@ export const CartAdd = createAsyncThunk(
   ) => {
     try {
       const response = await ApiService.post(cartaddUrl, Item);
-
       return response;
     } catch (error: any) {
       dispatch(setError(error.response));
-
       throw error;
     }
   },

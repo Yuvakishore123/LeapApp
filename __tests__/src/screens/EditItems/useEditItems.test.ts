@@ -2,16 +2,14 @@ import {renderHook, act, waitFor} from '@testing-library/react-native';
 
 import {useSelector as useSelectorOriginal, useDispatch} from 'react-redux';
 import Useowneredititems from '../../../../src/screens/OwnerScreens/Owneredititems/Useowneredititems';
-import {
-  addGenderData,
-  removeproducts,
-} from '../../../../src/redux/actions/actions';
+import {addGenderData} from '../../../../src/redux/actions/AddItemsActions';
 import ApiService from 'network/network';
 
 import {url} from 'constants/Apis';
-import {logMessage} from 'helpers/helper';
+
 import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 import * as ImagePicker from 'react-native-image-picker';
+import {removeproducts} from '../../../../src/redux/actions/CartActions';
 jest.mock('network/network');
 const mockNav = jest.fn();
 jest.mock('@react-navigation/native', () => {

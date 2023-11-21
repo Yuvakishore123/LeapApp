@@ -2,9 +2,11 @@ import {useContext, useState} from 'react';
 import {useDispatch} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {getOTP, submitOTP} from '../../../redux/actions/actions';
+
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import colors from 'constants/colors';
+import {getOTP} from '../../../../src/redux/reducers/OtpReducer';
+import {submitOTP} from '../../../../src/redux/reducers/SubmitOtp';
 
 type Dispatch = ThunkDispatch<any, any, AnyAction>;
 

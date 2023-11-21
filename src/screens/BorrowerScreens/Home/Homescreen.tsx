@@ -26,8 +26,9 @@ import * as Animatable from 'react-native-animatable';
 import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
 
 import {useNavigationProp} from 'helpers/helper';
-import {postProductToAPI} from '../../../../src/redux/actions/actions';
+
 import useHome from './useHome';
+import {postProductToAPI} from '../../../../src/redux/reducers/AddtoWishlist';
 
 const Homescreen = () => {
   const dispatch = useDispatch();

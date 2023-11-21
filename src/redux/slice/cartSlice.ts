@@ -61,9 +61,11 @@ export const fetchCartProducts = createAsyncThunk(
   async () => {
     const {log} = logMessage();
     try {
-      const response = await ApiService.get(cartList);
+      const response = await ApiService.get(`${cartList}`);
+      console.log(response);
       return response;
     } catch (error) {
+      console.log(error);
       log.error('error during fetching cart details');
       throw error;
     }
