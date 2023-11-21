@@ -71,6 +71,7 @@ export default function UDetailScreen({route}: Props) {
       style={[
         {
           width: '100%',
+          height: '100%',
         },
         getContainerStyle(),
       ]}>
@@ -115,11 +116,7 @@ export default function UDetailScreen({route}: Props) {
               <ImageBackground
                 testID={`Image-${item}`}
                 key={item}
-                style={{
-                  height: 500,
-                  width: 405,
-                  backgroundColor: '#3E54AC1A',
-                }}
+                style={styles.imageContainer}
                 source={{uri: item}}
               />
             ))}

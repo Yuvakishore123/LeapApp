@@ -18,6 +18,7 @@ import {fetchUserProducts} from '../../../redux/slice/userProductSlice';
 import {logMessage} from '../../../helpers/helper';
 
 import {StatusCodes} from '../../../utils/statusCodes';
+import AsyncStorageWrapper from '../../../../src/utils/asyncStorage';
 
 type RootStackParamList = {
   OtpScreen: undefined;
@@ -72,10 +73,13 @@ const useLoginscreen = () => {
     handleErrorResponse(isError);
   }, [isError]);
   const handleLoginScreen = async () => {
+    const fcmToken = await AsyncStorageWrapper.getItem('device_token');
+    console.log(fcmToken);
+
     const credentials = {
       email: formik.values.email,
       password: formik.values.password,
-      deviceToken: Fcm_token,
+      deviceToken: fcmToken,
     };
     dispatch(postLogin(credentials) as any);
     loginEvent();
@@ -115,18 +119,14 @@ const useLoginscreen = () => {
     colorScheme,
     handleOtpScreen,
     handleSignUp,
-    // handleLoginGuest,
+
     handleLoginScreen,
     passwordVisible,
 
     setPasswordVisible,
 
-    // onTokenRefresh,
-    // storeFCMToken,
     loginEvent,
     handleErrorResponse,
-    // backgroundMessageHandler,
-    // requestFCMPermission,
   };
 };
 export default useLoginscreen;

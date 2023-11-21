@@ -8,7 +8,7 @@ import AsyncStorageWrapper from '../../utils/asyncStorage';
 export const postLogin = createAsyncThunk(
   'postLogin',
   async (
-    credentials: {email: string; password: string; deviceToken: string | null},
+    credentials: {email: string; password: string; deviceToken: any},
     {dispatch},
   ) => {
     const {log} = logMessage();

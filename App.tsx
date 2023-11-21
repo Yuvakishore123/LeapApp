@@ -2,6 +2,7 @@ import React, {useEffect, useRef} from 'react';
 import {
   NavigationContainer,
   NavigationContainerRef,
+  useNavigation,
 } from '@react-navigation/native';
 
 import {LogBox} from 'react-native';
@@ -17,6 +18,7 @@ import {setNavigationReference} from '../LeapApp/src/network/network';
 
 import {RootNavigation} from '../LeapApp/src/navigation/RootNavigation/RootNavigation';
 import DeepLinking from 'helpers/Deeplinking/Deeplinking';
+import messaging from '@react-native-firebase/messaging';
 
 LogBox.ignoreAllLogs();
 Sentry.init({

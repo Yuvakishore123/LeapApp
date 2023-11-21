@@ -18,7 +18,7 @@ import Colors from '../../../constants/colors';
 
 import style from './CheckoutScreenStyle';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
-import {selectCartData} from 'src/redux/slice/cartSlice';
+import {selectCartData} from '../../../../src/redux/slice/cartSlice';
 
 const CheckoutScreen = () => {
   const {

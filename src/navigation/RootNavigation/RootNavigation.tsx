@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import {logMessage} from 'helpers/helper';
 import React, {useEffect, useState} from 'react';
 import {View, StatusBar} from 'react-native';
@@ -9,6 +10,7 @@ import Lottie from 'lottie-react-native';
 import messaging from '@react-native-firebase/messaging';
 import {AuthStack} from '../AuthStack/AuthStack';
 import {Init} from '../../../src/redux/reducers/InitializeReducer';
+import {useNavigation} from '@react-navigation/native';
 
 export const RootNavigation = () => {
   const {log} = logMessage();
@@ -21,6 +23,29 @@ export const RootNavigation = () => {
     const Fcm_token = await messaging().getToken();
     await AsyncStorageWrapper.setItem('device_token', Fcm_token);
   };
+  const navigation = useNavigation();
+  useEffect(() => {
+    messaging().onNotificationOpenedApp(remoteMessage => {
+      console.log(
+        'Notification caused app to open from background state:',
+        remoteMessage.notification,
+      );
+      navigation.navigate('MyOrder');
+    });
+
+    // Check whether an initial notification is available
+    messaging()
+      .getInitialNotification()
+      .then(remoteMessage => {
+        if (remoteMessage) {
+          console.log(
+            'Notification caused app to open from kill state:',
+            remoteMessage.notification,
+          );
+          navigation.navigate('MyOrder');
+        }
+      });
+  }, [navigation]);
 
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
@@ -28,6 +53,11 @@ export const RootNavigation = () => {
     await dispatch(Init() as any);
     setLoading(false);
   };
+  useEffect(() => {
+    messaging().setBackgroundMessageHandler(async remoteMessage => {
+      log.info('Message handled in the background!', remoteMessage);
+    });
+  });
   useEffect(() => {
     init();
   }, [token]);

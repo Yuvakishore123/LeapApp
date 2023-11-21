@@ -1,5 +1,9 @@
 import {StyleSheet} from 'react-native';
 import Colors from '../../../constants/colors';
+import {
+  widthPercentageToDP as wp,
+  heightPercentageToDP as hp,
+} from 'react-native-responsive-screen';
 const styles = StyleSheet.create({
   disabledButton: {
     opacity: 0.5,
@@ -41,13 +45,15 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     color: Colors.black,
   },
-
   paginationContainer: {
-    marginBottom: 20,
-    paddingVertical: 8,
+    paddingVertical: 10,
     justifyContent: 'center',
     alignItems: 'center',
     zIndex: 1,
+    top: '92%',
+    left: 0,
+    right: 0,
+    position: 'absolute',
   },
   pagingText: {
     width: 10,
@@ -114,12 +120,11 @@ const styles = StyleSheet.create({
   container: {
     borderTopLeftRadius: 30,
     borderTopRightRadius: 30,
-    width: '100%',
-    height: '100%',
+    height: hp('120%'),
+    width: wp('100%'),
   },
 
   dheader: {
-    marginBottom: 30,
     top: 90,
     flexDirection: 'row',
     justifyContent: 'space-between',
@@ -128,8 +133,7 @@ const styles = StyleSheet.create({
     marginLeft: 5,
   },
   sharebutton: {
-    marginBottom: 30,
-    top: 89,
+    top: 70,
     flexDirection: 'row',
     justifyContent: 'space-between',
     paddingHorizontal: 20,
@@ -176,7 +180,6 @@ const styles = StyleSheet.create({
   },
 
   startext: {
-    marginTop: -125,
     color: Colors.white,
     fontFamily: 'Poppins-Bold',
     marginLeft: 10,
@@ -185,6 +188,10 @@ const styles = StyleSheet.create({
     textShadowColor: Colors.shadowcolor, // Shadow color
     textShadowOffset: {width: 1, height: 1}, // Shadow offset
     textShadowRadius: 5, // Shadow blur radius
+    position: 'absolute',
+    justifyContent: 'center',
+    alignItems: 'center',
+    top: '74%',
   },
 
   sizelabel: {
@@ -233,6 +240,10 @@ const styles = StyleSheet.create({
     marginLeft: 20,
   },
   datepickerTextcolor: {color: Colors.white},
+  imageContainer: {
+    height: hp('65%'),
+    width: wp('100%'),
+  },
 });
 
 export default styles;

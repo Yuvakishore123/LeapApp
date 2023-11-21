@@ -18,7 +18,7 @@ import {
   selectprofileData,
 } from '../../../redux/slice/profileDataSlice';
 import {useNavigationProp, useThunkDispatch} from '../../../helpers/helper';
-import {selectWishlistProductsData} from 'src/redux/slice/wishlistSlice';
+import {selectWishlistProductsData} from '../../../../src/redux/slice/wishlistSlice';
 
 const useHome = () => {
   const {colorScheme} = useContext(ColorSchemeContext);

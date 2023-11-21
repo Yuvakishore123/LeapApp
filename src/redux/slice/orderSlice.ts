@@ -10,23 +10,25 @@ export interface OrderProductsState {
   isError: boolean;
 }
 const initialState: OrderProductsState = {
-  data: {
-    message: '',
-    status: '',
-  },
+  data: null,
   isLoader: false,
   isError: false,
 };
+
+interface RootState {
+  OrderProducts: OrderProductsState;
+}
 
 export const fetchOrderProducts = createAsyncThunk(
   'fetchOrderProducts',
   async () => {
     const {log} = logMessage();
     try {
-      const response = await ApiService.get(`${url}/order/list`);
+      const response = await ApiService.get(`${url}/order`);
 
       return response;
     } catch (error) {
+      console.log(error);
       log.error('error in fetching order details');
       throw error;
     }
@@ -77,7 +79,7 @@ export const orderSlice = createSlice({
       });
   },
 });
-export const selectOrderProductsData = (state: {OrderProducts: {data: []}}) =>
+export const selectOrderProductsData = (state: RootState) =>
   state.OrderProducts.data;
 export const selectOrderProductsLoading = (state: {
   OrderProducts: {isLoader: boolean};

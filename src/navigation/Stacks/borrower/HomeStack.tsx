@@ -6,6 +6,7 @@ import SearchResultsScreen from '../../../screens/BorrowerScreens/SearchResultSc
 import Subcategory from '../../../screens/BorrowerScreens/Subcategory/Subcategory';
 import UProductDetails from '../../../screens/BorrowerScreens/UProductDetails/UProductDetails';
 import ApiErrorScreen from '../../../screens/Common/ApiErrorScreen/ApiErrorScreen';
+import MyOrder from '../../../screens/BorrowerScreens/MyOrder/MyOrder';
 const Stack = createNativeStackNavigator();
 const HomeStack = () => {
   return (
@@ -21,6 +22,7 @@ const HomeStack = () => {
       <Stack.Screen name="UProductDetails" component={UProductDetails} />
       <Stack.Screen name="Subcategory" component={Subcategory} />
       <Stack.Screen name="CategoryProducts" component={CategoryProducts} />
+      <Stack.Screen name="MyOrder" component={MyOrder} />
     </Stack.Navigator>
   );
 };
