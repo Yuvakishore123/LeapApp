@@ -65,7 +65,6 @@ const AddAddress = () => {
           <TextInput
             testID={'Flat-No'}
             placeholder="Flat no / Building"
-            // placeholderTextColor={getPlaceHolderTextStyle()}
             value={addressLine1}
             onChangeText={handleAddressLine1}
             onBlur={() => handleBlur('addressLine1')}
@@ -81,9 +80,6 @@ const AddAddress = () => {
           <TextInput
             placeholder="Street name"
             testID={'Street-name'}
-            // placeholderTextColor={
-            //   colorScheme === 'dark' ? colors.Textinput : colors.black
-            // }
             value={addressLine2}
             onChangeText={handleAddressLine2}
             onBlur={() => handleBlur('addressLine2')}
@@ -93,9 +89,6 @@ const AddAddress = () => {
         <View style={style.cityContainer}>
           <TextInput
             placeholder="Pincode"
-            // placeholderTextColor={
-            //   colorScheme === 'dark' ? colors.Textinput : colors.black
-            // }
             style={[style.smalltextInput, getTextInputStyle(), getTextColor()]}
             value={postalCode}
             onChangeText={handlePostalCodeChange}
@@ -129,14 +122,10 @@ const AddAddress = () => {
         />
         <TextInput
           placeholder="Country"
-          // placeholderTextColor={
-          //   colorScheme === 'dark' ? colors.Textinput : colors.black
-          // }
           value={country}
           editable={false}
           selectTextOnFocus={false}
           style={[style.inputAddress, getTextInputStyle(), getTextColor()]}
-          // onChangeText={text => setCountry(text)}
         />
       </View>
       <Text style={[style.textField, getTextColor()]}>Type of address</Text>

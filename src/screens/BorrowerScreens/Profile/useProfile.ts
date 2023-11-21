@@ -4,7 +4,11 @@ import {profileUpload, url} from '../../../constants/Apis';
 import {launchImageLibrary} from 'react-native-image-picker';
 import ApiService from '../../../network/network';
 import {useSelector} from 'react-redux';
-import {getProfileData} from '../../../redux/slice/profileDataSlice';
+import {
+  getProfileData,
+  selectProfileDataLoading,
+  selectprofileData,
+} from '../../../redux/slice/profileDataSlice';
 import {logMessage, useThunkDispatch} from '../../../helpers/helper';
 
 import Toast from 'react-native-toast-message';
@@ -28,6 +32,8 @@ const useProfile = () => {
   const {dispatch} = useThunkDispatch();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {log} = logMessage();
+  const data = useSelector(selectprofileData);
+  const loading = useSelector(selectProfileDataLoading);
   const fetchProfileData = async () => {
     try {
       setIsLoading(true);
@@ -41,12 +47,6 @@ const useProfile = () => {
   useEffect(() => {
     dispatch(getProfileData());
   }, [dispatch]);
-  const data = useSelector(
-    (state: {profileData: {data: any}}) => state.profileData.data,
-  );
-  const loading = useSelector(
-    (state: {profileData: {isLoader: any}}) => state.profileData.isLoader,
-  );
   const refreshData = () => {
     setRefreshState(true);
   };
@@ -71,9 +71,9 @@ const useProfile = () => {
   const openAppSettings = () => {
     Linking.openSettings();
   };
+  // Show a dialog or message to the user explaining why the permission is needed
+  // and provide a button to open the app settings
   const showDialogToAppSettings = () => {
-    // Show a dialog or message to the user explaining why the permission is needed
-    // and provide a button to open the app settings
     Alert.alert(
       'Permission Required',
       'To upload images, please grant access to your photo library in app settings.',

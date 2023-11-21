@@ -13,6 +13,12 @@ import {ProductAdd} from '../../../redux/slice/ProductAddSlice';
 
 import {logMessage, useThunkDispatch} from '../../../helpers/helper';
 import AsyncStorageWrapper from '../../../utils/asyncStorage';
+import {
+  selectItemsData,
+  selectItemsDataCategories,
+  selectItemsDataDescription,
+  selectItemsDataSubcategory,
+} from '../../../../src/redux/reducers/Additemsreducers';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -33,16 +39,10 @@ const useAddImages = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {dispatch} = useThunkDispatch();
   const {log} = logMessage();
-  const name = useSelector(
-    (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
-  );
-  const description = useSelector(
-    (state: {ItemsReducer: {Description: string}}) =>
-      state.ItemsReducer.Description,
-  );
-  const categoryIds = useSelector(
-    (state: {ItemsReducer: {CategoryId: []}}) => state.ItemsReducer.CategoryId,
-  );
+  const name = useSelector(selectItemsData);
+  const description = useSelector(selectItemsDataDescription);
+  const categoryIds = useSelector(selectItemsDataSubcategory);
+  const subcategoryIds = useSelector(selectItemsDataCategories);
   const openModal = () => {
     setShowModal(true);
   };
@@ -50,10 +50,6 @@ const useAddImages = () => {
     navigation.navigate('Home', {screen: 'OwnerHome'});
     setShowModal(false);
   };
-  const subcategoryIds = useSelector(
-    (state: {ItemsReducer: {subcategoryIds: []}}) =>
-      state.ItemsReducer.subcategoryIds,
-  );
 
   const AdditemsvalidationSchema = Yup.object().shape({
     size: Yup.string().required('Size is required'),

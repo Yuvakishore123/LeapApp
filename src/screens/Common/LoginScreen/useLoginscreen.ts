@@ -9,7 +9,7 @@ import {passwordValidation} from '../../../constants/Regex';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 import colors from 'constants/colors';
-import {postLogin} from '../../../redux/slice/loginSlice';
+import {postLogin, selectLoginError} from '../../../redux/slice/loginSlice';
 import analytics from '@react-native-firebase/analytics';
 
 import messaging from '@react-native-firebase/messaging';
@@ -30,7 +30,7 @@ const useLoginscreen = () => {
   const [passwordVisible, setPasswordVisible] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
   const dispatch = useDispatch();
-  const isError = useSelector((state: any) => state.login?.error);
+  const isError = useSelector(selectLoginError);
   const [pageSize, _setPageSize] = useState(10);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {log} = logMessage();

@@ -77,5 +77,10 @@ export const orderSlice = createSlice({
       });
   },
 });
+export const selectOrderProductsData = (state: {OrderProducts: {data: []}}) =>
+  state.OrderProducts.data;
+export const selectOrderProductsLoading = (state: {
+  OrderProducts: {isLoader: boolean};
+}) => state.OrderProducts.isLoader;
 
 export default orderSlice.reducer;

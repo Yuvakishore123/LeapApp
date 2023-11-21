@@ -18,6 +18,7 @@ import Colors from '../../../constants/colors';
 
 import style from './CheckoutScreenStyle';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
+import {selectCartData} from 'src/redux/slice/cartSlice';
 
 const CheckoutScreen = () => {
   const {
@@ -34,11 +35,7 @@ const CheckoutScreen = () => {
   } = useCheckout();
   const {getTextInputStyle, getContainerStyle, getTextColor} =
     useContext(ColorSchemeContext);
-  const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
-    cartItems: [],
-  };
+  const cartData = useSelector(selectCartData);
 
   if (isLoading) {
     return (

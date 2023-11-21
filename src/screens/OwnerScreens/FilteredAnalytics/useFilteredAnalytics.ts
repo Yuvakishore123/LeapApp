@@ -5,7 +5,10 @@ import {useNavigation} from '@react-navigation/native';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {FliterAnalyticslist} from '../../../redux/slice/fliterAnalyticsDataSlice';
+import {
+  FliterAnalyticslist,
+  selectFilteredAnalyticsData,
+} from '../../../redux/slice/fliterAnalyticsDataSlice';
 import {logMessage} from 'helpers/helper';
 
 const useFilteredAnalytics = () => {
@@ -16,10 +19,7 @@ const useFilteredAnalytics = () => {
   const [endDate, setEndDate] = useState(new Date());
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
   const {log} = logMessage();
-  const response = useSelector(
-    (state: {FliterAnalyticsData: {data: any}}) =>
-      state.FliterAnalyticsData.data,
-  );
+  const response = useSelector(selectFilteredAnalyticsData);
   const [data, setData] = useState<{[key: string]: any[]}>({});
 
   const [isLoading, setIsLoading] = useState(false);

@@ -235,26 +235,6 @@ const Useowneredititems = () => {
       });
   };
 
-  // const getOwnerProducts = async () => {
-  //   try {
-  //     setViisble(true);
-  //     const token = await AsyncStorageWrapper.getItem('token');
-  //     const response = await axios.get(
-  //       `${baseUrl}/product/listByProductId/${editProductId}`,
-  //       {
-  //         headers: {
-  //           Authorization: `Bearer ${token}`,
-  //         },
-  //       },
-  //     );
-
-  //     setPrefill(response.data);
-  //     return response.data;
-  //   } catch (error) {
-  //     console.error('Error occurred while getting owner products:', error);
-  //     throw error;
-  //   }
-  // };
   const handleDisableProduct = (item: any) => {
     setIsModalVisible(true);
     setProductQuantity(item.availableQuantities);

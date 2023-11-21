@@ -42,3 +42,14 @@ export const ItemsReducer = (
       return state;
   }
 };
+export const selectItemsData = (state: {ItemsReducer: {Name: string}}) =>
+  state.ItemsReducer.Name;
+export const selectItemsDataDescription = (state: {
+  ItemsReducer: {Description: string};
+}) => state.ItemsReducer.Description;
+export const selectItemsDataSubcategory = (state: {
+  ItemsReducer: {subcategoryIds: []};
+}) => state.ItemsReducer.subcategoryIds;
+export const selectItemsDataCategories = (state: {
+  ItemsReducer: {subcategoryIds: []};
+}) => state.ItemsReducer.subcategoryIds;

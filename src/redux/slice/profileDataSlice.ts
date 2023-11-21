@@ -71,5 +71,11 @@ const profileThunk = createSlice({
       });
   },
 });
+export const selectprofileData = (state: {profileData: {data: any}}) =>
+  state.profileData.data;
+export const selectProfileDataLoading = (state: {
+  profileData: {isLoader: any};
+}) => state.profileData.isLoader;
+
 export const {setProfiledata, setError} = profileThunk.actions;
 export default profileThunk.reducer;

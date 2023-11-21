@@ -61,5 +61,17 @@ export const UserProductSlice = createSlice({
       });
   },
 });
+export const selectUserProductsData = (state: {UserProducts: {data: []}}) =>
+  state.UserProducts.data;
+
+export const selectUserProductsError = (state: {
+  UserProducts: {isError: null};
+}) => state.UserProducts.isError;
+
+export const selectUserLoading = (state: {UserProducts: {loading: boolean}}) =>
+  state.UserProducts.loading;
+export const selectUserFirstLoading = (state: {
+  UserProducts: {firstCallLoading: boolean};
+}) => state.UserProducts.firstCallLoading;
 
 export default UserProductSlice.reducer;

@@ -3,7 +3,12 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 
-import {fetchWishlistProducts} from '../../../redux/slice/wishlistSlice';
+import {
+  fetchWishlistProducts,
+  selectWishlistProductsData,
+  selectWishlistProductsError,
+  selectWishlistProductsLoading,
+} from '../../../redux/slice/wishlistSlice';
 
 import {wishListRemove} from '../../../redux/slice/wishlistRemoveSlice';
 import {useThunkDispatch} from '../../../helpers/helper';
@@ -26,18 +31,9 @@ const useWishlist = () => {
     dispatch(wishListRemove(productId) as any);
     openModal();
   };
-  const WishlistProducts = useSelector(
-    (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
-  );
-  const isError = useSelector(
-    (state: {WishlistProducts: {error: boolean}}) =>
-      state.WishlistProducts.error,
-  );
-
-  const isLoading = useSelector(
-    (state: {WishlistProducts: {isLoader: boolean}}) =>
-      state.WishlistProducts.isLoader,
-  );
+  const WishlistProducts = useSelector(selectWishlistProductsData);
+  const isError = useSelector(selectWishlistProductsError);
+  const isLoading = useSelector(selectWishlistProductsLoading);
 
   const showToast = () => {
     Toast.show({

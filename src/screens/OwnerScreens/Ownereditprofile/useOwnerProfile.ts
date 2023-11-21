@@ -1,6 +1,10 @@
 import {useEffect, useState} from 'react';
 
-import {getProfileData} from '../../../redux/slice/profileDataSlice';
+import {
+  getProfileData,
+  selectProfileDataLoading,
+  selectprofileData,
+} from '../../../redux/slice/profileDataSlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {updateProfile} from '../../../redux/slice/editProfileSlice';
 const OwnerEditProfileCustomHook = () => {
@@ -11,12 +15,8 @@ const OwnerEditProfileCustomHook = () => {
   const [phoneNumber, setPhoneNumber] = useState('');
   const [isFormValid, setIsFormValid] = useState(false);
   const dispatch = useDispatch();
-  const Data = useSelector(
-    (state: {profileData: {data: any}}) => state.profileData.data,
-  );
-  const isLoading = useSelector(
-    (state: {profileData: {isLoader: boolean}}) => state.profileData.isLoader,
-  );
+  const Data = useSelector(selectprofileData);
+  const isLoading = useSelector(selectProfileDataLoading);
 
   const openModal = () => {
     dispatch(getProfileData() as any);

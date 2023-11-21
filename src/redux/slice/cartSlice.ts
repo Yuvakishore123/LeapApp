@@ -95,5 +95,12 @@ const CartSlice = createSlice({
       });
   },
 });
+export const selectCartData = (state: {CartProducts: {data: any}}) =>
+  state.CartProducts.data;
+export const selectCartError = (state: {CartProducts: {error: any}}) =>
+  state.CartProducts.error;
+export const selectCartLoading = (state: {CartProducts: {isLoader: boolean}}) =>
+  state.CartProducts.isLoader;
+
 export const {setError} = CartSlice.actions;
 export default CartSlice.reducer;

@@ -75,5 +75,7 @@ const AddressAddThunk = createSlice({
       });
   },
 });
+export const selectAddAddressData = (state: {AddAddress: {data: any}}) =>
+  state.AddAddress.data;
 export const {setAdressAddData, setError} = AddressAddThunk.actions;
 export default AddressAddThunk.reducer;

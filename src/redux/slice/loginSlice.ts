@@ -70,6 +70,7 @@ const loginThunk = createSlice({
       });
   },
 });
+export const selectLoginError = (state: any) => state.login?.error;
 
 export const {setLoginData, setError} = loginThunk.actions;
 export default loginThunk.reducer;

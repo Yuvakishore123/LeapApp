@@ -5,7 +5,10 @@ import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {editAddressData} from '../../../redux/slice/editAddressSlice';
+import {
+  editAddressData,
+  selectEditAddressData,
+} from '../../../redux/slice/editAddressSlice';
 import {ListAddress} from '../../../redux/slice/listAddressSlice';
 
 const useEditAddress = () => {
@@ -13,9 +16,7 @@ const useEditAddress = () => {
 
   const route = useRoute();
   const address = (route.params as any)?.address;
-  const response = useSelector(
-    (state: {editAddressData: {data: any}}) => state.editAddressData.data,
-  );
+  const response = useSelector(selectEditAddressData);
   const [city, setCity] = useState(address?.city || ''); // Use a default value if address or city is undefined
 
   const [state, setStateName] = useState(address?.state || '');

@@ -1,6 +1,9 @@
 import {useEffect, useState} from 'react';
 import {useSelector} from 'react-redux';
-import {fetchProducts} from '../../../redux/slice/productSlice';
+import {
+  fetchProducts,
+  selectProductsData,
+} from '../../../redux/slice/productSlice';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 
 import {url} from '../../../constants/Apis';
@@ -64,7 +67,8 @@ const useOwnerHome = () => {
     setRefreshing(false);
   };
   const {HandlePiechart} = useAnalytics();
-  const name = useSelector(state => state.profileData.data);
+  const name = useSelector(selectProductsData);
+  const products = useSelector(selectProductsData);
   const fetchDashboardData = async () => {
     try {
       const response = await ApiService.get(`${url}/dashboard/owner-view`);
@@ -87,9 +91,6 @@ const useOwnerHome = () => {
     });
     return unsubscribe;
   }, [navigation, refresh]);
-  const products = useSelector(
-    (state: {products: {data: any[]}}) => state.products.data,
-  );
 
   const handleAdditems = () => {
     navigation.navigate('Additems');

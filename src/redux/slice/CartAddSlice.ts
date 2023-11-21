@@ -69,5 +69,7 @@ const cartThunk = createSlice({
       });
   },
 });
+export const selectAddAddressData = (state: {AddAddress: {data: any}}) =>
+  state.AddAddress.data;
 export const {setCartData, setError} = cartThunk.actions;
 export default cartThunk.reducer;

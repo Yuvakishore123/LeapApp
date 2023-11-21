@@ -48,5 +48,10 @@ const listAddressThunk = createSlice({
       });
   },
 });
+export const selectListAddressData = (state: {listAddress: {data: any}}) =>
+  state.listAddress.data;
+export const selectListAddressLoading = (state: {
+  listAddress: {isLoader: boolean};
+}) => state.listAddress.isLoader;
 export const {setData} = listAddressThunk.actions;
 export default listAddressThunk.reducer;

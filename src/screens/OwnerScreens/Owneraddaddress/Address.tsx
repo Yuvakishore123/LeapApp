@@ -13,7 +13,6 @@ import Colors from 'constants/colors';
 
 import style from './AddressStyles';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
-import colors from 'constants/colors';
 
 const Address = () => {
   const {
@@ -55,7 +54,7 @@ const Address = () => {
             <MaterialIcons
               name="delete"
               size={25}
-              color={colors.maroon}
+              color={Colors.maroon}
               style={style.deleteBtnText}
             />
           </TouchableOpacity>

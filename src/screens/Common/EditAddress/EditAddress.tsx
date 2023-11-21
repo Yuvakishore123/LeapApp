@@ -29,7 +29,7 @@ export const SkeletonLoader = () => {
       backgroundColor={
         colorScheme === 'dark' ? colors.loadingcolor : colors.sliver
       }>
-      <View testID="Loading-Container" style={style.subContainer}>
+      <View testID="Loading-Container" style={styles.subContainer}>
         <View>
           <TextInput style={style.inputAddress} />
           <TextInput style={style.inputAddress} />

@@ -1,6 +1,10 @@
 import {useEffect} from 'react';
 
-import {fetchCategoriesData} from '../../../redux/slice/categorySlice';
+import {
+  fetchCategoriesData,
+  selectCategoryData,
+  selectCategoryLoading,
+} from '../../../redux/slice/categorySlice';
 import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
@@ -10,12 +14,8 @@ type RootStackParamList = {
 };
 const useCategory = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-  const data = useSelector(
-    (state: {category: {data: any}}) => state.category.data,
-  );
-  const loading = useSelector(
-    (state: {category: {loading: boolean}}) => state.category.loading,
-  );
+  const data = useSelector(selectCategoryData);
+  const loading = useSelector(selectCategoryLoading);
   const dispatch = useDispatch();
 
   useEffect(() => {

@@ -18,9 +18,13 @@ import {
   addtype,
   addoutfit,
 } from '../../../redux/actions/AddItemsActions';
-import {fetchCategoriesData} from '../../../redux/slice/categorySlice';
+import {
+  fetchCategoriesData,
+  selectCategoryData,
+} from '../../../redux/slice/categorySlice';
 import {subCategoryUrl} from '../../../constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
+import {selectGenderData} from '../../../../src/redux/reducers/GenderReducer';
 
 type RootStackParamList = {
   OwnerImage: undefined;
@@ -40,18 +44,13 @@ const useAdditems = () => {
   const [subEventCategoriesData, setSubEventCategoriesData] = useState([]);
   const [subOutfitCategoriesData, setSubOutfitCategoriesData] = useState([]);
   const {log} = logMessage();
-  const Data = useSelector(
-    (state: {category: {data: any}}) => state.category.data,
-  );
+  const Data = useSelector(selectCategoryData);
+  const genderData = useSelector(selectGenderData);
   const handleGenderChange = (selectedGender: React.SetStateAction<string>) => {
     setGender(selectedGender);
     formik.setFieldValue('gender', selectedGender);
     dispatch(addGenderData(selectedGender));
   };
-  const genderData = useSelector(
-    (state: {GenderReducer: {genderData: string}}) =>
-      state.GenderReducer.genderData,
-  );
   const AdditemsvalidationSchema = Yup.object().shape({
     name: Yup.string().required('Name is required'),
     description: Yup.string().required('Description is required'),
