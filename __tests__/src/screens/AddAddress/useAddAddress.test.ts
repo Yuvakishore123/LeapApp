@@ -157,7 +157,7 @@ describe('Address data', () => {
     });
 
     // Assert that the error was logged and an alert was shown
-    expect(Alert.alert).toHaveBeenCalledWith('Enter valid Pincode');
+    expect(Alert.alert).toHaveBeenCalledWith('Enter a valid Pincode');
 
     expect(result.current.isLoading).toBe(false);
   });

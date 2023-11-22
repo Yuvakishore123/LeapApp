@@ -194,9 +194,11 @@ describe('RootNavigation ', () => {
       .fn()
       .mockResolvedValue({url: 'your_deep_link'});
     const mockOnLink = jest.fn();
+    const mockLinkopen = jest.fn();
     jest.mock('@react-native-firebase/dynamic-links', () => ({
       getInitialLink: mockGetInitialLink,
       onLink: mockOnLink,
+      onNotificationOpenedApp: mockLinkopen,
     }));
     const mockData = [
       {

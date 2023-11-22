@@ -96,7 +96,6 @@ const useLoginscreen = () => {
       deviceToken: fcmToken,
     };
 
-    // Dispatch login action and additional actions
     dispatch(postLogin(credentials) as any);
     loginEvent();
     dispatch(fetchUserProducts({pageSize}) as any);

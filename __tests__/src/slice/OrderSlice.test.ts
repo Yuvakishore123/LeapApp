@@ -21,7 +21,7 @@ jest.mock('@react-native-async-storage/async-storage', () => ({
   clear: jest.fn(),
 }));
 
-describe('Filter Analytics  Slice', () => {
+describe('Order Slice', () => {
   let store: ToolkitStore<
     {orderproducts: unknown},
     AnyAction,
@@ -38,10 +38,7 @@ describe('Filter Analytics  Slice', () => {
 
   it('should return the initial state', () => {
     expect(reducer(undefined, {type: undefined})).toEqual({
-      data: {
-        message: '',
-        status: '',
-      },
+      data: null,
       isLoader: false,
       isError: false,
     });

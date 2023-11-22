@@ -39,7 +39,7 @@ export const RootNavigation = () => {
 
   // Effect to handle notification when the app is opened or in the background
   useEffect(() => {
-    messaging().onNotificationOpenedApp(remoteMessage => {
+    messaging()?.onNotificationOpenedApp(remoteMessage => {
       console.log(
         'Notification caused app to open from background state:',
         remoteMessage.notification,
@@ -49,7 +49,7 @@ export const RootNavigation = () => {
 
     // Check whether an initial notification is available
     messaging()
-      .getInitialNotification()
+      ?.getInitialNotification()
       .then(remoteMessage => {
         if (remoteMessage) {
           console.log(
@@ -73,7 +73,7 @@ export const RootNavigation = () => {
 
   // Effect to handle background messages
   useEffect(() => {
-    messaging().setBackgroundMessageHandler(async remoteMessage => {
+    messaging()?.setBackgroundMessageHandler(async remoteMessage => {
       log.info('Message handled in the background!', remoteMessage);
     });
   });

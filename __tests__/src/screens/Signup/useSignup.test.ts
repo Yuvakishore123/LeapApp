@@ -92,7 +92,7 @@ describe('useSignup', () => {
     await waitFor(() => {
       expect(toastShowMock).toHaveBeenCalledWith({
         type: 'error',
-        text1: 'error during signup try again later',
+        text1: 'Error during signup, try again later',
       });
     });
   });

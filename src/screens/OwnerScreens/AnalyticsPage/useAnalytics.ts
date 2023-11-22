@@ -27,25 +27,31 @@ const useAnalytics = () => {
   const [loading, setisLoading] = useState(false);
   const [DashboardYearly, setDashboardYearlydata] = useState({});
   const {log} = logMessage();
+  // Function to handle analytics data retrieval
   const handleAnalytics = async () => {
     setisLoading(true);
     try {
-      const result = await ApiService.get(onclickDasboardUrl); // need to chaange to dispatch
+      const result = await ApiService.get(onclickDasboardUrl);
       setData(result);
       setisLoading(false);
     } catch (error) {
       setisLoading(true);
     }
   };
+
+  // Function to handle orders data retrieval
   const handleOrders = async () => {
-    const results = await ApiService.get(getdashboard); // need to chaange to dispatch
+    const results = await ApiService.get(getdashboard);
     setOrderdata(results);
   };
+
+  // Function to handle pie chart data retrieval
   const HandlePiechart = async () => {
-    const resultData = await ApiService.get(pieChartUrl); // need to chaange to dispatch
+    const resultData = await ApiService.get(pieChartUrl);
     setPiechart(resultData);
   };
 
+  // Function to handle PDF export and push notification
   const handleExportpdf = async () => {
     try {
       const token = await AsyncStorageWrapper.getItem('token');
@@ -66,7 +72,7 @@ const useAnalytics = () => {
         const filePath = `${RNFetchBlob.fs.dirs.DownloadDir}/report.pdf`;
         await RNFetchBlob.fs.writeFile(filePath, base64String, 'base64');
 
-        // Push notification
+        // Trigger push notification
         HandleNotification();
       };
 
@@ -75,12 +81,13 @@ const useAnalytics = () => {
       log?.error('Error downloading file:', error);
     }
   };
+
+  // Function to handle push notification for PDF download
   const HandleNotification = async () => {
     const channelId = await notifee.createChannel({
       id: 'pdf_download_channel1',
       name: 'PDF Download Channel1',
       sound: 'default',
-
       lights: true,
     });
     await notifee.displayNotification({
@@ -88,7 +95,6 @@ const useAnalytics = () => {
       body: 'PDF file downloaded successfully.',
       android: {
         channelId,
-
         progress: {
           max: 10,
           current: 10,
@@ -97,23 +103,23 @@ const useAnalytics = () => {
     });
   };
 
+  // Function to fetch category pie chart data
   const CategoriePieData = async () => {
     try {
-      const results = await ApiService.get(categoriyPiechart); // need to chaange to dispatch
-
+      const results = await ApiService.get(categoriyPiechart);
       setCategoriesData(results);
     } catch (error) {
-      log.error('error in fetching Piechart data');
+      log.error('Error in fetching Piechart data');
     }
   };
 
+  // Function to fetch yearly data for the dashboard
   const Dashboardyeardata = async () => {
     try {
-      const yearlyData = await ApiService.get(Dashboardyearlydata); // need to chaange to dispatch
-
+      const yearlyData = await ApiService.get(Dashboardyearlydata);
       setDashboardYearlydata(yearlyData);
     } catch (error) {
-      log.error('error in fetching yearly analytics data ');
+      log.error('Error in fetching yearly analytics data');
     }
   };
 

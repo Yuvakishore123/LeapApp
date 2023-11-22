@@ -45,11 +45,13 @@ const useOwnerHome = () => {
     useState(totalEarnings);
   const isFocused = useIsFocused();
 
+  // Effect hook to update percentage values when rentedItems or totalEarnings change
   useEffect(() => {
     setRentedItemsPercentage(rentedItems);
     setTotalEarningsPercentage(totalEarnings);
   }, [rentedItems, totalEarnings]);
 
+  // Effect hook to trigger a refresh when the screen is in focus
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setRefreshTrigger(prev => !prev);
@@ -57,22 +59,32 @@ const useOwnerHome = () => {
     return unsubscribe;
   }, [navigation]);
 
+  // Custom hook to get the dispatch function from the Redux store
   const {dispatch} = useThunkDispatch();
+
+  // Effect hook to fetch products data when the component mounts
   useEffect(() => {
     dispatch(fetchProducts() as any);
   }, [dispatch]);
+
+  // Function to refresh the products data
   const onRefresh = async () => {
     setRefreshing(true);
     dispatch(fetchProducts() as any);
     setRefreshing(false);
   };
+
+  // Custom hook to get analytics-related functions
   const {HandlePiechart} = useAnalytics();
+
+  // Selector to get products data from the Redux store
   const name = useSelector(selectProductsData);
   const products = useSelector(selectProductsData);
+
+  // Function to fetch dashboard data
   const fetchDashboardData = async () => {
     try {
       const response = await ApiService.get(`${url}/dashboard/owner-view`);
-
       setTotalEarnings(response.totalEarnings);
       setRentedItems(response.totalNumberOfItems);
     } catch (error) {
@@ -81,10 +93,12 @@ const useOwnerHome = () => {
       setIsLoading(false);
     }
   };
+  // Effect hook to fetch dashboard data when the component mounts
   useEffect(() => {
     fetchDashboardData();
   }, []);
 
+  // Effect hook to refresh data when the screen is in focus
   useEffect(() => {
     const unsubscribe = navigation.addListener('focus', () => {
       setRefresh(!refresh);
@@ -92,22 +106,29 @@ const useOwnerHome = () => {
     return unsubscribe;
   }, [navigation, refresh]);
 
+  // Function to navigate to the 'Additems' screen
   const handleAdditems = () => {
     navigation.navigate('Additems');
   };
+
+  // Function to navigate to the 'MyRentals' screen
   const handleMyrentals = () => {
     navigation.navigate('MyRentals');
   };
+
+  // Function to handle analytics and navigate to the 'DashboardDetails' screen
   const handleAnalatyics = () => {
     HandlePiechart();
     navigation.navigate('DashboardDetails');
   };
 
+  // Function to fetch recently added items
   const fetchRecentlyAdded = async () => {
     const result = await ApiService.get(recentyAddedUrl);
     setRecentlyAdded(result);
     setisLoading(false);
   };
+  // Effect hook to fetch recently added items when the component is focused
   useEffect(() => {
     fetchRecentlyAdded();
   }, [isFocused]);

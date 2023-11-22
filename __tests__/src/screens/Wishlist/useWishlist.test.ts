@@ -100,7 +100,7 @@ describe('useWishlist', () => {
     await waitFor(() => {
       expect(toastShowMock).toHaveBeenCalledWith({
         type: 'error',
-        text1: 'Error in wislist cart',
+        text1: 'Error in wishlist cart',
       });
     });
     if (result.current.isError) {

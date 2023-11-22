@@ -15,7 +15,7 @@ const useOProductDetails = ({route, navigation}: Props) => {
     getTextInputStyle,
     getTextColor,
   } = useContext(ColorSchemeContext);
-
+  //* Function to navigate back
   const goBack = () => {
     navigation.goBack();
   };

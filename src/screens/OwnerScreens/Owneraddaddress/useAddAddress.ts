@@ -33,11 +33,13 @@ const useAddAddress = () => {
 
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {dispatch} = useThunkDispatch();
+  // Validation schema using Yup for address form fields
   const AddressSchema = Yup.object().shape({
     addressLine1: Yup.string().required('Enter Address Line 1'),
     addressLine2: Yup.string().required('Enter Street Name'),
   });
 
+  // Function to fetch address details based on postal code
   const FetchAddress = async () => {
     try {
       const result = await ApiService.get(
@@ -46,22 +48,25 @@ const useAddAddress = () => {
       const data = result[0]?.PostOffice || [];
       setIsLoading(false);
 
+      // Set country, city, and state based on fetched address data
       setCountry(data[0]?.Country || '');
       setCity(data[0]?.District || '');
       setStateName(data[0]?.State || '');
     } catch (error) {
-      log.error('error during saving address', error);
-      Alert.alert('Enter valid Pincode');
+      log.error('Error during saving address', error);
+      Alert.alert('Enter a valid Pincode');
     } finally {
       setIsLoading(false);
     }
   };
 
+  // State for the selected address type option
   const [selectedOption, setSelectedOption] = useState('HOME');
   const handleOptionChange = (value: SetStateAction<string>) => {
     setSelectedOption(value);
   };
 
+  // Function to handle postal code change and trigger address fetch
   const handlePostalCodeChange = async (text: string) => {
     setpostalCode(text);
     if (text.length > 6) {
@@ -73,11 +78,13 @@ const useAddAddress = () => {
     }
   };
 
+  // State for the checkbox indicating the default address
   const [isChecked, setIsChecked] = useState(false);
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
 
+  // Function to handle the save address action
   const handleSaveAddress = () => {
     const addressData = {
       addressLine1: addressLine1,
@@ -93,6 +100,8 @@ const useAddAddress = () => {
     dispatch(ListAddress());
     openModal();
   };
+
+  // Formik hook for managing form state, validation, and submission
   const formik = useFormik({
     initialValues: {
       addressLine1: '',
@@ -101,17 +110,25 @@ const useAddAddress = () => {
     validationSchema: AddressSchema,
     onSubmit: handleSaveAddress,
   });
+
+  // Function to handle change in Address Line 1 field
   const handleAddressLine1 = (value: string) => {
     setaddressLine1(value);
     formik.setFieldValue('addressLine1', value);
   };
+
+  // Function to handle change in Address Line 2 field
   const handleAddressLine2 = (value: string) => {
     setaddressLine2(value);
     formik.setFieldValue('addressLine2', value);
   };
+
+  // Function to handle onBlur event for a specific field
   const handleBlur = (field: string) => {
     formik.setFieldTouched(field);
   };
+
+  // Effect hook to fetch address data when postal code changes
   useEffect(() => {
     if (postalCode !== '') {
       FetchAddress();

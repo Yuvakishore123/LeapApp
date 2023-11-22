@@ -24,24 +24,29 @@ const useFilteredAnalytics = () => {
 
   const [isLoading, setIsLoading] = useState(false);
   const navigation = useNavigation();
+  // Function to fetch filtered analytics data based on date range
   const fetchData = async () => {
     try {
       setIsLoading(true);
 
+      // Format start and end dates to ISO string
       const formattedStartDate = startDate.toISOString();
       const formattedEndDate = endDate.toISOString();
       const item = {
         formattedStartDate: formattedStartDate,
         formattedEndDate: formattedEndDate,
       };
+
+      // Dispatch action to filter analytics list
       dispatch(FliterAnalyticslist(item));
-      setIsLoading(false);
     } catch (error) {
-      log.error('error during fetching filtered analytics data ');
+      log.error('Error during fetching filtered analytics data');
     } finally {
       setIsLoading(false);
     }
   };
+
+  // Function to handle chart data based on the fetched response
   const handleChartData = () => {
     if (response !== null && response !== undefined) {
       const chartData = Object.entries(response).map(
@@ -61,23 +66,28 @@ const useFilteredAnalytics = () => {
       );
       setChartData(chartData);
     } else {
-      console.error('error');
+      console.error('Error in handling chart data');
     }
   };
 
+  // Function to handle the change in the end date and trigger data fetching
   const handleEndDateChange = (date: any) => {
     setEndDate(date);
     fetchData();
   };
 
+  // Effect hook to fetch data when the component mounts or when start and end dates change
   useEffect(() => {
     fetchData();
   }, [startDate, endDate]);
+
+  // Effect hook to handle chart data and set response data when response changes
   useEffect(() => {
     handleChartData();
     setData(response);
   }, [response]);
 
+  // Function to generate a unique key (used for rendering components with unique keys)
   const generateKey = () => {
     return Math.random().toString(36);
   };

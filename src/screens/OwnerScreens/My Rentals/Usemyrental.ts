@@ -6,6 +6,7 @@ import {
   selectProductsData,
 } from '../../../redux/slice/productSlice';
 const Usemyrental = () => {
+  //* function to dispacth the products details
   useEffect(() => {
     dispatch(fetchProducts() as any);
   }, []);

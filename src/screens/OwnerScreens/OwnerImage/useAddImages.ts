@@ -43,14 +43,18 @@ const useAddImages = () => {
   const description = useSelector(selectItemsDataDescription);
   const categoryIds = useSelector(selectItemsDataSubcategory);
   const subcategoryIds = useSelector(selectItemsDataCategories);
+  // Function to open the modal
   const openModal = () => {
     setShowModal(true);
   };
+
+  // Function to close the modal and navigate to the 'OwnerHome' screen
   const closeModal = () => {
     navigation.navigate('Home', {screen: 'OwnerHome'});
     setShowModal(false);
   };
 
+  // Validation schema for adding items
   const AdditemsvalidationSchema = Yup.object().shape({
     size: Yup.string().required('Size is required'),
     price: Yup.number()
@@ -60,29 +64,44 @@ const useAddImages = () => {
       .required('Quantity is required')
       .min(1, 'Quantity must be greater than zero'),
   });
+
+  // Handler for changing the selected size type
   const handleSizeTypeChange = (selectedSize: SetStateAction<string>) => {
     setSelectedsize(selectedSize);
     formik.setFieldValue('size', selectedSize);
   };
+
+  // Handler for changing the price
   const handlePriceChange = (value: any) => {
     setPrice(value);
     formik.setFieldValue('price', value);
   };
+
+  // Handler for selecting an image
   const handleSelectedImage = (image: any) => {
     setSelectedImage(image);
     formik.setFieldValue('image', image.url);
   };
+
+  // Handler for changing the quantity
   const handleQuantityChange = (value: any) => {
     setQuantity(value);
     formik.setFieldValue('quantity', value);
   };
+
+  // Handler for onBlur event
   const handleBlur = (field: string) => {
     formik.setFieldTouched(field);
   };
+
+  // Handler for navigating back to the previous screen
   const onHandleOwnerItems = () => {
     navigation.goBack();
   };
+
+  // Handler for posting data (adding a product)
   const postData = async () => {
+    // Prepare product data
     const Data = {
       brand: 'adiddas',
       categoryIds: categoryIds,
@@ -90,21 +109,26 @@ const useAddImages = () => {
       name: name,
       description: description,
       id: 0,
-      imageUrl: imageUrls, // Use the imageUrls state
+      imageUrl: imageUrls,
       material: 'fibre',
       price: price,
       totalQuantity: quantity,
       size: selectedsize,
       subcategoryIds: subcategoryIds,
     };
+
+    // Dispatch action to add product
     dispatch(ProductAdd(Data));
     dispatch(addsize(selectedsize));
     openModal();
   };
 
+  // Handler for removing the selected image
   const handleremove = () => {
     setSelectedImage('');
   };
+
+  // Handler for removing an image from the imageUrls state
   const handleRemoveImage = (index: number) => {
     setImageUrls(prevUrls => prevUrls.filter((url, i) => i !== index));
     setIsLoading(false);
@@ -167,6 +191,7 @@ const useAddImages = () => {
     );
   };
 
+  // Formik hook for handling form state and submission
   const formik = useFormik({
     initialValues: {
       size: '',

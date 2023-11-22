@@ -17,6 +17,7 @@ const UseOwnerprofile = () => {
   }, [dispatch]);
   const data = useSelector(selectprofileData);
   const loading = useSelector(selectProfileDataLoading);
+  //Funtions to dispatch Logout function
 
   const handleLogout = () => {
     dispatch(Logout() as any);
