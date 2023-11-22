@@ -23,6 +23,7 @@ const useSignup = () => {
   const {dispatch} = useThunkDispatch();
 
   const isError = useSelector(selectSignupError);
+  // Validation schema using Yup for sign-up form fields
   const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required('Enter First Name'),
     lastName: Yup.string().required('Enter LastName'),
@@ -38,18 +39,26 @@ const useSignup = () => {
         'Must contain special characters and uppercase letters',
       ),
   });
+
+  // Function to open the modal
   const openModal = () => {
     setShowModal(true);
   };
+
+  // Function to close the modal
   const closeModal = () => {
     setShowModal(false);
   };
+
+  // Function to show a toast notification for sign-up error
   const showToast = () => {
     Toast.show({
       type: 'error',
-      text1: 'error during signup try again later',
+      text1: 'Error during signup, try again later',
     });
   };
+
+  // Function to handle different error scenarios during signup
   const handleError = () => {
     if (isError === 401) {
       openModal();
@@ -57,6 +66,8 @@ const useSignup = () => {
       showToast();
     }
   };
+
+  // Function to handle the sign-up process
   const handleSignup = () => {
     const credentials = {
       firstName: formik.values.firstName,
@@ -70,6 +81,7 @@ const useSignup = () => {
     handleError();
   };
 
+  // Formik hook for managing form state, validation, and submission
   const formik = useFormik({
     initialValues: {
       firstName: '',
@@ -81,28 +93,30 @@ const useSignup = () => {
     validationSchema: SignUpSchema,
     onSubmit: handleSignup,
   });
+
+  // Function to handle the change in the user role
   const handleRole = (value: SetStateAction<string>) => {
     setRole(value);
   };
+
+  // Function to navigate to the login screen
   const handleLogin = () => {
     navigation.navigate('Login');
   };
+
+  // Function to determine placeholder color based on color scheme
   const PlaceholderColor = () => {
     return colorScheme === 'dark' ? colors.Textinput : colors.black;
   };
+
+  // Function to determine the state of the Borrower role checkbox
   const BorrowerRole = () => {
-    if (role === 'BORROWER') {
-      return 'checked';
-    } else {
-      return 'unchecked';
-    }
+    return role === 'BORROWER' ? 'checked' : 'unchecked';
   };
+
+  // Function to determine the state of the Owner role checkbox
   const OwnerRole = () => {
-    if (role === 'OWNER') {
-      return 'checked';
-    } else {
-      return 'unchecked';
-    }
+    return role === 'OWNER' ? 'checked' : 'unchecked';
   };
 
   return {

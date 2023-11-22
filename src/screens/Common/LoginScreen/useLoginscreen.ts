@@ -36,6 +36,7 @@ const useLoginscreen = () => {
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {log} = logMessage();
 
+  // Validation schema using Yup for login form fields
   const LoginSchema = Yup.object().shape({
     email: Yup.string().email('Invalid email').required('Enter valid email'),
     password: Yup.string()
@@ -46,22 +47,31 @@ const useLoginscreen = () => {
         'Must contain * characters and uppercase letters',
       ),
   });
+
+  // Function to open the modal
   const openModal = () => {
     setShowModal(true);
   };
+
+  // Function to close the modal
   const closeModal = () => {
     setShowModal(false);
   };
 
+  // Variable to store the FCM token
   let Fcm_token: string;
+
+  // Function to retrieve the FCM token using Firebase Cloud Messaging
   const getToken = async () => {
     Fcm_token = await messaging()?.getToken();
   };
 
+  // Effect hook to get the FCM token when the component mounts
   useEffect(() => {
     getToken();
   }, []);
 
+  // Function to handle error responses based on HTTP status codes
   const handleErrorResponse = (error: number) => {
     if (error === StatusCodes.UNAUTHORIZED) {
       openModal();
@@ -69,31 +79,45 @@ const useLoginscreen = () => {
       navigation.navigate('ApiErrorScreen', {status: 404});
     }
   };
+
+  // Effect hook to handle error responses when 'isError' changes
   useEffect(() => {
     handleErrorResponse(isError);
   }, [isError]);
+
+  // Function to handle the login screen submission
   const handleLoginScreen = async () => {
     const fcmToken = await AsyncStorageWrapper.getItem('device_token');
 
+    // Prepare credentials for login
     const credentials = {
       email: formik.values.email,
       password: formik.values.password,
       deviceToken: fcmToken,
     };
+
+    // Dispatch login action and additional actions
     dispatch(postLogin(credentials) as any);
     loginEvent();
     dispatch(fetchUserProducts({pageSize}) as any);
   };
+
+  // Function to navigate to the OTP screen
   const handleOtpScreen = () => {
     navigation.navigate('OtpScreen');
   };
+
+  // Function to navigate to the sign-up screen
   const handleSignUp = () => {
     navigation.navigate('SignupScreen');
   };
 
+  // Function to determine placeholder color based on color scheme
   const placeholadercolor = () => {
     return colorScheme === 'dark' ? colors.Textinput : colors.black;
   };
+
+  // Formik hook for managing form state, validation, and submission
   const formik = useFormik({
     initialValues: {
       email: '',
@@ -102,10 +126,13 @@ const useLoginscreen = () => {
     validationSchema: LoginSchema,
     onSubmit: handleLoginScreen,
   });
+
+  // Function to log a custom analytics event for user login
   const loginEvent = async () => {
     await analytics()?.logEvent('loged_users');
     log.info('login event is triggered');
   };
+
   return {
     openModal,
     placeholadercolor,

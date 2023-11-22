@@ -34,30 +34,38 @@ const Useotp = (): UseotpReturnType => {
 
   const {colorScheme} = useContext(ColorSchemeContext);
 
+  // Function to open the modal
   const openModal = () => {
     setShowModal(true);
   };
 
+  // Function to close the modal
   const closeModal = () => {
     setShowModal(false);
   };
 
+  // Function to dispatch an action to get OTP and open the modal
   const GETOTP = () => {
     dispatch(getOTP(phoneNo));
     openModal();
   };
 
+  // Function to dispatch an action to submit OTP for login
   const handleLogin = () => {
     dispatch(submitOTP(phoneNo, Number(otp)));
   };
 
+  // Function to handle the change in the phone number input
   const handlephoneNumberChange = (value: string) => {
     setphoneNo(value);
   };
 
+  // Function to handle the change in the OTP input
   const handlePasswordChange = (value: string) => {
     setotp(value);
   };
+
+  // State variable for the placeholder color based on the color scheme
   const [PlaceholderColor, _setPlaceholderColor] = useState(
     colorScheme === 'dark' ? colors.Textinput : colors.black,
   );

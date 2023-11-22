@@ -29,29 +29,40 @@ const useEditAddress = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [showModal, setShowModal] = useState(false);
   const {colorScheme} = useContext(ColorSchemeContext);
+  const [isChecked, setIsChecked] = useState(false);
   const [placeholderTextColor, _setPlaceholderTextColor] = useState(
     colorScheme === 'dark' ? colors.white : colors.black,
   );
   const dispatch = useDispatch<ThunkDispatch<{}, {}, AnyAction>>();
 
+  // Function to open the modal and dispatch an action to list addresses
   const openModal = () => {
     dispatch(ListAddress());
     setShowModal(true);
   };
+
+  // Function to close the modal and navigate back
   const closeModal = () => {
     setShowModal(false);
     navigation.goBack();
   };
+
+  // Function to handle the change of the selected option
   const handleOptionChange = (value: React.SetStateAction<string>) => {
     setSelectedOption(value);
   };
+
+  // Function to handle the change of the postal code
   const handlePostalcode = (value: React.SetStateAction<string>) => {
     setPostalCode(value);
   };
-  const [isChecked, setIsChecked] = useState(false);
+
+  // Function to handle the change of the checkbox state
   const handleCheckboxChange = () => {
     setIsChecked(!isChecked);
   };
+
+  // Function to handle the update of the address data
   const handleUpdateAddress = async () => {
     const updateaddress = {
       addressLine1: addressLine1,
@@ -65,19 +76,26 @@ const useEditAddress = () => {
     };
     dispatch(editAddressData({updateaddress, addressid}));
   };
+
+  // Function to handle the response and open the modal if there is a response
   const handleResponse = () => {
     if (response) {
       setIsLoading(false);
       openModal();
     }
   };
+
+  // Effect hook to handle the response when the component mounts
   useEffect(() => {
     handleResponse();
   });
 
+  // Function to set the placeholder color based on the color scheme
   const [PlaceholderColor, _setPlaceholderColor] = useState(
     colorScheme === 'dark' ? colors.Textinput : colors.black,
   );
+
+  // Returning an object with all the functions and relevant state variables
   return {
     handleUpdateAddress,
     handlePostalcode,
