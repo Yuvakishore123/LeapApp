@@ -36,10 +36,12 @@ const useCart = () => {
 
   const dispatch = useDispatch();
 
+  // Function to open the modal and fetch cart products
   const openModal = () => {
     dispatch(fetchCartProducts as any);
     setShowModal(true);
   };
+  // Function to close the modal and fetch cart products
   const closeModal = () => {
     dispatch(fetchCartProducts() as any);
     setShowModal(false);
@@ -48,17 +50,20 @@ const useCart = () => {
   const isError = useSelector(selectCartError);
   const CartProducts = useSelector(selectCartData);
   const cartError = useSelector(selectCartError);
-
+  // Effect to refresh cart products when refreshing state changes
   useEffect(() => {
     if (refreshing) {
       dispatch(fetchCartProducts() as any);
       setRefreshing(false);
     }
   }, [refreshing]);
+
+  // Effect to fetch cart products on component mount
   useEffect(() => {
     dispatch(fetchCartProducts() as any);
   }, []);
 
+  // Function to handle updating the quantity of a cart item
   const handleUpdate = async (newQuantity: number, productId: string) => {
     const data = {
       productId: productId,
@@ -67,17 +72,18 @@ const useCart = () => {
     dispatch(updateCart(data) as any);
     setRefreshing(true);
   };
-
+  // Function to navigate to the checkout screen
   const handleCheckout = async () => {
     navigation.navigate('CheckoutScreen');
   };
 
+  // Function to handle removing a product from the cart
   const handleRemove = async (productId: number) => {
     dispatch(removefromCart(productId) as any);
     dispatch(fetchCartProducts as any);
     openModal();
   };
-
+  // Function to handle incrementing the quantity of a cart item
   const handleIncrement = (item: any) => {
     const productId = item.product.id;
     setCartProductId(item.product.id);
@@ -93,7 +99,7 @@ const useCart = () => {
     }
     setRefreshing(prevRefreshing => !prevRefreshing);
   };
-
+  // Function to handle decrementing the quantity of a cart item
   const handleDecrement = (item: any) => {
     const productId = item.product.id;
     setCartProductId(item.product.id);
@@ -102,6 +108,7 @@ const useCart = () => {
     handleUpdate(newQuantity, productId);
     setisButtondisable(false);
   };
+  // Function to show a toast message for cart error
   const showToast = () => {
     Toast.show({
       type: 'error',
@@ -114,6 +121,7 @@ const useCart = () => {
       text1: 'Error in cart',
     });
   };
+  // Conditionally show toast messages for errors
   if (isError) {
     showToast();
   }

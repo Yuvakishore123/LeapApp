@@ -32,7 +32,6 @@ export const wishListRemove = createAsyncThunk(
       );
       return response;
     } catch (error) {
-      console.log(error);
       dispatch(setError(error));
       throw error;
     }

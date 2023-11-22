@@ -16,17 +16,25 @@ const AnalyticsDatePicker = ({
   onStartDateChange: (date: Date) => void;
   onEndDateChange: (date: any) => void;
 }) => {
+  // Get the current date to set as the initial date
   const currentDate = new Date();
   const currentYear = currentDate.getFullYear();
   const currentMonth = String(currentDate.getMonth() + 1).padStart(2, '0');
   const currentDay = String(currentDate.getDate()).padStart(2, '0');
   const initialDate = `${currentYear}-${currentMonth}-${currentDay}`;
+
+  // State to manage selected start and end dates
   const [selectedStartDate, setSelectedStartDate] = useState(startDate);
   const [selectedEndDate, setSelectedEndDate] = useState(endDate);
+
+  // State to control the visibility of date pickers
   const [showPicker, setShowPicker] = useState(false);
   const [showPickerClone, setShowPickerClone] = useState(false);
+
+  // State to track the type of picker being shown
   const [, setPickerType] = useState('');
 
+  // Function to handle date changes and call the appropriate callback
   const onDateChange = (date: any, type: string) => {
     if (type === 'END_DATE') {
       setSelectedEndDate(date);
@@ -38,14 +46,15 @@ const AnalyticsDatePicker = ({
     }
   };
 
+  // Function to clear selected dates and call respective callbacks with null
   const onClearDates = () => {
     setSelectedStartDate(null);
     setSelectedEndDate(null);
-    //newcode
     onStartDateChange(null); // Call the onStartDateChange callback with null
     onEndDateChange(null); // Call the onEndDateChange callback with null
   };
 
+  // Function to toggle the visibility of date pickers based on the type
   const onTogglePicker = (type: string) => {
     setPickerType(type);
     if (type === 'END_DATE') {

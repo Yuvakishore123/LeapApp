@@ -46,6 +46,7 @@ const useHome = () => {
   const WishlistProducts = useSelector(selectWishlistProductsData);
   const loading = useSelector(selectUserFirstLoading);
   const Loading = useSelector(selectUserLoading);
+  // *Functions which gets the data from search by  the apicall
 
   const searchProducts = async (query: any) => {
     try {
@@ -58,22 +59,24 @@ const useHome = () => {
       setError('Something went wrong. Please try again.');
     }
   };
-
+  // *Functions to show modal
   const openModal = () => {
     setShowModal(true);
   };
+  // *Functions to close modal
   const closeModal = () => {
     setShowModal(false);
   };
+  // *Functions to get Profile data
   useEffect(() => {
     dispatch(getProfileData());
   }, [dispatch, pageSize]);
-
+  // *Functions to remove from wishlist
   const wishlistremove = async (productId: any) => {
     await dispatch(wishListRemove(productId) as any);
     setError(''); // Clear any previous errors on success
   };
-
+  // *Functions to set new products on reaching end
   const handleEndReached = async () => {
     setPageSize(pageSize + 10);
     setProductsdata([...productsData, ...allProducts]);

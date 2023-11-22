@@ -4,6 +4,7 @@ import {url} from 'constants/Apis';
 import AsyncStorageWrapper from '../../../src/utils/asyncStorage';
 import {LOGIN_REQUEST, LOGIN_SUCCESS, LOGIN_FAILURE} from '../types';
 
+//Function for sumbiting the otp and validating
 export const submitOTP = (phoneNumber: string, otp: number) => {
   return async (dispatch: Dispatch) => {
     dispatch({type: LOGIN_REQUEST});

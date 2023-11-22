@@ -1,17 +1,15 @@
+// Importing slices and reducers
 import ProductSlice from './slice/productSlice';
 import Reducers from './reducers/reducers';
-
 import {ItemsReducer} from './reducers/Additemsreducers';
 import SizeReducer from './reducers/sizeReducer';
 import GenderReducer from './reducers/GenderReducer';
 import Rolereducer from './reducers/Rolereducer';
-
 import WishlistReducer from './reducers/wishlistReducer';
 import UserProductSlice from './slice/userProductSlice';
 import wishlistSlice from './slice/wishlistSlice';
 import cartSlice from './slice/cartSlice';
 import orderSlice from './slice/orderSlice';
-
 import loginSlice from './slice/loginSlice';
 import signupSlice from './slice/signupSlice';
 import categorySlice from './slice/categorySlice';
@@ -27,23 +25,23 @@ import editAddressSlice from './slice/editAddressSlice';
 import categoryProductsSlice from './slice/categoryProductsSlice';
 import AddressAddSlice from './slice/AddressAddSlice';
 import OwnerOrderProductsSlice from './slice/OwnerorderproductSlice';
+
+// Importing combineReducers from Redux
 import {combineReducers} from 'redux';
 
+// Combining all reducers and slices into a root reducer
 export const RootReducers = combineReducers({
   Reducers,
   products: ProductSlice,
-
   ItemsReducer,
   SizeReducer,
   GenderReducer,
   Rolereducer,
-
   WishlistReducer,
   UserProducts: UserProductSlice,
   WishlistProducts: wishlistSlice,
   CartProducts: cartSlice,
   OrderProducts: orderSlice,
-
   login: loginSlice,
   signup: signupSlice,
   wishlist: wishlistSlice,

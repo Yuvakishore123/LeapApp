@@ -2,11 +2,13 @@ import ApiService from '../../../network/network';
 import {FilterProduct} from '../../../constants/Apis';
 import {useState} from 'react';
 
+// *Custom hook for managing FilterScreen
 const useFilterScreen = () => {
   const [minimumPrice, setMinimumPrice] = useState('');
   const [maximumPrice, setMaximumPrice] = useState('');
   const [filteredProducts, setFilteredProducts] = useState([]);
   const [size, SetSize] = useState('');
+  // *Function which gets the filtered Products from Api
   const FilterData = async () => {
     try {
       const response = await ApiService.get(

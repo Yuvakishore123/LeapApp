@@ -1,29 +1,43 @@
 /* eslint-disable react-native/no-inline-styles */
-import {logMessage} from 'helpers/helper';
-import React, {useEffect, useState} from 'react';
-import {View, StatusBar} from 'react-native';
-import {useSelector, useDispatch} from 'react-redux';
 
-import AsyncStorageWrapper from '../../utils/asyncStorage';
-import OwnerNavigation from '../OwnerNavigation';
+// React and third-party imports
 import Lottie from 'lottie-react-native';
-import messaging from '@react-native-firebase/messaging';
-import {AuthStack} from '../AuthStack/AuthStack';
-import {Init} from '../../../src/redux/reducers/InitializeReducer';
+import {View, StatusBar} from 'react-native';
+import React, {useEffect, useState} from 'react';
+import {useSelector, useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
+import messaging from '@react-native-firebase/messaging';
 
+// Custom helper and utility imports
+import {logMessage} from 'helpers/helper';
+import AsyncStorageWrapper from '../../utils/asyncStorage';
+
+// Redux actions and stack navigators
+import {AuthStack} from '../AuthStack/AuthStack';
+import OwnerNavigation from '../OwnerNavigation';
+import {Init} from '../../../src/redux/reducers/InitializeReducer';
+
+// Component for managing the root navigation based on authentication status
 export const RootNavigation = () => {
+  // Logging function from helper
   const {log} = logMessage();
 
+  // Redux selector to get the authentication token
   const token = useSelector((state: any) => state.login.data.authToken);
+
+  // React Navigation hook
+  const navigation = useNavigation();
+
+  // Effect to retrieve and store the FCM token
   useEffect(() => {
+    const getToken = async () => {
+      const Fcm_token = await messaging().getToken();
+      await AsyncStorageWrapper.setItem('device_token', Fcm_token);
+    };
     getToken();
   }, []);
-  const getToken = async () => {
-    const Fcm_token = await messaging().getToken();
-    await AsyncStorageWrapper.setItem('device_token', Fcm_token);
-  };
-  const navigation = useNavigation();
+
+  // Effect to handle notification when the app is opened or in the background
   useEffect(() => {
     messaging().onNotificationOpenedApp(remoteMessage => {
       console.log(
@@ -47,20 +61,29 @@ export const RootNavigation = () => {
       });
   }, [navigation]);
 
+  // State and dispatch setup
   const [loading, setLoading] = useState(true);
   const dispatch = useDispatch();
+
+  // Function to initialize the app and dispatch initialization action
   const init = async () => {
     await dispatch(Init() as any);
     setLoading(false);
   };
+
+  // Effect to handle background messages
   useEffect(() => {
     messaging().setBackgroundMessageHandler(async remoteMessage => {
       log.info('Message handled in the background!', remoteMessage);
     });
   });
+
+  // Initializations and cleanup effect for loading state
   useEffect(() => {
     init();
   }, [token]);
+
+  // Delayed initialization to show a loading animation
   useEffect(() => {
     const delay = setTimeout(() => {
       init()
@@ -69,12 +92,14 @@ export const RootNavigation = () => {
         })
         .catch(error => {
           // Handle any errors if init() rejects
-          log.error('error in clearing cart', error);
+          log.error('Error in clearing cart', error);
         });
     }, 3000);
     // Add a delay of 2 seconds before initializing
     return () => clearTimeout(delay); // Clear the timeout if the component unmounts before the delay is completed
   }, []);
+
+  // Render loading animation while initializing
   if (loading === true) {
     return (
       <View
@@ -88,6 +113,7 @@ export const RootNavigation = () => {
     );
   }
 
+  // Render based on authentication status
   return (
     <>
       <StatusBar backgroundColor="black" barStyle="light-content" />

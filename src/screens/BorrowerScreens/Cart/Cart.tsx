@@ -1,27 +1,25 @@
 /* eslint-disable react-native/no-inline-styles */
 
+import React, {ReactNode, useContext} from 'react';
 import {
-  ActivityIndicator,
-  Image,
   ScrollView,
   Text,
   TouchableOpacity,
   View,
+  ActivityIndicator,
+  Image,
 } from 'react-native';
-import React, {ReactNode, useContext} from 'react';
 import Lottie from 'lottie-react-native';
-
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Toast from 'react-native-toast-message';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-import useCart from './useCart';
+import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
+import LottieAnimation from 'components/molecules/LottieAnimation/LottieAnimation';
 import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
-
+import useCart from './useCart';
 import style from './CartItemStyles';
 import Colors from 'constants/colors';
-import LottieAnimation from 'components/molecules/LottieAnimation/LottieAnimation';
 
 const Cart = () => {
   const {
@@ -205,19 +203,7 @@ const Cart = () => {
               </View>
             )}
           </ScrollView>
-          {/* <TouchableOpacity style={style.coupons}>
-            <CouponIcon
-              name="local-offer"
-              size={26}
-              style={{marginTop: 14, marginLeft: 5, color: 'white'}}
-            />
-            <Text style={style.couponsText}>Apply Coupons</Text>
-            <CouponIcon
-              name="arrow-forward-ios"
-              size={22}
-              style={{marginTop: 16, marginLeft: '45%', color: 'white'}}
-            />
-          </TouchableOpacity> */}
+
           <View style={style.GrandtotalContainer}>
             <Text style={[style.GrandtotalText, getTextColor()]}>
               Grand Total

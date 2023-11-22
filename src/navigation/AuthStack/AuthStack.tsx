@@ -1,13 +1,14 @@
+import React, {useEffect} from 'react';
 import {useNavigation} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
-import React, {useEffect, useState, useRef} from 'react';
-import Homescreen from 'screens/BorrowerScreens/Home/Homescreen';
-import ApiErrorScreen from 'screens/Common/ApiErrorScreen/ApiErrorScreen';
-import LoginScreen from 'screens/Common/LoginScreen/LoginScreen';
+
 import OtpScreen from 'screens/Common/OtpScreen/OtpScreen';
-import SignupScreen from 'screens/Common/SignUp/SignupScreen';
-import SplashScreen from 'screens/Common/Splashscreen/Splashscreen';
 import AsyncStorageWrapper from '../../utils/asyncStorage';
+import SignupScreen from 'screens/Common/SignUp/SignupScreen';
+import Homescreen from 'screens/BorrowerScreens/Home/Homescreen';
+import LoginScreen from 'screens/Common/LoginScreen/LoginScreen';
+import SplashScreen from 'screens/Common/Splashscreen/Splashscreen';
+import ApiErrorScreen from 'screens/Common/ApiErrorScreen/ApiErrorScreen';
 
 const Stack = createNativeStackNavigator();
 export const AuthStack = () => {

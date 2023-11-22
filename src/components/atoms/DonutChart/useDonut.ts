@@ -1,14 +1,15 @@
 import {useState, useEffect, useRef} from 'react';
 import {Animated} from 'react-native';
 
+// Custom hook for managing the logic of a donut chart animation
 const useDonutLogic = ({
-  refreshTrigger,
-  percentage = 0,
-  radius = 30,
-  strokeWidth = 10,
-  duration = 500,
-  delay = 500,
-  max = 1000,
+  refreshTrigger, // Trigger to refresh the animation
+  percentage = 0, // Initial percentage value
+  radius = 30, // Radius of the donut
+  strokeWidth = 10, // Width of the donut's stroke
+  duration = 500, // Duration of the animation in milliseconds
+  delay = 500, // Delay before starting the animation in milliseconds
+  max = 1000, // Maximum value for calculation
 }: {
   refreshTrigger: any;
   percentage?: number;
@@ -19,13 +20,19 @@ const useDonutLogic = ({
   delay?: number;
   max?: number;
 }) => {
+  // State to track the final percentage for the animation
   const [finalPercentage, setFinalPercentage] = useState(percentage);
 
+  // Calculations for donut properties
   const halfCircle = radius + strokeWidth;
   const circleCircumference = 2 * Math.PI * radius;
+
+  // Refs for accessing the native properties of animated components
   const circleRef = useRef();
   const inputRef = useRef();
   const animatedValue = useRef(new Animated.Value(0)).current;
+
+  // Animation function to create a timed animation effect
   const animation = (toValue: number) => {
     return Animated.timing(animatedValue, {
       toValue,
@@ -46,6 +53,8 @@ const useDonutLogic = ({
       }
     });
   };
+
+  // Listener function to update the visual representation during animation
   const animatedValueListener = (v: {value: number}) => {
     if (circleRef?.current) {
       const maxPerc = (100 * v.value) / max;
@@ -60,6 +69,7 @@ const useDonutLogic = ({
     });
   };
 
+  // Effect hook to handle initial setup and cleanup
   useEffect(() => {
     setFinalPercentage(percentage);
     animation(finalPercentage);
@@ -68,6 +78,8 @@ const useDonutLogic = ({
       animatedValue.removeAllListeners();
     };
   }, [max, finalPercentage, percentage, refreshTrigger]);
+
+  // Return the variables and functions for external use
   return {
     circleCircumference,
     halfCircle,

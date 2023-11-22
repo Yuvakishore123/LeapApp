@@ -3,7 +3,7 @@ import {SET_ROLE} from '../types';
 const initialState = {
   role: 'borrower',
 };
-
+//To Store the role of the user
 const Rolereducer = (
   state = initialState,
   action: {type: string; role: string},

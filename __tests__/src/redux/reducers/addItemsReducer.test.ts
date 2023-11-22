@@ -1,12 +1,12 @@
+import {ItemsReducer} from '../../../../src/redux/reducers/Additemsreducers';
 import {
-  ItemsReducer,
   ADD_NAME,
   ADD_DESCRIPTION,
   ADD_GENDER,
   ADD_EVENT,
   ADD_TYPE,
   ADD_OUTFIT,
-} from '../../../../src/redux/reducers/Additemsreducers';
+} from '../../../../src/redux/types';
 
 describe('ItemsReducer', () => {
   it('should return the initial state', () => {

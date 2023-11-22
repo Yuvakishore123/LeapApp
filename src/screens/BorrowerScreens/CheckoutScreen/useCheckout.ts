@@ -24,21 +24,26 @@ type RootStackParamList = {
   PaymentFailScreen: undefined;
   Owneraddresspage: undefined;
 };
-const useChectout = () => {
+// Custom hook for managing checkout-related functionality
+const useCheckout = () => {
+  // Accessing navigation functions
+  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
+
+  // State variables for refreshing, rental dates, checkbox states, and loading
   const [refreshing, setRefreshing] = useState(false);
   const [rentalStartDate, setRentalStartDate] = useState(new Date());
   const [rentalEndDate, setRentalEndDate] = useState(new Date());
-  const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
-
-  const [isChecked, setIschecked] = useState(true);
+  const [isChecked, setIsChecked] = useState(true);
   const [selectedAddressIndex, setSelectedAddressIndex] = useState(-1);
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>([]);
   const dispatch = useDispatch();
 
+  // Selecting data from the Redux store
   const data = useSelector(selectListAddressData);
-
   const cartData = useSelector(selectCartData);
   const isLoading = useSelector(selectCartLoading);
+
+  // Effect to fetch list of addresses and cart products
   useEffect(() => {
     setRefreshing(true);
     dispatch(ListAddress() as any);
@@ -49,14 +54,14 @@ const useChectout = () => {
     dispatch(fetchCartProducts() as any);
   }, [dispatch]);
 
+  // Function to handle checkbox state change
   const handleCheckboxChange = (index: any) => {
     setSelectedAddressIndex(index);
-    // Check if data is an array before using map
     if (Array.isArray(data)) {
       const newIsCheckedArray = data.map((_, i) => i === index);
       setIsCheckedArray(newIsCheckedArray);
     }
-    setIschecked(false);
+    setIsChecked(false);
   };
 
   const onRefresh = async () => {
@@ -66,6 +71,7 @@ const useChectout = () => {
   };
 
   const totalPrice = cartData.finalPrice;
+  // Function to handle payment through Razorpay
   const handlePayment = () => {
     const options = {
       order_id: '',
@@ -123,9 +129,11 @@ const useChectout = () => {
         navigation.navigate('PaymentFailScreen');
       });
   };
+  // Function to navigate to the address addition page
   const handleAddAddress = () => {
     navigation.navigate('Owneraddresspage');
   };
+  // *Function to log the order placed event for analytics
   const logOrderPlacedEvent = async (
     userId: string,
     orderId: any,
@@ -162,4 +170,4 @@ const useChectout = () => {
     isLoading,
   };
 };
-export default useChectout;
+export default useCheckout;

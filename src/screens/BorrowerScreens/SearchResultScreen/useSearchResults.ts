@@ -15,6 +15,8 @@ const useSearchresults = () => {
   const [modalVisible, setModalVisible] = useState(false);
   const {log} = logMessage();
 
+  // Function to get the filter data from the API
+
   const filterData = async () => {
     try {
       const response = await ApiService.get(
@@ -29,6 +31,7 @@ const useSearchresults = () => {
   useEffect(() => {
     SubCategoryData();
   }, []);
+  // Function to get the subcategories data from the Api
   const SubCategoryData = async () => {
     try {
       const response = await ApiService.get(categoriesData);
@@ -41,10 +44,12 @@ const useSearchresults = () => {
       log.error('error subcatgeory data in searchresultscreen', error);
     }
   };
+  // Function to show modal when clicked
   const handleFilterButtonPress = () => {
     SubCategoryData();
     setModalVisible(!modalVisible);
   };
+  // Function to close the modal
   const handleFilterapply = () => {
     filterData();
     setModalVisible(!modalVisible);

@@ -33,6 +33,7 @@ const useProductdetails = (product: {
   const {navigation} = useNavigationProp();
   const scrollViewRef = useRef<ScrollView>(null);
   const scrollTimerRef = useRef<number | null>(null);
+  // Decrement the quantity of the product in the cart
   const handleDecrement = () => {
     if (quantity === 1) {
       setIsMinusDisabled(true);
@@ -42,6 +43,7 @@ const useProductdetails = (product: {
     }
   };
 
+  // Increment the quantity of the product in the cart
   const handleIncrement = () => {
     if (product.availableQuantities === quantity) {
       setIsPlusDisabled(true);
@@ -49,6 +51,8 @@ const useProductdetails = (product: {
     setQuantity(quantity + 1);
     setIsMinusDisabled(false);
   };
+
+  // Handle the submission of the cart item
   const handleSubmit = () => {
     const Item = {
       productId: product.id,
@@ -61,32 +65,40 @@ const useProductdetails = (product: {
     dispatch(fetchCartProducts);
   };
 
+  // Open the main modal
   const openModal = () => {
     setShowModal(true);
   };
+
+  // Open the secondary modal
   const opennModal = () => {
     settShowModal(true);
   };
 
+  // Close the main modal
   const closeModal = () => {
     setShowModal(false);
     dispatch(fetchCartProducts());
     productsData();
   };
 
+  // Close the secondary modal
   const closeeModal = () => {
     settShowModal(false);
   };
 
+  // Fetch product data for the current product
   useEffect(() => {
     productsData();
   }, []);
 
+  // Retrieve product data from the API
   const productsData = async () => {
     const result = await ApiService.get(`${listProductsById}/${product.id}`);
-
     setshareData(result);
   };
+
+  // Generate a short link for sharing the product
   const generateLink = async () => {
     try {
       const link = await dynamicLinks().buildShortLink(
@@ -103,6 +115,8 @@ const useProductdetails = (product: {
       return link;
     } catch (error) {}
   };
+
+  // Share the product using the generated link
   const shareProduct = async () => {
     const getLink = await generateLink();
     if (getLink) {
@@ -113,6 +127,8 @@ const useProductdetails = (product: {
       showToast();
     }
   };
+
+  // Scroll to the next image in the product gallery
   const scrollToNextImage = useCallback(() => {
     if (scrollViewRef.current) {
       const nextIndex =
@@ -122,11 +138,13 @@ const useProductdetails = (product: {
     }
   }, [activeIndex, product.imageUrl]);
 
+  // Start the timer for automatic scrolling through images
   const startScrollTimer = useCallback(() => {
     stopScrollTimer();
     scrollTimerRef.current = setInterval(scrollToNextImage, 2000);
   }, [scrollToNextImage]);
 
+  // Set up the timer when the component mounts
   useEffect(() => {
     startScrollTimer();
     return () => {
@@ -134,18 +152,23 @@ const useProductdetails = (product: {
     };
   }, [activeIndex, startScrollTimer]);
 
+  // Stop the automatic scrolling timer
   const stopScrollTimer = () => {
     if (scrollTimerRef.current) {
       clearInterval(scrollTimerRef.current);
       scrollTimerRef.current = null;
     }
   };
+
+  // Display a toast message for link generation error
   const showToast = () => {
     Toast.show({
       text1: 'Error generating link.',
       type: 'error',
     });
   };
+
+  // Display a toast message for sharing error
   const errorToast = () => {
     Toast.show({
       text1: 'An error occurred while sharing the product. Please try again.',
@@ -153,9 +176,12 @@ const useProductdetails = (product: {
     });
   };
 
+  // Handle scrolling action to restart the timer
   const handleScroll = () => {
     startScrollTimer();
   };
+
+  // Navigate back to the previous screen
   const handlegoBack = () => {
     navigation.goBack();
   };

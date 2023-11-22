@@ -9,7 +9,7 @@ import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import ApiService from 'network/network';
-import {cartaddUrl} from 'constants/apiRoutes';
+import {cartList} from 'constants/apiRoutes';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -128,7 +128,7 @@ describe('Cart Add Slice', () => {
 
     expect(state.isLoader).toBe(false); // Make sure loading state is updated correctly
     expect(state.isError).toBe(false);
-    expect(ApiService.post).toHaveBeenCalledWith(cartaddUrl, mockItem);
+    expect(ApiService.post).toHaveBeenCalledWith(cartList, mockItem);
   });
   it('should handle the `cartAdd.rejected` action correctly', async () => {
     const errorMessage = 'An error occurred during the API call';

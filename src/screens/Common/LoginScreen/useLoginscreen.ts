@@ -74,7 +74,6 @@ const useLoginscreen = () => {
   }, [isError]);
   const handleLoginScreen = async () => {
     const fcmToken = await AsyncStorageWrapper.getItem('device_token');
-    console.log(fcmToken);
 
     const credentials = {
       email: formik.values.email,

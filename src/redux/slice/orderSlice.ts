@@ -28,7 +28,6 @@ export const fetchOrderProducts = createAsyncThunk(
 
       return response;
     } catch (error) {
-      console.log(error);
       log.error('error in fetching order details');
       throw error;
     }

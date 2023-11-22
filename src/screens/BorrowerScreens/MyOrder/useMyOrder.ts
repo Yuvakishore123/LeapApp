@@ -29,7 +29,7 @@ interface RootState {
 interface OrderProductsState {
   data: Order[];
 }
-
+// *Custom Hook For OrdersPage
 const useMyOrder = () => {
   const dispatch = useDispatch<ThunkDispatch<any, void, AnyAction>>();
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
@@ -41,12 +41,13 @@ const useMyOrder = () => {
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
   const loading = useSelector(selectOrderProductsLoading);
-
+  // *Functions to refresh after products are fetched
   const onRefresh = async () => {
     setRefreshing(true);
     dispatch(fetchOrderProducts());
     setRefreshing(false);
   };
+  // *Functions to navigate to profile page
   const handleProfile = () => {
     navigation.navigate('Profile');
   };
@@ -54,11 +55,13 @@ const useMyOrder = () => {
     dispatch(fetchOrderProducts());
   }, [dispatch]);
 
+  // *Functions to open modal and selt the modal details
   const openModal = async (order: Order) => {
     setSelectedOrder(order);
     handleOrderDetails(order.id);
     setIsModalOpen(true);
   };
+  // *Functions to fetch order details
 
   useEffect(() => {
     const fetchOrderData = async () => {
@@ -69,10 +72,12 @@ const useMyOrder = () => {
     fetchOrderData();
   }, [dispatch]);
 
+  // *Functions to close modal
   const closeModal = () => {
     setSelectedOrder(null);
     setIsModalOpen(false);
   };
+  // *Functions to show Notification after Download is completed
   const showNotification = async () => {
     const channelId = await notifee.createChannel({
       id: 'pdf_download_channel1',
@@ -95,6 +100,8 @@ const useMyOrder = () => {
       },
     });
   };
+
+  // *Functions to Download the Invoice api call
   const handleOrderDetails = async (orderId: string) => {
     try {
       const token = await AsyncStorageWrapper.getItem('token');

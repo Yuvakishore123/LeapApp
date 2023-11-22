@@ -23,11 +23,16 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
   buttonStyle,
   buttonTextColor,
 }) => {
+  // Local state for the selected start and end dates
   const [selectedStartDate, setSelectedStartDate] = useState<Date>(startDate);
   const [selectedEndDate, setSelectedEndDate] = useState<Date>(endDate);
+
+  // Flag to control the visibility of the date picker
   const [showPicker, setShowPicker] = useState<boolean>(false);
 
+  // Handle date changes based on the date type (start or end)
   const onDateChange = (date: Date, type: string) => {
+    // Refactor this function to handle start and end dates separately
     if (type === 'END_DATE') {
       setSelectedEndDate(date);
       onEndDateChange(date);
@@ -38,15 +43,18 @@ const DatePickerComponent: React.FC<DatePickerProps> = ({
     }
   };
 
+  // Clear both selected start and end dates
   const onClearDates = () => {
+    //  Add logic to clear both start and end dates
     setSelectedStartDate(null);
     setSelectedEndDate(null);
   };
 
+  // Toggle the visibility of the date picker
   const onTogglePicker = () => {
+    //  Enhance the toggle logic, for example, add animation
     setShowPicker(!showPicker);
   };
-
   return (
     <View style={styles.mainContainer}>
       <TouchableOpacity

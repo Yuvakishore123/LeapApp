@@ -20,6 +20,7 @@ type RootStackParamList = {
   Owneraddresspage: undefined;
   MyOrder: undefined;
 };
+// Custom hook for managing profile-related functionality
 const useProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [imageUrls, _setImageUrls] = useState([]);
@@ -34,6 +35,7 @@ const useProfile = () => {
   const {log} = logMessage();
   const data = useSelector(selectprofileData);
   const loading = useSelector(selectProfileDataLoading);
+  // Function to fetch profile data
   const fetchProfileData = async () => {
     try {
       setIsLoading(true);
@@ -44,26 +46,31 @@ const useProfile = () => {
       setIsLoading(false);
     }
   };
+  // Effect to fetch profile data on component mount
   useEffect(() => {
     dispatch(getProfileData());
   }, [dispatch]);
+  // Function to refresh profile data
   const refreshData = () => {
     setRefreshState(true);
   };
 
+  // Function to open the first modal
   const openModal = async () => {
     setShowModall(true);
     setRefreshState(true);
     await fetchProfileData(); // Wait for the asynchronous operation to complete
     setRefreshState(false);
   };
-
+  // Function to close the first modal
   const closeModal = () => {
     setShowModall(false);
   };
+  // Function to open the second modal
   const openModal1 = () => {
     setShowModall1(true);
   };
+  // Function to close the second modal
   const closeModal1 = () => {
     setShowModall1(false);
   };
@@ -187,11 +194,13 @@ const useProfile = () => {
     }
   };
 
+  // Function to handle image upload to the server
   const uploadImage = async (imageurl: string) => {
     await ApiService.post(`${profileUpload}=${imageurl}`, {});
     fetchProfileData();
   };
 
+  // Function to handle the removal of the profile picture
   const handleRemoveProfilePic = async () => {
     await ApiService.post(`${profileUpload}=${null}`, {});
     dispatch(getProfileData());
@@ -199,6 +208,7 @@ const useProfile = () => {
     setProfileImage('');
     openModal1();
   };
+  // Function to show a toast message
   const showToast = () => {
     Toast.show({
       type: 'error',
@@ -206,13 +216,15 @@ const useProfile = () => {
       text2: ' Image Size Exceeding',
     });
   };
-
+  // Function to navigate to the address editing page
   const handleEditAddress = () => {
     navigation.navigate('Owneraddresspage');
   };
+  // Function to navigate to the owner screen
   const handleOwnerScreen = () => {
     navigation.navigate('MyOrder');
   };
+  // Function to navigate to the profile editing page
   const handleEditProfile = () => {
     navigation.navigate('Ownereditprofile');
   };

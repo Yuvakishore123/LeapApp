@@ -1,27 +1,24 @@
 /* eslint-disable curly */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useContext} from 'react';
-
-import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
-import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
-
-import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import {View} from 'react-native';
 import {
   Route,
   getFocusedRouteNameFromRoute,
   useIsFocused,
 } from '@react-navigation/native';
+import MaterialIcon from 'react-native-vector-icons/MaterialIcons';
+import {createBottomTabNavigator} from '@react-navigation/bottom-tabs';
+import MaterialCommunityIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import Colors from '../../constants/colors';
 
-import {View} from 'react-native';
-
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
-import Owneradditemsstack from '../Stacks/owner/AdditemsStack';
 import OwnerHomestack from '../Stacks/owner/HomeStack';
-import OwnerRentalStatusScreen from '../Stacks/owner/RentalStatusStack';
 import OwnerProfilestack from '../Stacks/owner/ProfileStack';
+import Owneradditemsstack from '../Stacks/owner/AdditemsStack';
+import OwnerRentalStatusScreen from '../Stacks/owner/RentalStatusStack';
 
 const Tab = createBottomTabNavigator();
 

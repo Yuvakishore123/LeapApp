@@ -9,7 +9,7 @@ import {ThunkMiddleware} from 'redux-thunk';
 import {AnyAction, configureStore} from '@reduxjs/toolkit';
 import {ToolkitStore} from '@reduxjs/toolkit/dist/configureStore';
 import ApiService from 'network/network';
-import {cartupdateUrl} from 'constants/apiRoutes';
+import {cartList} from 'constants/apiRoutes';
 
 jest.mock('@react-native-community/netinfo', () => ({
   addEventListener: jest.fn(),
@@ -118,7 +118,7 @@ describe('Cart Update Slice', () => {
     expect(state.data).toEqual(testData);
     expect(state.isError).toBe(false);
     expect(state.error).toBe(null);
-    expect(ApiService.put).toHaveBeenCalledWith(cartupdateUrl, {
+    expect(ApiService.put).toHaveBeenCalledWith(cartList, {
       productId: '123',
       quantity: 2,
     });

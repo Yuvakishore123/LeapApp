@@ -1,10 +1,10 @@
 import axios from 'axios';
+import {Dispatch} from 'redux';
 import {url} from 'constants/Apis';
 import {logMessage} from 'helpers/helper';
 
-import {Dispatch} from 'redux';
-import AsyncStorageWrapper from '../../../src/utils/asyncStorage';
 import {setLoginData} from '../slice/loginSlice';
+import AsyncStorageWrapper from '../../../src/utils/asyncStorage';
 
 export const Logout = () => {
   return async (dispatch: Dispatch) => {

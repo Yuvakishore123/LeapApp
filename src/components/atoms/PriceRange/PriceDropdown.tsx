@@ -28,11 +28,19 @@ const PriceRangeDropdown = ({
   maxPrice,
   onSelectPriceRange,
 }: PriceRangeProps) => {
+  // State to manage the open/close state of the dropdown
   const [open, setOpen] = useState(false);
+
+  // Context to access color-related styles
   const {getContainerStyle, getTextColor} = useContext(ColorSchemeContext);
+
+  // State to track the currently selected price range option
   const [selectedOption, setSelectedOption] = useState<PriceRange | null>(null);
 
+  // Ref for managing the height of the dropdown with animation
   const dropdownHeight = useRef(new Animated.Value(0)).current;
+
+  // Function to handle toggling the dropdown open and close states
   const handleDropdownToggle = () => {
     setOpen(!open);
     if (!open) {
@@ -41,6 +49,8 @@ const PriceRangeDropdown = ({
       closeDropdown();
     }
   };
+
+  // Function to animate the opening of the dropdown
   const openDropdown = () => {
     Animated.timing(dropdownHeight, {
       toValue: options.length * 40, // Adjust the height as per your requirement
@@ -48,6 +58,8 @@ const PriceRangeDropdown = ({
       useNativeDriver: false,
     }).start();
   };
+
+  // Function to animate the closing of the dropdown
   const closeDropdown = () => {
     Animated.timing(dropdownHeight, {
       toValue: 0,
@@ -55,6 +67,8 @@ const PriceRangeDropdown = ({
       useNativeDriver: false,
     }).start();
   };
+
+  // Function to handle the selection of a price range option
   const handleSelectOption = (option: any) => {
     setSelectedOption(option);
     onSelectPriceRange(option.min.toString(), option.max.toString());
