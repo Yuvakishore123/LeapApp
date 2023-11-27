@@ -5,7 +5,7 @@ export const signupUrl = 'user/signup';
 export const wishListRemoveUrl = '/wishlist/remove?productId=';
 
 // URL for fetching category data
-export const categoryDataUrl = '/category/list';
+export const categoryDataUrl = '/category';
 
 // URL for removing a product from cart, requires productId as a parameter
 export const cartRemoveUrl = '/cart/delete/';
@@ -38,7 +38,7 @@ export const productaddUrl = '/product/add';
 export const addressaddUrl = '/address/add';
 
 // URL for fetching a list of products owned by the user
-export const userProductsUrl = '/product/list';
+export const userProductsUrl = '/product';
 
 // URL for fetching a list of products by sub-category id
 export const categoryProductsUrl = '/product/listBySubcategoryId';
