@@ -1,6 +1,7 @@
-// Base URL for the API
-export const url = 'https://2a8d-106-51-70-135.ngrok-free.app/api/v1';
+import config from '../../src/utils/config';
 
+// Base URL for the API
+export const url = config.BASE_URL;
 // URL to get monthly order items for the dashboard
 export const getdashboard = `${url}/dashboard/monthly-order-items`;
 

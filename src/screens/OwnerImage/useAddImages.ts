@@ -12,7 +12,7 @@ import {ProductAdd} from '../../redux/slice/ProductAddSlice';
 import {PermissionsAndroid} from 'react-native';
 import {logger} from 'react-native-logs';
 import {useThunkDispatch, defaultConfig} from '../../helpers/helper';
-import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import asyncStorageWrapper from '../../constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -178,7 +178,10 @@ const useAddImages = () => {
     const permissionGranted = await asyncStorageWrapper.getItem(
       'permissionGranted',
     );
-    if (permissionGranted === 'true') {
+    const Grantedpermission = await PermissionsAndroid.check(
+      PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+    );
+    if (permissionGranted === 'true' && Grantedpermission) {
       pickImages();
     } else {
       const granted = await PermissionsAndroid.request(

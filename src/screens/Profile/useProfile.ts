@@ -145,7 +145,10 @@ const useProfile = () => {
       const permissionGranted = await asyncStorageWrapper.getItem(
         'permissionGranted',
       );
-      if (permissionGranted === 'true') {
+      const Grantedpermission = await PermissionsAndroid.check(
+        PermissionsAndroid.PERMISSIONS.WRITE_EXTERNAL_STORAGE,
+      );
+      if (permissionGranted === 'true' && Grantedpermission) {
         pickImage();
       } else {
         const granted = await PermissionsAndroid.request(
