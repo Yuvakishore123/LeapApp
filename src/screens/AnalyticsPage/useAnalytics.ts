@@ -10,12 +10,12 @@ import {
   getdashboard,
   pieChartUrl,
   url,
-} from '../../constants/Apis';
+} from 'constants/Apis';
 
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 import axios from 'axios';
-import Colors from '../../constants/colors';
-import {onclickDasboardUrl} from '../../constants/apiRoutes';
+import Colors from 'constants/colors';
+import {onclickDasboardUrl} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 const useAnalytics = () => {

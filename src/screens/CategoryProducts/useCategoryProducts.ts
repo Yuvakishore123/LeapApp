@@ -2,8 +2,8 @@ import {useState, useEffect, useContext} from 'react';
 import {useDispatch} from 'react-redux';
 import {postProductToAPI} from '../../redux/actions/actions';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import ApiService from '../../network/network';
-import {categoryProductsUrl} from '../../constants/apiRoutes';
+import ApiService from 'network/network';
+import {categoryProductsUrl} from 'constants/apiRoutes';
 
 const useCategoryProducts = (subcategoryId: number) => {
   const dispatch = useDispatch();

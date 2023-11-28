@@ -18,10 +18,10 @@ import {
 } from 'victory-native';
 import {PieChart, LineChart} from 'react-native-chart-kit';
 import {Picker} from '@react-native-picker/picker';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import style from '../OwnerHomepage/OwnerHomestyle';
-import BackButton from '../../components/atoms/BackButton/BackButton';
+import BackButton from 'components/atoms/BackButton/BackButton';
 import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/Entypo';
 import AnalyticsIcon from 'react-native-vector-icons/MaterialCommunityIcons';

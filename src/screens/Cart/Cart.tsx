@@ -15,8 +15,8 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import Toast from 'react-native-toast-message';
 
 import useCart from './useCart';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import DatePickerComponent from '../../components/atoms/DatePickerComponent/DatepickerComponent';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
+import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
 
 import style from './CartItemStyles';
 import ImageComponent from 'components/atoms/ImageComponent';

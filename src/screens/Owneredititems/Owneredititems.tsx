@@ -14,19 +14,19 @@ import {
   RefreshControl,
 } from 'react-native';
 import Useowneredititems from './Useowneredititems';
-import GenderDropdown from '../../components/atoms/GenderDropdown';
+import GenderDropdown from 'components/atoms/GenderDropdown';
 import Ownerstyles from '../Additems/Additemsstyle';
-import Sizeselection from '../../components/atoms/Sizeselect';
+import Sizeselection from 'components/atoms/Sizeselect';
 import OwnerEditItemstyles from './Owneredititemsstyles';
 
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import Lottie from 'lottie-react-native';
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import styles from '../OwnerHomepage/OwnerHomestyle';
-import DropdownComponent from '../../components/atoms/DropDownComponent/DropDown';
+import DropdownComponent from 'components/atoms/DropDownComponent/DropDown';
 import useAdditems from '../Additems/useAdditems';
 
 const App = () => {

@@ -2,18 +2,14 @@ import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {SetStateAction, useContext, useState} from 'react';
 
-import {passwordValidation, phonenumberValidation} from '../../constants/Regex';
+import {passwordValidation, phonenumberValidation} from 'constants/Regex';
 
-import colors from '../../constants/colors';
+import colors from 'constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useSelector} from 'react-redux';
 
 import {postSignup} from '../../redux/slice/signupSlice';
-import {
-  logMessage,
-  useNavigationProp,
-  useThunkDispatch,
-} from '../../helpers/helper';
+import {logMessage, useNavigationProp, useThunkDispatch} from 'helpers/helper';
 import Toast from 'react-native-toast-message';
 const useSignup = () => {
   const [showModal, setShowModal] = useState(false);

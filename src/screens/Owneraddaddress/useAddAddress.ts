@@ -3,12 +3,12 @@ import {useNavigation} from '@react-navigation/native';
 import {useFormik} from 'formik';
 import * as Yup from 'yup';
 import {Alert} from 'react-native';
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 import {RootStackParamList} from '../Subcategory/Subcategory';
 import {StackNavigationProp} from '@react-navigation/stack';
 
 import {AddressAdd} from '../../redux/slice/AddressAddSlice';
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from 'helpers/helper';
 import {ListAddress} from '../../redux/slice/listAddressSlice';
 
 const useAddAddress = () => {

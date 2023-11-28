@@ -5,7 +5,7 @@ import Lottie from 'lottie-react-native';
 import Icons from 'react-native-vector-icons/MaterialIcons';
 import style from './splashScreenStyles';
 import {useSplashScreen} from './useSplashScreen';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 
 const walkthroughTitleList = [
   {

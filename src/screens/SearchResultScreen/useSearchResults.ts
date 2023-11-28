@@ -1,6 +1,6 @@
 import {useEffect, useState} from 'react';
-import {FilterProduct, categoriesData} from '../../constants/Apis';
-import ApiService from '../../network/network';
+import {FilterProduct, categoriesData} from 'constants/Apis';
+import ApiService from 'network/network';
 import {logMessage} from 'helpers/helper';
 
 const useSearchresults = () => {

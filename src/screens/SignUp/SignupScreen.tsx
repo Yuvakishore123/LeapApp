@@ -11,14 +11,14 @@ import {RadioButton} from 'react-native-paper';
 import Lottie from 'lottie-react-native';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import useSignup from './useSignup';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import {
   alreadyExistingtext,
   borrower,
   login,
   owner,
   signup,
-} from '../../constants/languages/en';
+} from 'constants/languages/en';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import Styles from './Signupstyle';

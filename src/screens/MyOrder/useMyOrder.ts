@@ -8,7 +8,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import axios from 'axios';
 import notifee from '@notifee/react-native';
 import RNFetchBlob from 'rn-fetch-blob';
-import {url} from '../../constants/Apis';
+import {url} from 'constants/Apis';
 import {logMessage} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 

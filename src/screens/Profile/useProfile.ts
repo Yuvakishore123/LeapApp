@@ -1,14 +1,14 @@
 import {useEffect, useState} from 'react';
-import {profileUpload, url} from '../../constants/Apis';
+import {profileUpload, url} from 'constants/Apis';
 import {
   Asset,
   ImagePickerResponse,
   launchImageLibrary,
 } from 'react-native-image-picker';
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 import {useSelector} from 'react-redux';
 import {getProfileData} from '../../redux/slice/profileDataSlice';
-import {logMessage, useThunkDispatch} from '../../helpers/helper';
+import {logMessage, useThunkDispatch} from 'helpers/helper';
 import {PermissionsAndroid} from 'react-native';
 import Toast from 'react-native-toast-message';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';

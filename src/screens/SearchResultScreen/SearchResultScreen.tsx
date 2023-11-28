@@ -7,11 +7,11 @@ import {useNavigation} from '@react-navigation/native';
 import {StackNavigationProp} from '@react-navigation/stack';
 import style from './searchResultStyles';
 import useSearchresults from './useSearchResults';
-import FilterSelectSize from '../../components/atoms/FilterSizes/FilterSizeSelect';
-import PriceRangeDropdown from '../../components/atoms/PriceRange/PriceDropdown';
-import SubCategoryDropdown from '../../components/atoms/SubcategoryDropdown/SubcategoryDropdown';
+import FilterSelectSize from 'components/atoms/FilterSizes/FilterSizeSelect';
+import PriceRangeDropdown from 'components/atoms/PriceRange/PriceDropdown';
+import SubCategoryDropdown from 'components/atoms/SubcategoryDropdown/SubcategoryDropdown';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import ImageComponent from 'components/atoms/ImageComponent';
 
 type RootStackParamList = {

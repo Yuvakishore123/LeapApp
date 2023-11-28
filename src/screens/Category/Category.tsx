@@ -6,7 +6,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import style from './categoryStyles';
 import useCategory from './useCategory';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import LottieAnimation from '../../components/molecules/LottieAnimation/LottieAnimation';
+import LottieAnimation from 'components/molecules/LottieAnimation/LottieAnimation';
 
 interface CategoryItem {
   id: string;

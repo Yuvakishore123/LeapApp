@@ -1,6 +1,6 @@
 import React, {useContext, useState} from 'react';
 import {useNavigation, useRoute} from '@react-navigation/native';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useDispatch, useSelector} from 'react-redux';
 import {ThunkDispatch} from 'redux-thunk';

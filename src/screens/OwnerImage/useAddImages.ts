@@ -7,12 +7,12 @@ import {useFormik} from 'formik';
 import {addsize} from '../../redux/actions/actions';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {useSelector} from 'react-redux';
-import {url as baseUrl} from '../../constants/Apis';
+import {url as baseUrl} from 'constants/Apis';
 import {ProductAdd} from '../../redux/slice/ProductAddSlice';
 import {PermissionsAndroid} from 'react-native';
 import {logger} from 'react-native-logs';
-import {useThunkDispatch, defaultConfig} from '../../helpers/helper';
-import asyncStorageWrapper from '../../constants/asyncStorageWrapper';
+import {useThunkDispatch, defaultConfig} from 'helpers/helper';
+import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 
 type RootStackParamList = {
   Home: {screen: any};

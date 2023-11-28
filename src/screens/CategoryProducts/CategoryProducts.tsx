@@ -5,7 +5,7 @@ import {StackNavigationProp} from '@react-navigation/stack';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 import Lottie from 'lottie-react-native';
 import useCategoryProducts from './useCategoryProducts';
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import style from './categoryStyles';

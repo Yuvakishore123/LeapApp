@@ -2,13 +2,13 @@
 import {Text, TextInput, View, TouchableOpacity} from 'react-native';
 import React, {useState, useEffect, useContext} from 'react';
 import style from './ownerEditProfileStyle';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 
 import useOwnerProfile from './useOwnerEditProfileCustomHook';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 export function SkeletonLoader() {

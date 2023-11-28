@@ -5,8 +5,8 @@ import Lottie from 'lottie-react-native';
 import Spinner from 'react-native-loading-spinner-overlay';
 import style from './filteredAnalyticsStyles';
 import useFilteredAnalytics from './useFilteredAnalytics';
-import AnalyticsDatePicker from '../../components/atoms/AnalyticsDatePicker';
-import BackButton from '../../components/atoms/BackButton/BackButton';
+import AnalyticsDatePicker from 'components/atoms/AnalyticsDatePicker';
+import BackButton from 'components/atoms/BackButton/BackButton';
 
 const FilteredAnalytics = () => {
   const {

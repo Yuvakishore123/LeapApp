@@ -6,7 +6,7 @@ import Lottie from 'lottie-react-native';
 
 // Custom components and modules
 import useLoginscreen from './useLoginscreen';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
 import * as Animatable from 'react-native-animatable';
 import {
   Donthavetext,
@@ -14,12 +14,12 @@ import {
   otp,
   signin,
   signup,
-} from '../../constants/languages/en';
+} from 'constants/languages/en';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import MaterialIcons from 'react-native-vector-icons/MaterialCommunityIcons';
 // Styles and assets
 import styles from './loginStyle';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 
 const LoginScreen = () => {
   const {

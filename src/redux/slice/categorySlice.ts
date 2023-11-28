@@ -95,6 +95,5 @@ const categoryThunk = createSlice({
       });
   },
 });
-
 export const {setData, setError} = categoryThunk.actions;
 export default categoryThunk.reducer;

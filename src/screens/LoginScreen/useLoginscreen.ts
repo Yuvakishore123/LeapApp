@@ -6,7 +6,7 @@ import {useDispatch, useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ThunkDispatch} from 'redux-thunk';
 import {AnyAction} from 'redux';
-import {passwordValidation} from '../../constants/Regex';
+import {passwordValidation} from 'constants/Regex';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 import colors from 'constants/colors';
@@ -15,7 +15,7 @@ import analytics from '@react-native-firebase/analytics';
 import messaging from '@react-native-firebase/messaging';
 import {fetchUserProducts} from '../../redux/slice/userProductSlice';
 import {logger} from 'react-native-logs';
-import {defaultConfig} from '../../helpers/helper';
+import {defaultConfig} from 'helpers/helper';
 
 type RootStackParamList = {
   OtpScreen: undefined;

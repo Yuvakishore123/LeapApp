@@ -6,7 +6,7 @@ import {RouteProp} from '@react-navigation/native';
 
 import styles from './subcategoryStyles';
 import {useSubcategory} from './useSubcategory';
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 interface Subcategory {

@@ -13,11 +13,11 @@ import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
 import Lottie from 'lottie-react-native';
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import styles from './OwnerHomestyle';
-import Donut from '../../components/atoms/DonutChart/DonutChart';
+import Donut from 'components/atoms/DonutChart/DonutChart';
 import useAnalytics from '../AnalyticsPage/useAnalytics';
 import useOwnerHome from './useOwnerHome';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 import ImageComponent from 'components/atoms/ImageComponent';
 
 type Props = {

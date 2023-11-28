@@ -7,7 +7,7 @@ import * as Yup from 'yup';
 
 import {useNavigation} from '@react-navigation/native';
 
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 
 import {
   addItemsData,
@@ -19,8 +19,8 @@ import {
   addoutfit,
 } from '../../redux/actions/actions';
 import {fetchCategoriesData} from '../../redux/slice/categorySlice';
-import {subCategoryUrl} from '../../constants/apiRoutes';
-import {logMessage} from '../../helpers/helper';
+import {subCategoryUrl} from 'constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
 type RootStackParamList = {
   AddImages: undefined;
 };

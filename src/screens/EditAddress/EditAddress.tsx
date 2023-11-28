@@ -13,8 +13,8 @@ import {CheckBox} from 'react-native-elements';
 import {RadioButton} from 'react-native-paper';
 import useEditaddress from './useEditAddress';
 import SkeletonPlaceholder from 'react-native-skeleton-placeholder';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import styles from './editAddressStyles';

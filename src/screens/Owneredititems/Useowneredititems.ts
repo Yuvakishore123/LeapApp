@@ -1,6 +1,6 @@
 /* eslint-disable @typescript-eslint/no-shadow */
 import {SetStateAction, useEffect, useState} from 'react';
-import {url as baseUrl} from '../../constants/Apis';
+import {url as baseUrl} from 'constants/Apis';
 import {
   addGenderData,
   addsize,
@@ -9,7 +9,7 @@ import {
 import {useDispatch} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {launchImageLibrary} from 'react-native-image-picker';
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {
   categoryDataUrl,
@@ -17,7 +17,7 @@ import {
   editItemsDataUrl,
   editProductsByIdUrl,
   enableProductUrl,
-} from '../../constants/apiRoutes';
+} from 'constants/apiRoutes';
 import {logMessage} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
 type RootStackParamList = {

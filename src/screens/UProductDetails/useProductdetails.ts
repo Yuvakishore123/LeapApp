@@ -1,13 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useCallback, useEffect, useRef, useState} from 'react';
-import ApiService from '../../network/network';
+import ApiService from 'network/network';
 import {useDispatch, useSelector} from 'react-redux';
 import {fetchCartProducts} from '../../redux/slice/cartSlice';
 import {ScrollView, Share} from 'react-native';
 import dynamicLinks from '@react-native-firebase/dynamic-links';
 import {CartAdd} from '../../redux/slice/CartAddSlice';
-import {logMessage} from '../../helpers/helper';
-import {listProductsById} from '../../constants/apiRoutes';
+import {logMessage} from 'helpers/helper';
+import {listProductsById} from 'constants/apiRoutes';
 import Toast from 'react-native-toast-message';
 import {HTTP_STATUS_CODES} from 'constants/HttpStatusCode';
 

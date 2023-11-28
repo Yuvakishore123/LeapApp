@@ -5,7 +5,7 @@ import Icon from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 import usePayment from './usePayment';
 import styles from './paymentstylesheet';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 
 const PaymentSuccessScreen = () => {
   const {navigation, getContainerStyle, getTextColor} = usePayment();

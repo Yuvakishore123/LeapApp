@@ -13,16 +13,16 @@ import MaterialIcons from 'react-native-vector-icons/MaterialIcons';
 import Lottie from 'lottie-react-native';
 
 import Useownerimage from './useAddImages';
-import Sizeselection from '../../components/atoms/Sizeselect';
-import CustomModal from '../../components/atoms/CustomModel/CustomModel';
-import {addImages} from '../../constants/languages/en';
-import HeadingText from '../../components/atoms/HeadingText/HeadingTest';
+import Sizeselection from 'components/atoms/Sizeselect';
+import CustomModal from 'components/atoms/CustomModel/CustomModel';
+import {addImages} from 'constants/languages/en';
+import HeadingText from 'components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
 import Styles from '../LoginScreen/loginStyle';
-import styles from '../../constants/themeColors';
+import styles from 'constants/themeColors';
 import OwnerImagestyles from './OwnerImagestyles';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 
 const AddImages = () => {
   const {

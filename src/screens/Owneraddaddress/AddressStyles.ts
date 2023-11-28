@@ -1,5 +1,5 @@
 import {StyleSheet} from 'react-native';
-import Colors from '../../constants/colors';
+import Colors from 'constants/colors';
 const OwnerAddressStyles = StyleSheet.create({
   header: {flexDirection: 'row', justifyContent: 'space-between'},
   maincontainer: {
