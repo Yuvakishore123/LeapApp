@@ -47,3 +47,8 @@ export const ItemsReducer = (
       return state;
   }
 };
+export const ItemDataReducer = (state: {ItemsReducer: {Name: string}}) =>
+  state.ItemsReducer.Name;
+export const ItemCategoryIdReducer = (state: {
+  ItemsReducer: {CategoryId: []};
+}) => state.ItemsReducer.CategoryId;

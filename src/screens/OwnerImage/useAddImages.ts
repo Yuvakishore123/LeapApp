@@ -13,6 +13,10 @@ import {PermissionsAndroid} from 'react-native';
 import {logger} from 'react-native-logs';
 import {useThunkDispatch, defaultConfig} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {
+  ItemCategoryIdReducer,
+  ItemDataReducer,
+} from '../../../src/redux/reducers/Additemsreducers';
 
 type RootStackParamList = {
   Home: {screen: any};
@@ -33,16 +37,12 @@ const useAddImages = () => {
   const [showModal, setShowModal] = useState(false);
   const navigation = useNavigation<StackNavigationProp<RootStackParamList>>();
   const {dispatch} = useThunkDispatch();
-  const name = useSelector(
-    (state: {ItemsReducer: {Name: string}}) => state.ItemsReducer.Name,
-  );
+  const name = useSelector(ItemDataReducer);
   const description = useSelector(
     (state: {ItemsReducer: {Description: string}}) =>
       state.ItemsReducer.Description,
   );
-  const categoryIds = useSelector(
-    (state: {ItemsReducer: {CategoryId: []}}) => state.ItemsReducer.CategoryId,
-  );
+  const categoryIds = useSelector(ItemCategoryIdReducer);
   const openModal = () => {
     setShowModal(true);
   };

@@ -3,7 +3,13 @@ import {useSelector} from 'react-redux';
 import {useNavigation} from '@react-navigation/native';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 
-import {fetchWishlistProducts} from '../../redux/slice/wishlistSlice';
+import {
+  WishlistDataReducer,
+  WishlistError,
+  WishlistLoading,
+  fetchWishlistProducts,
+  wishlistDataReducer,
+} from '../../redux/slice/wishlistSlice';
 
 import {wishListRemove} from '../../redux/slice/wishlistRemoveSlice';
 import {useThunkDispatch} from '../../helpers/helper';
@@ -23,20 +29,10 @@ const useWishlist = () => {
   const wishlistremove = async (productId: any) => {
     dispatch(wishListRemove(productId) as any);
   };
-  const WishlistProducts = useSelector(
-    (state: {WishlistProducts: {data: null[]}}) => state.WishlistProducts.data,
-  );
-  const allWishlistProducts = useSelector(
-    (state: {WishlistProducts: {data: any[]}}) => state.WishlistProducts.data,
-  );
-  const isLoading = useSelector(
-    (state: {WishlistProducts: {isLoader: boolean}}) =>
-      state.WishlistProducts.isLoader,
-  );
-  const isError = useSelector(
-    (state: {WishlistProducts: {error: boolean}}) =>
-      state.WishlistProducts.error,
-  );
+  const WishlistProducts = useSelector(wishlistDataReducer);
+  const allWishlistProducts = useSelector(WishlistDataReducer);
+  const isLoading = useSelector(WishlistLoading);
+  const isError = useSelector(WishlistError);
   const showToast = () => {
     Toast.show({
       type: 'error',

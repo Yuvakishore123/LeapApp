@@ -79,5 +79,7 @@ const categoryProductsThunk = createSlice({
       });
   },
 });
+export const CategoryProductReducer = (state: {CartProducts: {data: any}}) =>
+  state.CartProducts.data;
 export const {setData, setError} = categoryProductsThunk.actions;
 export default categoryProductsThunk.reducer;

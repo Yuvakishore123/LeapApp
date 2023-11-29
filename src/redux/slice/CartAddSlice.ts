@@ -69,5 +69,7 @@ const cartThunk = createSlice({
       });
   },
 });
+export const cartAddReducer = (state: {cartAdd: {data: any}}) =>
+  state.cartAdd.data;
 export const {setCartData, setError} = cartThunk.actions;
 export default cartThunk.reducer;

@@ -95,5 +95,9 @@ const categoryThunk = createSlice({
       });
   },
 });
+export const CategoryDataReducer = (state: {category: {data: any}}) =>
+  state.category.data;
+export const categoryLoadingReducer = (state: {category: {loading: boolean}}) =>
+  state.category.loading;
 export const {setData, setError} = categoryThunk.actions;
 export default categoryThunk.reducer;

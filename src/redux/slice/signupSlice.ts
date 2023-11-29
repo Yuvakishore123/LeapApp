@@ -75,5 +75,7 @@ const signupThunk = createSlice({
       });
   },
 });
+export const SignupError = (state: {signup: {error: any}}) =>
+  state.signup.error;
 export const {setSignupData, setError} = signupThunk.actions;
 export default signupThunk.reducer;

@@ -11,6 +11,7 @@ import RNFetchBlob from 'rn-fetch-blob';
 import {url} from 'constants/Apis';
 import {logMessage} from 'helpers/helper';
 import asyncStorageWrapper from 'constants/asyncStorageWrapper';
+import {OrderproductReducer} from '../../../src/redux/slice/OwnerorderproductSlice';
 
 interface Order {
   id: string;
@@ -43,9 +44,7 @@ const useMyOrder = () => {
     (state: {OrderProducts: {isLoader: boolean}}) =>
       state.OrderProducts.isLoader,
   );
-  const invoiceData = useSelector(
-    (state: {OrderProducts: {data: []}}) => state.OrderProducts.data,
-  );
+  const invoiceData = useSelector(OrderproductReducer);
   const onRefresh = async () => {
     setRefreshing(true);
     dispatch(fetchOrderProducts());

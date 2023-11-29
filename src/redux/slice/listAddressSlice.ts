@@ -55,5 +55,11 @@ const listAddressThunk = createSlice({
       });
   },
 });
+
+export const AddressDataReducer = (state: {listAddress: {data: any}}) =>
+  state.listAddress.data;
+export const AddressLoadingReducer = (state: {
+  listAddress: {isLoader: boolean};
+}) => state.listAddress.isLoader;
 export const {setData} = listAddressThunk.actions;
 export default listAddressThunk.reducer;

@@ -9,8 +9,12 @@ import {useNavigation} from '@react-navigation/native';
 import RazorpayCheckout from 'react-native-razorpay';
 import {logMessage} from 'helpers/helper';
 import {StackNavigationProp} from '@react-navigation/stack';
-import {ListAddress} from '../../redux/slice/listAddressSlice';
+import {
+  AddressDataReducer,
+  ListAddress,
+} from '../../redux/slice/listAddressSlice';
 import analtyics from '@react-native-firebase/analytics';
+import {CategoryProductReducer} from '../../../src/redux/slice/categoryProductsSlice';
 type RootStackParamList = {
   CheckoutScreen: undefined;
   PaymentSuccessScreen: undefined;
@@ -26,17 +30,13 @@ const useChectout = () => {
   const [isCheckedArray, setIsCheckedArray] = useState<boolean[]>([]);
   const dispatch = useDispatch();
 
-  const data = useSelector(
-    (state: {listAddress: {data: any}}) => state.listAddress.data,
-  );
+  const data = useSelector(AddressDataReducer);
   useEffect(() => {
     setRefreshing(true);
     dispatch(ListAddress() as any);
     setRefreshing(false);
   }, [dispatch]);
-  const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
+  const cartData = useSelector(CategoryProductReducer) || {
     cartItems: [],
   };
   useEffect(() => {

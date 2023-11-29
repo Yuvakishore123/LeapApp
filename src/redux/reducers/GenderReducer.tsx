@@ -13,5 +13,7 @@ const GenderReducer = (state = initialState, action: any) => {
 
   return state;
 };
-
+export const GenderDataReducer = (state: {
+  GenderReducer: {genderData: string};
+}) => state.GenderReducer.genderData;
 export default GenderReducer;

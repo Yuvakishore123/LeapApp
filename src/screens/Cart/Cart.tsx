@@ -20,6 +20,7 @@ import DatePickerComponent from 'components/atoms/DatePickerComponent/Datepicker
 
 import style from './CartItemStyles';
 import ImageComponent from 'components/atoms/ImageComponent';
+import {cartDataReducer} from '../../../src/redux/slice/cartSlice';
 
 const Cart = () => {
   const {
@@ -39,9 +40,7 @@ const Cart = () => {
     cartProductId,
   } = useCart();
 
-  const cartData = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
+  const cartData = useSelector(cartDataReducer) || {
     cartItems: [],
   };
   type items = {

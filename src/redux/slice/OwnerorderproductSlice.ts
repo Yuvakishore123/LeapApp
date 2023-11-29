@@ -60,5 +60,12 @@ const ownerorderproductsSlice = createSlice({
       });
   },
 });
-
+export const OrderproductReducer = (state: {OrderProducts: {data: []}}) =>
+  state.OrderProducts.data;
+export const OwnerRentalProductsReducer = (state: {
+  OwnerRentalproducts: {data: any};
+}) => state.OwnerRentalproducts.data;
+export const OwnerRentalLoadingReducer = (state: {
+  OwnerRentalproducts: {isLoader: boolean};
+}) => state.OwnerRentalproducts.isLoader;
 export default ownerorderproductsSlice.reducer;

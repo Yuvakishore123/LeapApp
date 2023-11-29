@@ -1,7 +1,11 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import {useContext, useEffect, useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
-import {fetchCartProducts} from '../../redux/slice/cartSlice';
+import {
+  cartDataError,
+  cartDataReducer,
+  fetchCartProducts,
+} from '../../redux/slice/cartSlice';
 
 import {useNavigation} from '@react-navigation/native';
 import Toast from 'react-native-toast-message';
@@ -9,7 +13,11 @@ import Toast from 'react-native-toast-message';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {StackNavigationProp} from '@react-navigation/stack';
 import {removefromCart} from '../../redux/slice/cartRemoveSlice';
-import {updateCart} from '../../redux/slice/cartUpdateSlice';
+import {
+  cartUpdateError,
+  cartUpdateLoading,
+  updateCart,
+} from '../../redux/slice/cartUpdateSlice';
 import {logMessage} from 'helpers/helper';
 type RootStackParamList = {
   CheckoutScreen: undefined;
@@ -43,22 +51,14 @@ const useCart = () => {
   const closeModal = () => {
     setShowModal(false);
   };
-  const isLoading = useSelector(
-    (state: {cartUpdate: {isLoader: boolean}}) => state.cartUpdate.isLoader,
-  );
-  const isError = useSelector(
-    (state: {cartUpdate: {error: any}}) => state.cartUpdate.error,
-  );
+  const isLoading = useSelector(cartUpdateLoading);
+  const isError = useSelector(cartUpdateError);
 
-  const CartProducts = useSelector(
-    (state: {CartProducts: {data: any}}) => state.CartProducts.data,
-  ) || {
+  const CartProducts = useSelector(cartDataReducer) || {
     cartItems: [],
   };
 
-  const cartError = useSelector(
-    (state: {CartProducts: {error: any}}) => state.CartProducts.error,
-  );
+  const cartError = useSelector(cartDataError);
 
   useEffect(() => {
     if (refreshing) {

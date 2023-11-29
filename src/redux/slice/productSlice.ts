@@ -54,5 +54,6 @@ const ProductSlice = createSlice({
       });
   },
 });
-
+export const ProductsDataReducer = (state: {products: {data: any[]}}) =>
+  state.products.data;
 export default ProductSlice.reducer;

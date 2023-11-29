@@ -50,5 +50,15 @@ const WishlistSlice = createSlice({
     });
   },
 });
+export const wishlistDataReducer = (state: {
+  WishlistProducts: {data: null[]};
+}) => state.WishlistProducts.data;
+export const WishlistDataReducer = (state: {WishlistProducts: {data: any[]}}) =>
+  state.WishlistProducts.data;
+export const WishlistLoading = (state: {
+  WishlistProducts: {isLoader: boolean};
+}) => state.WishlistProducts.isLoader;
+export const WishlistError = (state: {WishlistProducts: {error: boolean}}) =>
+  state.WishlistProducts.error;
 export const {setError} = WishlistSlice.actions;
 export default WishlistSlice.reducer;

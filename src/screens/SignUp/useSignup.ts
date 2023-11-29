@@ -8,7 +8,7 @@ import colors from 'constants/colors';
 import {ColorSchemeContext} from '../../../ColorSchemeContext';
 import {useSelector} from 'react-redux';
 
-import {postSignup} from '../../redux/slice/signupSlice';
+import {SignupError, postSignup} from '../../redux/slice/signupSlice';
 import {logMessage, useNavigationProp, useThunkDispatch} from 'helpers/helper';
 import Toast from 'react-native-toast-message';
 const useSignup = () => {
@@ -18,9 +18,7 @@ const useSignup = () => {
   const {navigation} = useNavigationProp();
   const {colorScheme} = useContext(ColorSchemeContext);
   const {dispatch} = useThunkDispatch();
-  const isError = useSelector(
-    (state: {signup: {error: any}}) => state.signup.error,
-  );
+  const isError = useSelector(SignupError);
   const SignUpSchema = Yup.object().shape({
     firstName: Yup.string().required('Enter First Name'),
     lastName: Yup.string().required('Enter LastName'),

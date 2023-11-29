@@ -60,5 +60,8 @@ const FilterAnaltyicsThunk = createSlice({
       });
   },
 });
+export const filterAnalyticsReducer = (state: {
+  FliterAnalyticsData: {data: any};
+}) => state.FliterAnalyticsData.data;
 export const {setData} = FilterAnaltyicsThunk.actions;
 export default FilterAnaltyicsThunk.reducer;

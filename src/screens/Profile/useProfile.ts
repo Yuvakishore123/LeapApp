@@ -7,7 +7,11 @@ import {
 } from 'react-native-image-picker';
 import ApiService from 'network/network';
 import {useSelector} from 'react-redux';
-import {getProfileData} from '../../redux/slice/profileDataSlice';
+import {
+  ProfileLoadingReducer,
+  editProfileDataReducer,
+  getProfileData,
+} from '../../redux/slice/profileDataSlice';
 import {logMessage, useThunkDispatch} from 'helpers/helper';
 import {PermissionsAndroid} from 'react-native';
 import Toast from 'react-native-toast-message';
@@ -36,12 +40,8 @@ const useProfile = () => {
   useEffect(() => {
     dispatch(getProfileData());
   }, [dispatch]);
-  const data = useSelector(
-    (state: {profileData: {data: any}}) => state.profileData.data,
-  );
-  const loading = useSelector(
-    (state: {profileData: {isLoader: any}}) => state.profileData.isLoader,
-  );
+  const data = useSelector(editProfileDataReducer);
+  const loading = useSelector(ProfileLoadingReducer);
   const refreshData = () => {
     setRefreshState(true);
   };
