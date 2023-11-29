@@ -28,7 +28,7 @@ export const fetchOrderProducts = createAsyncThunk(
   'fetchOrderProducts',
   async () => {
     try {
-      const response = await ApiService.get(`${url}/order/list`);
+      const response = await ApiService.get(`${url}/order`);
       return response;
     } catch (error) {
       logMessage.error('error in fetchOrderProducts', error);
