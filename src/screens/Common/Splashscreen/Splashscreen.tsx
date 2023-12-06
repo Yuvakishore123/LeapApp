@@ -6,6 +6,7 @@ import Icons from 'react-native-vector-icons/MaterialIcons';
 import style from './splashScreenStyles';
 import {useSplashScreen} from './useSplashScreen';
 import Colors from '../../../constants/colors';
+import {getStarted} from 'constants/languages/en';
 
 const walkthroughTitleList = [
   {
@@ -56,8 +57,12 @@ export default function SplashScreen() {
                   testID="get-started-button"
                   style={style.touchablebtn}
                   onPress={handleLoginPress}>
-                  <Text style={style.touchableText}>Get Started</Text>
-                  <Icons name="arrow-forward-ios" size={15} color={'white'} />
+                  <Text style={style.touchableText}>{getStarted}</Text>
+                  <Icons
+                    name="arrow-forward-ios"
+                    size={15}
+                    color={Colors.white}
+                  />
                 </TouchableOpacity>
               )}
             </View>

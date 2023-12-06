@@ -23,6 +23,7 @@ import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import UseOwnerprofile from './useOwnerProfile';
 import Toast from 'react-native-toast-message';
 import {useNavigationProp} from 'helpers/helper';
+import {remove, upload} from 'constants/languages/en';
 
 export const SkeletonLoader = () => {
   const {colorScheme} = useContext(ColorSchemeContext);
@@ -86,14 +87,14 @@ const OwnerProfile = () => {
         </View>
         <View style={style.uploadButtoncontainer}>
           <TouchableOpacity style={style.uploadButton} onPress={pickImage}>
-            <Text style={style.uploadText}>Upload</Text>
+            <Text style={style.uploadText}>{upload}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             style={style.removeButton}
             onPress={() => {
               handleRemoveProfilePic();
             }}>
-            <Text style={style.uploadText}>Remove</Text>
+            <Text style={style.uploadText}>{remove}</Text>
           </TouchableOpacity>
         </View>
         {loading ? (

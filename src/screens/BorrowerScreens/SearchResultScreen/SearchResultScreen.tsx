@@ -13,6 +13,12 @@ import SubCategoryDropdown from '../../../components/atoms/SubcategoryDropdown/S
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Colors from '../../../constants/colors';
 import ImageComponent from 'components/atoms/ImageComponent/ImageComponent';
+import {
+  applyText,
+  closeText,
+  resultsNotFoundText,
+  searchResultesText,
+} from 'constants/languages/en';
 
 type RootStackParamList = {
   UProductDetails: {product: number};
@@ -60,7 +66,9 @@ const SearchResultsScreen = ({route}: {route: any}) => {
           <MaterialIcons color={Colors.black} size={20} name="arrow-back-ios" />
         </TouchableOpacity>
         <View style={style.viewStyle1}>
-          <Text style={[style.TitleText, getTextColor()]}>Search results</Text>
+          <Text style={[style.TitleText, getTextColor()]}>
+            {searchResultesText}
+          </Text>
           <MaterialIcons
             testID="filter-apply-button"
             onPress={handleFilterButtonPress}
@@ -112,13 +120,15 @@ const SearchResultsScreen = ({route}: {route: any}) => {
                 testID="Close"
                 style={style.closetouchablecontainer}
                 onPress={() => setModalVisible(false)}>
-                <Text style={style.closeText}>close</Text>
+                <Text style={style.closeText}>{closeText}</Text>
               </TouchableOpacity>
               <TouchableOpacity
                 testID="Apply"
                 style={[style.touchablecontainer, getContainerStyle()]}
                 onPress={handleFilterapply}>
-                <Text style={[style.applyText, getTextColor()]}>Apply</Text>
+                <Text style={[style.applyText, getTextColor()]}>
+                  {applyText}
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
@@ -172,7 +182,7 @@ const SearchResultsScreen = ({route}: {route: any}) => {
         <View style={[style.noResultsView, getContainerStyle()]}>
           <View style={style.innerView2}>
             <Text style={[style.titleText, getTextColor()]}>
-              Umm...No results found
+              {resultsNotFoundText}
             </Text>
           </View>
           <View style={[style.titleTextContainer, getContainerStyle()]}>

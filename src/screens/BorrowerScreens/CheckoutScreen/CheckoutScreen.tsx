@@ -19,6 +19,7 @@ import Colors from '../../../constants/colors';
 import style from './CheckoutScreenStyle';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import {selectCartData} from '../../../../src/redux/slice/cartSlice';
+import {grandTotal, itemsAreLoadingText} from 'constants/languages/en';
 
 const CheckoutScreen = () => {
   const {
@@ -46,7 +47,7 @@ const CheckoutScreen = () => {
           style={style.checkoutimage}
         />
         <Text testID="Loading-Text" style={{color: Colors.iconscolor}}>
-          The Items are Loading...
+          {itemsAreLoadingText}
         </Text>
       </View>
     );
@@ -218,7 +219,7 @@ const CheckoutScreen = () => {
         </View>
         <View style={[style.shippingContainer]}>
           <Text style={[style.GrandtotalText, getTextColor()]}>
-            Grand Total
+            {grandTotal}
           </Text>
           <Text style={[style.priceTotalText, getTextColor()]}>
             {' '}

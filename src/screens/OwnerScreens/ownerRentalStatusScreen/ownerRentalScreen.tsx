@@ -8,6 +8,12 @@ import useOwnerorderproducts from './useOwnerorderproducts';
 
 import Icon from 'react-native-vector-icons/MaterialIcons';
 import {Image} from 'react-native-elements';
+import {
+  nameText,
+  orderIDText,
+  priceText,
+  quantity,
+} from 'constants/languages/en';
 const OwnerRentalScreen = () => {
   const {getTextColor} = useContext(ColorSchemeContext);
   const {ownerrentalproducts} = useOwnerorderproducts();
@@ -37,21 +43,21 @@ const OwnerRentalScreen = () => {
           <Text
             testID={`OrderId-${item.id}`}
             style={[OwnerRentalstyles.productName, getTextColor()]}>
-            Order Id: {item.id}
+            {orderIDText}: {item.id}
           </Text>
           <Text
             testID={`Price-${item.id}`}
             style={[OwnerRentalstyles.price, getTextColor()]}>
-            Price: ₹{item.totalPrice}/-
+            {priceText}: ₹{item.totalPrice}/-
           </Text>
 
           <Text
             testID={`Name-${item.id}`}
             style={[OwnerRentalstyles.Name, getTextColor()]}>
-            Name: {item.name}
+            {nameText}: {item.name}
           </Text>
           <Text style={[OwnerRentalstyles.Qty, getTextColor()]}>
-            Qty: {item.quantity}
+            {quantity}: {item.quantity}
           </Text>
           <Text style={[OwnerRentalstyles.Status, getTextColor(), statusStyle]}>
             {item.status}

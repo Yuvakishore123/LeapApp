@@ -24,6 +24,7 @@ import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Styles from './Signupstyle';
 import style from '../../OwnerScreens/Owneraddaddress/AddressStyles';
 import Toast from 'react-native-toast-message';
+import colors from 'constants/colors';
 
 const SignUpScreen = () => {
   const {
@@ -167,7 +168,9 @@ const SignUpScreen = () => {
             style={[
               Styles.touchablebtn,
               {
-                backgroundColor: formik.isValid ? '#9747FF' : '#A5C9CA',
+                backgroundColor: formik.isValid
+                  ? colors.buttonColor
+                  : colors.disableColor,
               },
             ]}
             onPress={handleSignup}>

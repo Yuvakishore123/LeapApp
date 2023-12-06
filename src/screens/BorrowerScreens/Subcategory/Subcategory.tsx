@@ -8,6 +8,7 @@ import styles from './subcategoryStyles';
 import useSubcategory from './useSubcategory';
 import HeadingText from '../../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
+import {itemsAreLoadingText} from 'constants/languages/en';
 
 interface Subcategory {
   id: string;
@@ -42,7 +43,7 @@ const Subcategory = ({
           style={styles.lottieStyles}
         />
         <Text style={[styles.Lottietext, getTextColor()]}>
-          The Items are Loading...
+          {itemsAreLoadingText}
         </Text>
       </View>
     );

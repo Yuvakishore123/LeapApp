@@ -6,6 +6,13 @@ import Lottie from 'lottie-react-native';
 import usePayment from './usePayment';
 import styles from './paymentstylesheet';
 import Colors from '../../../constants/colors';
+import {
+  continueShopping,
+  ordersText,
+  payment,
+  paymentSuccessfull,
+  paymentSuccessfullMessage,
+} from 'constants/languages/en';
 
 const PaymentSuccessScreen = () => {
   const {navigation, getContainerStyle, getTextColor} = usePayment();
@@ -28,19 +35,19 @@ const PaymentSuccessScreen = () => {
         speed={0.5}
       />
       <View>
-        <Text style={[styles.headerText, getTextColor()]}>Payment</Text>
+        <Text style={[styles.headerText, getTextColor()]}>{payment}</Text>
       </View>
       <View style={styles.successContainer}>
         <Lottie
-          style={{marginTop: -70, height: 200}}
+          style={{marginTop: 70, height: 200}}
           source={require('../../../../assets/paysuccess2.json')}
           autoPlay
         />
         <Text style={[styles.successText2, getTextColor()]}>
-          Payment successful!{' '}
+          {paymentSuccessfull}{' '}
         </Text>
         <Text style={[styles.successText3, getTextColor()]}>
-          Your Order Has Been Placed.{' '}
+          {paymentSuccessfullMessage}{' '}
         </Text>
         <TouchableOpacity
           testID="Home-Button"
@@ -50,7 +57,7 @@ const PaymentSuccessScreen = () => {
           }>
           <View style={{flexDirection: 'row'}}>
             <Text style={[styles.btntext, getTextColor()]}>
-              Continue Shopping{' '}
+              {continueShopping}{' '}
             </Text>
             <Icon
               name="arrow-forward-ios"
@@ -76,7 +83,7 @@ const PaymentSuccessScreen = () => {
           }
           testID="YourOrder-Button">
           <View style={{flexDirection: 'row'}}>
-            <Text style={styles.obtntext}>Your Orders </Text>
+            <Text style={styles.obtntext}>{ordersText} </Text>
             <Icon
               name="arrow-forward-ios"
               size={20}

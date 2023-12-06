@@ -7,6 +7,16 @@ import style from './filteredAnalyticsStyles';
 import useFilteredAnalytics from './useFilteredAnalytics';
 import AnalyticsDatePicker from '../../../components/atoms/AnalyticsDatePicker';
 import BackButton from '../../../components/atoms/BackButton/BackButton';
+import {
+  monthText,
+  nodataMessage,
+  orderIDText,
+  phoneNumber,
+  quantity,
+  rentalInsights,
+  selectDateRangeText,
+  selectDateText,
+} from 'constants/languages/en';
 
 const FilteredAnalytics = () => {
   const {
@@ -78,7 +88,7 @@ const FilteredAnalytics = () => {
 
         <View style={style.xAxisS}>
           <Text testID="Month-Text" style={style.axisLabel}>
-            Month
+            {monthText}
           </Text>
         </View>
       </>
@@ -93,10 +103,8 @@ const FilteredAnalytics = () => {
           />
         </View>
         <View style={style.textContainer1}>
-          <Text style={[style.noAddressText1]}>
-            There is no data available in the
-          </Text>
-          <Text style={[style.noAddressText2]}>selected date range!</Text>
+          <Text style={[style.noAddressText1]}>{nodataMessage}</Text>
+          <Text style={[style.noAddressText2]}>{selectDateRangeText}</Text>
         </View>
       </View>
     );
@@ -109,12 +117,12 @@ const FilteredAnalytics = () => {
           <View style={style.btnDirection}>
             <BackButton navigation={navigation} />
             <View style={style.titleView}>
-              <Text style={style.titleStyle}>Rental Insights</Text>
+              <Text style={style.titleStyle}>{rentalInsights}</Text>
             </View>
           </View>
 
           <View style={style.dateView}>
-            <Text style={style.headingtext}>Select date</Text>
+            <Text style={style.headingtext}>{selectDateText}</Text>
 
             <AnalyticsDatePicker
               startDate={startDate}
@@ -142,7 +150,7 @@ const FilteredAnalytics = () => {
 
                           <View style={style.textDirection}>
                             <Text style={style.cardStyle}>
-                              Order ID: {item.borrowerId}
+                              {orderIDText}: {item.borrowerId}
                             </Text>
 
                             <Text style={style.cardStyle}>
@@ -154,11 +162,11 @@ const FilteredAnalytics = () => {
                             <Text style={style.cardStyle}> {item.name}</Text>
 
                             <Text style={style.cardStyle}>
-                              Quantity: {item.quantity}
+                              {quantity}: {item.quantity}
                             </Text>
 
                             <Text style={style.cardStyle}>
-                              Phone number: {item.borrowerPhoneNumber}
+                              {phoneNumber}: {item.borrowerPhoneNumber}
                             </Text>
                           </View>
                         </View>

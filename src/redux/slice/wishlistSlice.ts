@@ -6,12 +6,11 @@ export const fetchWishlistProducts = createAsyncThunk(
   'fetchWishlistProducts',
   async (_, {dispatch}) => {
     try {
-      const res = await ApiService.get('/wishlist/list');
+      const res = await ApiService.get('/wishlist');
 
       return res;
     } catch (error) {
       dispatch(setError(error));
-
       throw error;
     }
   },

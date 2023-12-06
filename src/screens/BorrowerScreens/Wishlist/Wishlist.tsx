@@ -26,7 +26,6 @@ const Wishlist = () => {
     wishlistremove,
     closeModal,
     showModal,
-
     refreshing,
     onRefresh,
     isLoading,

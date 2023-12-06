@@ -25,6 +25,7 @@ import CustomModal from '../../../components/atoms/CustomModel/CustomModel';
 
 import style from '../../OwnerScreens/Ownerprofile/ownerProfileStyle';
 import {Logout} from '../../../../src/redux/reducers/LogoutReducer';
+import {upload} from 'constants/languages/en';
 
 const Profile = () => {
   const {
@@ -113,7 +114,7 @@ const Profile = () => {
 
         <View style={style.uploadButtoncontainer}>
           <TouchableOpacity style={style.uploadButton} onPress={ImageUpload}>
-            <Text style={style.uploadText}>Upload</Text>
+            <Text style={style.uploadText}>{upload}</Text>
           </TouchableOpacity>
           <TouchableOpacity
             testID="Remove-Button"

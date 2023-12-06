@@ -158,7 +158,9 @@ const Additems = () => {
                   style={[
                     Ownerstyles.mainTouchable,
                     {
-                      backgroundColor: formik?.isValid ? '#9747FF' : '#A5C9CA',
+                      backgroundColor: formik.isValid
+                        ? Colors.buttonColor
+                        : Colors.disableColor,
                     },
                   ]}
                   onPress={formik?.handleSubmit}>

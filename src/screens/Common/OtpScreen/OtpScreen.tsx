@@ -13,11 +13,19 @@ import Useotp from './useOtp';
 import CustomModal from '../../../components/atoms/CustomModel/CustomModel';
 
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
+import {
+  enterOtp,
+  enterPhonenumber,
+  get,
+  otp,
+  phoneNumber,
+  signin,
+} from 'constants/languages/en';
 
 const OTPScreen = (): React.JSX.Element => {
   const {
     phoneNo,
-    otp,
+    otptext,
     handlephoneNumberChange,
     handlePasswordChange,
     GETOTP,
@@ -40,13 +48,13 @@ const OTPScreen = (): React.JSX.Element => {
         </View>
         <View>
           <Text style={[Styles.Textphonenumber, getTextColor()]}>
-            Phone number{' '}
+            {phoneNumber}{' '}
           </Text>
         </View>
         <View>
           <TextInput
             style={[Styles.textinputphone, getTextInputStyle(), getTextColor()]}
-            placeholder="Enter phone number"
+            placeholder={enterPhonenumber}
             placeholderTextColor={PlaceholderColor}
             value={phoneNo}
             autoCapitalize="none"
@@ -55,23 +63,23 @@ const OTPScreen = (): React.JSX.Element => {
           />
         </View>
         <View>
-          <Text style={[Styles.TextOTP, getTextColor()]}>Otp</Text>
+          <Text style={[Styles.TextOTP, getTextColor()]}>{otp}</Text>
           <TextInput
             style={[Styles.textinputOTP, getTextInputStyle(), getTextColor()]}
-            placeholder="Enter Otp"
+            placeholder={enterOtp}
             placeholderTextColor={PlaceholderColor}
-            value={otp}
+            value={otptext}
             secureTextEntry={true}
             onChangeText={handlePasswordChange}
           />
         </View>
         <View style={Styles.touchablebtnContainer}>
           <TouchableOpacity onPress={GETOTP}>
-            <Text style={[Styles.Text, getTextColor()]}>Get</Text>
-            <Text style={Styles.touchableTextOTP}>Otp</Text>
+            <Text style={[Styles.Text, getTextColor()]}>{get}</Text>
+            <Text style={Styles.touchableTextOTP}>{otp}</Text>
           </TouchableOpacity>
           <TouchableOpacity style={Styles.touchablebtn} onPress={handleLogin}>
-            <Text style={Styles.touchableTextcontinue}>Sign In</Text>
+            <Text style={Styles.touchableTextcontinue}>{signin}</Text>
           </TouchableOpacity>
         </View>
         <CustomModal

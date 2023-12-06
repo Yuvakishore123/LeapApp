@@ -30,4 +30,5 @@ export default {
   maroon: '#FF726F',
   pink: 'pink',
   lightviolet: '#C4B0FF',
+  disableColor: '#A5C9CA',
 };

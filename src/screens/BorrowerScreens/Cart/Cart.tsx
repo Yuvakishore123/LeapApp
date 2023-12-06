@@ -15,11 +15,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
-import LottieAnimation from 'components/molecules/LottieAnimation/LottieAnimation';
+
 import DatePickerComponent from 'components/atoms/DatePickerComponent/DatepickerComponent';
 import useCart from './useCart';
 import style from './CartItemStyles';
 import Colors from 'constants/colors';
+import {grandTotal, itemsAreLoadingText, remove} from 'constants/languages/en';
 
 const Cart = () => {
   const {
@@ -44,12 +45,20 @@ const Cart = () => {
 
   if (!CartProducts) {
     return (
-      <View testID="loading-view" style={style.lottiecontainer}>
-        <LottieAnimation
+      <View
+        testID="loading-view"
+        style={[style.lottiecontainer, getContainerStyle()]}>
+        <Lottie
           source={require('../../../../assets/loading2.json')}
-          style={style.lottie}
+          style={[style.lottie, getContainerStyle()]}
+          autoPlay
         />
-        <Text style={{color: Colors.iconscolor}}>The Items are Loading...</Text>
+        <Text
+          style={{
+            color: Colors.white,
+          }}>
+          {itemsAreLoadingText}
+        </Text>
       </View>
     );
   }
@@ -152,7 +161,7 @@ const Cart = () => {
                           testID={`remove-${item.id}`}
                           style={style.RemoveButton}
                           onPress={() => handleRemove(item.product.id)}>
-                          <Text style={style.RemoveButtonText}>Remove</Text>
+                          <Text style={style.RemoveButtonText}>{remove}</Text>
                         </TouchableOpacity>
                         <View style={style.quantityContainer}>
                           <TouchableOpacity
@@ -206,7 +215,7 @@ const Cart = () => {
 
           <View style={style.GrandtotalContainer}>
             <Text style={[style.GrandtotalText, getTextColor()]}>
-              Grand Total
+              {grandTotal}
             </Text>
             <View style={{width: 100, height: 25}}>
               <Text style={[style.priceTotalText, getTextColor()]}>

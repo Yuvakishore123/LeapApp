@@ -12,7 +12,7 @@ type Dispatch = ThunkDispatch<any, any, AnyAction>;
 
 type UseotpReturnType = {
   phoneNo: string;
-  otp: string;
+  otptext: string;
   handlephoneNumberChange: (value: string) => void;
   handlePasswordChange: (value: string) => void;
   GETOTP: () => void;
@@ -27,7 +27,7 @@ type UseotpReturnType = {
 
 const Useotp = (): UseotpReturnType => {
   const [phoneNo, setphoneNo] = useState<string>('');
-  const [otp, setotp] = useState<string>('');
+  const [otptext, setotp] = useState<string>('');
   const [passwordError, setPasswordError] = useState<string>('');
   const [showModal, setShowModal] = useState(false);
   const dispatch: Dispatch = useDispatch();
@@ -52,7 +52,7 @@ const Useotp = (): UseotpReturnType => {
 
   // Function to dispatch an action to submit OTP for login
   const handleLogin = () => {
-    dispatch(submitOTP(phoneNo, Number(otp)));
+    dispatch(submitOTP(phoneNo, Number(otptext)));
   };
 
   // Function to handle the change in the phone number input
@@ -72,7 +72,7 @@ const Useotp = (): UseotpReturnType => {
 
   return {
     phoneNo,
-    otp,
+    otptext,
     handlephoneNumberChange,
     handlePasswordChange,
     GETOTP,

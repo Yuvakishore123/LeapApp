@@ -396,16 +396,15 @@ const styles = StyleSheet.create({
   },
 
   lottiecontainer: {
+    flex: 1,
     alignItems: 'center',
-    justifyContent: 'center',
-    height: '100%',
-    backgroundColor: Colors.main,
   },
+  Lottiestyle: {},
   lottie: {
     height: 200,
     width: 200,
-    alignItems: 'center',
-    marginLeft: 5,
+    alignSelf: 'center',
+    marginTop: '50%',
     justifyContent: 'center',
   },
   Disabled: {

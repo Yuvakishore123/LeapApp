@@ -32,7 +32,7 @@ export const productaddUrl = '/product/add';
 export const addressaddUrl = '/address/add';
 
 // URL for retrieving the list of user's products
-export const userProductsUrl = '/product/list';
+export const userProductsUrl = '/product';
 
 // URL for retrieving the list of products by subcategory
 export const categoryProductsUrl = '/product/listBySubcategoryId';
@@ -65,4 +65,4 @@ export const rentedProductsUrl = 'order/owner-order-history';
 export const onclickDasboardUrl = '/dashboard/analytics';
 
 // URL for retrieving the list of products by productId
-export const listProductsById = '/product/listByProductId';
+export const listProductsById = '/product';

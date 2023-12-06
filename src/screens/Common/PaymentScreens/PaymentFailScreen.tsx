@@ -5,6 +5,11 @@ import {View, Text} from 'react-native';
 import Lottie from 'lottie-react-native';
 
 import usePayment from './usePayment';
+import {
+  payment,
+  paymentFailed,
+  paymentFailedMessage,
+} from 'constants/languages/en';
 const PaymentFailScreen = () => {
   const {getContainerStyle, getTextColor} = usePayment();
   return (
@@ -12,7 +17,7 @@ const PaymentFailScreen = () => {
       style={[styles.failcontainer, getContainerStyle()]}
       testID="fail-container">
       <View>
-        <Text style={[styles.failheaderText, getTextColor()]}>Payment</Text>
+        <Text style={[styles.failheaderText, getTextColor()]}>{payment}</Text>
       </View>
       <View
         style={[styles.successContainer, getContainerStyle()]}
@@ -24,10 +29,10 @@ const PaymentFailScreen = () => {
           testID="lottie-animation"
         />
         <Text style={[styles.successText, getTextColor()]}>
-          Payment Failed!
+          {paymentFailed}
         </Text>
         <Text style={[styles.successText1, getTextColor()]}>
-          Something went wrong. Try Again.
+          {paymentFailedMessage}
         </Text>
       </View>
     </View>

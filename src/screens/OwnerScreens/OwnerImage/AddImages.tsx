@@ -15,7 +15,11 @@ import Lottie from 'lottie-react-native';
 import useAddImages from './useAddImages';
 import Sizeselection from '../../../components/atoms/Sizeselect';
 import CustomModal from '../../../components/atoms/CustomModel/CustomModel';
-import {addImages} from '../../../constants/languages/en';
+import {
+  addImages,
+  addMoreText,
+  addProductText,
+} from '../../../constants/languages/en';
 import HeadingText from '../../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 
@@ -87,7 +91,9 @@ const AddImages = () => {
                       onPress={pickImages}
                       style={OwnerImagestyles.touchableContainer}
                       testID="add-more-button">
-                      <Text style={OwnerImagestyles.removeText}>Add More</Text>
+                      <Text style={OwnerImagestyles.removeText}>
+                        {addMoreText}
+                      </Text>
                     </TouchableOpacity>
                   </View>
                 )}
@@ -138,7 +144,7 @@ const AddImages = () => {
                 getTextColor(),
               ]}
               placeholder="Select price"
-              placeholderTextColor="gray"
+              placeholderTextColor={Colors.gray}
               keyboardType="numeric"
               testID="price"
               onChangeText={handlePriceChange}
@@ -169,12 +175,14 @@ const AddImages = () => {
                 disabled={!formik.isValid}
                 onPress={formik.handleSubmit}
                 style={[
-                  Styles.mainTouchable,
+                  OwnerImagestyles.mainTouchable,
                   {
-                    backgroundColor: formik.isValid ? '#9747FF' : '#A5C9CA',
+                    backgroundColor: formik.isValid
+                      ? Colors.buttonColor
+                      : Colors.disableColor,
                   },
                 ]}>
-                <Text style={Styles.touchableText}>Add product</Text>
+                <Text style={Styles.touchableText}>{addProductText}</Text>
               </TouchableOpacity>
             </View>
           </View>

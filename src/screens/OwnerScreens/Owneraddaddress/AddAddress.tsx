@@ -19,6 +19,7 @@ import colors from 'constants/colors';
 
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import CustomModal from 'components/atoms/CustomModel/CustomModel';
+import {cityText, flatText, pincode, saveText} from 'constants/languages/en';
 
 const AddAddress = () => {
   const {
@@ -64,16 +65,11 @@ const AddAddress = () => {
         <View style={style.innerContainer}>
           <TextInput
             testID={'Flat-No'}
-            placeholder="Flat no / Building"
+            placeholder={flatText}
             value={addressLine1}
             onChangeText={handleAddressLine1}
             onBlur={() => handleBlur('addressLine1')}
-            style={[
-              style.inputAddres,
-              getTextInputStyle(),
-              getTextColor(),
-              {fontWeight: '400'},
-            ]}
+            style={[style.inputAddres, getTextInputStyle(), getTextColor()]}
           />
         </View>
         <View style={style.innerContainer}>
@@ -88,7 +84,7 @@ const AddAddress = () => {
         </View>
         <View style={style.cityContainer}>
           <TextInput
-            placeholder="Pincode"
+            placeholder={pincode}
             style={[style.smalltextInput, getTextInputStyle(), getTextColor()]}
             value={postalCode}
             onChangeText={handlePostalCodeChange}
@@ -96,7 +92,7 @@ const AddAddress = () => {
           />
 
           <TextInput
-            placeholder="City"
+            placeholder={cityText}
             testID="City"
             // placeholderTextColor={
             //   colorScheme === 'dark' ? colors.Textinput : colors.black
@@ -167,7 +163,7 @@ const AddAddress = () => {
       <TouchableOpacity
         style={style.btnfieldAddress}
         onPress={handleSaveAddress}>
-        <Text style={style.btntextAddress}>Save</Text>
+        <Text style={style.btntextAddress}>{saveText}</Text>
       </TouchableOpacity>
       <CustomModal
         showModal={showModal}

@@ -1,5 +1,6 @@
+import {API_URL} from '@env';
 // Base URL for API requests
-export const url = 'https://325b-106-51-70-135.ngrok-free.app/api/v1';
+export const url = API_URL;
 
 // URL for fetching monthly order items for the dashboard
 export const getdashboard = `${url}/dashboard/monthly-order-items`;

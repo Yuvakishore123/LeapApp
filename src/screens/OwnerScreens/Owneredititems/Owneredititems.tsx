@@ -28,6 +28,7 @@ import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import styles from '../OwnerHomepage/OwnerHomestyle';
 import DropdownComponent from '../../../components/atoms/DropDownComponent/DropDown';
 import useAdditems from '../Additems/useAdditems';
+import {remove, saveText} from 'constants/languages/en';
 
 const EditItem = () => {
   const {
@@ -390,6 +391,7 @@ const EditItem = () => {
                       value={itemType}
                       placeholder="Select Type"
                       data={subCategoriesData}
+                      testId={''}
                     />
                   </View>
                   <View style={{marginTop: -18}}>
@@ -399,6 +401,7 @@ const EditItem = () => {
                       value={undefined}
                       placeholder="Select Event"
                       data={subEventCategoriesData}
+                      testId={''}
                     />
                   </View>
                   <View style={{marginTop: -18}}>
@@ -408,6 +411,7 @@ const EditItem = () => {
                       value={undefined}
                       placeholder="Select Outfit"
                       data={subOutfitCategoriesData}
+                      testId={''}
                     />
                   </View>
                   <View style={OwnerEditItemstyles.Sizecontainer}>
@@ -439,7 +443,7 @@ const EditItem = () => {
                               onPress={handleremove}
                               style={OwnerEditItemstyles.touchableContainer}>
                               <Text style={OwnerEditItemstyles.removeText}>
-                                Remove
+                                {remove}
                               </Text>
                             </TouchableOpacity>
                           </View>
@@ -496,7 +500,7 @@ const EditItem = () => {
                     <TouchableOpacity
                       style={Ownerstyles.mainTouchable}
                       onPress={handleedit}>
-                      <Text style={Ownerstyles.touchableText}>Save</Text>
+                      <Text style={Ownerstyles.touchableText}>{saveText}</Text>
                     </TouchableOpacity>
                   </View>
                 </View>

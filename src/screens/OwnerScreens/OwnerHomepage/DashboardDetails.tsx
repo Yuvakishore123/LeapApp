@@ -29,6 +29,7 @@ import AnalyticsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import ForwardIcon from 'react-native-vector-icons/Ionicons';
 
 import {useNavigationProp} from 'helpers/helper';
+import {orderIDText} from 'constants/languages/en';
 
 const monthNames = [
   'Jan',
@@ -613,7 +614,7 @@ const DashboardDetails = () => {
                                     height: 40,
                                   }}>
                                   <Text style={style.Order}>
-                                    Order ID: {order.borrowerId}
+                                    {orderIDText}: {order.borrowerId}
                                   </Text>
                                   <Text style={style.borrowerName}>
                                     {order.borrowerName}

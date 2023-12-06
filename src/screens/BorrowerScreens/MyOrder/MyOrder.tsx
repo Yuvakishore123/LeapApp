@@ -18,6 +18,14 @@ import styles from 'screens/OwnerScreens/OwnerHomepage/OwnerHomestyle';
 
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 import Colors from 'constants/colors';
+import {
+  downloadText,
+  itemsAreLoadingText,
+  orderIDText,
+  orderPlacedAtText,
+  quantity,
+  totalRangeText,
+} from 'constants/languages/en';
 
 type OrderDetailsModalProps = {
   order: any;
@@ -70,7 +78,7 @@ const MyOrder = () => {
           }}
         />
         <Text style={{color: Colors.white, marginLeft: '30%'}}>
-          The Items are Loading...
+          {itemsAreLoadingText}
         </Text>
       </View>
     );
@@ -124,11 +132,11 @@ const MyOrder = () => {
                     <View style={{flexDirection: 'row', width: '85%'}}>
                       <View style={style.orderInfoContainer}>
                         <Text style={[style.productName, getTextColor()]}>
-                          Order Id: {item.id}
+                          {orderIDText}: {item.id}
                         </Text>
                         <View style={{flexDirection: 'row'}}>
                           <Text style={[style.plcedText, getTextColor()]}>
-                            Order placed at :
+                            {orderPlacedAtText} :
                           </Text>
                           <Text style={[style.orderDate, getTextColor()]}>
                             {item.createdDate}
@@ -142,12 +150,6 @@ const MyOrder = () => {
                           size={20}
                           style={[style.arrowIcon, getTextColor()]}
                         />
-                        {/* <Icons
-                          name="file-download"
-                          size={20}
-                          onPress={() => handleOrderDetails(order.id)}
-                          style={[style.arrowIcon, getTextColor()]}
-                        /> */}
                       </View>
                     </View>
                   </TouchableOpacity>
@@ -202,11 +204,11 @@ export const OrderDetailsModal = ({
               <Text
                 testID={`OrderId-${order.id}`}
                 style={[style.totalOrderText, getTextColor()]}>
-                Order ID: {order.id}
+                {orderIDText}: {order.id}
               </Text>
               <View style={{flexDirection: 'row'}}>
                 <Text style={[style.totalOrderText, getTextColor()]}>
-                  Total Price: {'₹' + order.totalPrice}
+                  {totalRangeText}:{'₹' + order.totalPrice}
                 </Text>
               </View>
               {order.orderItems?.map((item: any) => (
@@ -220,7 +222,7 @@ export const OrderDetailsModal = ({
                       {item.name}
                     </Text>
                     <Text style={[style.QuantityText, getTextColor()]}>
-                      Quantity: {item.quantity}
+                      {quantity}: {item.quantity}
                     </Text>
                     <Text style={[style.QuantityText, getTextColor()]}>
                       {item.rentalStartDate}
@@ -235,7 +237,7 @@ export const OrderDetailsModal = ({
               <TouchableOpacity
                 style={styles.exportContainer}
                 onPress={showNotifications}>
-                <Text style={styles.exportText}> download</Text>
+                <Text style={styles.exportText}> {downloadText}</Text>
               </TouchableOpacity>
             </View>
           </ScrollView>

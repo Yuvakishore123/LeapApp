@@ -18,6 +18,14 @@ import CustomModal from '../../../components/atoms/CustomModel/CustomModel';
 import HeadingText from '../../../components/atoms/HeadingText/HeadingTest';
 import {ColorSchemeContext} from '../../../../ColorSchemeContext';
 
+import {
+  cityText,
+  flatText,
+  makeDefaultAddress,
+  pincode,
+  stateText,
+  streetText,
+} from 'constants/languages/en';
 import styles from './editAddressStyles';
 import colors from 'constants/colors';
 
@@ -85,9 +93,7 @@ const EditAddress = () => {
         <>
           <HeadingText message="Edit address" navigation={undefined} />
           <View style={styles.subContainer}>
-            <Text style={[styles.textField, getTextColor()]}>
-              Flat no / Building
-            </Text>
+            <Text style={[styles.textField, getTextColor()]}>{flatText}</Text>
             <View>
               <TextInput
                 value={addressLine1}
@@ -100,7 +106,7 @@ const EditAddress = () => {
                 ]}
               />
               <Text style={[styles.textField, getTextColor()]}>
-                Street / Area{' '}
+                {streetText}{' '}
               </Text>
               <TextInput
                 value={addressLine2}
@@ -112,7 +118,9 @@ const EditAddress = () => {
                   getPlaceholderTextColor(),
                 ]}
               />
-              <Text style={[styles.textField, getTextColor()]}>State</Text>
+              <Text style={[styles.textField, getTextColor()]}>
+                {stateText}
+              </Text>
               <TextInput
                 value={state}
                 testID="State"
@@ -124,9 +132,11 @@ const EditAddress = () => {
                 onChangeText={text => setStateName(text)}
               />
               <View style={style.textContainer}>
-                <Text style={[styles.textField, getTextColor()]}>City</Text>
+                <Text style={[styles.textField, getTextColor()]}>
+                  {cityText}
+                </Text>
                 <Text style={[style.textFieldpincode, getTextColor()]}>
-                  Pincode
+                  {pincode}
                 </Text>
               </View>
               <View style={style.cityContainer}>
@@ -182,12 +192,12 @@ const EditAddress = () => {
               </View>
               <View style={style.containerCheckbox}>
                 <Text style={[styles.textCheckbox, getTextColor()]}>
-                  Make Default Address
+                  {makeDefaultAddress}
                 </Text>
                 <CheckBox
                   checked={isChecked}
                   onPress={handleCheckboxChange}
-                  checkedColor="#3E54AC"
+                  checkedColor={colors.iconscolor}
                   containerStyle={style.checkboxContainer}
                   size={24}
                 />

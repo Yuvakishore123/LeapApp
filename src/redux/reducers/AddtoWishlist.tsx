@@ -6,7 +6,7 @@ import {ThunkDispatch} from 'redux-thunk';
 
 import {addProductToStore} from '../actions/WishlistActions';
 // Action creator for posting a product to the API
-export const postProductToAPI = (item: {id: any}) => {
+export const postProductToAPI = (item: {id: string}) => {
   return async (dispatch: ThunkDispatch<any, any, AnyAction>) => {
     try {
       // Extract the ID from the item
@@ -14,8 +14,8 @@ export const postProductToAPI = (item: {id: any}) => {
 
       // Make an asynchronous API request to add the product to the wishlist
       const response = await ApiService.post(
-        `${url}/wishlist/add?productId=${id}`,
-        item.id,
+        `https://8a58-106-51-70-135.ngrok-free.app/api/v1/wishlist?productId=${item.id}`,
+        null,
       );
 
       // Extract the data from the API response
@@ -23,8 +23,6 @@ export const postProductToAPI = (item: {id: any}) => {
 
       // Update the Redux store with the response data using the addProductToStore action creator
       dispatch(addProductToStore(data));
-    } catch (error) {
-      // Handle any errors that occur during the asynchronous operation
-    }
+    } catch (error) {}
   };
 };
